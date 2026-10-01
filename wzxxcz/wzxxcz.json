@@ -559,6 +559,13 @@
             "homePage": "https://nostrtv.aws.dpdns.org/"
         },
 		{
+            "key": "Nostrtvxcz",
+            "name": "🐲Nostrtvxcz推荐",
+            "type": 3,
+			"api": "csp_Nostr",
+            "homePage": "https://www.252035.xyz/xs/tvbox/nostr.html"
+        },
+		{
             "key": "玩偶",
             "name": "🐲小橙子智能4K弹幕",
             "type": 3,
@@ -934,7 +941,8 @@
             "changeable": 1,
             "ext": {
                 "site": [
-                    "https://www.hjzhencai.top"
+                    "https://www.hjzhencai.top",
+                    "https://www.huanjuanwp.shop"
                 ]
             },
             "timeout": 60
@@ -1589,7 +1597,7 @@
             "key": "多多影视1",
             "name": "💵多多影视1",
             "type": 3,
-            "api": "./py/多多影视🍀TG @hshsjk9.py"
+            "api": "./py/多多影视.py"
         },
 		{
             "key": "VS影院2",
@@ -2155,16 +2163,6 @@
                 "version": "1.0.0.3",
                 "decrypt": "0"
             }
-        },
-		{
-            "key": "爱看",
-            "name": "🧿爱看影视2",
-            "type": 3,
-            "api": "csp_AiKan",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "ext": "http://43.248.117.123:14680"
         },
         {
             "key": "咕噜",
