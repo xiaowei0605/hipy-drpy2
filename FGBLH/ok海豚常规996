@@ -103,6 +103,24 @@
             "api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/ASMR吧.py"
         },
         {
+        	"key": "影巢movie",
+            "name": "🐬[追剧]影巢movie(关梯)",
+            "type": 3,
+            "api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/影巢movie.py"
+		},
+        {
+        	"key": "小蜜蜂影院",
+            "name": "🐬[追剧]小蜜蜂影院",
+            "type": 3,
+            "api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/小蜜蜂影院.py"
+		},
+        {
+        	"key": "界影视",
+            "name": "🐬[追剧]界影视",
+            "type": 3,
+            "api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/界影视.py"
+		},
+        {
         	"key": "飞牛影视",
             "name": "🐬[追剧]飞牛影视(关梯)",
             "type": 3,
@@ -649,13 +667,6 @@
 			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/茶杯狐.py"
 		},
 		{
-      "key": "ppx",
-      "name": "🐬[追剧]皮皮虾.py",
-      "type": 3,
-      "api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/皮皮虾.py",
-      "ext": "http://43.248.117.123:4680"
-       },
-		{
 			"key": "ddvm",
 			"name": "🐬[追剧]嘀嗒影视.py(关梯)",
 			"type": 3,
@@ -832,7 +843,7 @@
 		},
 		{
 			"key": "QU",
-			"name": "🐬[追剧]奇优影院.py",
+			"name": "🐬[追剧]奇优影院(关梯).py",
 			"type": 3,
 			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/奇优影院.py"
 		},
@@ -1126,6 +1137,12 @@
       ]
     },
 		{
+			"key": "红果短剧",
+			"name": "🐬[短剧]红果短剧(关梯)",
+			"type": 3,
+			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/红果短剧.py"
+		},
+        {
 			"key": "开心短剧",
 			"name": "🐬[短剧]开心短剧",
 			"type": 3,
@@ -1216,12 +1233,6 @@
 			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/蚕驰短剧网.py"
 		},
 		{
-			"key": "听书网456",
-			"name": "🐬[听书]听书网456.py",
-			"type": 3,
-			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/听书网456.py"
-		},
-		{
 			"key": "ytb",
 			"name": "🐬[听书]悦听吧.py",
 			"type": 3,
@@ -1256,12 +1267,6 @@
 			"name": "🐬[音乐]千千音乐.py",
 			"type": 3,
 			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/千千音乐.py"
-		},
-		{
-			"key": "枫叶音乐",
-			"name": "🐬[音乐]枫叶音乐.py",
-			"type": 3,
-			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/枫叶音乐.py"
 		},
 		{
 			"key": "kwms",
