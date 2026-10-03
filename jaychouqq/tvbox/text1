@@ -1,0 +1,2480 @@
+{
+  "spider": "",
+  "logo": "https://img.freepik.com/free-vector/cute-dolphin-swimming-cartoon-vector-icon-illustration-animal-nature-icon-isolated-flat-vector_138676-12582.jpg?semt=ais_hybrid&w=740&q=80",
+  "wallpaper": "http://tool.teyonds.com/api",
+  "warningText": "",
+  "sites": [
+     {
+      "key": "豆瓣导航",
+      "name": "[追剧]豆瓣导航",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/豆瓣导航.py"
+    },
+    {
+      "key": "AQY",
+      "name": "[追剧]爱奇艺",
+      "type": 3,
+      "api": "https://file.icve.com.cn/file_doc/249/899/3E7E0C8A023B624CEC6BDCC200F06F02.js",
+      "ext": "https://cdn.waimaimingtang.com/file/images/bwc/20251023002031-6064033c16.js"
+    },
+    {
+      "key": "爱奇艺",
+      "name": "[追剧]爱奇艺",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/爱奇艺.py"
+    },
+    {
+      "key": "YK",
+      "name": "[追剧]优酷视频",
+      "type": 3,
+      "api": "https://file.icve.com.cn/file_doc/249/899/3E7E0C8A023B624CEC6BDCC200F06F02.js",
+      "ext": "https://cdn.waimaimingtang.com/file/images/bwc/20251023002200-507c3e8aae.js"
+    },
+    {
+      "key": "txvm",
+      "name": "[追剧]腾讯视频",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/腾讯视频.py"
+    },
+    {
+      "key": "MG",
+      "name": "[追剧]芒果TV",
+      "type": 3,
+      "api": "https://file.icve.com.cn/file_doc/249/899/3E7E0C8A023B624CEC6BDCC200F06F02.js",
+      "ext": "https://cdn.waimaimingtang.com/file/images/bwc/20251023002108-a4795930ec.js"
+    },
+    {
+      "key": "茫茫",
+      "name": "[追剧]芒果TV备用",
+      "type": 3,
+      "api": "https://ghfast.top/https://raw.githubusercontent.com/IY-CPU/IY/main/lib/drpy2.min.js",
+      "ext": "https://ghfast.top/https://raw.githubusercontent.com/IY-CPU/IY/main/lib/茫茫.png"
+    },
+    {
+      "key": "MGtv",
+      "name": "[追剧]芒果TV",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/芒果TV.py"
+    },
+    {
+      "key": "腾爱优b站",
+      "name": "[追剧]腾爱优b站",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/腾爱优b站.js"
+    },
+    {
+      "key": "腾爱优芒B",
+      "name": "[追剧]腾爱优芒B",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/腾爱优芒B.py"
+    },
+    {
+      "name": "弹幕",
+      "key": "弹幕豆瓣",
+      "type": 3,
+      "api": "csp_SecureDanmu",
+      "jar": "https://ghfast.top/https://raw.githubusercontent.com/goodcommunication/mydm/main/danmu-spider-native.jar",
+      "ext": {
+        "apiUrls": [
+          "https://danmu.iyo.us.ci/theft-dastardly-prognosis-hula-agenda2-dropkick|公益源",
+          "https://logo.saodu.work:8888/87654321|公益源1",
+          "https://dm.ljiaovm.com/luosen|公益源2"
+        ],
+        "titleMappingsUrl": "https://ghfast.top/https://raw.githubusercontent.com/goodcommunication/mydm/main/yins.json",
+        "filter": "./lib/douban.json"
+      }
+    },
+    {
+      "key": "youtube",
+      "name": "[其他]油管",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/油管.py"
+    },
+    {
+      "key": "星梦Asmr",
+      "name": "[其他]星梦Asmr",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/星梦Asmr.py"
+    },
+    {
+      "key": "ASMR吧",
+      "name": "[其他]ASMR吧",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/ASMR吧.py"
+    },
+    {
+      "key": "懂片帝AI",
+      "name": "[追剧]懂片帝AI",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/懂片帝AI.py"
+    },
+    {
+      "key": "影巢movie",
+      "name": "[追剧]影巢movie",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/影巢movie.py"
+    },
+    {
+      "key": "小蜜蜂影院",
+      "name": "[追剧]小蜜蜂影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/小蜜蜂影院.py"
+    },
+    {
+      "key": "界影视",
+      "name": "[追剧]界影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/界影视.py"
+    },
+    {
+      "key": "飞牛影视",
+      "name": "[追剧]飞牛影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/飞牛影视.py"
+    },
+    {
+      "key": "追剧达人",
+      "name": "[追剧]追剧达人",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/追剧达人.py"
+    },
+    {
+      "key": "未来影院",
+      "name": "[追剧]未来影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/未来影院.py"
+    },
+    {
+      "key": "大白鲨影院",
+      "name": "[追剧]大白鲨影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/大白鲨影院.py"
+    },
+    {
+      "key": "咸鱼影视",
+      "name": "[追剧]咸鱼影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/咸鱼影视.py"
+    },
+    {
+      "key": "1234影视",
+      "name": "[追剧]1234影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/1234影视.py"
+    },
+    {
+      "key": "LIBVIO",
+      "name": "[追剧]LIBVIO",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/LIBVIO.py"
+    },
+    {
+      "key": "咕噜咕噜",
+      "name": "[追剧]咕噜咕噜",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/咕噜咕噜.py"
+    },
+    {
+      "key": "ik4k影院",
+      "name": "[追剧]ik4k影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/ik4k影院.py"
+    },
+    {
+      "key": "魔法影视",
+      "name": "[追剧]魔法影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/魔法影视.py"
+    },
+    {
+      "key": "云朵视频",
+      "name": "[追剧]云朵视频",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/云朵视频.py"
+    },
+    {
+      "key": "追影",
+      "name": "[追剧]追影",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/追影.py"
+    },
+    {
+      "key": "独播库",
+      "name": "[追剧]独播库",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/独播库.py"
+    },
+    {
+      "key": "网飞猫影视",
+      "name": "[追剧]网飞猫影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/网飞猫影视.py"
+    },
+    {
+      "key": "ZIP0影视",
+      "name": "[追剧]ZIP0影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/ZIP0影视.py"
+    },
+    {
+      "key": "饭搭子影视",
+      "name": "[追剧]饭搭子影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/饭搭子影视.py"
+    },
+    {
+      "key": "无极电影网",
+      "name": "[追剧]无极电影网",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/无极电影网.py"
+    },
+    {
+      "key": "55影院",
+      "name": "[追剧]55影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/55影院.py"
+    },
+    {
+      "key": "开端影视",
+      "name": "[追剧]开端影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/开端影视.py"
+    },
+    {
+      "key": "手机影院",
+      "name": "[追剧]手机影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/手机影院.py"
+    },
+    {
+      "key": "果果短剧",
+      "name": "[追剧]果果短剧",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/果果短剧.py"
+    },
+    {
+      "key": "GimyTV剧迷",
+      "name": "[追剧]GimyTV剧迷",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/GimyTV剧迷.py"
+    },
+    {
+      "key": "白洋影院",
+      "name": "[追剧]白洋影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/白洋影院.py"
+    },
+    {
+      "key": "第七影院",
+      "name": "[追剧]第七影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/第七影院.py"
+    },
+    {
+      "key": "橘汁视频",
+      "name": "[追剧]橘汁视频",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/橘汁视频.py"
+    },
+    {
+      "key": "华谊影视",
+      "name": "[追剧]华谊影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/华谊影视.py"
+    },
+    {
+      "key": "芭蕉剧场",
+      "name": "[追剧]芭蕉剧场",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/芭蕉剧场.py"
+    },
+    {
+      "key": "6080新视觉",
+      "name": "[追剧]6080新视觉",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/6080新视觉.py"
+    },
+    {
+      "key": "6080影视",
+      "name": "[追剧]6080影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/6080影视.py"
+    },
+    {
+      "key": "99短剧网",
+      "name": "[追剧]99短剧网",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/99短剧网.py"
+    },
+    {
+      "key": "第九短剧网",
+      "name": "[追剧]第九短剧网",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/第九短剧网.py"
+    },
+    {
+      "key": "青鸟影视",
+      "name": "[追剧]青鸟影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/青鸟影视.py"
+    },
+    {
+      "key": "迷你影视",
+      "name": "[追剧]迷你影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/迷你影视.py"
+    },
+    {
+      "key": "八度影院",
+      "name": "[追剧]八度影院",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/八度影院.py"
+    },
+    {
+      "key": "4K影视仓",
+      "name": "[追剧]4K影视仓",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/4K影视仓.py"
+    },
+    {
+      "key": "CNFLIX",
+      "name": "[追剧]CNFLIX",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/CNFLIX.py"
+    },
+    {
+      "key": "风尚影视",
+      "name": "[追剧]风尚影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/风尚影视.py"
+    },
+    {
+      "key": "云途影视",
+      "name": "[追剧]云途影视",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/云途影视.py"
+    },
+    {
+      "key": "永乐视频",
+      "name": "[追剧]永乐视频",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/永乐视频.py"
+    },
+    {
+      "key": "夏日影院",
+      "name": "[追剧]夏日影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/夏日影院.py"
+    },
+    {
+      "key": "君念影院",
+      "name": "[追剧]君念影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/君念影院.py"
+    },
+    {
+      "key": "首映网",
+      "name": "[追剧]首映网.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/首映网.py"
+    },
+    {
+      "key": "剧下饭4K",
+      "name": "[追剧]剧下饭4K.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/剧下饭4K.py"
+    },
+    {
+      "key": "兔岛影院",
+      "name": "[追剧]兔岛影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/兔岛影院.py"
+    },
+    {
+      "key": "青牛影视",
+      "name": "[追剧]青牛影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/青牛影视.py"
+    },
+    {
+      "key": "山水影视",
+      "name": "[追剧]山水影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/山水影视.py"
+    },
+    {
+      "key": "搜剧AI",
+      "name": "[追剧]搜剧AI.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/搜剧AI.py"
+    },
+    {
+      "key": "厂长资源",
+      "name": "[追剧]厂长资源.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/厂长资源.py"
+    },
+    {
+      "key": "多多影视",
+      "name": "[追剧]多多影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/多多影视.py"
+    },
+    {
+      "key": "飞流视频",
+      "name": "[追剧]飞流视频.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/飞流视频.py"
+    },
+    {
+      "key": "好好看",
+      "name": "[追剧]好好看.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/好好看.py"
+    },
+    {
+      "key": "VS影院",
+      "name": "[追剧]VS影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/VS影院.py"
+    },
+    {
+      "key": "EcoHub影视",
+      "name": "[追剧]EcoHub影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/EcoHub影视.py"
+    },
+    {
+      "key": "电影侠",
+      "name": "[追剧]电影侠.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/电影侠.py"
+    },
+    {
+      "key": "影视大全",
+      "name": "[追剧]影视大全.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/影视大全.py"
+    },
+    {
+      "key": "一起影视",
+      "name": "[追剧]一起影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/一起影视.py"
+    },
+    {
+      "key": "仙腾影院",
+      "name": "[追剧]仙腾影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/仙腾影院.py"
+    },
+    {
+      "key": "看戏影视",
+      "name": "[追剧]看戏影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/看戏影视.py"
+    },
+    {
+      "key": "百花影院",
+      "name": "[追剧]百花影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/百花影院.py"
+    },
+    {
+      "key": "VIP兔",
+      "name": "[追剧]VIP兔.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/VIP兔.py"
+    },
+    {
+      "key": "刷不停短剧",
+      "name": "[追剧]刷不停短剧.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/刷不停短剧.py"
+    },
+    {
+      "key": "飞快TV",
+      "name": "[追剧]飞快TV.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/飞快TV.py"
+    },
+    {
+      "key": "Auete影视",
+      "name": "[追剧]Auete影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/Auete影视.py"
+    },
+    {
+      "key": "大马猴",
+      "name": "[追剧]大马猴.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/大马猴.py"
+    },
+    {
+      "key": "pomo",
+      "name": "[追剧]pomo.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/pomo.py"
+    },
+    {
+      "key": "FoFo影院",
+      "name": "[追剧]FoFo影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/FoFo影院.py"
+    },
+    {
+      "key": "66大片网",
+      "name": "[追剧]66大片网.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/66大片网.py"
+    },
+    {
+      "key": "泡泡影院",
+      "name": "[追剧]泡泡影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/泡泡影院.py"
+    },
+    {
+      "key": "楓林網",
+      "name": "[追剧]楓林網.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/楓林網.py"
+    },
+    {
+      "key": "草莓影视",
+      "name": "[追剧]草莓影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/草莓影视.py"
+    },
+    {
+      "key": "八戒影视",
+      "name": "[追剧]八戒影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/八戒影视.py"
+    },
+    {
+      "key": "30剧集网",
+      "name": "[追剧]30剧集网.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/30剧集网.py"
+    },
+    {
+      "key": "宅男影视",
+      "name": "[追剧]宅男影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/宅男影视.py"
+    },
+    {
+      "key": "看剧AI",
+      "name": "[追剧]看剧AI.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/看剧AI.py"
+    },
+    {
+      "key": "高清点播",
+      "name": "[追剧]高清点播.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/高清点播.py"
+    },
+    {
+      "key": "vidhub",
+      "name": "[追剧]vidhub.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/vidhub.py"
+    },
+    {
+      "key": "枫叶4K",
+      "name": "[追剧]枫叶4K.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/枫叶4K.py"
+    },
+    {
+      "key": "网飞TV",
+      "name": "[追剧]网飞TV.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/网飞TV.py"
+    },
+    {
+      "key": "厂长影视",
+      "name": "[追剧]厂长影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/厂长影视.py"
+    },
+    {
+      "key": "FreeOK",
+      "name": "[追剧]FreeOK.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/FreeOK.py"
+    },
+    {
+      "key": "真狼影视",
+      "name": "[追剧]真狼影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/真狼影视.py"
+    },
+    {
+      "key": "初见影视",
+      "name": "[追剧]初见影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/初见影视.py"
+    },
+    {
+      "key": "好剧屋",
+      "name": "[追剧]好剧屋.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/好剧屋.py"
+    },
+    {
+      "key": "奈非工厂",
+      "name": "[追剧]奈非工厂.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/奈非工厂.py"
+    },
+    {
+      "key": "视觉影院",
+      "name": "[追剧]视觉影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/视觉影院.py"
+    },
+    {
+      "key": "袋鼠影视",
+      "name": "[追剧]袋鼠影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/袋鼠影视.py"
+    },
+    {
+      "key": "4K影视",
+      "name": "[追剧]4K影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/4K影视.py"
+    },
+    {
+      "key": "蝶卡影视",
+      "name": "[追剧]蝶卡影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/蝶卡影视.py"
+    },
+    {
+      "key": "ddyy",
+      "name": "[追剧]低端影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/低端影视.py"
+    },
+    {
+      "key": "cbh",
+      "name": "[追剧]茶杯狐.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/茶杯狐.py"
+    },
+    {
+      "key": "ddvm",
+      "name": "[追剧]嘀嗒影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/嘀嗒影视.py"
+    },
+    {
+      "key": "kkvm",
+      "name": "[追剧]可可影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/可可影视.py"
+    },
+    {
+      "key": "豆花影视",
+      "name": "[追剧]豆花影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/豆花影视.py"
+    },
+    {
+      "key": "拾光影视",
+      "name": "[追剧]拾光影视.js",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/拾光影视.js",
+      "changeable": 0
+    },
+    {
+      "key": "开心影院",
+      "name": "[追剧]开心影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/开心影院.py",
+      "changeable": 0
+    },
+    {
+      "key": "开心影院js",
+      "name": "[追剧]开心影院.js",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/开心影院.js",
+      "changeable": 0
+    },
+    {
+      "key": "西瓜影视",
+      "name": "[追剧]西瓜影视.js",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/西瓜影视.js",
+      "changeable": 0
+    },
+    {
+      "key": "片库",
+      "name": "[追剧]片库.js",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/片库.js",
+      "changeable": 0
+    },
+    {
+      "key": "枫叶影院js",
+      "name": "[追剧]枫叶影院.js",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/枫叶影院.js",
+      "changeable": 0
+    },
+    {
+      "key": "枫叶影院",
+      "name": "[追剧]枫叶影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/枫叶影院.py",
+      "changeable": 0
+    },
+    {
+      "key": "808yr",
+      "name": "[追剧]808影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/808影院.py"
+    },
+    {
+      "key": "gqc",
+      "name": "[追剧]共青春影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/共青春影院.py"
+    },
+    {
+      "key": "qlys",
+      "name": "[追剧]麒麟影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/麒麟影视.py"
+    },
+    {
+      "key": "qdvm",
+      "name": "[追剧]奇点影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/奇点影视.py"
+    },
+    {
+      "key": "zzvm",
+      "name": "[追剧]枝枝影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/枝枝影视.py"
+    },
+    {
+      "key": "knvm",
+      "name": "[追剧]柯南影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/柯南影视.py"
+    },
+    {
+      "key": "teys",
+      "name": "[追剧]太乙影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/太乙影视.py"
+    },
+    {
+      "key": "wkvm",
+      "name": "[追剧]悟空影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/悟空影视.py"
+    },
+    {
+      "key": "xmvm",
+      "name": "[追剧]神马影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/神马影视.py"
+    },
+    {
+      "key": "hxq",
+      "name": "[追剧]韩小圈.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/韩小圈.py"
+    },
+    {
+      "key": "美剧天堂",
+      "name": "[追剧]美剧天堂.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/美剧天堂.py"
+    },
+    {
+      "key": "ww",
+      "name": "[追剧]哇哇APP.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/哇哇APP.py"
+    },
+    {
+      "key": "rb",
+      "name": "[追剧]热播APP.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/热播APP.py"
+    },
+    {
+      "key": "JP",
+      "name": "[追剧]金牌APP.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/金牌APP.py"
+    },
+    {
+      "key": "GZ",
+      "name": "[追剧]瓜子APP.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/瓜子APP.py"
+    },
+    {
+      "key": "nnyy",
+      "name": "[追剧]努努影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/努努影院.py"
+    },
+    {
+      "key": "dnyy",
+      "name": "[追剧]多瑙影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/多瑙影院.py"
+    },
+    {
+      "key": "nvm",
+      "name": "[追剧]泥视频.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/泥视频.py"
+    },
+    {
+      "key": "QU",
+      "name": "[追剧]奇优影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/奇优影院.py"
+    },
+    {
+      "key": "mtyy",
+      "name": "[追剧]麦田影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/麦田影院.py"
+    },
+    {
+      "key": "58vy",
+      "name": "[追剧]58影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/58影视.py"
+    },
+    {
+      "key": "sdvy",
+      "name": "[追剧]兄弟影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/兄弟影视.py"
+    },
+    {
+      "key": "jgvy",
+      "name": "[追剧]追光影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/追光影视.py"
+    },
+    {
+      "key": "ikbot",
+      "name": "[追剧]爱看机器人.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/爱看机器人.py"
+    },
+    {
+      "key": "jok",
+      "name": "[追剧]剧OK.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/剧OK.py"
+    },
+    {
+      "key": "xhvm",
+      "name": "[追剧]骚火影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/骚火影视.py"
+    },
+    {
+      "key": "ayf",
+      "name": "[追剧]爱壹帆影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/爱壹帆.py"
+    },
+    {
+      "key": "MH",
+      "name": "[追剧]麻花影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/麻花影视.py"
+    },
+    {
+      "key": "XH",
+      "name": "[追剧]星河影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/星河影视.py"
+    },
+    {
+      "key": "guanfeng",
+      "name": "[追剧]观风影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/观风影视.py"
+    },
+    {
+      "key": "qmvm",
+      "name": "[追剧]七猫影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/七猫影视.py"
+    },
+    {
+      "key": "nmvm",
+      "name": "[追剧]农民影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/农民影视.py"
+    },
+    {
+      "key": "xc",
+      "name": "[追剧]星辰影院.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/星辰影院.py"
+    },
+    {
+      "key": "hstv",
+      "name": "[追剧]华数TV.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/华数TV.py"
+    },
+    {
+      "key": "dttv",
+      "name": "[追剧]蛋挞TV.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/蛋挞TV.py"
+    },
+    {
+      "key": "wstv",
+      "name": "[追剧]威视TV.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/威视TV.py"
+    },
+    {
+      "key": "dsys",
+      "name": "[追剧]毒舌影视.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/毒舌影视.py"
+    },
+    {
+      "key": "456dy",
+      "name": "[追剧]456电影网.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/456电影网.py"
+    },
+    {
+      "key": "qw",
+      "name": "[追剧]七味.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/七味.py"
+    },
+    {
+      "key": "8tdy",
+      "name": "[追剧]八天电影.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/八天电影.py"
+    },
+    {
+      "key": "ysxq",
+      "name": "[追剧]映像星球.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/映像星球.py"
+    },
+    {
+      "key": "cjjh",
+      "name": "[追剧]采集聚合.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/采集聚合.py"
+    },
+    
+    {
+      "key": "kf",
+      "name": "[直播]咖啡体育直播.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/咖啡直播.py"
+    },
+    {
+      "key": "sm",
+      "name": "[直播]熊猫直播",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/熊猫直播.py"
+    },
+    {
+      "key": "blzb",
+      "name": "[直播]哔哩直播.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/哔哩直播.py"
+    },
+    {
+      "key": "jhzb",
+      "name": "[直播]聚合直播.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/聚合直播.py"
+    },
+    {
+      "key": "央视网页",
+      "name": "[直播]央视网页直播.js",
+      "type": 3,
+      "jar": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/WvSpider.jar",
+      "api": "csp_WvSpider",
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/央视直播.js"
+    },
+    {
+      "key": "youtube2",
+      "name": "[直播]油管直播,py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/油管直播.py"
+    },
+    {
+      "key": "动漫啦",
+      "name": "[动漫]动漫啦.py(羊壳观看)",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/动漫啦.py"
+    },
+    {
+      "key": "路漫漫",
+      "name": "[动漫]路漫漫.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/路漫漫.py"
+    },
+    {
+      "key": "樱之空动漫",
+      "name": "[动漫]樱之空动漫.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/樱之空动漫.py"
+    },
+    {
+      "key": "MiFun",
+      "name": "[动漫]MiFun动漫.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/MiFun动漫.py"
+    },
+    {
+      "key": "动漫巴士",
+      "name": "[动漫]动漫巴士.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/动漫巴士.py"
+    },
+    {
+      "key": "青空次元",
+      "name": "[动漫]青空次元.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/青空次元.py"
+    },
+    {
+      "key": "共和国动漫",
+      "name": "[动漫]共和国动漫.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/共和国动漫.py"
+    },
+    {
+      "key": "黑猫动漫",
+      "name": "[动漫]黑猫动漫",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/黑猫动漫.py"
+    },
+    {
+      "key": "短剧巴士",
+      "name": "[短剧]短剧巴士.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/短剧巴士.py"
+    },
+    
+    {
+      "key": "红果短剧",
+      "name": "[短剧]红果短剧",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/红果短剧.py"
+    },
+    {
+      "key": "开心短剧",
+      "name": "[短剧]开心短剧",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/开心短剧.py"
+    },
+    {
+      "key": "红豆短剧",
+      "name": "[短剧]红豆短剧.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/红豆短剧.py"
+    },
+    {
+      "key": "映刻短剧",
+      "name": "[短剧]映刻短剧.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/映刻短剧.py"
+    },
+    {
+      "key": "悟圣短剧",
+      "name": "[短剧]悟圣短剧.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/悟圣短剧.py"
+    },
+    {
+      "key": "喜福网",
+      "name": "[短剧]喜福短剧.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/喜福短剧.py"
+    },
+    {
+      "key": "smdj",
+      "name": "[短剧]星芽短剧.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/星芽短剧.py"
+    },
+    {
+      "key": "hmjc",
+      "name": "[短剧]河马剧场.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/河马剧场.py"
+    },
+    {
+      "key": "djjh",
+      "name": "[短剧]短剧聚合.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/短剧聚合.py"
+    },
+    {
+      "key": "毒舌短剧",
+      "name": "[短剧]毒舌短剧.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/毒舌短剧.py"
+    },
+    {
+      "key": "百度短剧",
+      "name": "[短剧]百度短剧",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/百度短剧.js"
+    },
+    {
+      "key": "石榴短剧",
+      "name": "[短剧]石榴短剧",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/石榴短剧.py"
+    },
+    {
+      "key": "在线短剧",
+      "name": "[短剧]在线短剧",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/在线短剧.py"
+    },
+    {
+      "key": "短剧大全",
+      "name": "[短剧]短剧大全",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/短剧大全.py"
+    },
+    {
+      "key": "蚕驰短剧网",
+      "name": "[短剧]蚕驰短剧网",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/蚕驰短剧网.py"
+    },
+    {
+      "key": "ytb",
+      "name": "[听书]悦听吧.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/悦听吧.py"
+    },
+    {
+      "key": "275ts",
+      "name": "[听书]275听书.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/275听书.py"
+    },
+    {
+      "key": "易听书网",
+      "name": "[听书]易听书网.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/易听书网.py"
+    },
+    {
+      "key": "音乐聚合",
+      "name": "[音乐]音乐聚合.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/音乐聚合.py"
+    },
+    {
+      "key": "影子音乐",
+      "name": "[音乐]影子音乐",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/影子音乐.py"
+    },
+    {
+      "key": "千千音乐",
+      "name": "[音乐]千千音乐.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/千千音乐.py"
+    },
+    {
+      "key": "kwms",
+      "name": "[音乐]酷我音乐.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/酷我音乐.py"
+    },
+    {
+      "key": "捡的音乐",
+      "name": "[音乐]爱听音乐",
+      "type": 3,
+      "api": "csp_Music1",
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/Music1.json",
+      "jar": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/jstesx1/so.jar"
+    },
+    {
+      "key": "djyy",
+      "name": "[音乐]DJ呦呦.py",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx1/DJ呦呦.py"
+    },
+    {
+      "key": "玩蛋吧.py",
+      "name": "💥玩蛋吧💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/玩蛋吧.py"
+    },
+    {
+      "key": "xb6v.py",
+      "name": "💥xb6v.py💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/xb6v.py"
+    },
+    {
+      "key": "奇优影院.py",
+      "name": "💥奇优影院💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/奇优影院.py"
+    },
+    {
+      "key": "黑猫动漫.py",
+      "name": "💥黑猫动漫💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/黑猫动漫.py"
+    },
+    {
+      "key": "九合一.py",
+      "name": "💥九合一💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/九合一.py"
+    },
+    {
+      "key": "AVBeBe.py",
+      "name": "💥AVBeBe💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/AVBeBe.py"
+    },
+    {
+      "key": "93合1.py",
+      "name": "💥93合1💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/93合1.py"
+    },
+    {
+      "key": "missav免翻全分类版.py",
+      "name": "💥missav免翻全分类版💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/missav免翻全分类版.py"
+    },
+    {
+      "key": "57短剧.py",
+      "name": "💥57短剧💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/57短剧.py"
+    },
+    {
+      "key": "茄子精品.py",
+      "name": "💥茄子精品💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/茄子精品.py"
+    },
+    {
+      "key": "绅士影视.py",
+      "name": "💥绅士影视💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/绅士影视.py"
+    },
+    {
+      "key": "avjoy770.py",
+      "name": "💥avjoy9877💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/avjoy.py"
+    },
+    {
+      "key": "FourKAV.py",
+      "name": "💥FourKAV💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/FourKAV.py"
+    },
+    {
+      "key": "123TV.py",
+      "name": "💥123TVV💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/123TV.py"
+    },
+    {
+      "key": "ptt01.py",
+      "name": "💥ptt01💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/ptt01.py"
+    },
+    {
+      "key": "Korean18x.py",
+      "name": "💥Korean18x💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/Korean18x.py"
+    },
+    {
+      "key": "KRX18.py",
+      "name": "💥KRX18💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/KRX18.py"
+    },
+    {
+      "key": "koreaporn.py",
+      "name": "💥koreaporn💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/koreaporn.py"
+    },
+    {
+      "key": "SexKBJ.py",
+      "name": "💥SexKBJ💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/SexKBJ.py"
+    },
+    {
+      "key": "KoreanBJ.py",
+      "name": "💥KoreanBJ💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/KoreanBJ.py"
+    },
+    {
+      "key": "madou8_domestic.py",
+      "name": "💥1madou8_domestic💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/madou8_domestic.py"
+    },
+    {
+      "key": "madou8.py",
+      "name": "💥madou8💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/madou8.py"
+    },
+    {
+      "key": "ko4py",
+      "name": "💥1ko4💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/ko4.py"
+    },
+    {
+      "key": "88影视",
+      "name": "💥88影视💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/88影视.py"
+    },
+    {
+      "key": "tiktok",
+      "name": "💥tiktok💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/tiktok.py"
+    },
+    {
+      "key": "pinporn",
+      "name": "💥pinporn💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/pinporn.py"
+    },
+    {
+      "key": "supjavy",
+      "name": "💥supjav4💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/supjav.py"
+    },
+    {
+      "key": "Javday",
+      "name": "💥Javday💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/Javday.py"
+    },
+    {
+      "key": "看片狂人",
+      "name": "💥看片狂人💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/看片狂人.py"
+    },
+    {
+      "key": "懂片帝",
+      "name": "💥懂片帝💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/懂片帝.py"
+    },
+    {
+      "key": "321av",
+      "name": "💥321av💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/321av.py"
+    },
+    {
+      "key": "韩剧大大",
+      "name": "💥韩剧大大💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/韩剧大大.py"
+    },
+    {
+      "key": "getav",
+      "name": "💥getav💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/getav.py"
+    },
+    {
+      "key": "冠建影视0.py",
+      "name": "💥冠建影视0💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/冠建影视.py"
+    },
+    {
+      "key": "HDm88oli.py",
+      "name": "💥HDmoli000💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/HDmoli.py"
+    },
+    {
+      "key": "蛋蛋赞.py",
+      "name": "💥蛋蛋赞💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/蛋蛋赞.py"
+    },
+    {
+      "key": "酷我短剧.py",
+      "name": "💥酷我短剧💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/酷我短剧.py"
+    },
+    {
+      "key": "全球广播.py",
+      "name": "💥全球广播💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/全球广播.py"
+    },
+    {
+      "key": "18av99.py",
+      "name": "💥18av000💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/18av.py"
+    },
+    {
+      "key": "591avi.py",
+      "name": "💥591av💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/591av.py"
+    },
+    {
+      "key": "Jable11.py",
+      "name": "💥Jable11💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/Jable直播放.py"
+    },
+    {
+      "key": "Porn87py",
+      "name": "💥Porn87💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/Porn87.py"
+    },
+    {
+      "key": "xx9py",
+      "name": "💥xx9💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/xx9.py"
+    },
+    {
+      "key": "dage.py",
+      "name": "💥dage💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/dage.py"
+    },
+    {
+      "key": "lissav.py",
+      "name": "💥lissav💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/lissav.py"
+    },
+    {
+      "key": "hanjuwang.py",
+      "name": "💥hanjuwang💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/hanjuwang.py"
+    },
+    {
+      "key": "javmenu.py",
+      "name": "💥javmenu💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/javmenu.py"
+    },
+    {
+      "key": "凤梨音乐.py",
+      "name": "💥凤梨音乐💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/凤梨音乐.py"
+    },
+    {
+      "key": "tangdou.py",
+      "name": "💥tangdou💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/tangdou.py"
+    },
+    {
+      "key": "novipnoad.py",
+      "name": "💥novipnoad💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/novipnoad.py"
+    },
+    {
+      "key": "童趣.py",
+      "name": "💥童趣77💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/童趣.py"
+    },
+    {
+      "key": "养生.py",
+      "name": "💥养生888💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/养生.py"
+    },
+    {
+      "key": "枫叶影视4.py",
+      "name": "💥枫叶影视9💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/枫叶影视.py"
+    },
+    {
+      "key": "V-uHUB.py",
+      "name": "💥V-HUB77💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/V-HUB.py"
+    },
+    {
+      "key": "4kvm.py",
+      "name": "💥4kvm77💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/4kvm.py"
+    },
+    {
+      "key": "中文大全.py",
+      "name": "💥中文大全💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/中文大全.py"
+    },
+    {
+      "key": "internetarchive.py",
+      "name": "💥internetarchive💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/InternetArchive.py"
+    },
+    {
+      "key": "xHamster888.py",
+      "name": "💥xHamster888💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/xHamster.py"
+    },
+    {
+      "key": "missav666.py",
+      "name": "💥missav666💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/missav666.py"
+    },
+    {
+      "key": "肉视频99.py",
+      "name": "💥肉视频008💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/肉视频8.py"
+    },
+    {
+      "key": "美女视频收藏馆.py",
+      "name": "💥美女视频收藏馆💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/美女视频收藏馆.py"
+    },
+    {
+      "key": "djyyy.py",
+      "name": "💥djyyy💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/djyyy.py"
+    },
+    {
+      "key": "QinAV.py",
+      "name": "💥QinAV💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/QinAV.py"
+    },
+    {
+      "key": "91成人短剧.py",
+      "name": "💥91成人短剧💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/91成人短剧.py"
+    },
+    {
+      "key": "MissAV123.py",
+      "name": "💥MissAV123💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/MissAV123.py"
+    },
+    {
+      "key": "光厂.py",
+      "name": "💥光厂💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/光厂.py"
+    },
+    {
+      "key": "搜狐视频.py",
+      "name": "💥搜狐视频💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/搜狐视频.py"
+    },
+    {
+      "key": "ppnix5.py",
+      "name": "💥ppnix66💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/ppnix.py"
+    },
+    {
+      "key": "xb6v修护.py",
+      "name": "💥xb6v💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/xb6v修护.py"
+    },
+    {
+      "key": "腾讯视频测试.py",
+      "name": "💥腾讯视频测试💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/腾讯视频测试6.py"
+    },
+    {
+      "key": "抖音精选.py",
+      "name": "💥抖音精选💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/抖音精选.py"
+    },
+    {
+      "key": "mjv00877.py",
+      "name": "💥mjv008777💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/mjv008.py"
+    },
+    {
+      "key": "TinyAV.py",
+      "name": "💥TinyAV💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/TinyAV.py"
+    },
+    {
+      "key": "ZIP0影视.py",
+      "name": "💥ZIP0影视💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/ZIP0影视.py"
+    },
+    {
+      "key": "HKATV.py",
+      "name": "💥HKATV💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/HKATV.py"
+    },
+    {
+      "key": "BiliOfficial7",
+      "name": "💥BilibiliTV💥",
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/哔哩哔哩.py",
+      "type": 3
+    },
+    {
+      "key": "乌云.py",
+      "name": "💥Y乌云💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/乌云.py"
+    },
+    {
+      "key": "avjorrry.py",
+      "name": "💥avjoy555💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/avjoy.py"
+    },
+    {
+      "key": "911爆料.py",
+      "name": "💥911爆料💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/911爆料.py"
+    },
+    {
+      "key": "欧乐影院.py",
+      "name": "💥欧乐影院💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/欧乐影院.py"
+    },
+    {
+      "key": "Vimeo.py",
+      "name": "💥Vimeo💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/Vimeo.py"
+    },
+    {
+      "key": "网易公版.py",
+      "name": "💥网易公版💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/网易公版.py"
+    },
+    {
+      "key": "StripChat.py",
+      "name": "💥StripChat💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/StripChat.py"
+    },
+    {
+      "key": "sebojuhe.py",
+      "name": "💥色播聚合💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/sebojuhe.py"
+    },
+    {
+      "key": "5lxtv.py",
+      "name": "💥5lxtv💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/5lxtv.py"
+    },
+    {
+      "key": "人人视频.py",
+      "name": "💥人人视频💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/人人视频.py"
+    },
+    {
+      "key": "新片场.py",
+      "name": "💥新片场💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/新片场.py"
+    },
+    {
+      "key": "爱壹帆.py",
+      "name": "💥爱壹帆💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/爱壹帆.py"
+    },
+    {
+      "key": "瑞丢电台.py",
+      "name": "💥瑞丢电台💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/瑞丢电台.py"
+    },
+    {
+      "key": "七猫短剧.py",
+      "name": "💥七猫短剧💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/七猫短剧.py"
+    },
+    {
+      "key": "SOOP直播.py",
+      "name": "💥SOOP直播💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/SOOP直播.py"
+    },
+    {
+      "key": "iptv234.py",
+      "name": "💥iptv234💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/iptv234.py"
+    },
+    {
+      "key": "Pexels视频.py",
+      "name": "💥Pexels视频💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/Pexels视频1.py"
+    },
+    {
+      "key": "开端影视.py",
+      "name": "💥开端影视💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/开端影视.py"
+    },
+    {
+      "key": "聚合平台3.js",
+      "name": "💥聚合平台55💥",
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/聚合平台3.py",
+      "type": 3
+    },
+    {
+      "key": "聚合平台0.js",
+      "name": "💥聚合平台0💥",
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/聚合平台0.py",
+      "type": 3
+    },
+    {
+      "key": "芒",
+      "name": "💥百忙无果💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/芒果TV.py"
+    },
+    {
+      "key": "腾",
+      "name": "💥腾云驾雾💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/腾讯视频.py"
+    },
+    {
+      "key": "爱",
+      "name": "💥奇珍异兽💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/爱奇艺.py"
+    },
+    {
+      "key": "优",
+      "name": "💥优优影视💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/优酷视频_2.py"
+    },
+    {
+      "key": "哔哩影视1.py",
+      "name": "💥哔哩影视1💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/哔哩影视.py"
+    },
+    {
+      "key": "影子音乐.py",
+      "name": "💥影子音乐💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/影子音乐.py"
+    },
+    {
+      "key": "黄果优化1.py",
+      "name": "💥黄果优化1💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/黄果优化1.py"
+    },
+    {
+      "key": "Ncat.py",
+      "name": "💥Ncat💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/Ncat.py"
+    },
+    {
+      "key": "儿歌乐园.py",
+      "name": "💥儿歌乐园💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/儿歌乐园.py"
+    },
+    {
+      "key": "吉利猫.py",
+      "name": "💥吉利猫💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/吉利猫.py"
+    },
+    {
+      "key": "轻音乐.py",
+      "name": "💥轻音乐💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/轻音乐.py"
+    },
+    {
+      "key": "人妻偷情.py",
+      "name": "💥人妻偷情💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/人妻偷情.py"
+    },
+    {
+      "key": "私房研究所.py",
+      "name": "💥私房研究所💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/私房研究所.py"
+    },
+    {
+      "key": "推特APP12.py",
+      "name": "💥推特55APP💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/推特APP.py"
+    },
+    {
+      "key": "Didahd.py",
+      "name": "💥Didahd💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/Didahd.py"
+    },
+    {
+      "key": "剧下饭4K.py",
+      "name": "💥剧下饭4K💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/剧下饭4K.py"
+    },
+    {
+      "key": "首映网.py",
+      "name": "💥首映网💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/首映网.py"
+    },
+    {
+      "key": "蜜桃FC2.py",
+      "name": "💥蜜桃FC2💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/蜜桃FC2.py"
+    },
+    {
+      "key": "国色天香.py",
+      "name": "💥国色天香💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/国色天香.py"
+    },
+     {
+      "key": "aniget.py",
+      "name": "💥aniget💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/aniget.py"
+    },
+    {
+      "key": "禁果短剧.py",
+      "name": "💥禁果短剧💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/禁果短剧.py"
+    
+    },
+    {
+      "key": "ptt影院.py",
+      "name": "💥ptt影院💥",
+       "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/ptt影院.py"
+     
+    },
+    {
+      "key": "pornhub163.py",
+      "name": "💥pornhub163💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/pornhub163.py"
+      
+    },
+    {
+      "key": "片库5.py",
+      "name": "💥片库7💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/片库.py"
+     
+    },
+    {
+      "key": "pandalive.py",
+      "name": "💥pandalive💥",
+      "type": 3,      
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/pandalive.py"
+     
+    },
+    {
+      "key": "ejatv.py",
+      "name": "💥ejatv💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/ejatv.py"
+     
+    },
+    {
+      "key": "2048成人短剧[18].py",
+      "name": "💥2048成人短剧💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/2048成人短剧[18].py"
+    },
+    {
+      "key": "直播大全55.py",
+      "name": "💥直播大全剧💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/直播大全.py"
+
+    },
+    {
+      "key": "精仙阁6.py",
+      "name": "💥精仙阁0💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/py9/精仙阁修复版.py"
+
+    },
+    {
+      "key": "effedupmovies.py",
+      "name": "💥effedupmovies💥",
+       "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/effedupmovies.py"
+     
+    },
+    {
+      "key": "AAZ音乐网.py",
+      "name": "💥AAZ音乐网💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/AAZ音乐网.py"
+
+    },
+    {
+      "key": "酷6网6.py",
+      "name": "💥酷6网6💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/酷6网.py"
+    },
+    {
+      "key": "稀饭动漫6.py",
+      "name": "💥稀饭动漫6💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/稀饭动漫.py"
+     
+    },
+    {
+      "key": "Aidongman.py",
+      "name": "💥Aidongman💥",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/wliqi495-create/jaychouqq/refs/heads/main/yingshi/pytesx/Aidongman.py"
+
+    }
+  ],
+  "parses": [
+    {
+      "name": "盘古",
+      "type": 0,
+      "url": "https://www.playm3u8.cn/jiexi.php?url=",
+      "ext": {
+        "header": {
+          "user-agent": "Mozilla/5.0 (Linux; Android 13; V2049A Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36"
+        }
+      }
+    },
+    {
+      "name": "789解析1",
+      "type": 0,
+      "url": "https://jiexi.789jiexi.icu:4433/?url="
+    },
+{
+      "name": "组豪富英",
+      "type": 1,
+      "url": "https://coffee-5c93e1f751eb.edge.tvapp.eu.org:31000/api/?key=6f8622b2-8402-43c9-ae29-0adaa292bc71&url="
+    },
+    {
+      "name": "组4K·P",
+      "type": 1,
+      "url": "https://jx.meilinvps.com/api/?key=7dba17e4cc9b887faf7afaf9a20fd391&url="
+    },
+    {
+      "name": "组4K·C",
+      "type": 1,
+      "url": "https://vip1.123jx.vip/api/?key=f60311e9bc7c1eac9dcaf5e336647b65&url="
+    },
+    {
+      "name": "组C4K·E",
+      "type": 1,
+      "url": "http://175.24.181.180:5000/api/jiexi/common?Key=Dg3tqWmzSgcKGlZY2c&url="
+    },
+    {
+      "name": "分享者·huaqi",
+      "type": 1,
+      "url": "https://api.huaqi.pro/api/?key=5bd0db7c858ba9f999373450f3651af7&url="
+    },
+    {
+      "name": "分享者解析①",
+      "type": 1,
+      "url": "https://test1.12321app.com/daoliansiquanjia.php?url="
+    },
+
+    {
+      "name": "789解析2",
+      "type": 0,
+      "url": "https://jiexi.789jiexi.com/?url="
+    },
+    {
+      "name": "虾米解析",
+      "type": 0,
+      "url": "https://jx.xmflv.com/?url="
+    },
+    {
+      "name": "淘片解析",
+      "type": 0,
+      "url": "https://jx.yparse.com/index.php?url="
+    },
+    {
+      "name": "解析1",
+      "type": 0,
+      "url": "https://huayong.net/999/?v="
+    },
+    {
+      "name": "解析2",
+      "type": 0,
+      "url": "https://jx.m3u8.tv/jiexi/?url="
+    },
+    {
+      "name": "解析3",
+      "type": 0,
+      "url": "https://t2.qlplayer.cyou/player/analysis.php?v="
+    },
+    {
+      "name": "解析4",
+      "type": 0,
+      "url": "https://www.ckplayer.vip/jiexi/?url="
+    },
+    {
+      "name": "解析5",
+      "type": 0,
+      "url": "https://nm.xxxc137.top/static/player/artplayer.html?url="
+    },
+    {
+      "name": "解析6",
+      "type": 0,
+      "url": "https://www.yemu.xyz/?url="
+    },
+    {
+      "name": "冰豆",
+      "type": 0,
+      "url": "https://bd.jx.cn/?url="
+    },
+    {
+      "name": "爱酷",
+      "type": 0,
+      "url": "https://jx.zhanlangbu.com/?url="
+    },
+    {
+      "name": "云解析",
+      "type": 0,
+      "url": "https://jx.yparse.com/index.php?url=",
+      "ext": {
+        "header": {
+          "user-agent": "Mozilla/5.0 (Linux; Android 13; V2049A Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36"
+        }
+      }
+    },
+    {
+      "name": "777",
+      "type": 0,
+      "url": "https://jx.jsonplayer.com/player/?url=",
+      "ext": {
+        "header": {
+          "user-agent": "Mozilla/5.0 (Linux; Android 13; V2049A Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36"
+        }
+      }
+    },
+    {
+      "name": "-剖云-",
+      "type": 0,
+      "url": "https://www.kkvip2022.com/vip/jiexi1/?url=",
+      "ext": {
+        "header": {
+          "user-agent": "Mozilla/5.0 (Linux; Android 13; V2049A Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36"
+        }
+      }
+    },
+    {
+      "name": "-全看-",
+      "type": 0,
+      "url": "https://jx.quankan.app/?url=",
+      "ext": {
+        "header": {
+          "user-agent": "Mozilla/5.0 (Linux; Android 13; V2049A Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36"
+        }
+      }
+    }
+  ],
+  "doh": [
+    {
+      "name": "Google",
+      "url": "https://dns.google/dns-query",
+      "ips": [
+        "8.8.4.4",
+        "8.8.8.8"
+      ]
+    },
+    {
+      "name": "Cloudflare",
+      "url": "https://cloudflare-dns.com/dns-query",
+      "ips": [
+        "1.1.1.1",
+        "1.0.0.1",
+        "2606:4700:4700::1111",
+        "2606:4700:4700::1001"
+      ]
+    },
+    {
+      "name": "AdGuard",
+      "url": "https://dns.adguard.com/dns-query",
+      "ips": [
+        "94.140.14.140",
+        "94.140.14.141"
+      ]
+    },
+    {
+      "name": "DNSWatch",
+      "url": "https://resolver2.dns.watch/dns-query",
+      "ips": [
+        "84.200.69.80",
+        "84.200.70.40"
+      ]
+    },
+    {
+      "name": "Quad9",
+      "url": "https://dns.quad9.net/dns-quer",
+      "ips": [
+        "9.9.9.9",
+        "149.112.112.112"
+      ]
+    }
+  ],
+  "ads": [
+    "mozai.4gtv.tv",
+    "static-mozai.4gtv.tv"
+  ],
+  "ijk": [
+    {
+      "group": "软解码",
+      "options": [
+        {
+          "category": 4,
+          "name": "opensles",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "overlay-format",
+          "value": "842225234"
+        },
+        {
+          "category": 4,
+          "name": "framedrop",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "soundtouch",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "start-on-prepared",
+          "value": "1"
+        },
+        {
+          "category": 1,
+          "name": "http-detect-range-support",
+          "value": "0"
+        },
+        {
+          "category": 1,
+          "name": "fflags",
+          "value": "fastseek"
+        },
+        {
+          "category": 2,
+          "name": "skip_loop_filter",
+          "value": "48"
+        },
+        {
+          "category": 4,
+          "name": "reconnect",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "enable-accurate-seek",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-auto-rotate",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-handle-resolution-change",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-hevc",
+          "value": "0"
+        },
+        {
+          "category": 1,
+          "name": "dns_cache_timeout",
+          "value": "600000000"
+        }
+      ]
+    },
+    {
+      "group": "硬解码",
+      "options": [
+        {
+          "category": 4,
+          "name": "opensles",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "overlay-format",
+          "value": "842225234"
+        },
+        {
+          "category": 4,
+          "name": "framedrop",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "soundtouch",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "start-on-prepared",
+          "value": "1"
+        },
+        {
+          "category": 1,
+          "name": "http-detect-range-support",
+          "value": "0"
+        },
+        {
+          "category": 1,
+          "name": "fflags",
+          "value": "fastseek"
+        },
+        {
+          "category": 2,
+          "name": "skip_loop_filter",
+          "value": "48"
+        },
+        {
+          "category": 4,
+          "name": "reconnect",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "enable-accurate-seek",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-auto-rotate",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-handle-resolution-change",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-hevc",
+          "value": "1"
+        },
+        {
+          "category": 1,
+          "name": "dns_cache_timeout",
+          "value": "600000000"
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "name": "cl",
+      "hosts": [
+        "magnet"
+      ],
+      "regex": [
+        "最 新",
+        "直 播",
+        "更 新"
+      ]
+    },
+    {
+      "name": "火山嗅探",
+      "hosts": [
+        "huoshan.com"
+      ],
+      "regex": [
+        "item_id="
+      ]
+    },
+    {
+      "name": "抖音嗅探",
+      "hosts": [
+        "douyin.com"
+      ],
+      "regex": [
+        "is_play_url="
+      ]
+    },
+    {
+      "name": "农民嗅探",
+      "hosts": [
+        "toutiaovod.com"
+      ],
+      "regex": [
+        "video/tos/cn"
+      ]
+    },
+    {
+      "name": "七新嗅探",
+      "hosts": [
+        "api.52wyb.com"
+      ],
+      "regex": [
+        "m3u8?pt=m3u8"
+      ]
+    },
+    {
+      "name": "夜市",
+      "hosts": [
+        "yeslivetv.com"
+      ],
+      "script": [
+        "document.getElementsByClassName('vjs-big-play-button')[0].click()"
+      ]
+    },
+    {
+      "name": "毛驴",
+      "hosts": [
+        "www.maolvys.com"
+      ],
+      "script": [
+        "document.getElementsByClassName('swal-button swal-button--confirm')[0].click()"
+      ]
+    },
+    {
+      "name": "czzy",
+      "hosts": [
+        "10086.cn"
+      ],
+      "regex": [
+        "/storageWeb/servlet/downloadServlet"
+      ]
+    },
+    {
+      "name": "bdys",
+      "hosts": [
+        "bytetos.com",
+        "byteimg.com",
+        "bytednsdoc.com",
+        "pstatp.com"
+      ],
+      "regex": [
+        "/tos-cn"
+      ],
+      "exclude": [
+        ".m3u8"
+      ]
+    },
+    {
+      "name": "bdys10",
+      "hosts": [
+        "bdys10.com"
+      ],
+      "regex": [
+        "/obj/"
+      ],
+      "exclude": [
+        ".m3u8"
+      ]
+    }
+  ],
+  "proxy": [
+    "file://TV/proxy.json"
+  ]
+}

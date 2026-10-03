@@ -3663,6 +3663,7 @@ Romedy Now,
 CBC Drama,
 Z Nation,
 Pluto TV 80's Action,
+NEW KMOVIES,
 
 电视剧🔁,#genre#
 科幻动作,
@@ -7850,6 +7851,7 @@ RTHK TV 34 (港台電視34),
 VOA美国之音,
 Zee Alwan,
 Zee Yuva,
+Showtime,
 
 福建,#genre#
 漳州新闻综合,
