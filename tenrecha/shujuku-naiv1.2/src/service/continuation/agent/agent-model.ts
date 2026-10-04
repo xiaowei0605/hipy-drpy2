@@ -1,0 +1,1050 @@
+/**
+ * service/continuation/agent/agent-model.ts — Agent 续写运行时的类型层
+ *
+ * 只放类型、常量与判定谓词，不含任何 IO 或宿主调用。
+ * 叙事资料模块只覆盖表格系统没有的三项：伏笔账本、认知与信息差、长期约束。
+ */
+
+import type { ContinuationAgentExecutionContext_ACU } from '../stage-execution-engine';
+import type {
+  ContinuationInternalAiRequestIdentity_ACU,
+  ContinuationPromptSegment_ACU,
+  ContinuationSettings_ACU,
+  StageTurnFunction_ACU,
+  StageTurnMainlineDelta_ACU,
+  StageTurnPacing_ACU,
+  StageTurnTimeAdvance_ACU,
+} from '../model';
+
+/** 楼层锚定快照挂在消息对象上的独立字段名，与首楼 `_qrf_continuation` 并列、互不干扰。 */
+export const AGENT_MODULE_FIELD_ACU = '_qrf_continuation_agent';
+
+/** v1 楼层快照没有 pendingFixes。读取时归一为空数组，成功写入才升到当前版本。 */
+export const AGENT_MODULE_SCHEMA_VERSION_V1_ACU = 1 as const;
+/** v2 楼层快照有 pendingFixes，但没有资料完成状态与结构化缺口来源。 */
+export const AGENT_MODULE_SCHEMA_VERSION_V2_ACU = 2 as const;
+/** v4 增加资料完成状态，并扩展 pendingFixes 为可恢复缺口；3 已由楼层 frame 使用，禁止复用。 */
+export const AGENT_MODULE_SCHEMA_VERSION_ACU = 4 as const;
+
+export const AGENT_PENDING_FIX_CAP_ACU = 128 as const;
+
+/** 主 Agent 自身会话记录挂在消息对象上的字段名。与资料快照同楼不同字段，互不干扰。 */
+export const AGENT_CONVERSATION_FIELD_ACU = '_qrf_continuation_agent_chat';
+
+/** v1：末楼全量快照（历史遗留，读取时兼容为基线段）。 */
+export const AGENT_CONVERSATION_SCHEMA_VERSION_ACU = 1 as const;
+
+/** v2：会话按楼层分段增量存储，读取时全楼拼接，删楼即自动回退该楼产生的消息。 */
+export const AGENT_CONVERSATION_SEGMENT_SCHEMA_VERSION_ACU = 2 as const;
+
+/**
+ * 会话消息种类。API 角色由种类推导，UI 展示样式也由种类决定：
+ * - user：人类在 Agent 会话里的输入（初始要求、中途插话、重规划说明）
+ * - agent：主 Agent 某次迭代的原始输出（含 thought 与动作 JSON）
+ * - tool：运行时回灌给主 Agent 的结果或拒绝原因
+ * - runtime：目录与状态快照（只在内容相对上一条快照变化时追加，不替换旧快照）
+ * - turn：新轮次开始通告（相当于人类下发新任务）
+ * - handoff：token 预算压缩时生成的交接报告
+ */
+export const AGENT_CONVERSATION_MESSAGE_KINDS_ACU = ['user', 'agent', 'tool', 'runtime', 'turn', 'handoff'] as const;
+export type AgentConversationMessageKind_ACU = typeof AGENT_CONVERSATION_MESSAGE_KINDS_ACU[number];
+
+/** 单条会话消息。digest 是短标签，供 UI 标题与交接报告使用，避免二次解析 text。 */
+export interface AgentConversationMessage_ACU {
+  id: number;
+  kind: AgentConversationMessageKind_ACU;
+  text: string;
+  digest: string;
+  /** 产生该消息时的大纲游标指纹（stageId#revision#turnId），用于按轮分组与压缩。 */
+  turnKey: string;
+  at: number;
+  /** 工具消息专用：本条承载的读取地址（如 $STORY_RANGE:12-15），用于本轮读取去重、重读识别与压缩元数据。 */
+  readKey?: string;
+  /** 原生工具单条回执包含多项读取时，各项正文在 text 中的精确位置。 */
+  readSpans?: readonly { key: string; start: number; length: number }[];
+  /** 原生函数调用。agent 消息携带请求，tool 消息用 toolCallId 对应其中一条。 */
+  toolCalls?: readonly { id: string; name: string; arguments: string }[];
+  toolCallId?: string;
+}
+
+/**
+ * 由各楼层段拼接出的会话视图。nextId 取所有段内消息最大 id + 1；
+ * messages 已应用压缩标记投影（合成交接报告在最前，marker 之前的原始消息不出现）。
+ */
+export interface AgentConversationSnapshot_ACU {
+  schemaVersion: typeof AGENT_CONVERSATION_SCHEMA_VERSION_ACU;
+  nextId: number;
+  updatedAt: number;
+  messages: AgentConversationMessage_ACU[];
+}
+
+/**
+ * 非破坏压缩标记。存在楼层记录里而不进消息段：拼接时取 compactedThroughId 最大的标记，
+ * id ≤ 该值的消息被投影掉、report 合成为最前的交接消息。删掉承载楼层即自动撤销压缩。
+ */
+export interface AgentConversationCompactionMarkV1_ACU {
+  /** V1 历史标记没有 schemaVersion；仅在下一次成功压缩时升级。 */
+  schemaVersion?: undefined;
+  compactedThroughId: number;
+  report: string;
+  at: number;
+}
+
+/** V2 handoff 的结构化连续性状态；报告正文由该状态确定性渲染。 */
+export interface AgentHandoffSummaryStateV2_ACU {
+  currentGoal: string;
+  effectiveConstraints: string[];
+  decisions: string[];
+  completedItems: string[];
+  pendingItems: string[];
+  blockers: string[];
+  continuityFacts: string[];
+  readKeys: string[];
+  recentTurns: string[];
+}
+
+export interface AgentConversationCompactionMetricsV2_ACU {
+  sourceFromId: number;
+  sourceThroughId: number;
+  beforeTokens: number;
+  afterTokens: number;
+  fixedPromptTokens: number;
+  reportTokens: number;
+  targetTokens: number;
+  triggerTokens: number;
+  droppedMessages: number;
+  droppedTurns: number;
+  degraded: boolean;
+  degradationReason?: string;
+}
+
+export interface AgentConversationCompactionMarkV2_ACU {
+  schemaVersion: 2;
+  compactedThroughId: number;
+  report: string;
+  summaryState: AgentHandoffSummaryStateV2_ACU;
+  at: number;
+  metrics: AgentConversationCompactionMetricsV2_ACU;
+}
+
+export type AgentConversationCompactionMark_ACU =
+  | AgentConversationCompactionMarkV1_ACU
+  | AgentConversationCompactionMarkV2_ACU;
+
+/** 单楼层的会话段记录。segment 是该楼层期间产生的消息增量；compaction 是可选的压缩标记。 */
+export interface AgentConversationFloorRecord_ACU {
+  schemaVersion: typeof AGENT_CONVERSATION_SEGMENT_SCHEMA_VERSION_ACU;
+  updatedAt: number;
+  segment: AgentConversationMessage_ACU[];
+  compaction?: AgentConversationCompactionMark_ACU;
+}
+
+/** 追加一条会话消息的输入。id 与 at 由存储层分配。 */
+export interface AgentConversationAppend_ACU {
+  kind: AgentConversationMessageKind_ACU;
+  text: string;
+  digest?: string;
+  turnKey?: string;
+  readKey?: string;
+  readSpans?: readonly { key: string; start: number; length: number }[];
+  toolCalls?: readonly { id: string; name: string; arguments: string }[];
+  toolCallId?: string;
+}
+
+/** Agent 可读、可搜与逐楼结算正文窗口的默认 AI 楼层数。 */
+export const AGENT_STORY_WINDOW_DEFAULT_ACU = 20;
+
+/** 骨架里固定注入全文的末尾 AI 楼层数默认值（承接锚点）。 */
+export const AGENT_STORY_TAIL_FLOORS_DEFAULT_ACU = 2;
+
+/** 单个 read/search 工具批次 token 上限：按 agentHistoryTokenBudget 的百分比折算。 */
+export const AGENT_READ_TOKEN_BUDGET_DEFAULT_ACU = '20%';
+
+/** 临近总结阈值时仍放行的精读兜底额度默认值（token）。 */
+export const AGENT_READ_FALLBACK_TOKENS_DEFAULT_ACU = 6000;
+
+/**
+ * 主 Agent 上下文自动总结阈值的默认值。统计口径是主 Agent 每次请求实际读取的完整上下文：
+ * 提示词骨架（子代理目录、模块目录、表格目录、大纲窗口、正文摘取）加上跨轮会话历史
+ * （含用户输入、迭代输出、工具结果与子代理报告）。取 120000 使 128k 级模型在阈值内
+ * 仍留有输出余量；超出后在下一轮开始前把最早轮次压缩为交接报告。
+ */
+export const AGENT_HISTORY_TOKEN_BUDGET_DEFAULT_ACU = 120000;
+
+/**
+ * 轮次进行中允许超出预算的倍数。
+ *
+ * 压缩只在轮次边界发生，因此一轮内到达阈值只登记不执行。但若同一轮反复失败重跑（游标不变、
+ * 每次重跑又追加迭代记录），历史会一直长下去；到这个倍数时改为立即压缩——此时的替代方案是
+ * 请求因超长而必然失败，用户除了一键清空别无出路，那比一次轮内压缩更糟。
+ */
+export const AGENT_HISTORY_EMERGENCY_FACTOR_ACU = 2;
+
+/** 热上下文里最多展示的活跃伏笔条数，超出部分如实标注不静默丢弃。 */
+export const AGENT_HOT_HOOK_LIMIT_ACU = 8;
+
+/** 单个资料块渲染字符上限，超出即截断并标注。 */
+export const AGENT_BLOCK_CHAR_LIMIT_ACU = 4000;
+
+export const AGENT_HOOK_STATUSES_ACU = ['planted', 'reinforced', 'misled', 'partially_paid', 'paid', 'abandoned'] as const;
+export type AgentHookStatus_ACU = typeof AGENT_HOOK_STATUSES_ACU[number];
+
+export const AGENT_HOOK_IMPORTANCES_ACU = ['high', 'mid', 'low'] as const;
+export type AgentHookImportance_ACU = typeof AGENT_HOOK_IMPORTANCES_ACU[number];
+
+export const AGENT_REVEAL_STATUSES_ACU = ['unrevealed', 'partial', 'revealed'] as const;
+export type AgentRevealStatus_ACU = typeof AGENT_REVEAL_STATUSES_ACU[number];
+
+/** 已进入真实正文的一条伏笔。retired 的条目退出热上下文但保留在快照里可追溯。 */
+export interface AgentHookEntry_ACU {
+  id: string;
+  summary: string;
+  status: AgentHookStatus_ACU;
+  importance: AgentHookImportance_ACU;
+  plantedIndex: number;
+  updatedIndex: number;
+  plannedPayoff: string;
+  retired: boolean;
+  retiredReason: string;
+}
+
+/** 某个角色对某条信息的知晓状态。 */
+export interface AgentCharacterKnowledge_ACU {
+  name: string;
+  knows: string;
+}
+
+/** 一条客观事实与各方认知的差值。未揭示的条目 revealIndex 必须为 null。 */
+export interface AgentInfoGapEntry_ACU {
+  id: string;
+  topic: string;
+  objectiveFact: string;
+  readerKnown: string;
+  characterKnowledge: AgentCharacterKnowledge_ACU[];
+  revealStatus: AgentRevealStatus_ACU;
+  revealIndex: number | null;
+  retired: boolean;
+  retiredReason: string;
+}
+
+/** 一条长期约束。只能由主 Agent 裁决后登记，子代理只能提议。 */
+export interface AgentConstraintEntry_ACU {
+  id: string;
+  text: string;
+  reason: string;
+  createdIndex: number;
+}
+
+/** 总纲条目的层级：story=全书方向（全局唯一一条活跃条目）；volume=卷/幕台阶。 */
+export const AGENT_STORY_ARC_SCOPES_ACU = ['story', 'volume'] as const;
+export type AgentStoryArcScope_ACU = typeof AGENT_STORY_ARC_SCOPES_ACU[number];
+
+export const AGENT_STORY_ARC_STATUSES_ACU = ['planned', 'active', 'done'] as const;
+export type AgentStoryArcStatus_ACU = typeof AGENT_STORY_ARC_STATUSES_ACU[number];
+
+/** 卷在全书长程结构中的职责；与阶段职责同词但作用域独立。 */
+export const AGENT_VOLUME_NARRATIVE_ROLES_ACU = ['setup', 'development', 'escalation', 'turn', 'payoff', 'aftermath'] as const;
+export type AgentVolumeNarrativeRole_ACU = typeof AGENT_VOLUME_NARRATIVE_ROLES_ACU[number];
+
+/**
+ * 一条故事总纲。它是跨阶段的方向锚：阶段大纲只规划 6-10 轮，没有它每个阶段都会
+ * 倾向一次性用光手上的料。withheld 是「本层禁止提前翻的底牌」，stageNumbers 是
+ * 已由哪些阶段承载的进度记录——两者共同防止一次性打穿。
+ */
+/** 仅拒绝模型把总纲格式说明原样当作资料；不对普通叙事语句做模糊匹配。 */
+export function copiedStoryArcExample_ACU(field: string, value: unknown): boolean {
+  if (typeof value !== 'string') return false;
+  const examples: Record<string, readonly string[]> = {
+    id: ['ARC-STORY 或 VOL-01'], title: ['简称'],
+    direction: ['本层推进方向与人物驱动力'],
+    escalation: ['本层的进入状态→中段风险或反转→高潮兑现→卷末新局面'],
+    withheld: ['本层禁止提前释放的底牌与终局储备'],
+    completionState: ['done 时达到的卷末状态，否则空字符串'],
+    continuationRationale: ['续卷时由前卷后果推出的依据，否则空字符串'],
+    targetTimeSpan: ['volume upsert 时必填的故事时间目标'],
+    progressCeiling: ['volume upsert 时必填的主线推进上限'],
+    completionRationale: ['容量偏离 targetStageRange 时必填，否则空字符串'],
+  };
+  return (examples[field] ?? []).includes(value.trim());
+}
+
+export interface AgentStoryArcEntry_ACU {
+  id: string;
+  scope: AgentStoryArcScope_ACU;
+  title: string;
+  /** 谁追求什么、对抗什么（story）；本卷主推线（volume）。 */
+  direction: string;
+  /** 本层冲突要抬到什么高度，收在哪。 */
+  escalation: string;
+  /** 禁止提前释放的底牌。 */
+  withheld: string;
+  status: AgentStoryArcStatus_ACU;
+  /** 已由哪些阶段承载，作为进度锚。 */
+  stageNumbers: number[];
+  /** 卷完成时引用的真实完成阶段；未完成卷为 null。 */
+  completionStageNumber: number | null;
+  /** 卷末实际达到的状态；未完成卷为空字符串。 */
+  completionState: string;
+  /** 在所有既有卷完成后追加本卷时，由既有结果推出的依据。 */
+  continuationRationale: string;
+  /** 本卷在全书结构中的职责；旧快照可缺失。 */
+  narrativeRole?: AgentVolumeNarrativeRole_ACU;
+  /** 本卷预计承载的阶段数量范围；容量锚，不是机械完成条件。 */
+  targetStageRange?: { min: number; max: number };
+  /** 本卷预计覆盖的故事内部时间。 */
+  targetTimeSpan?: string;
+  /** 本卷主线最多推进到的边界，防止提前打穿后续卷。 */
+  progressCeiling?: string;
+  /** 跨阶段持续经营的关系、利益、认知或生活副线。 */
+  sustainingThreads?: string[];
+  /** 本卷应兑现的既有期待或承诺。 */
+  payoffTargets?: string[];
+  /** 阶段容量偏离目标范围时的完成说明；不得与续卷依据混用。 */
+  completionRationale?: string;
+  retired: boolean;
+  retiredReason: string;
+}
+
+export const AGENT_CHRONOLOGY_PRECISIONS_ACU = ['exact', 'approximate', 'unknown'] as const;
+export type AgentChronologyPrecision_ACU = typeof AGENT_CHRONOLOGY_PRECISIONS_ACU[number];
+
+/** 已发生正文结算出的故事年代学记录；大纲时间计划不得写入。 */
+export interface AgentChronologyEntry_ACU {
+  id: string;
+  /** 该次转换后可用于正文定位的相对时间锚。 */
+  anchor: string;
+  /** 自故事起点累计经过时间；无法可靠量化时明确写 unknown。 */
+  elapsed: string;
+  precision: AgentChronologyPrecision_ACU;
+  /** 从上一锚点到本锚点实际发生的时间转换。 */
+  transition: string;
+  /** 支撑该事实的真实正文楼层；不得引用大纲或运行时 timeline。 */
+  evidenceIndexes: number[];
+  updatedIndex: number;
+  retired: boolean;
+  retiredReason: string;
+}
+
+export interface AgentModuleRevisions_ACU {
+  hooks: number;
+  infoGap: number;
+  constraints: number;
+  storyArc: number;
+  chronology: number;
+  webRefs: number;
+  userRequirements: number;
+}
+
+/**
+ * 单栏写入值。value 的存在性显式表示：unset 为 true 表示撤销该栏（回到未写状态），
+ * 否则 value 必须是该模块栏目矩阵允许的 JSON 值；缺省、`null`、合法空值、未写入、读取失败不得混同。
+ */
+export interface AgentModuleFieldWrite_ACU {
+  value?: unknown;
+  unset?: boolean;
+}
+
+/**
+ * 一次逐栏写集：模块 → ID → 栏目 → 写入值。只点名本次提交的栏目；
+ * 原已提交栏目未被点名即原样保留。userRequirements 作为整表单例使用固定 ID '_'。
+ */
+export type AgentModuleFieldUpserts_ACU = Partial<Record<AgentWritableModule_ACU, Record<string, Record<string, AgentModuleFieldWrite_ACU>>>>;
+
+/**
+ * 分栏条目状态：complete 是经逐栏写入提升（或逐栏更新过）的完整领域条目；partial 仅在受控分栏视图可见，
+ * 不进入完整领域数组；legacy_unknown 是来自旧整条快照或整条写入的完整条目、来源不可逐栏拆分。
+ * complete 与 legacy_unknown 都在领域数组中，是可供既有消费者读取的完整条目。
+ */
+export const AGENT_MODULE_FIELD_STATUSES_ACU = ['complete', 'partial', 'legacy_unknown'] as const;
+export type AgentModuleFieldStatus_ACU = typeof AGENT_MODULE_FIELD_STATUSES_ACU[number];
+
+/** 单条已接受的分栏栏目值及其修订身份。 */
+export interface AgentModuleFieldValue_ACU {
+  value: unknown;
+  revision: number;
+  updatedAt: number;
+}
+
+/** 一个 (module, ID) 的分栏记录：已提交栏目、缺栏与投影状态。 */
+export interface AgentModuleFieldRecord_ACU {
+  module: AgentWritableModule_ACU;
+  id: string;
+  status: AgentModuleFieldStatus_ACU;
+  fields: Record<string, AgentModuleFieldValue_ACU>;
+  missingFields: string[];
+  updatedAt: number;
+}
+
+/** 折叠派生的分栏视图：只读，绝不写回持久帧。 */
+export interface AgentModuleFieldSnapshot_ACU {
+  records: Partial<Record<AgentWritableModule_ACU, Record<string, AgentModuleFieldRecord_ACU>>>;
+}
+
+/**
+ * 一个模块的栏目矩阵：fields 是分栏视图可见的栏目（含机器栏），required 是提升为完整条目前模型必须显式
+ * 写过的栏目（合法空值也算写过），consistencyGroups 是不可拆开校验的跨字段一致性组。
+ * 机器栏（updatedIndex、retired、retiredReason 等）不进 required，由提升时的领域事务补齐。
+ */
+export interface AgentModuleFieldMatrixEntry_ACU {
+  fields: readonly string[];
+  required: readonly string[];
+  consistencyGroups: ReadonlyArray<readonly string[]>;
+}
+
+/** 百科资料库条目的来源渠道。baidu 走酒馆服务器同源转发，其余为浏览器直连 MediaWiki API。 */
+export const AGENT_WEB_REF_SOURCES_ACU = ['moegirl', 'wikipedia_zh', 'wikipedia_en', 'baidu', 'web'] as const;
+export type AgentWebRefSource_ACU = typeof AGENT_WEB_REF_SOURCES_ACU[number];
+
+/** 抓取状态：ok 正常；unavailable 来源不可达或无词条；blocked 被域名策略或内容类型拒绝。 */
+export const AGENT_WEB_REF_STATUSES_ACU = ['ok', 'unavailable', 'blocked'] as const;
+export type AgentWebRefStatus_ACU = typeof AGENT_WEB_REF_STATUSES_ACU[number];
+
+/**
+ * 一条外部资料，以角色 / 物品 / 法术 / 组织 / 事件等实体分份。由 web-researcher 子代理写入，其它代理只读。
+ * 固定内容只有 title（名称）和 brief（一句话简介）；summary 是按实体类型自由组织的详情。
+ * 目录与全量读只给 title + brief；详情必须按 ID 精读。网页原文只在检索子代理当次上下文使用，绝不落库。
+ */
+export interface AgentWebRefEntry_ACU {
+  id: string;
+  title: string;
+  source: AgentWebRefSource_ACU;
+  url: string;
+  query: string;
+  tags: string[];
+  brief: string;
+  summary: string;
+  sourceStatus: AgentWebRefStatus_ACU;
+  fetchedAt: number;
+  retired: boolean;
+  retiredReason: string;
+}
+
+export const AGENT_MATERIAL_COMPLETION_STATES_ACU = [
+  'complete_changed',
+  'complete_no_change',
+  'partial',
+  'failed',
+  'legacy_unknown',
+] as const;
+export type AgentMaterialCompletionState_ACU = typeof AGENT_MATERIAL_COMPLETION_STATES_ACU[number];
+
+export const AGENT_PENDING_FIX_SOURCES_ACU = [
+  'truncated',
+  'contract_rejected',
+  'protocol_failed',
+  'invoke_failed',
+  'transaction_rejected',
+] as const;
+export type AgentPendingFixSource_ACU = typeof AGENT_PENDING_FIX_SOURCES_ACU[number];
+
+export interface AgentMaterialCompletionRecord_ACU {
+  state: AgentMaterialCompletionState_ACU;
+  /** 本次维护覆盖的真实正文范围；-1 表示尚无可判定范围。 */
+  rangeStartIndex: number;
+  rangeEndIndex: number;
+  /** 模块级状态用于限制后续补足写集；缺键表示本轮不负责该模块。 */
+  modules: Partial<Record<AgentWritableModule_ACU, AgentMaterialCompletionState_ACU>>;
+  updatedAt: number;
+}
+
+
+export interface AgentPendingFixViolation_ACU {
+  path: string;
+  message: string;
+}
+
+/** 一次模块入库失败。attempts 从 1 起算，同一模块再次失败加一，成功写入后整条删除。 */
+export interface AgentPendingFix_ACU {
+  module: AgentWritableModule_ACU;
+  agentName: string;
+  violations: AgentPendingFixViolation_ACU[];
+  attempts: number;
+  firstFailedAtIndex: number;
+  lastError: string;
+  source: AgentPendingFixSource_ACU;
+  completion: 'partial' | 'failed';
+  rangeStartIndex: number;
+  rangeEndIndex: number;
+  acceptedKeys: string[];
+  createdAt: number;
+  updatedAt: number;
+}
+
+/**
+ * 楼层帧 schema。checkpoint 是全量基线，deltas 是其后的模块写集。
+ * schema 1/2 的全量快照只在读取时归一成基线，成功写入才升到本版本。
+ */
+export const AGENT_MODULE_FRAME_SCHEMA_VERSION_ACU = 3 as const;
+
+/** 一次结算写进承载楼层的增量。seq 只排序同一楼层内的多次写入，不参与跨楼折叠。 */
+export interface AgentModuleFloorDelta_ACU {
+  seq: number;
+  /** 写入时该楼的 swipe 身份。折叠只叠加与楼层当前 swipe 相同的条目。 */
+  swipeId: string;
+  /** 变更条目。带 id 的模块只含本次 upsert；userRequirements 是整表替换。 */
+  writes: Partial<Pick<AgentModuleSnapshot_ACU, AgentWritableModule_ACU>>;
+  removedIds?: Partial<Record<Exclude<AgentWritableModule_ACU, 'userRequirements'>, string[]>>;
+  /** 逐栏增量写入：模块 → ID → 栏目。与整条 writes 可同时出现；折叠先叠整条再叠逐栏。 */
+  fieldUpserts?: AgentModuleFieldUpserts_ACU;
+  revisions: Partial<AgentModuleRevisions_ACU>;
+  pendingFixes?: AgentPendingFix_ACU[];
+  materialCompletion?: AgentMaterialCompletionRecord_ACU;
+  /** 本条显式推进的结算水位。省略表示不改水位。 */
+  settledThroughIndex?: number;
+  updatedAt: number;
+}
+
+/** 挂在单个楼层上的资料帧。 */
+export interface AgentModuleFloorFrame_ACU {
+  schemaVersion: typeof AGENT_MODULE_FRAME_SCHEMA_VERSION_ACU;
+  checkpoint?: {
+    swipeId: string;
+    snapshot: AgentModuleSnapshot_ACU;
+    /** 基线时刻的 partial 草稿栏目（只含值写入）。基线重建会丢弃其前的 delta，草稿必须随基线保存。 */
+    partials?: AgentModuleFieldUpserts_ACU;
+  };
+  deltas: AgentModuleFloorDelta_ACU[];
+}
+
+/** 折叠后的全量快照。水位来自基线或最后一条显式 delta，读取时不再按数组长度钳制。 */
+export interface AgentModuleSnapshot_ACU {
+  schemaVersion: typeof AGENT_MODULE_SCHEMA_VERSION_ACU;
+  settledThroughIndex: number;
+  updatedAt: number;
+  revisions: AgentModuleRevisions_ACU;
+  hooks: AgentHookEntry_ACU[];
+  infoGap: AgentInfoGapEntry_ACU[];
+  constraints: AgentConstraintEntry_ACU[];
+  storyArc: AgentStoryArcEntry_ACU[];
+  chronology: AgentChronologyEntry_ACU[];
+  webRefs: AgentWebRefEntry_ACU[];
+  /** 用户在 Agent 会话里提过的要求。创建任务时机械写入初始要求作为首条，之后只由用户手动维护。 */
+  userRequirements: string[];
+  /** 最近一次正文资料维护的完成状态；旧快照读取为 legacy_unknown。 */
+  materialCompletion: AgentMaterialCompletionRecord_ACU;
+  /** 最近一次容错提交没能入库的模块。旧快照缺该字段时读取为空数组。 */
+  pendingFixes: AgentPendingFix_ACU[];
+}
+
+export const AGENT_WRITABLE_MODULES_ACU = ['hooks', 'infoGap', 'constraints', 'storyArc', 'chronology', 'webRefs', 'userRequirements'] as const;
+export type AgentWritableModule_ACU = typeof AGENT_WRITABLE_MODULES_ACU[number];
+
+/**
+ * 各模块的栏目矩阵。required 为提升为完整领域条目前模型必须写过的栏目；consistencyGroups
+ * 为不可拆开校验的跨字段一致性组（组内任一栏被写时，按合并后的有效值整体校验）。
+ * 可空的非必填栏（如 infoGap.revealIndex、webRefs.tags/summary）提升时按领域缺省补齐。
+ * userRequirements 是整表单例：固定 ID '_'，唯一栏目 value 即整表本体，不允许逐栏拆开。
+ */
+export const AGENT_MODULE_FIELD_MATRIX_ACU: Record<AgentWritableModule_ACU, AgentModuleFieldMatrixEntry_ACU> = {
+  hooks: {
+    fields: ['summary', 'status', 'importance', 'plantedIndex', 'updatedIndex', 'plannedPayoff', 'retired', 'retiredReason'],
+    required: ['summary', 'status', 'importance', 'plantedIndex', 'plannedPayoff'],
+    consistencyGroups: [],
+  },
+  infoGap: {
+    fields: ['topic', 'objectiveFact', 'readerKnown', 'characterKnowledge', 'revealStatus', 'revealIndex', 'retired', 'retiredReason'],
+    required: ['topic', 'objectiveFact', 'readerKnown', 'characterKnowledge', 'revealStatus'],
+    consistencyGroups: [['revealStatus', 'revealIndex']],
+  },
+  constraints: {
+    fields: ['text', 'reason', 'createdIndex'],
+    required: ['text'],
+    consistencyGroups: [],
+  },
+  storyArc: {
+    fields: ['scope', 'title', 'direction', 'escalation', 'withheld', 'status', 'stageNumbers', 'completionStageNumber', 'completionState', 'continuationRationale', 'narrativeRole', 'targetStageRange', 'targetTimeSpan', 'progressCeiling', 'sustainingThreads', 'payoffTargets', 'completionRationale', 'retired', 'retiredReason'],
+    required: ['scope', 'title', 'direction', 'escalation', 'withheld', 'status'],
+    consistencyGroups: [],
+  },
+  chronology: {
+    fields: ['anchor', 'elapsed', 'precision', 'transition', 'evidenceIndexes', 'updatedIndex', 'retired', 'retiredReason'],
+    required: ['anchor', 'elapsed', 'precision', 'transition', 'evidenceIndexes'],
+    consistencyGroups: [],
+  },
+  webRefs: {
+    fields: ['title', 'source', 'url', 'query', 'tags', 'brief', 'summary', 'sourceStatus', 'fetchedAt', 'retired', 'retiredReason'],
+    required: ['title', 'brief', 'url'],
+    consistencyGroups: [],
+  },
+  userRequirements: {
+    fields: ['value'],
+    required: ['value'],
+    consistencyGroups: [],
+  },
+};
+
+/** userRequirements 整表单例在分栏视图中的固定 ID。 */
+export const AGENT_USER_REQUIREMENTS_SINGLETON_ID_ACU = '_' as const;
+
+export const AGENT_SUBAGENT_NAMES_ACU = ['arc-architect', 'hook-cognition-maintainer', 'mainline-planner', 'beat-planner', 'continuity-reviewer', 'web-researcher', 'instruction-composer'] as const;
+export type AgentSubagentName_ACU = typeof AGENT_SUBAGENT_NAMES_ACU[number];
+
+export const AGENT_WEB_RESEARCHER_NAME_ACU = 'web-researcher';
+export const AGENT_INSTRUCTION_COMPOSER_NAME_ACU = 'instruction-composer';
+
+export type AgentSubagentKind_ACU = 'arc' | 'maintain' | 'plan' | 'review' | 'research' | 'compose';
+
+/** 最终审查是 finalize 前由运行时受控触发的内部代理，不进入主 Agent 可委派名称集合。 */
+export const AGENT_FINAL_REVIEWER_NAME_ACU = 'final-reviewer';
+
+/**
+ * 大纲子代理的目录名。它不走通用子代理运行时：主循环拦截对它的派工，
+ * 调用编排器注入的租约内事务回调，由既有大纲规划器完成生成与校验。
+ */
+export const AGENT_OUTLINE_AGENT_NAME_ACU = 'outline-architect';
+
+/** 大纲操作种类。由运行时按 envelope 状态推断，主 Agent 不需要也不允许指定。 */
+export type AgentOutlineOpKind_ACU = 'create' | 'revise' | 'continue';
+
+/** 一次大纲操作的结果。stopped 非空表示任务已被停止（阶段上限/总时长），循环必须中止。 */
+export interface AgentOutlineOpResult_ACU {
+  op: AgentOutlineOpKind_ACU;
+  requiresReview: boolean;
+  stopped: 'stage_limit_reached' | 'duration_reached' | null;
+  summary: string;
+}
+
+/** 主 Agent 一次派工的完整输入。读集用占位符 token 表达，不暴露存储路径；写入范围由子代理职责固定决定。 */
+export interface AgentDelegation_ACU {
+  agentName: string;
+  prompt: string;
+  reads: string[];
+}
+
+/** search 工具可检索的资料域。 */
+export const AGENT_SEARCH_SCOPES_ACU = ['story', 'tables', 'modules', 'outline', 'worldbook'] as const;
+export type AgentSearchScope_ACU = typeof AGENT_SEARCH_SCOPES_ACU[number];
+
+/** 一次 read 工具调用：按地址 token 批量取数。 */
+export interface AgentReadFence_ACU {
+  /** 资料适配器可验证的下边界；未提供时使用适配器合法起点。 */
+  lower?: string | number;
+  /** 资料适配器可验证的上边界；未提供时按请求上下文余量解析。 */
+  upper?: string | number;
+}
+
+/**
+ * 一条资料读取成功时必须能够回溯的围栏证明。
+ * requestedFence 是模型请求的原始边界，resolvedFence 是适配器实际采用的边界。
+ */
+export interface AgentReadFenceProof_ACU {
+  requestedFence?: AgentReadFence_ACU;
+  resolvedFence: AgentReadFence_ACU;
+  stableAddress: string;
+  revision: string | number;
+  completeWithinFence: boolean;
+}
+
+export interface AgentReadCall_ACU {
+  kind: 'read';
+  reads: string[];
+  requestedFence?: AgentReadFence_ACU;
+}
+
+/** 一次 search 工具调用：grep 式跨域检索。 */
+export interface AgentSearchCall_ACU {
+  kind: 'search';
+  query: string;
+  scope: AgentSearchScope_ACU[];
+  isRegex: boolean;
+  maxResults: number;
+}
+
+export type AgentToolCall_ACU = AgentReadCall_ACU | AgentSearchCall_ACU;
+
+/** 百科检索：按关键词在勾选的百科来源里找候选词条。 */
+export interface AgentEncyclopediaSearchCall_ACU {
+  kind: 'encyclopedia_search';
+  query: string;
+  sources: Exclude<AgentWebRefSource_ACU, 'web'>[];
+}
+
+/** 百科精读：按来源 + 词条标题拉取正文，供本次检索子代理归纳。 */
+export interface AgentEncyclopediaReadCall_ACU {
+  kind: 'encyclopedia_read';
+  source: Exclude<AgentWebRefSource_ACU, 'web'>;
+  title: string;
+}
+
+/** 通用网页搜索：走设置里的搜索引擎提供方。 */
+export interface AgentWebSearchCall_ACU {
+  kind: 'web_search';
+  query: string;
+}
+
+/** 任意网页抓取：经酒馆服务器同源转发抓 HTML 并抽纯文本。 */
+export interface AgentWebReadCall_ACU {
+  kind: 'web_read';
+  url: string;
+}
+
+/** 只有 web-researcher 能用的出网工具。 */
+export type AgentWebToolCall_ACU =
+  | AgentEncyclopediaSearchCall_ACU
+  | AgentEncyclopediaReadCall_ACU
+  | AgentWebSearchCall_ACU
+  | AgentWebReadCall_ACU;
+
+export const AGENT_WEB_TOOL_ACTIONS_ACU = ['encyclopedia_search', 'encyclopedia_read', 'web_search', 'web_read'] as const;
+
+/** 主/子代理一次输出里的工具并发批次。多个 read/search JSON 对象组成一批同时执行。 */
+export interface AgentToolsAction_ACU {
+  kind: 'tools';
+  thought: string;
+  calls: AgentToolCall_ACU[];
+}
+
+export interface AgentFinalizeAction_ACU {
+  kind: 'finalize';
+  thought: string;
+  instruction: string;
+  summary: string;
+  /** 长期约束的增量登记：add 只写新增，retire 只写废除（id 或原文）。漏写既有条目不等于删除。 */
+  constraints: { add: string[]; retire: string[] } | null;
+}
+
+export interface AgentDelegateAction_ACU {
+  kind: 'delegate';
+  thought: string;
+  delegations: AgentDelegation_ACU[];
+}
+
+export interface AgentBlockAction_ACU {
+  kind: 'block';
+  thought: string;
+  reason: string;
+  unresolved: string[];
+}
+
+/** 每轮一次的开局决策。固定工作流据此自治执行，主 Agent 不再逐个派管线角色。 */
+export interface AgentOpenRoundAction_ACU {
+  kind: 'open_round';
+  thought: string;
+  focus: string;
+  summary: string;
+  dispatchWebResearcher: boolean;
+}
+
+/**
+ * 大纲句级编辑操作。运行时替模型收尾结构一致性（重算 suggestedTurns/totalTurns），
+ * 模型只表达意图；已完成轮次与当前轮的保护由校验层强制。
+ */
+export type AgentOutlineEditOp_ACU =
+  | {
+      op: 'set_turn_goal';
+      turnId: string;
+      goal: string;
+      pacing?: StageTurnPacing_ACU;
+      function?: StageTurnFunction_ACU;
+      mainlineDelta?: StageTurnMainlineDelta_ACU;
+      timeAdvance?: StageTurnTimeAdvance_ACU;
+      timeAnchor?: string | null;
+    }
+  | {
+      op: 'insert_turn';
+      nodeId: string;
+      afterTurnId: string | null;
+      goal: string;
+      pacing?: StageTurnPacing_ACU;
+      function?: StageTurnFunction_ACU;
+      mainlineDelta?: StageTurnMainlineDelta_ACU;
+      timeAdvance?: StageTurnTimeAdvance_ACU;
+      timeAnchor?: string | null;
+    }
+  | { op: 'remove_turn'; turnId: string }
+  | { op: 'set_node_goal'; nodeId: string; goal: string };
+
+export type AgentMainAction_ACU = AgentFinalizeAction_ACU | AgentDelegateAction_ACU | AgentBlockAction_ACU | AgentToolsAction_ACU | AgentOpenRoundAction_ACU;
+
+/** instruction-composer 的产出。instruction 非空；constraints 走容错登记。 */
+export interface AgentComposerOutput_ACU {
+  summary: string;
+  instruction: string;
+  constraints: { add: string[]; retire: string[] } | null;
+}
+
+/** 运行时硬边界。预留最后一轮让主 Agent 有机会正常交付而不是被突然掐断。 */
+export interface AgentRunBudget_ACU {
+  maxIterations: number;
+  maxDelegations: number;
+  maxSameAgent: number;
+  maxConcurrent: number;
+  /** 主 Agent 一次运行内 read/search 工具批次的次数上限。 */
+  maxReads: number;
+  /** 子代理小循环里工具轮次上限（首轮之外还允许几轮 read/search）。 */
+  maxExtraReads: number;
+}
+
+export const DEFAULT_AGENT_RUN_BUDGET_ACU: AgentRunBudget_ACU = {
+  maxIterations: 4,
+  maxDelegations: 3,
+  maxSameAgent: 2,
+  maxConcurrent: 3,
+  maxReads: 4,
+  maxExtraReads: 3,
+};
+
+/** 一次派工的执行结果。被运行时拒绝的委派也走这里回灌给主 Agent。 */
+export interface AgentDelegationOutcome_ACU {
+  agentName: string;
+  ok: boolean;
+  summary: string;
+  detail: string;
+  rejectedReason: string;
+}
+
+/** 子代理维护类输出解析后的写集事务。patch 只带要改的字段，合并结果仍过全量一致性校验。 */
+export interface AgentModuleDelta_ACU {
+  expectedRevisions: Partial<AgentModuleRevisions_ACU>;
+  hooks: AgentHookDeltaItem_ACU[];
+  hookPatches: AgentHookPatch_ACU[];
+  infoGap: AgentInfoGapDeltaItem_ACU[];
+  infoGapPatches: AgentInfoGapPatch_ACU[];
+  storyArc: AgentStoryArcDeltaItem_ACU[];
+  storyArcPatches: AgentStoryArcPatch_ACU[];
+  chronology: AgentChronologyDeltaItem_ACU[];
+  chronologyPatches: AgentChronologyPatch_ACU[];
+  constraintProposals: string[];
+}
+
+/** 年代学条目的栏级修补：只有显式出现的字段会被修改；证据补丁仍按结算水位校验。 */
+export interface AgentChronologyPatch_ACU {
+  id: string;
+  anchor?: string;
+  elapsed?: string;
+  precision?: AgentChronologyPrecision_ACU;
+  transition?: string;
+  evidenceIndexes?: number[];
+}
+
+/**
+ * 百科资料库条目的写集。URL、来源与检索词通过 pageRef 从本次工具结果回填；
+ * 网页原文仅供 web-researcher 当前轮归纳，不会随条目保存。
+ */
+export interface AgentWebRefDeltaItem_ACU {
+  action: 'upsert' | 'retire';
+  id: string;
+  pageRef: string;
+  title: string;
+  tags: string[];
+  brief: string;
+  summary: string;
+  reason: string;
+}
+
+/** 运行时从 pageRef 回填后的完整条目输入。 */
+export interface AgentWebRefResolvedItem_ACU {
+  action: 'upsert' | 'retire';
+  id: string;
+  title: string;
+  source: AgentWebRefSource_ACU;
+  url: string;
+  query: string;
+  tags: string[];
+  brief: string;
+  summary: string;
+  sourceStatus: AgentWebRefStatus_ACU;
+  reason: string;
+}
+
+/** 百科资料库条目的栏级修补（契约形态，pageRef 尚未回填）。只有显式出现的字段会被修改。 */
+export interface AgentWebRefPatch_ACU {
+  id: string;
+  pageRef?: string;
+  title?: string;
+  tags?: string[];
+  brief?: string;
+  summary?: string;
+}
+
+/** 运行时回填后的百科条目修补：给了 pageRef 的会带回新来源字段，未给的只改内容栏。 */
+export interface AgentWebRefResolvedPatch_ACU {
+  id: string;
+  title?: string;
+  source?: AgentWebRefSource_ACU;
+  url?: string;
+  query?: string;
+  tags?: string[];
+  brief?: string;
+  summary?: string;
+  sourceStatus?: AgentWebRefStatus_ACU;
+}
+
+/** web-researcher 的完整输出。 */
+export interface AgentResearcherOutput_ACU {
+  summary: string;
+  expectedRevision: number | undefined;
+  items: AgentWebRefResolvedItem_ACU[];
+  /** 栏级修补；与 items 同一事务应用，失败整份拒绝。 */
+  patches?: AgentWebRefResolvedPatch_ACU[];
+}
+
+/** 总纲条目的句级修补：只有显式出现的字段会被修改。阶段进度回写通常只需 patch stageNumbers + status。 */
+export interface AgentStoryArcPatch_ACU {
+  id: string;
+  title?: string;
+  direction?: string;
+  escalation?: string;
+  withheld?: string;
+  status?: AgentStoryArcStatus_ACU;
+  stageNumbers?: number[];
+  completionStageNumber?: number | null;
+  completionState?: string;
+  continuationRationale?: string;
+  narrativeRole?: AgentVolumeNarrativeRole_ACU;
+  targetStageRange?: { min: number; max: number };
+  targetTimeSpan?: string;
+  progressCeiling?: string;
+  sustainingThreads?: string[];
+  payoffTargets?: string[];
+  completionRationale?: string;
+}
+
+export interface AgentStoryArcDeltaItem_ACU {
+  action: 'upsert' | 'retire';
+  id: string;
+  scope: AgentStoryArcScope_ACU;
+  title: string;
+  direction: string;
+  escalation: string;
+  withheld: string;
+  status: AgentStoryArcStatus_ACU;
+  /** upsert 时模型是否明确写了 status；省略时对既有条目保留原状态，而不是回落成 planned。 */
+  statusProvided?: boolean;
+  stageNumbers: number[];
+  completionStageNumber: number | null;
+  completionState: string;
+  continuationRationale: string;
+  narrativeRole?: AgentVolumeNarrativeRole_ACU;
+  targetStageRange?: { min: number; max: number };
+  targetTimeSpan?: string;
+  progressCeiling?: string;
+  sustainingThreads?: string[];
+  payoffTargets?: string[];
+  completionRationale?: string;
+  reason: string;
+}
+
+/** 伏笔条目的句级修补：只有显式出现的字段会被修改。 */
+export interface AgentHookPatch_ACU {
+  id: string;
+  summary?: string;
+  status?: AgentHookStatus_ACU;
+  importance?: AgentHookImportance_ACU;
+  plannedPayoff?: string;
+}
+
+/** 信息差条目的句级修补：只有显式出现的字段会被修改。 */
+export interface AgentInfoGapPatch_ACU {
+  id: string;
+  topic?: string;
+  objectiveFact?: string;
+  readerKnown?: string;
+  characterKnowledge?: AgentCharacterKnowledge_ACU[];
+  revealStatus?: AgentRevealStatus_ACU;
+  revealIndex?: number | null;
+}
+
+export interface AgentHookDeltaItem_ACU {
+  action: 'upsert' | 'retire';
+  id: string;
+  summary: string;
+  status: AgentHookStatus_ACU;
+  importance: AgentHookImportance_ACU;
+  plantedIndex: number;
+  plannedPayoff: string;
+  reason: string;
+}
+
+export interface AgentInfoGapDeltaItem_ACU {
+  action: 'upsert' | 'retire';
+  id: string;
+  topic: string;
+  objectiveFact: string;
+  readerKnown: string;
+  characterKnowledge: AgentCharacterKnowledge_ACU[];
+  revealStatus: AgentRevealStatus_ACU;
+  revealIndex: number | null;
+  reason: string;
+}
+
+export interface AgentChronologyDeltaItem_ACU {
+  action: 'upsert' | 'retire';
+  id: string;
+  anchor: string;
+  elapsed: string;
+  precision: AgentChronologyPrecision_ACU;
+  transition: string;
+  evidenceIndexes: number[];
+  reason: string;
+}
+
+/** 子代理维护类的完整输出。资料不足时不再用 needMore 申请重跑，而是在小循环里直接输出 read 工具调用。 */
+export interface AgentMaintainerOutput_ACU {
+  summary: string;
+  delta: AgentModuleDelta_ACU;
+}
+
+/** 子代理策划类的完整输出。外层结构化便于运行时识别，创作内容保持自然语言。 */
+export interface AgentPlannerOutput_ACU {
+  summary: string;
+  recommendation: string;
+  mustPreserve: string[];
+  risks: string[];
+}
+
+export const AGENT_REVIEW_VERDICTS_ACU = ['pass', 'revise', 'block'] as const;
+export type AgentReviewVerdict_ACU = typeof AGENT_REVIEW_VERDICTS_ACU[number];
+
+/** 子代理审查类的完整输出。 */
+export interface AgentReviewerOutput_ACU {
+  verdict: AgentReviewVerdict_ACU;
+  reason: string;
+  fixes: string[];
+}
+
+/** 发送前最终审查的完整输出；只读反馈由 #p5 状态机回灌主 Agent。 */
+export interface AgentFinalReviewerOutput_ACU {
+  verdict: AgentReviewVerdict_ACU;
+  summary: string;
+  emotionFindings: string[];
+  worldFindings: string[];
+  logicFindings: string[];
+  requiredFixes: string[];
+  preserve: string[];
+}
+
+/** 主 Agent 循环最终交付给宿主装配器的结果，字段形状与旧生成器保持一致。 */
+export interface ContinuationAgentTurnPlanResult_ACU {
+  instruction: string;
+  attempts: number;
+  apiPreset: { presetName: string; source: 'current' | 'fixed'; reason: 'fixed_preset' | 'current_configuration' };
+}
+
+/** 一次轮次准备所需的全部外部输入。 */
+export interface ContinuationAgentTurnPlanRequest_ACU {
+  settings: ContinuationSettings_ACU;
+  /** 生产新轮次直接进入固定工作流；恢复与正文重试不启用。 */
+  directOpening?: boolean;
+  /** 宽松执行上下文供应器。大纲操作会改变游标，循环每次迭代都要重新读取。 */
+  readContext: () => ContinuationAgentExecutionContext_ACU;
+  createInternalRequestIdentity: (attempt: number) => ContinuationInternalAiRequestIdentity_ACU & { source: 'turn_instruction' };
+  isInternalRequestCurrent: (identity: ContinuationInternalAiRequestIdentity_ACU) => boolean;
+  /** 大纲操作回调，由编排器在租约内执行。正文重试轮不注入，此时大纲派工被拒绝回灌。 */
+  applyOutline?: (instruction: string) => Promise<AgentOutlineOpResult_ACU>;
+  /** 工作流交付时更新当前轮的非门禁标注；正文重试不调用。 */
+  updateTurnLabel?: (text: string) => Promise<void>;
+  signal?: AbortSignal | null;
+}
+
+export function isAgentSubagentName_ACU(value: unknown): value is AgentSubagentName_ACU {
+  return typeof value === 'string' && (AGENT_SUBAGENT_NAMES_ACU as readonly string[]).includes(value);
+}
+
+export function isAgentWritableModule_ACU(value: unknown): value is AgentWritableModule_ACU {
+  return typeof value === 'string' && (AGENT_WRITABLE_MODULES_ACU as readonly string[]).includes(value);
+}
+
+export function cloneAgentPromptSegments_ACU(segments: readonly ContinuationPromptSegment_ACU[]): ContinuationPromptSegment_ACU[] {
+  return segments.map(segment => ({ ...segment }));
+}

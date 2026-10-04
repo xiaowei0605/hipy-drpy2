@@ -1,0 +1,331 @@
+import { describe, expect, it } from 'vitest';
+import { createWorldSimulationEvidenceRegistry_ACU, recordWorldSimulationEvidence_ACU, snapshotWorldSimulationEvidenceRegistry_ACU } from '../../../../src/service/simulation/world-simulation-evidence-registry';
+import { buildDefaultWorldSimulationAgentPrompts_ACU, worldSimulationDirectorProtocolInstruction_ACU, worldSimulationSpecialistProtocolInstruction_ACU } from '../../../../src/service/simulation/agent/agent-defaults';
+import {
+  compactWorldSimulationProtocolError_ACU,
+  createWorldSimulationProtocolRepairState_ACU,
+  extractFirstWorldSimulationJsonObject_ACU,
+  mergeWorldSimulationJsonDrafts_ACU,
+  parseWorldSimulationJsonDraft_ACU,
+  parseWorldSimulationJsonPayload_ACU,
+  parseWorldSimulationMainAction_ACU,
+  parseWorldSimulationMainOutput_ACU,
+  parseWorldSimulationPlannerOutput_ACU,
+  parseWorldSimulationReviewerResult_ACU,
+  parseWorldSimulationSpecialistResult_ACU,
+  parseWorldSimulationSqlFieldWrites_ACU,
+  recordWorldSimulationProtocolFailure_ACU,
+  renderWorldSimulationDirectorProtocolRejection_ACU,
+  renderWorldSimulationPlannerProtocolRejection_ACU,
+  renderWorldSimulationReviewerProtocolRejection_ACU,
+  renderWorldSimulationSpecialistProtocolRejection_ACU,
+} from '../../../../src/service/simulation/agent/agent-protocol';
+
+const plan = { schemaVersion: 1, title: '阶段一', objective: '推进世界', impactScope: ['北境'], factsToVerify: [], plannedTools: [], plannedSpecialists: [], expectedLedgerChanges: ['clock'], convergenceConditions: ['事实闭合'], blockingConditions: [], completedSteps: [], nextStep: '执行' };
+
+describe('格林推演 Agent 协议', () => {
+  it('提取配平 JSON，并兼容 reasoning、围栏、额外文本和预填充续写', () => {
+    expect(extractFirstWorldSimulationJsonObject_ACU('说明 {"action":"block","reason":"缺证据","unresolved":["时间"]} 尾注')).toContain('"action":"block"');
+    const full = parseWorldSimulationJsonPayload_ACU('<think>内部思考</think>```json\n{"action":"read","reads":["$WORLD"]}\n```', '', ['action']);
+    expect(full.action).toBe('read');
+    const continued = parseWorldSimulationJsonPayload_ACU('推进", "action":"search", "query":"线索"}', '{"thought":"', ['action']);
+    expect(continued).toMatchObject({ action: 'search', query: '线索' });
+  });
+
+  it('只抢救截断 JSON 中已经闭合的完整条目', () => {
+    const draft = parseWorldSimulationJsonDraft_ACU('{"status":"candidate","items":[{"id":"A"},{"id":"B"},{"id":"C', '', ['status']);
+    expect(draft.truncated).toBe(true);
+    expect(draft.payload).toMatchObject({ status: 'candidate', items: [{ id: 'A' }, { id: 'B' }] });
+  });
+
+  it('解析主动作、规划、specialist 和 reviewer 的闭合契约', () => {
+    const registry = createWorldSimulationEvidenceRegistry_ACU('protocol');
+    const ref = recordWorldSimulationEvidence_ACU(registry, { operation: 'initial', address: 'ledger:current', status: 'ok', summary: '当前账本', exact: true }).evidenceRef!;
+    const snapshot = snapshotWorldSimulationEvidenceRegistry_ACU(registry);
+    expect(parseWorldSimulationMainAction_ACU({ action: 'delegate', delegations: [{ agentName: 'macro', instruction: '分析', reads: ['$CLOCK'] }] })).toMatchObject({ kind: 'delegate' });
+    expect(parseWorldSimulationPlannerOutput_ACU({ action: 'plan', summary: '已规划', plan })).toMatchObject({ action: 'plan', plan: { title: '阶段一' } });
+    expect(parseWorldSimulationSpecialistResult_ACU({ status: 'candidate', agentName: 'macro', patch: { clock: { days: 1 } }, summary: '候选', evidenceRefs: [ref], uncertainties: [] }, snapshot)).toMatchObject({ status: 'candidate' });
+    expect(() => parseWorldSimulationSpecialistResult_ACU({ status: 'candidate', agentName: 'macro', patch: { clock: { days: 1 } }, summary: '越权', evidenceRefs: ['E1'], uncertainties: [] }, snapshot)).toThrowError(/EVIDENCE_REF_UNAUTHORIZED/);
+    expect(() => parseWorldSimulationMainAction_ACU({ action: 'finalize', outcome: 'commit', summary: '完成', evidenceRefs: [ref] })).toThrowError(/EVIDENCE_REGISTRY_REQUIRED/);
+    expect(parseWorldSimulationReviewerResult_ACU({ verdict: 'revise', summary: '需修正', findings: [{ severity: 'major', reasonCode: 'TIME_GAP', path: '$.clock', expected: '连续', actual: '跳跃' }], acceptedCandidateIds: [] })).toMatchObject({ verdict: 'revise' });
+    expect(parseWorldSimulationReviewerResult_ACU({ verdict: 'accept', summary: '无台面变化', findings: [], acceptedCandidateIds: ['candidate:1'] })).toMatchObject({ verdict: 'accept', acceptedCandidateIds: ['candidate:1'] });
+    expect(() => parseWorldSimulationReviewerResult_ACU({ verdict: 'accept', summary: '多余 guidance', findings: [], acceptedCandidateIds: ['candidate:1'], guidance: { signals: [], excludedFacts: [] } })).toThrowError(/UNKNOWN_FIELD/);
+    expect(parseWorldSimulationMainAction_ACU({ action: 'open_round', summary: '开局', focus: '时钟', dispatchChronicler: false })).toMatchObject({ kind: 'open_round', focus: '时钟', skipModules: [] });
+  });
+
+  it('在 specialist 边界拒绝非法模块 patch 并保留精确修正路径', () => {
+    const registry = createWorldSimulationEvidenceRegistry_ACU('invalid-specialist-patch');
+    const ref = recordWorldSimulationEvidence_ACU(registry, { operation: 'initial', address: 'ledger:current', status: 'ok', summary: '当前账本', exact: true }).evidenceRef!;
+    const snapshot = snapshotWorldSimulationEvidenceRegistry_ACU(registry);
+    let error: unknown;
+    try {
+      parseWorldSimulationSpecialistResult_ACU({
+        status: 'candidate', agentName: 'lore-researcher',
+        patch: { seeds: [{ id: 'seed-1' }] }, summary: '非法种子候选', evidenceRefs: [ref], uncertainties: [],
+      }, snapshot);
+    } catch (caught) {
+      error = caught;
+    }
+    expect(compactWorldSimulationProtocolError_ACU(error)).toMatchObject({
+      reasonCode: 'INVALID_SPECIALIST_PATCH', path: '$.patch.seeds', expected: 'object',
+    });
+  });
+
+  it('在 specialist 边界允许省略新建 id，但拒绝空串 id；仍允许省略 name 与 expectedRevision', () => {
+    const registry = createWorldSimulationEvidenceRegistry_ACU('missing-entity-label');
+    const ref = recordWorldSimulationEvidence_ACU(registry, { operation: 'initial', address: 'ledger:current', status: 'ok', summary: '当前账本', exact: true }).evidenceRef!;
+    const snapshot = snapshotWorldSimulationEvidenceRegistry_ACU(registry);
+    expect(parseWorldSimulationSpecialistResult_ACU({
+      status: 'candidate', agentName: 'undercurrent-analyst',
+      patch: { dimensions: { upsert: [{ expectedRevision: 0, name: '压力' }] } },
+      summary: '省略 id 的新建维度候选', evidenceRefs: [ref], uncertainties: [],
+    }, snapshot)).toMatchObject({ status: 'candidate' });
+    let error: unknown;
+    try {
+      parseWorldSimulationSpecialistResult_ACU({
+        status: 'candidate', agentName: 'undercurrent-analyst',
+        patch: { dimensions: { upsert: [{ id: '   ', expectedRevision: 0, name: '压力' }] } },
+        summary: '空串 id 的维度候选', evidenceRefs: [ref], uncertainties: [],
+      }, snapshot);
+    } catch (caught) {
+      error = caught;
+    }
+    expect(compactWorldSimulationProtocolError_ACU(error)).toMatchObject({
+      reasonCode: 'INVALID_SPECIALIST_PATCH', path: '$.patch.dimensions.upsert[0].id', expected: 'non-empty string',
+    });
+    expect(parseWorldSimulationSpecialistResult_ACU({
+      status: 'candidate', agentName: 'undercurrent-analyst',
+      patch: { dimensions: { upsert: [{ id: 'dimension-1', value: '12' }] } },
+      summary: '部分字段维度候选', evidenceRefs: [ref], uncertainties: [],
+    }, snapshot)).toMatchObject({ status: 'candidate' });
+  });
+
+  it('只对具备强语义证据的常见状态别名做受控归一化', () => {
+    const registry = createWorldSimulationEvidenceRegistry_ACU('status-alias');
+    const ref = recordWorldSimulationEvidence_ACU(registry, { operation: 'initial', address: 'ledger:current', status: 'ok', summary: '当前账本', exact: true }).evidenceRef!;
+    const snapshot = snapshotWorldSimulationEvidenceRegistry_ACU(registry);
+    const candidate = { agentName: 'macro', patch: { clock: { days: 1 } }, summary: '候选', evidenceRefs: [ref], uncertainties: [] };
+    expect(parseWorldSimulationSpecialistResult_ACU({ status: 'success', ...candidate }, snapshot)).toMatchObject({ status: 'candidate' });
+    expect(parseWorldSimulationSpecialistResult_ACU({ status: 'completed', ...candidate }, snapshot)).toMatchObject({ status: 'candidate' });
+    expect(parseWorldSimulationSpecialistResult_ACU({ status: 'ok', ...candidate }, snapshot)).toMatchObject({ status: 'candidate' });
+    expect(parseWorldSimulationSpecialistResult_ACU({ status: 'unchanged', agentName: 'macro', summary: '无变化', evidenceRefs: [], uncertainties: [] }, snapshot)).toMatchObject({ status: 'no_change' });
+    expect(() => parseWorldSimulationSpecialistResult_ACU({ status: 'success', agentName: 'macro', summary: '缺少 patch', evidenceRefs: [], uncertainties: [] }, snapshot)).toThrowError(/INVALID_SPECIALIST_STATUS/);
+    expect(() => parseWorldSimulationSpecialistResult_ACU({ status: 'success', agentName: 'macro', patch: {}, summary: '空 patch', evidenceRefs: [], uncertainties: [] }, snapshot)).toThrowError(/INVALID_SPECIALIST_STATUS/);
+    expect(() => parseWorldSimulationSpecialistResult_ACU({ status: 'unchanged', agentName: 'macro', patch: { clock: { days: 1 } }, summary: '冲突结构', evidenceRefs: [ref], uncertainties: [] }, snapshot)).toThrowError(/INVALID_SPECIALIST_STATUS/);
+  });
+
+  it('block 缺少机械 unresolved 列表时从有效 reason 安全推导', () => {
+    expect(parseWorldSimulationMainAction_ACU({ action: 'block', reason: '缺少时间证据' })).toEqual({
+      kind: 'block',
+      reason: '缺少时间证据',
+      unresolved: ['缺少时间证据'],
+    });
+  });
+
+  it('specialist 协议拒绝回灌包含角色、受限 SQL 写入范围与合法模板', () => {
+    const message = renderWorldSimulationSpecialistProtocolRejection_ACU({ reasonCode: 'INVALID_SPECIALIST_STATUS', path: '$.status', expected: 'candidate | no_change | failed | blocked', actual: 'success' }, 'timekeeper', ['clock']);
+    expect(message).toContain('status 必须精确为 candidate、no_change、failed、blocked');
+    expect(message).toContain('agentName 必须精确为 timekeeper');
+    expect(message).toContain('sql 只允许写：clock');
+    expect(message).toContain('"status":"candidate"');
+    expect(message).toContain('expected_revision');
+    expect(message).toContain('UPDATE clock');
+    const chroniclerMessage = renderWorldSimulationSpecialistProtocolRejection_ACU({ reasonCode: 'SQL_WHERE_FORBIDDEN', path: '$.sql.where.expected_revision', expected: 'only supported WHERE conditions', actual: 'expected_revision' }, 'chronicler', ['chronicle']);
+    expect(chroniclerMessage).toContain('chronicle 仅 INSERT 新事件、UPDATE 已保存未完成的草稿缺栏');
+    expect(chroniclerMessage).toContain('数组模块 UPDATE/DELETE 的 WHERE 必须带 id、expected_revision');
+  });
+
+  it('reviewer 协议拒绝回灌明确 verdict、finding 结构与三种合法模板', () => {
+    const message = renderWorldSimulationReviewerProtocolRejection_ACU({ reasonCode: 'INVALID_REVIEW_VERDICT', path: '$.verdict', expected: 'accept | revise | reject', actual: 'approved' });
+    expect(message).toContain('verdict 必须精确为 accept、revise、reject');
+    expect(message).toContain('不得使用 approve、approved、pass、success、done 等别名');
+    expect(message).toContain('severity 必须精确为 blocking、major、minor');
+    expect(message).toContain('"verdict":"accept"');
+    expect(message).toContain('"verdict":"revise"');
+    expect(message).toContain('"verdict":"reject"');
+    expect(message).toContain('不得输出 guidance');
+    expect(message).toContain('WORLD_SIMULATION_ENGINE_SEAM');
+  });
+
+  it('planner 协议拒绝回灌包含完整 plan 字段与账本模块白名单', () => {
+    const message = renderWorldSimulationPlannerProtocolRejection_ACU({ reasonCode: 'MISSING_FIELD', path: '$.plan', expected: 'required field', actual: undefined });
+    expect(message).toContain('顶层必须且只能包含 action、summary、plan');
+    expect(message).toContain('schemaVersion、title、objective、impactScope');
+    expect(message).toContain(`expectedLedgerChanges 只能使用：clock | dimensions | seeds | actors | chronicle | guidance | rumors | player`);
+    expect(message).toContain('"action":"plan"');
+    expect(message).toContain('WORLD_SIMULATION_ENGINE_SEAM');
+  });
+
+  it('主输出把多个 read/search 对象收敛为原子工具批次，并拒绝未知字段', () => {
+    const output = parseWorldSimulationMainOutput_ACU(
+      '{"action":"read","reads":["ledger:current"]}\n{"action":"search","query":"边境","scope":["world"],"maxResults":5}\n{"action":"finalize","outcome":"commit","summary":"不能混入"}',
+    );
+    expect(output).toMatchObject({ kind: 'tools', calls: [{ kind: 'read' }, { kind: 'search', maxResults: 5 }] });
+    expect(parseWorldSimulationMainAction_ACU({ action: 'read', reads: 'ledger:current' })).toEqual({ kind: 'read', reads: ['ledger:current'] });
+    expect(parseWorldSimulationMainAction_ACU({ action: 'read', address: 'summary:current' })).toEqual({ kind: 'read', reads: ['summary:current'] });
+    expect(parseWorldSimulationMainAction_ACU({ action: 'read', reads: ['$WORLD_LEDGER'] })).toEqual({ kind: 'read', reads: ['ledger:current'] });
+    expect(parseWorldSimulationMainOutput_ACU(
+      '<WORLD_SIMULATION_ENGINE_SEAM:READ>{"action":"read","reads":["ledger:current"],"evidenceRef":"evidence:run:2","purpose":"核对账本"}</WORLD_SIMULATION_ENGINE_SEAM:READ>',
+    )).toEqual({ kind: 'tools', calls: [{ kind: 'read', reads: ['ledger:current'] }] });
+    expect(parseWorldSimulationMainOutput_ACU(
+      '<WORLD_SIMULATION_ENGINE_SEAM:READ>{"address":"ledger:current"}</WORLD_SIMULATION_ENGINE_SEAM:READ>',
+    )).toEqual({ kind: 'tools', calls: [{ kind: 'read', reads: ['ledger:current'] }] });
+    expect(parseWorldSimulationMainAction_ACU({ action: 'read', reads: ['field:dimensions:dim-a'] })).toEqual({ kind: 'read', reads: ['field:dimensions:dim-a'] });
+    for (const address of ['field:seeds', 'field:actors', 'field:dimensions']) {
+      expect(() => parseWorldSimulationMainAction_ACU({ action: 'read', reads: [address] })).toThrowError(/INVALID_TOOL_ADDRESS/);
+    }
+    expect(() => parseWorldSimulationMainAction_ACU({ action: 'read', reads: ['field:dimensions:dim-a:unknown'] })).toThrowError(/INVALID_TOOL_ADDRESS/);
+
+    expect(() => parseWorldSimulationMainOutput_ACU('{"address":"unknown:address"}')).toThrowError(/INVALID_ACTION/);
+    expect(() => parseWorldSimulationMainAction_ACU({ action: 'read', reads: ['unknown:address'] })).toThrowError(/INVALID_TOOL_ADDRESS/);
+    expect(() => parseWorldSimulationMainAction_ACU({ action: 'read', reads: [] })).toThrowError(/REQUIRED_TEXT_LIST/);
+    expect(() => parseWorldSimulationMainAction_ACU({ action: 'read', reads: ['ledger:current'], extra: true })).toThrowError(/UNKNOWN_FIELD/);
+    expect(() => parseWorldSimulationMainAction_ACU({ action: 'search', query: '边境', maxResults: 0 })).toThrowError(/INVALID_MAX_RESULTS/);
+  });
+
+  it('协议拒绝回灌明确 read/search 字段与服务端 evidenceRef 语义', () => {
+    const message = renderWorldSimulationDirectorProtocolRejection_ACU({ reasonCode: 'UNKNOWN_FIELD', path: '$.evidenceRef', expected: 'no additional fields', actual: 'evidence:run:2' }, true);
+    expect(message).toContain('read 只能包含 action、reads');
+    expect(message).toContain('不要添加 evidenceRef、purpose');
+    expect(message).toContain('field:<module>:<id>');
+    expect(message).toContain('不得使用 field:dimensions 这类裸模块地址');
+    expect(message).toContain('由服务端在读取成功后随工具结果颁发');
+    expect(message).toContain('finalize 顶层只能包含 action、outcome、summary、evidenceRefs');
+    expect(message).toContain('candidateId、acceptedCandidateIds、status、verdict 禁止出现');
+    expect(message).toContain('outcome 必须精确为 commit、no_change、blocked');
+    expect(message).toContain('不得使用 candidate、success、done、finalized 等别名');
+    expect(message).toContain('"action":"finalize","outcome":"commit"');
+    expect(message).toContain('"action":"finalize","outcome":"no_change"');
+    expect(message).toContain('delegate 只能包含 action、delegations');
+    expect(message).toContain('evidenceRefs 只允许出现在 finalize 顶层');
+  });
+
+  it('初始提示词声明受限 SQL DML 与 director 动作字段白名单', () => {
+    const specialist = worldSimulationSpecialistProtocolInstruction_ACU('chronicler', ['chronicle']);
+    expect(specialist).toContain('INSERT');
+    expect(specialist).toContain('INSERT 仍须显式给 expected_revision=0');
+    expect(specialist).toContain('数组行 INSERT 的 id 可省略');
+    expect(specialist).toContain('账本 revision');
+    expect(specialist).toContain('已保存草稿按 missingFields 仅 UPDATE 缺栏');
+    expect(specialist).toContain('字段纪律（逐栏 SQL）：dimensions 新行需 name,kind');
+    const noWrite = worldSimulationSpecialistProtocolInstruction_ACU('lore-researcher', []);
+    expect(noWrite).toContain('不得输出 candidate');
+    expect(noWrite).not.toContain('expectedRevision');
+    const director = worldSimulationDirectorProtocolInstruction_ACU();
+    expect(director).toContain('evidenceRefs 只允许出现在 finalize 顶层');
+    expect(director).toContain('delegate 只能包含 action、delegations');
+    expect(director).toContain('block 只能包含 action、reason、unresolved');
+  });
+
+
+  it('草稿合并只拼接数组和递归对象，标量冲突时 fail-closed', () => {
+    expect(mergeWorldSimulationJsonDrafts_ACU(
+      { status: 'candidate', patch: { actors: [{ id: 'A' }] } },
+      { status: 'candidate', patch: { actors: [{ id: 'B' }], clock: { days: 1 } } },
+    )).toEqual({ status: 'candidate', patch: { actors: [{ id: 'A' }, { id: 'B' }], clock: { days: 1 } } });
+    expect(() => mergeWorldSimulationJsonDrafts_ACU({ status: 'candidate' }, { status: 'failed' })).toThrowError(/DRAFT_MERGE_CONFLICT/);
+  });
+
+  it('结构化错误包含稳定字段，重复指纹和次数共同限制修正', () => {
+    let error: unknown;
+    try { parseWorldSimulationMainAction_ACU({ action: 'block', reason: '', unresolved: [] }); } catch (caught) { error = caught; }
+    expect(compactWorldSimulationProtocolError_ACU(error)).toMatchObject({ reasonCode: 'REQUIRED_TEXT', path: '$.reason', expected: 'non-empty string' });
+    const state = createWorldSimulationProtocolRepairState_ACU(3);
+    expect(recordWorldSimulationProtocolFailure_ACU(state, error).retry).toBe(true);
+    expect(recordWorldSimulationProtocolFailure_ACU(state, error).retry).toBe(false);
+  });
+
+  it('拒绝非法账本模块并保留 INVALID_LEDGER_MODULE', () => {
+    let error: unknown;
+    try {
+      parseWorldSimulationPlannerOutput_ACU({ action: 'plan', summary: '非法模块', plan: { ...plan, expectedLedgerChanges: ['ledger'] } });
+    } catch (caught) {
+      error = caught;
+    }
+    expect(compactWorldSimulationProtocolError_ACU(error)).toMatchObject({
+      reasonCode: 'INVALID_LEDGER_MODULE',
+      path: '$.plan.expectedLedgerChanges',
+      expected: 'clock | dimensions | seeds | actors | chronicle | guidance | rumors | player',
+      actual: 'ledger',
+    });
+  });
+
+  it('允许 chronicle 写权限提交 chronicleArchive，并拒绝空 overview', () => {
+    const registry = createWorldSimulationEvidenceRegistry_ACU('archive-protocol');
+    const ref = recordWorldSimulationEvidence_ACU(registry, { operation: 'initial', address: 'ledger:current', status: 'ok', summary: '当前账本', exact: true }).evidenceRef!;
+    const snapshot = snapshotWorldSimulationEvidenceRegistry_ACU(registry);
+    const parsed = parseWorldSimulationSpecialistResult_ACU({
+        status: 'candidate', agentName: 'chronicler',
+      patch: {
+        chronicleArchive: {
+          archiveEntries: [{ archiveRef: 'arc-1', day: 3, summary: '归档', fingerprints: [], relatedIds: [], sourceChronicleIds: [] }],
+          overviewRows: [{ fingerprint: 'fp', day: 3, oneLine: '第3日 · 归档', archiveRef: 'arc-1' }],
+        },
+      },
+      summary: '归档完结事件', evidenceRefs: [ref], uncertainties: [],
+    }, snapshot);
+    expect(parsed).toMatchObject({ status: 'candidate' });
+    expect(() => parseWorldSimulationSpecialistResult_ACU({
+        status: 'candidate', agentName: 'chronicler',
+      patch: { chronicleArchive: { archiveEntries: [{ archiveRef: 'arc-1' }], overviewRows: [] } },
+      summary: '空目录', evidenceRefs: [ref], uncertainties: [],
+    }, snapshot)).toThrowError(/INVALID_SPECIALIST_PATCH/);
+  });
+
+  it('SQL 写集进入既有 specialist 契约，保留数组、单例、编年及归档字段', () => {
+    const registry = createWorldSimulationEvidenceRegistry_ACU('sql-protocol');
+    const ref = recordWorldSimulationEvidence_ACU(registry, { operation: 'initial', address: 'ledger:current', status: 'ok', summary: '当前账本', exact: true }).evidenceRef!;
+    const snapshot = snapshotWorldSimulationEvidenceRegistry_ACU(registry);
+    const parse = (agentName: string, sql: string, evidenceRefs = [ref]) => parseWorldSimulationSpecialistResult_ACU({ status: 'candidate', agentName, sql, summary: '写入', evidenceRefs, uncertainties: [] }, snapshot);
+    expect(parse('undercurrent-analyst', "INSERT INTO dimensions (id, name, evidence_refs) VALUES ('d1', '压力', '[\"" + ref + "\"]'); UPDATE dimensions SET value = 3 WHERE id = 'd2' AND expected_revision = 1; DELETE FROM dimensions WHERE id = 'd3' AND reason = '过期' AND expected_revision = 2;")).toMatchObject({ patch: { dimensions: { upsert: [{ id: 'd1', name: '压力', evidenceRefs: [ref] }, { id: 'd2', value: 3, expectedRevision: 1 }], remove: [{ id: 'd3', reason: '过期', expectedRevision: 2 }] } } });
+    expect(parse('timekeeper', "UPDATE clock SET days = 1, story_time = '次日' WHERE expected_revision = 0;")).toMatchObject({ patch: { clock: { days: 1, storyTime: '次日', expectedRevision: 0 } } });
+    expect(parse('chronicler', "INSERT INTO chronicle (summary) VALUES ('一件事'); DELETE FROM chronicle WHERE id = 'ch1' AND reason = '重复'; INSERT INTO chronicle_archive (archive_ref, day, summary) VALUES ('arc1', 1, '归档'); INSERT INTO chronicle_overview (archive_ref, day, one_line) VALUES ('arc1', 1, '摘要');")).toMatchObject({ patch: { chronicle: { append: [{ summary: '一件事' }], remove: [{ id: 'ch1', reason: '重复' }] }, chronicleArchive: { archiveEntries: [{ archiveRef: 'arc1', day: 1, summary: '归档' }], overviewRows: [{ archiveRef: 'arc1', day: 1, oneLine: '摘要' }] } } });
+    expect(() => parse('timekeeper', "UPDATE clock SET days = 1 WHERE expected_revision = 0;", ['forged'])).toThrowError(/EVIDENCE_REF_UNAUTHORIZED/);
+  });
+
+  it('SQL 写入拒绝未知表列、丢弃条件、错误 revision 与混合写集，并提供结构化诊断', () => {
+    const registry = createWorldSimulationEvidenceRegistry_ACU('sql-rejection');
+    const ref = recordWorldSimulationEvidence_ACU(registry, { operation: 'initial', address: 'ledger:current', status: 'ok', summary: '当前账本', exact: true }).evidenceRef!;
+    const snapshot = snapshotWorldSimulationEvidenceRegistry_ACU(registry);
+    const parse = (sql: string, extras = {}) => parseWorldSimulationSpecialistResult_ACU({ status: 'candidate', agentName: 'timekeeper', sql, summary: '候选', evidenceRefs: [ref], uncertainties: [], ...extras }, snapshot);
+    for (const [sql, reasonCode] of [
+      ["INSERT INTO secrets (id) VALUES ('x')", 'SQL_TABLE_FORBIDDEN'],
+      ["DELETE FROM constructor WHERE id = 'x' AND reason = '不可写' AND expected_revision = 0", 'SQL_TABLE_FORBIDDEN'],
+      ["UPDATE clock SET arbitrary = 1 WHERE expected_revision = 0", 'SQL_COLUMN_FORBIDDEN'],
+      ["UPDATE clock SET days = 1 WHERE expected_revision = 0 AND id = 'x'", 'SQL_WHERE_FORBIDDEN'],
+      ["UPDATE clock SET days = 1 WHERE expected_revision = NULL", 'SQL_REVISION_INVALID'],
+      ['DROP TABLE clock', 'SQL_INVALID'],
+    ] as const) {
+      let error: unknown;
+      try { parse(sql); } catch (caught) { error = caught; }
+      expect(compactWorldSimulationProtocolError_ACU(error).reasonCode, sql).toBe(reasonCode);
+    }
+    expect(() => parse("UPDATE clock SET days = 1 WHERE expected_revision = 0", { patch: { clock: { days: 1 } } })).toThrowError(/SQL_PATCH_AMBIGUOUS/);
+  });
+});
+
+describe('格林推演逐栏 SQL 意图', () => {
+  it('非法栏目逐栏拒绝且保留合法栏目，陈旧 revision 交给提交器校验', () => {
+    const result = parseWorldSimulationSqlFieldWrites_ACU("UPDATE actors SET goals = '[\"寻找线索\"]', made_up = 'x' WHERE id = 'actor-1' AND expected_revision = 2", 'dramatis-keeper');
+    expect(result.intents).toMatchObject([{ module: 'actors', id: 'actor-1', expectedRevision: 2, fields: { goals: ['寻找线索'] } }]);
+    expect(result.rejected).toEqual([expect.objectContaining({ path: 'sql[0].actors.made_up' })]);
+  });
+
+  it('角色权限、单例条件及归档操作 fail-closed', () => {
+    expect(parseWorldSimulationSqlFieldWrites_ACU("INSERT INTO actors (id, name, expected_revision) VALUES ('actor-1', 'A', 0)", 'timekeeper').intents).toEqual([]);
+    expect(parseWorldSimulationSqlFieldWrites_ACU("UPDATE clock SET story_time = '次日' WHERE id = 'fake' AND expected_revision = 0", 'timekeeper').rejected).toHaveLength(1);
+    expect(parseWorldSimulationSqlFieldWrites_ACU("DELETE FROM chronicle_archive WHERE archive_ref = 'a' AND reason = 'b'", 'chronicler').intents).toEqual([]);
+  });
+
+  it('编年补栏只接受明确 ID 和 revision=0，仍拒绝无条件 UPDATE', () => {
+    const update = parseWorldSimulationSqlFieldWrites_ACU("UPDATE chronicle SET summary = '新事实' WHERE id = 'chr-1' AND expected_revision = 0", 'chronicler');
+    expect(update.intents).toMatchObject([{ kind: 'update', module: 'chronicle', id: 'chr-1', expectedRevision: 0, fields: { summary: '新事实' } }]);
+    expect(parseWorldSimulationSqlFieldWrites_ACU("UPDATE chronicle SET summary = '新事实' WHERE id = 'chr-1'", 'chronicler').intents).toEqual([]);
+    expect(parseWorldSimulationSqlFieldWrites_ACU("UPDATE chronicle SET summary = '新事实' WHERE id = 'chr-1' AND expected_revision = 1", 'chronicler').intents).toEqual([]);
+  });
+
+  it('语法损坏与无效 revision 不伪造写入', () => {
+    expect(() => parseWorldSimulationSqlFieldWrites_ACU('DROP TABLE actors', 'dramatis-keeper')).toThrow();
+    expect(parseWorldSimulationSqlFieldWrites_ACU("UPDATE actors SET name = 'A' WHERE id = 'actor-1' AND expected_revision = -1", 'dramatis-keeper').intents).toEqual([]);
+  });
+});

@@ -1,0 +1,5 @@
+allowBuilds:
+  esbuild: true
+  vue-demi: true
+minimumReleaseAgeExclude:
+  - pinyin-pro@3.28.2

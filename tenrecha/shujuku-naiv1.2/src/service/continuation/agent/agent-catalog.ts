@@ -1,0 +1,323 @@
+/**
+ * service/continuation/agent/agent-catalog.ts — 子代理能力目录与资料模块目录
+ *
+ * 主 Agent 只看到摘要：代理能做什么、何时该用、职责固定写什么。
+ * 子代理种子与工具调阅遵守角色 profile；主 Agent 保留自身的读取权限。
+ * 写入范围由职责（kind）固定推得，读写均须通过运行时校验。
+ * 子代理的完整系统提示词不暴露给主 Agent，避免主 Agent 被无关细节淹没。
+ */
+
+import { AGENT_FINAL_REVIEWER_NAME_ACU, AGENT_INSTRUCTION_COMPOSER_NAME_ACU, AGENT_OUTLINE_AGENT_NAME_ACU, AGENT_WEB_RESEARCHER_NAME_ACU, type AgentSubagentKind_ACU, type AgentSubagentName_ACU } from './agent-model';
+import type { AgentWritableModule_ACU } from './agent-model';
+import type { AgentNativeToolName_ACU } from '../../ai/native-tool';
+import type { AgentToolMode_ACU } from '../../ai/agent-tool-mode';
+
+export interface AgentSubagentDefinition_ACU {
+  name: AgentSubagentName_ACU;
+  kind: AgentSubagentKind_ACU;
+  description: string;
+  triggers: string[];
+  promptKey: 'arcArchitect' | 'maintainer' | 'mainlinePlanner' | 'beatPlanner' | 'reviewer' | 'webResearcher' | 'instructionComposer';
+}
+
+/** 目录渲染的可选开关：网页检索关闭时，web-researcher 及其资料模块不进主 Agent 视野。 */
+export interface AgentCatalogOptions_ACU {
+  webResearchEnabled?: boolean;
+}
+
+/**
+ * 角色化资料访问 profile：快照保留、read 地址授权和原生工具白名单必须从同一份契约派生。
+ * readPrefixes 只描述地址轴前缀；具体正文仍由 resolver 的完整性证明和批次门禁决定。
+ */
+export interface AgentSubagentAccessProfile_ACU {
+  snapshotTokens: readonly string[];
+  readPrefixes: readonly string[];
+  tools: readonly AgentNativeToolName_ACU[];
+  allowSearch: boolean;
+}
+
+export const AGENT_SUBAGENT_ACCESS_PROFILES_ACU: Record<AgentSubagentKind_ACU, AgentSubagentAccessProfile_ACU> = {
+  arc: {
+    snapshotTokens: ['$STORY_ARC', '$OUTLINE_WINDOW', '$STORY_TAIL', '$STORY_OVERVIEW', '$WORLDBOOK_CATALOG', '$USER_REQUIREMENTS'],
+    readPrefixes: ['$STORY_ARC', '$STORY_RANGE', '$TABLE', '$WORLDBOOK'],
+    tools: ['read', 'search'],
+    allowSearch: true,
+  },
+  maintain: {
+    snapshotTokens: ['$HISTORY_UNSETTLED', '$HOOKS_LEDGER', '$INFO_GAP', '$CHRONOLOGY', '$USER_REQUIREMENTS'],
+    readPrefixes: ['$HISTORY_UNSETTLED', '$STORY_RANGE', '$TABLE'],
+    tools: ['read'],
+    allowSearch: false,
+  },
+  plan: {
+    snapshotTokens: ['$OUTLINE_WINDOW', '$STORY_TAIL', '$STORY_OVERVIEW', '$STORY_ARC', '$HOOKS_LEDGER', '$INFO_GAP', '$USER_REQUIREMENTS'],
+    readPrefixes: ['$OUTLINE_WINDOW', '$HISTORY_UNSETTLED', '$STORY_RANGE', '$TABLE', '$STORY_ARC', '$HOOKS_LEDGER', '$INFO_GAP', '$ACTIVE_CONSTRAINTS', '$CHRONOLOGY', '$WORLDBOOK'],
+    tools: ['read'],
+    allowSearch: false,
+  },
+  review: {
+    snapshotTokens: ['$OUTLINE_WINDOW', '$STORY_TAIL', '$STORY_ARC', '$HOOKS_LEDGER', '$ACTIVE_CONSTRAINTS', '$WORLDBOOK_HITS', '$USER_REQUIREMENTS'],
+    readPrefixes: ['$OUTLINE_WINDOW', '$STORY_RANGE', '$TABLE', '$STORY_ARC', '$FIELD:storyArc', '$HOOKS_LEDGER', '$ACTIVE_CONSTRAINTS', '$CHRONOLOGY', '$WEB_REFS', '$WORLDBOOK'],
+    tools: ['read'],
+    allowSearch: false,
+  },
+  research: {
+    snapshotTokens: ['$WEB_REFS', '$WEB_TOOL_CATALOG', '$STORY_TAIL', '$TABLE_CATALOG', '$USER_REQUIREMENTS'],
+    readPrefixes: ['$STORY_RANGE', '$TABLE', '$STORY_ARC', '$HOOKS_LEDGER', '$INFO_GAP', '$ACTIVE_CONSTRAINTS', '$CHRONOLOGY', '$WEB_REFS', '$WORLDBOOK'],
+    tools: ['read', 'search', 'encyclopedia_search', 'encyclopedia_read', 'web_search', 'web_read'],
+    allowSearch: true,
+  },
+  compose: {
+    snapshotTokens: ['$OUTLINE_WINDOW', '$STORY_ARC', '$STORY_TAIL', '$HOOKS_LEDGER', '$ACTIVE_CONSTRAINTS', '$CHRONOLOGY', '$USER_REQUIREMENTS'],
+    readPrefixes: [],
+    tools: [],
+    allowSearch: false,
+  },
+};
+
+const AGENT_MODULE_READ_PREFIXES_ACU: Record<AgentWritableModule_ACU, readonly string[]> = {
+  storyArc: ['$STORY_ARC', '$FIELD:storyArc'],
+  hooks: ['$HOOKS_LEDGER', '$FIELD:hooks'],
+  infoGap: ['$INFO_GAP', '$FIELD:infoGap'],
+  chronology: ['$CHRONOLOGY', '$FIELD:chronology'],
+  constraints: ['$ACTIVE_CONSTRAINTS', '$FIELD:constraints'],
+  webRefs: ['$WEB_REFS', '$FIELD:webRefs'],
+  userRequirements: ['$USER_REQUIREMENTS'],
+};
+
+export function getAgentSubagentAccessProfile_ACU(kind: AgentSubagentKind_ACU): AgentSubagentAccessProfile_ACU {
+  return AGENT_SUBAGENT_ACCESS_PROFILES_ACU[kind];
+}
+
+export function getAgentSubagentReadPrefixes_ACU(kind: AgentSubagentKind_ACU, writes: readonly AgentWritableModule_ACU[]): string[] {
+  return [...new Set([
+    ...AGENT_SUBAGENT_ACCESS_PROFILES_ACU[kind].readPrefixes,
+    ...writes.flatMap(module => AGENT_MODULE_READ_PREFIXES_ACU[module]),
+  ])];
+}
+
+export interface AgentModuleDefinition_ACU {
+  token: string;
+  description: string;
+  triggers: string[];
+  writableBy: AgentSubagentName_ACU[];
+}
+
+/**
+ * 终审只允许由 finalize 前的受控运行时入口调用，绝不能出现在主 Agent 的 delegate 目录中。
+ */
+export const AGENT_FINAL_REVIEWER_DEFINITION_ACU = {
+  name: AGENT_FINAL_REVIEWER_NAME_ACU,
+  kind: 'review' as const,
+  description: '发送前最终审查：核对人物情绪、世界书证据和逻辑边界，只读不写',
+  promptKey: 'finalReviewer' as const,
+};
+
+export const AGENT_SUBAGENT_DEFINITIONS_ACU: readonly AgentSubagentDefinition_ACU[] = [
+  {
+    name: 'arc-architect',
+    kind: 'arc',
+    description: '维护故事总纲：全书方向、卷级台阶（每卷推到什么高度、收在哪）、禁止提前翻的底牌，以及各卷已由哪些阶段承载的进度',
+    triggers: ['总纲状态显示「还没有故事总纲」时必须先派它', '一个阶段完成后回写进度、必要时把下一卷切成 active', '真实剧情已明显偏离既定方向、需要修订台阶时', '底牌被正文提前翻开、总纲的禁翻清单需要更新时', '当前卷的目标已实际收束或明显提前/推迟，台阶划分需要调整时'],
+    promptKey: 'arcArchitect',
+  },
+  {
+    name: 'hook-cognition-maintainer',
+    kind: 'maintain',
+    description: '结算已经发生的正文：维护伏笔账本、认知信息差时间线与故事年代学账本，只登记真实历史里已实际发生的变化',
+    triggers: ['存在尚未结算的真实历史', '新正文出现异常线索、秘密、反常细节', '已有伏笔被再次触碰', '某个角色的知晓状态发生变化', '正文实际发生了跨夜、数日或更久的时间流逝'],
+    promptKey: 'maintainer',
+  },
+  {
+    name: 'mainline-planner',
+    kind: 'plan',
+    description: '按本轮 pacing 策划场景：pressure/turn 给冲突阶梯、主角选择与实质价值变动；setup/cooldown 给具体生活动作、人物互动与非危机变化，允许主线 hold。输出叙事功能、主线增量与时间关系建议，不写正文、不改资料',
+    triggers: ['每轮都需要本轮场景策划建议（派工时写明 pacing）', 'pressure/turn 轮需要冲突升级或价值转移方案', 'setup/cooldown 轮需要具体的日常、恢复或经营内容而非空泛判词'],
+    promptKey: 'mainlinePlanner',
+  },
+  {
+    name: 'beat-planner',
+    kind: 'plan',
+    description: '策划本轮伏笔操作与情绪节拍：给出埋设、强化、误导、回收的具体手法、信息差走到哪一步与收尾方式建议；低压轮允许无操作、安静闭合，不写正文、不改资料',
+    triggers: ['本轮计划操作伏笔', '本轮信息差需要设置、使用或揭示（揭示后允许结束，不强制补新谜团）', '情绪节拍需要承接上轮残留'],
+    promptKey: 'beatPlanner',
+  },
+  {
+    name: AGENT_WEB_RESEARCHER_NAME_ACU,
+    kind: 'research',
+    description: '从互联网查原作与公开设定：优先萌娘百科、维基百科、百度百科，查不到再用搜索引擎与网页抓取；把有用的页面写成带摘要的百科资料库条目（$WEB_REFS）供其它代理阅读。只登记原作/公开常识，不写本故事剧情',
+    triggers: ['任务启用了开场检索且资料库为空时由运行时自动派工，无需你派', '正文或大纲新登场了原作人物、组织、地点、能力、术语，而百科资料库与世界书都没有对应条目', '需要核对某个原作设定（关系、能力边界、时间线、禁忌）而现有资料无法回答'],
+    promptKey: 'webResearcher',
+  },
+  {
+    name: AGENT_INSTRUCTION_COMPOSER_NAME_ACU,
+    kind: 'compose',
+    description: '通读结算后的资料、策划建议、审查结论、用户要求与活跃约束，产出本轮写作指令。由固定工作流调用，主 Agent 不能派工。',
+    triggers: ['固定工作流在策划与审查之后自动调用'],
+    promptKey: 'instructionComposer',
+  },
+];
+
+export const AGENT_MODULE_DEFINITIONS_ACU: readonly AgentModuleDefinition_ACU[] = [
+  {
+    token: '$STORY_ARC',
+    description: '故事总纲：全书方向（唯一一条）与卷级台阶。卷台阶包含结构职责、阶段容量、故事时间、主线进度上限、持续经营线、兑现目标、收束状态与真实阶段进度',
+    triggers: ['排新阶段大纲前确认本阶段该落在哪一级台阶上', '判断某张底牌本阶段能不能翻', '一个阶段完成后回写进度'],
+    writableBy: ['arc-architect'],
+  },
+  {
+    token: '$HOOKS_LEDGER',
+    description: '伏笔账本：已进入真实正文的伏笔及其生命周期状态（埋设/强化/误导/部分回收/回收/放弃）、埋设楼层与重要度',
+    triggers: ['正文触碰异常线索', '本轮计划强化、误导或回收伏笔', '判断某条悬念是否已经欠账太久'],
+    writableBy: ['hook-cognition-maintainer'],
+  },
+  {
+    token: '$INFO_GAP',
+    description: '认知与信息差时间线：客观事实、读者已知、各角色知晓状态与揭示进度',
+    triggers: ['设计局部信息揭露', '判断某个角色此刻是否该知道某件事', '避免提前揭穿幕后'],
+    writableBy: ['hook-cognition-maintainer'],
+  },
+  {
+    token: '$ACTIVE_CONSTRAINTS',
+    description: '长期约束：契约红线、禁止提前释放的底牌、已知连贯性风险。子代理只能提议，由主 Agent 裁决后登记',
+    triggers: ['本轮动作可能越过既定红线', '需要确认哪些底牌本轮不能翻'],
+    writableBy: [],
+  },
+  {
+    token: '$CHRONOLOGY',
+    description: '故事年代学账本：已发生正文结算出的故事时间事实——当前相对时间锚、自故事起点累计经过时间、精度（exact/approximate/unknown）、每次时间转换及其正文证据楼层。大纲里的时间字段是计划，不在此账本内',
+    triggers: ['规划或审查跨夜、数日、数周及更久的时间跳跃', '核对伤势恢复、训练/生产周期、旅行耗时、季节天气与关系熟悉度是否与累计时间相容', '最终指导需要给出可靠的相对时间锚'],
+    writableBy: ['hook-cognition-maintainer'],
+  },
+  {
+    token: '$WEB_REFS',
+    description: '百科资料库：web-researcher 从萌娘百科、维基百科、百度百科或网页查到的原作/公开设定，按实体（人物、法术、物品、组织、事件…）分条，每条固定有名称与一句话简介，另有自由格式详情与来源链接。目录与全量读只给「名称 + 简介」预览，详情按 ID 精读；网页原文不保存。它是外部参考，不是本故事已发生的事实；与世界书或正文冲突时以世界书和正文为准',
+    triggers: ['同人写作需要核对原作人物关系、能力边界、组织与地点设定', '大纲或策划涉及原作术语而世界书没有覆盖', '审查候选指导是否违背原作常识'],
+    writableBy: [AGENT_WEB_RESEARCHER_NAME_ACU],
+  },
+  {
+    token: '$USER_REQUIREMENTS',
+    description: '用户要求资料区：用户在 Agent 会话里对任务提过的要求，逐条分行。创建任务时机械写入 originInstruction 作为首条；之后由用户在资料面板手动维护，AI 不写',
+    triggers: ['规划、审查或写作需要遵守用户累计提出的任务要求', '用户中途补充、修正或覆盖了此前的要求'],
+    writableBy: [],
+  },
+];
+
+/** 子代理目录里的类型中文名。 */
+const KIND_DISPLAY_LABELS_ACU: Record<AgentSubagentKind_ACU, string> = {
+  arc: '总纲',
+  maintain: '结算维护',
+  plan: '策划',
+  review: '审查',
+  research: '网页检索',
+  compose: '写作指令',
+};
+
+/** 按职责固定的写入说明，进子代理目录的「写入」行。 */
+const KIND_WRITE_LABELS_ACU: Record<AgentSubagentKind_ACU, string> = {
+  arc: '$STORY_ARC（职责固定；不碰伏笔、信息差与约束）',
+  maintain: '$HOOKS_LEDGER、$INFO_GAP、$CHRONOLOGY（职责固定；约束只能提议，由主 Agent 裁决登记）',
+  plan: '无（只返回建议）',
+  review: '无（只返回判词）',
+  research: '$WEB_REFS（职责固定；只写外部参考资料，不碰叙事模块）',
+  compose: '无（只产出写作指令；constraints 增量由运行时容错登记）',
+};
+
+function isDefinitionVisible_ACU(name: AgentSubagentName_ACU, options?: AgentCatalogOptions_ACU): boolean {
+  // 总纲与写作指令都由 open_round 固定工作流内部调度，不向主 Agent 暴露直接派工入口。
+  if (name === AGENT_INSTRUCTION_COMPOSER_NAME_ACU || name === 'arc-architect') return false;
+  if (name === AGENT_WEB_RESEARCHER_NAME_ACU) return options?.webResearchEnabled === true;
+  return true;
+}
+
+/**
+ * 渲染子代理能力目录。
+ * @returns 主 Agent 可见的摘要文本，不含子代理内部提示词
+ */
+export function renderAgentSubagentCatalog_ACU(options?: AgentCatalogOptions_ACU): string {
+  const blocks = AGENT_SUBAGENT_DEFINITIONS_ACU
+    .filter(definition => isDefinitionVisible_ACU(definition.name, options))
+    .map(definition => [
+      `- name: ${definition.name}`,
+      `  类型: ${KIND_DISPLAY_LABELS_ACU[definition.kind]}`,
+      `  职责: ${definition.description}`,
+      `  适用时机: ${definition.triggers.join('；')}`,
+      definition.kind === 'research'
+        ? '  读取: 按角色 profile 调阅本地资料，并能出网（百科 API、搜索引擎、网页抓取）；派工 prompt 写清要查的作品、人物或设定名，reads 可留空'
+        : `  读取: 仅限角色 profile 的自有/强相关地址；派工时用 reads 给出种子地址${getAgentSubagentAccessProfile_ACU(definition.kind).allowSearch ? '，并可用 search 定位' : '，不提供 search 工具'}`,
+      `  写入: ${KIND_WRITE_LABELS_ACU[definition.kind]}`,
+    ].join('\n'));
+  return blocks.join('\n');
+}
+
+/**
+ * 渲染资料模块目录。
+ * @param options 网页检索关闭且资料库为空时不列 $WEB_REFS，避免主 Agent 去读一个不存在的库
+ * @returns 主 Agent 可见的模块摘要文本，只说模块是什么、何时用、谁能写
+ */
+export function renderAgentModuleCatalog_ACU(options?: AgentCatalogOptions_ACU & { webRefsPresent?: boolean }): string {
+  const blocks = AGENT_MODULE_DEFINITIONS_ACU
+    .filter(definition => definition.token !== '$WEB_REFS' || options?.webResearchEnabled === true || options?.webRefsPresent === true)
+    .map(definition => [
+      `- 占位符: ${definition.token}`,
+      `  内容: ${definition.description}`,
+      `  适用时机: ${definition.triggers.join('；')}`,
+      `  可写代理: ${definition.writableBy.length ? definition.writableBy.join('、') : '仅主 Agent 裁决后登记'}`,
+    ].join('\n'));
+  return blocks.join('\n');
+}
+
+/**
+ * 渲染读集地址词汇表：read / search 工具能用的全部地址体系。
+ * 主 Agent 与子代理共用同一份（$AGENT_READ_CATALOG），保证派工 reads 里写的地址
+ * 子代理一定解析得了。各资料的具体可用地址以对应目录（正文/表格/世界书）为准。
+ * @returns 词汇表文本
+ */
+export function renderAgentReadCatalog_ACU(toolMode: AgentToolMode_ACU): string {
+  return [
+    'read 在已经有地址时使用；还不知道地址时先 search。参数 reads 可混用多种地址，一次批量取数：',
+    '- $STORY_RANGE:起始楼-结束楼：可读窗口内的 AI 正文楼层区间，逐楼全文。可用楼层与窗口范围见正文目录。',
+    '- $TABLE:表名 / $TABLE:表名:起始行-结束行：整表或行区间。可用表名与行数见表格目录。',
+    '- $STORY_ARC / $STORY_ARC:ID,ID：故事总纲全部活跃条目（全书方向与卷台阶），或按 ID 精读（含已废止条目）。',
+    '- $HOOKS_LEDGER / $HOOKS_LEDGER:ID,ID：伏笔账本全部活跃条目，或按 ID 精读（含已退休条目）。',
+    '- $INFO_GAP / $INFO_GAP:ID,ID：认知与信息差时间线全部活跃条目，或按 ID 精读。',
+    '- $ACTIVE_CONSTRAINTS / $ACTIVE_CONSTRAINTS:ID,ID：长期约束全部条目，或按 ID 精读。',
+    '- $CHRONOLOGY / $CHRONOLOGY:ID,ID：故事年代学账本（已发生正文结算出的时间锚、累计经过时间与转换证据），或按 ID 精读（含已作废条目）。',
+    '- $WEB_REFS / $WEB_REFS:ID,ID：百科资料库——全量只给每条「名称 + 一句话简介」预览；按 ID 精读才有自由格式详情与来源链接，不保存网页原文。它是原作/公开设定的外部参考，不是本故事事实。',
+    '- $USER_REQUIREMENTS：用户在 Agent 会话里累计提过的任务要求，逐条分行；由系统在历史压缩后维护，不是正文事实。',
+    '- $WORLDBOOK:书名:uid[,uid]：已启用世界书条目全文。已触发的内容见末尾快照，不必重复 read；未命中条目可从目录或 search（scope=["worldbook"]）取得地址后精读。目录标注 token 数以便分配预算。',
+    '- $STORY_CATALOG / $STORY_OVERVIEW / $STORY_TAIL / $OUTLINE_WINDOW / $HISTORY_UNSETTLED：楼层索引、事件概览、尾部正文全文、完整大纲窗口、未结算正文全量。',
+    '- 早期剧情的详细纪要在纪要表里：$TABLE:纪要表:起始行-结束行 按行区间精读（行号见事件概览与表格目录）。',
+    toolMode === 'tools'
+      ? 'search 使用函数调用。参数示例：{"query":"关键词或正则","scope":["story","tables","modules","outline","worldbook"],"isRegex":false,"maxResults":30}。'
+      : 'search 输出 JSON 动作：{"action":"search","query":"关键词或正则","scope":["story","tables","modules","outline","worldbook"],"isRegex":false,"maxResults":30}；read 输出 {"action":"read","reads":["授权地址"]}。',
+    '命中行会带上可直接复制进 read 的地址；先 search 定位、再用窄地址精读，比整读省预算。',
+  ].join('\n');
+}
+
+/**
+ * 按名称查子代理定义。
+ * @param name 代理名
+ * @returns 命中的定义；未知代理返回 null
+ */
+export function findAgentSubagentDefinition_ACU(name: string): AgentSubagentDefinition_ACU | null {
+  return AGENT_SUBAGENT_DEFINITIONS_ACU.find(definition => definition.name === name) ?? null;
+}
+
+/**
+ * 渲染 web-researcher 的出网工具说明：按设置列出启用的百科来源、搜索提供方与页数上限。
+ * 只注入该子代理，主 Agent 与其它子代理看不到这些动作名。
+ */
+export function renderAgentWebToolCatalog_ACU(input: { sources: string[]; provider: string; maxPages: number; pageCharLimit: number; pagesUsed: number }, toolMode: AgentToolMode_ACU): string {
+  const sourceText = input.sources.length ? input.sources.join('、') : '（全部百科来源已关闭，只能用 web_search / web_read）';
+  return [
+    toolMode === 'tools'
+      ? '出网工具 encyclopedia_search、encyclopedia_read、web_search、web_read 都是函数调用，和本地 read/search 一样，可以在同一次回复里并发调用，不要写成 JSON。结果里的页面带句柄 P1、P2…，契约里用 pageRef 引用它们。继续调用工具时，把上一批页面要留下的事实放进 notes 参数。'
+      : '出网工具 encyclopedia_search、encyclopedia_read、web_search、web_read 都输出 JSON 动作，action 填工具名，其余字段填下列参数，可与本地 read/search 在同一次回复输出多个对象。例如 {"action":"encyclopedia_search","query":"角色名","notes":"待核实的设定"}。结果里的页面带句柄 P1、P2…，用 pageRef 引用。继续调阅时，把上一批页面要留下的事实放进 notes 字段。',
+    `- 调用 encyclopedia_search，参数 query 为「角色名 或 作品名」，sources 例如 ["moegirl","wikipedia_zh"]。sources 省略即用全部启用来源：${sourceText}。萌娘按标题前缀匹配、百度按精确词条名匹配，查不到就换全名或作品内译名。`,
+    '- 调用 encyclopedia_read，参数 source 为 moegirl，title 为候选里的准确标题。精读词条正文，返回带句柄的页面。',
+    `- 调用 web_search，参数 query 为关键词。通用搜索（提供方：${input.provider}），返回标题、链接与摘要；百科查不到的冷门设定再用它。`,
+    '- 调用 web_read，参数 url 为完整网址。抓取任意网页正文。内网、酒馆自身与黑名单域名会被拒绝。',
+    `每次精读/抓取算一页，本次派工最多 ${input.maxPages} 页（已用 ${input.pagesUsed}），每页原文截断到 ${input.pageCharLimit} 字。同一页面不要重复抓取。`,
+  ].join('\n');
+}

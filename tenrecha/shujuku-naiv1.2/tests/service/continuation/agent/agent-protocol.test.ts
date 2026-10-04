@@ -1,0 +1,379 @@
+import { describe, expect, it } from 'vitest';
+
+import {
+  compactAgentProtocolError_ACU,
+  extractFirstJsonObject_ACU,
+  parseAgentJsonPayload_ACU,
+  parseAgentMainAction_ACU,
+  parseAgentMainOutput_ACU,
+  parseAgentMaintainerOutput_ACU,
+  parseAgentResearcherOutput_ACU,
+  parseAgentPlannerOutput_ACU,
+  parseAgentReviewerOutput_ACU,
+  parseAgentComposerOutput_ACU,
+  parseAgentSubagentToolCalls_ACU,
+  parseAgentModuleSqlFieldWrites_ACU,
+} from '../../../../src/service/continuation/agent/agent-protocol';
+import { AGENT_PREFILLS_ACU } from '../../../../src/service/continuation/agent/agent-defaults';
+
+describe('Agent 文本协议 JSON 提取', () => {
+  it('剥掉 Markdown 围栏与前后解释文本', () => {
+    const raw = '好的，我的决策如下：\n```json\n{"action":"finalize","instruction":"写下去"}\n```\n以上。';
+    expect(extractFirstJsonObject_ACU(raw)).toBe('{"action":"finalize","instruction":"写下去"}');
+  });
+
+  it('不会被字符串内的花括号与转义引号骗过', () => {
+    const raw = '{"instruction":"他说 \\"进来 {吧}\\"","action":"finalize"}';
+    expect(JSON.parse(extractFirstJsonObject_ACU(raw)!)).toMatchObject({ action: 'finalize' });
+  });
+
+  it('没有配平对象时返回 null', () => {
+    expect(extractFirstJsonObject_ACU('{"action":"finalize"')).toBeNull();
+    expect(extractFirstJsonObject_ACU('没有任何 JSON')).toBeNull();
+  });
+
+  it('同时容忍完整重新输出与仅续写预填充两种形态', () => {
+    const full = parseAgentJsonPayload_ACU('{"thought":"够了","action":"finalize","instruction":"写"}', AGENT_PREFILLS_ACU.main);
+    expect(full).toMatchObject({ action: 'finalize' });
+
+    const continued = parseAgentJsonPayload_ACU('够了",\n  "action": "finalize",\n  "instruction": "写"\n}', AGENT_PREFILLS_ACU.main);
+    expect(continued).toMatchObject({ thought: '够了', action: 'finalize', instruction: '写' });
+  });
+
+  it('续写形态里 delegations 的嵌套对象不会被误选为协议对象', () => {
+    // 真实回归场景（gemini 返回）：thought 正文续写在前，delegations 数组里嵌着代理对象。
+    const raw = '大纲窗口显示尚无可执行的大纲轮次，必须先派工 outline-architect 创建首个阶段大纲。",\n'
+      + '  "action": "delegate",\n'
+      + '  "delegations": [\n'
+      + '    {\n      "agentName": "outline-architect",\n      "prompt": "基于目前的开头创建本故事第一个阶段大纲",\n      "reads": [],\n      "writes": []\n    }\n'
+      + '  ]\n}';
+    const payload = parseAgentJsonPayload_ACU(raw, AGENT_PREFILLS_ACU.main, ['action']);
+    expect(payload.action).toBe('delegate');
+    expect(payload.thought).toContain('必须先派工 outline-architect');
+    expect(Array.isArray(payload.delegations)).toBe(true);
+  });
+
+  it('模型在 JSON 前后写自然语言时按判别键挑出动作对象', () => {
+    const raw = '我先梳理一下思路：当前需要交付。{无关的花括号碎片\n'
+      + '```json\n{"thought":"证据足够","action":"finalize","instruction":"按第一轮写"}\n```\n以上就是我的决定。';
+    const payload = parseAgentJsonPayload_ACU(raw, AGENT_PREFILLS_ACU.main, ['action']);
+    expect(payload).toMatchObject({ action: 'finalize', instruction: '按第一轮写' });
+  });
+
+  it('无判别键命中时退回首个可解析对象，交由上层契约给出字段级报错', () => {
+    const payload = parseAgentJsonPayload_ACU('{"foo":"bar"}', AGENT_PREFILLS_ACU.main, ['action']);
+    expect(payload).toEqual({ foo: 'bar' });
+  });
+
+  it('完全无 JSON 时报错并附模型原文片段', () => {
+    expect(() => parseAgentJsonPayload_ACU('我拒绝输出任何结构化内容', AGENT_PREFILLS_ACU.main, ['action']))
+      .toThrowError(/模型返回片段：我拒绝输出任何结构化内容/);
+  });
+
+  it('空返回与无 JSON 返回都按协议错误处理', () => {
+    expect(() => parseAgentJsonPayload_ACU('   ')).toThrowError(/返回为空/);
+    expect(() => parseAgentJsonPayload_ACU('我拒绝输出 JSON')).toThrowError(/不包含可解析的 JSON/);
+  });
+});
+
+describe('主 Agent 动作解析', () => {
+  it('delegate 需要非空派工列表，且每项都要有代理名与任务', () => {
+    const action = parseAgentMainAction_ACU({ action: 'delegate', thought: '先结算', delegations: [{ agentName: 'hook-cognition-maintainer', prompt: '结算未处理正文', reads: ['$HISTORY_UNSETTLED'], writes: ['$HOOKS_LEDGER'] }] }, true);
+    expect(action).toMatchObject({ kind: 'delegate' });
+
+    expect(() => parseAgentMainAction_ACU({ action: 'delegate', delegations: [] }, true)).toThrowError(/非空的 delegations/);
+    expect(() => parseAgentMainAction_ACU({ action: 'delegate', delegations: [{ prompt: '干活' }] }, true)).toThrowError(/agentName 不能为空/);
+  });
+
+  it('预算最后一轮禁用 delegate', () => {
+    expect(() => parseAgentMainAction_ACU({ action: 'delegate', delegations: [{ agentName: 'mainline-planner', prompt: '策划' }] }, false)).toThrowError(/预算最后一轮/);
+  });
+
+  it('finalize 必须给出 instruction，constraints 缺省为 null', () => {
+    expect(parseAgentMainAction_ACU({ action: 'finalize', instruction: '本轮指导', summary: '要点' }, true)).toMatchObject({ kind: 'finalize', constraints: null });
+    expect(parseAgentMainAction_ACU({ action: 'finalize', instruction: '本轮指导', constraints: { add: ['红线一'], retire: ['C01-1'] } }, true))
+      .toMatchObject({ constraints: { add: ['红线一'], retire: ['C01-1'] } });
+    expect(() => parseAgentMainAction_ACU({ action: 'finalize' }, true)).toThrowError(/非空 instruction/);
+  });
+
+  it('finalize 的 constraints 兼容旧全量键：current 并入 add、retired 并入 retire，空对象归一为 null', () => {
+    expect(parseAgentMainAction_ACU({ action: 'finalize', instruction: '指导', constraints: { current: ['红线一', '红线二'], retired: ['旧约束'] } }, true))
+      .toMatchObject({ constraints: { add: ['红线一', '红线二'], retire: ['旧约束'] } });
+    expect(parseAgentMainAction_ACU({ action: 'finalize', instruction: '指导', constraints: { add: ['红线一'], current: ['红线一'] } }, true))
+      .toMatchObject({ constraints: { add: ['红线一'], retire: [] } });
+    expect(parseAgentMainAction_ACU({ action: 'finalize', instruction: '指导', constraints: {} }, true)).toMatchObject({ constraints: null });
+  });
+
+  it('edit_outline 已从主 Agent 协议退役，总纲与大纲统一交给 open_round', () => {
+    expect(() => parseAgentMainAction_ACU({
+      action: 'edit_outline',
+      edits: [{ op: 'set_turn_goal', turnId: 'turn-3', goal: '让守门人先露破绽' }],
+    }, true)).toThrowError(/总纲与阶段大纲由 open_round 固定工作流维护/);
+  });
+
+  it('维护类的 patch 只收显式字段，至少要带一个可改字段', () => {
+    const output = parseAgentMaintainerOutput_ACU({
+      summary: '微调',
+      delta: {
+        hooks: [{ action: 'patch', id: 'H1', summary: '新句子' }],
+        infoGap: [{ action: 'patch', id: 'E1', revealStatus: 'partial', revealIndex: 5 }],
+      },
+    });
+    expect(output.delta.hookPatches).toEqual([{ id: 'H1', summary: '新句子' }]);
+    expect(output.delta.infoGapPatches).toEqual([{ id: 'E1', revealStatus: 'partial', revealIndex: 5 }]);
+    expect(output.delta.hooks).toHaveLength(0);
+
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { hooks: [{ action: 'patch', id: 'H1' }] } })).toThrowError(/至少要带一个要修改的字段/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { hooks: [{ action: 'patch', summary: '缺 id' }] } })).toThrowError(/patch 需要 id/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { infoGap: [{ action: 'patch', id: 'E1', revealStatus: '瞎写' }] } })).toThrowError(/revealStatus 非法/);
+  });
+
+  it('总纲写集保留卷完成依据与续卷依据，并拒绝非法完成阶段编号', () => {
+    const output = parseAgentMaintainerOutput_ACU({
+      summary: '第一卷已收束并扩充第二卷',
+      delta: {
+        storyArc: [
+          { action: 'patch', id: 'VOL-01', status: 'done', completionStageNumber: 3, completionState: '印信回归，第三方签名浮出水面', completionRationale: '三阶段内完成全部兑现' },
+          {
+            action: 'upsert', id: 'VOL-02', scope: 'volume', title: '追查签名', direction: '追查第三方势力', escalation: '收在幕后势力主动灭口', withheld: '幕后首脑身份', status: 'active', stageNumbers: [], continuationRationale: '第一卷留下的第三方签名将商行争夺推向幕后势力',
+            narrativeRole: 'development', targetStageRange: { min: 4, max: 6 }, targetTimeSpan: '两个月', progressCeiling: '只查明幕后势力的外围组织', sustainingThreads: ['主角与账房的互信'], payoffTargets: ['兑现第三方签名的来源'],
+          },
+        ],
+      },
+    });
+
+    expect(output.delta.storyArcPatches).toEqual([{ id: 'VOL-01', status: 'done', completionStageNumber: 3, completionState: '印信回归，第三方签名浮出水面', completionRationale: '三阶段内完成全部兑现' }]);
+    expect(output.delta.storyArc[0]).toMatchObject({
+      id: 'VOL-02', narrativeRole: 'development', targetStageRange: { min: 4, max: 6 }, targetTimeSpan: '两个月', progressCeiling: '只查明幕后势力的外围组织', sustainingThreads: ['主角与账房的互信'], payoffTargets: ['兑现第三方签名的来源'],
+      continuationRationale: '第一卷留下的第三方签名将商行争夺推向幕后势力', completionStageNumber: null, completionState: '',
+    });
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { storyArc: [{ action: 'patch', id: 'VOL-01', completionStageNumber: 0 }] } })).toThrowError(/completionStageNumber 必须是从 1 起的整数或 null/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { storyArc: [{ action: 'patch', id: 'VOL-01', targetStageRange: { min: 6, max: 4 } }] } })).toThrowError(/min 不能大于 max/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { storyArc: [{ action: 'patch', id: 'VOL-01', sustainingThreads: [''] }] } })).toThrowError(/必须是非空字符串/);
+  });
+
+  it('block 必须带明确理由', () => {
+    expect(parseAgentMainAction_ACU({ action: 'block', reason: '关键资料缺失', unresolved: ['缺角色表'] }, true)).toMatchObject({ kind: 'block', unresolved: ['缺角色表'] });
+    expect(() => parseAgentMainAction_ACU({ action: 'block' }, true)).toThrowError(/必须提供 reason/);
+  });
+
+  it('未知动作和已退役的大纲动作直接拒绝', () => {
+    expect(() => parseAgentMainAction_ACU({ action: 'write_story' }, true)).toThrowError(/action 必须是/);
+    expect(() => parseAgentMainAction_ACU({ action: 'revise_outline', replanInstruction: '改' }, true)).toThrowError(/action 必须是 read \/ search \/ delegate \/ open_round \/ finalize \/ block/);
+    expect(parseAgentMainAction_ACU({ action: 'open_round', focus: '接住守门人的回避' }, true)).toMatchObject({
+      kind: 'open_round', focus: '接住守门人的回避', dispatchWebResearcher: false,
+    });
+    expect(() => parseAgentMainAction_ACU({ action: 'open_round', focus: '  ' }, true)).toThrowError(/非空 focus/);
+  });
+});
+
+describe('工具批次解析', () => {
+  it('输出里出现任意 read/search 对象即视为工具并发批次，混入的决策动作被忽略', () => {
+    const raw = '先查资料。\n{"action":"read","reads":["$STORY_RANGE:3-4","$HOOKS_LEDGER:H001"]}\n'
+      + '{"action":"search","query":"黑色晶屑","scope":["story","modules"],"maxResults":10}\n'
+      + '{"action":"finalize","instruction":"顺便交付"}';
+    const action = parseAgentMainOutput_ACU(raw, AGENT_PREFILLS_ACU.main, true);
+    expect(action.kind).toBe('tools');
+    const calls = (action as any).calls;
+    expect(calls).toHaveLength(2);
+    expect(calls[0]).toMatchObject({ kind: 'read', reads: ['$STORY_RANGE:3-4', '$HOOKS_LEDGER:H001'] });
+    expect(calls[1]).toMatchObject({ kind: 'search', query: '黑色晶屑', scope: ['story', 'modules'], isRegex: false, maxResults: 10 });
+  });
+
+  it('没有工具对象时按单动作解析', () => {
+    const action = parseAgentMainOutput_ACU('{"thought":"够了","action":"finalize","instruction":"写","summary":"要点"}', AGENT_PREFILLS_ACU.main, true);
+    expect(action.kind).toBe('finalize');
+  });
+
+  it('read 需要非空 reads，search 需要非空 query', () => {
+    expect(() => parseAgentMainOutput_ACU('{"action":"read","reads":[]}', AGENT_PREFILLS_ACU.main, true)).toThrowError(/reads/);
+    expect(() => parseAgentMainOutput_ACU('{"action":"search","query":""}', AGENT_PREFILLS_ACU.main, true)).toThrowError(/query/);
+  });
+
+  it('子代理输出里的工具批次被提取；纯契约输出返回 null', () => {
+    const calls = parseAgentSubagentToolCalls_ACU('{"action":"read","reads":["$INFO_GAP"]}', AGENT_PREFILLS_ACU.maintainer);
+    expect(calls).toHaveLength(1);
+    expect(calls![0]).toMatchObject({ kind: 'read', reads: ['$INFO_GAP'] });
+    expect(parseAgentSubagentToolCalls_ACU('{"summary":"结算完成","delta":{}}', AGENT_PREFILLS_ACU.maintainer)).toBeNull();
+  });
+});
+
+describe('子代理输出解析', () => {
+  it('维护类输出保留写集事务并把非法枚举收敛到安全默认值', () => {
+    const output = parseAgentMaintainerOutput_ACU({
+      summary: '结算完成',
+      delta: {
+        expectedRevisions: { hooks: 2, infoGap: '坏值' },
+        hooks: [{ action: 'upsert', id: 'H1', summary: '内容', status: '瞎写', importance: '瞎写', plantedIndex: -3 }],
+        infoGap: [{ action: 'upsert', id: 'E1', topic: '主题', revealStatus: '瞎写', revealIndex: 4, characterKnowledge: [{ name: '林瑶', knows: '不知' }, { knows: '缺名字' }] }],
+        constraintProposals: ['建议登记红线', ''],
+      },
+    });
+
+    expect(output.delta.expectedRevisions).toEqual({ hooks: 2 });
+    expect(output.delta.hooks[0]).toMatchObject({ status: 'planted', importance: 'mid', plantedIndex: -1 });
+    expect(output.delta.infoGap[0].revealStatus).toBe('unrevealed');
+    expect(output.delta.infoGap[0].characterKnowledge).toEqual([{ name: '林瑶', knows: '不知' }]);
+    expect(output.delta.constraintProposals).toEqual(['建议登记红线']);
+  });
+
+  it('维护类的非法 action 与非数组 delta 都被拒绝', () => {
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { hooks: [{ action: 'delete', id: 'H1' }] } })).toThrowError(/upsert \/ patch \/ retire/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { infoGap: '不是数组' } })).toThrowError(/必须是数组/);
+  });
+
+  it('年代学写集正向解析：证据楼层去重升序，expectedRevisions 纳入 chronology', () => {
+    const output = parseAgentMaintainerOutput_ACU({
+      summary: '结算了一次时间跳跃',
+      delta: {
+        expectedRevisions: { chronology: 3 },
+        chronology: [
+          { action: 'upsert', id: 'T1', anchor: '入城后的第七天', elapsed: '自开篇约十七日', precision: 'approximate', transition: '在临川城休整七日', evidenceIndexes: [5, 4, 5] },
+          { action: 'retire', id: 'T0', reason: '证据楼层已被删除' },
+        ],
+      },
+    });
+
+    expect(output.delta.expectedRevisions).toEqual({ chronology: 3 });
+    expect(output.delta.chronology[0]).toMatchObject({ action: 'upsert', id: 'T1', anchor: '入城后的第七天', precision: 'approximate', evidenceIndexes: [4, 5] });
+    expect(output.delta.chronology[1]).toMatchObject({ action: 'retire', id: 'T0', reason: '证据楼层已被删除' });
+  });
+
+  it('年代学写集的非法 action、precision、空证据与非整数证据全部拒绝', () => {
+    const item = { action: 'upsert', id: 'T1', anchor: '入城后的第七天', elapsed: '约十七日', precision: 'approximate', transition: '休整七日', evidenceIndexes: [4] };
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, action: 'delete' }] } })).toThrowError(/action 必须是 upsert \/ patch \/ retire/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, precision: '大概吧' }] } })).toThrowError(/precision 必须是 exact \/ approximate \/ unknown/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, evidenceIndexes: [] }] } })).toThrowError(/evidenceIndexes 必须是非空数组/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, evidenceIndexes: [1.5] }] } })).toThrowError(/必须是非负整数楼层号/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, evidenceIndexes: ['5'] }] } })).toThrowError(/必须是非负整数楼层号/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, anchor: '' }] } })).toThrowError(/anchor 不能为空/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, elapsed: ' ' }] } })).toThrowError(/elapsed 不能为空/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, transition: '' }] } })).toThrowError(/transition 不能为空/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ ...item, id: '' }] } })).toThrowError(/需要非空 id/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: '不是数组' } })).toThrowError(/delta\.chronology 必须是数组/);
+  });
+
+  it('受限 SQL 写集映射为维护事务，保留修订号、信息边界与显式退役', () => {
+    const parsed = parseAgentMaintainerOutput_ACU({
+      summary: '结算',
+      sql: "INSERT INTO info_gap (id, topic, objective_fact, reader_known, character_knowledge, expected_revision) VALUES ('E2', '密信', '藏于木匣', '只见木匣', '[{\"name\":\"阿锦\",\"knows\":\"亲眼见到木匣\"}]', 2); UPDATE hooks SET summary = '新证据' WHERE id = 'H1' AND expected_revision = 3; DELETE FROM hooks WHERE id = 'H2' AND reason = '已被推翻' AND expected_revision = 3;",
+    });
+    expect(parsed.delta.expectedRevisions).toMatchObject({ infoGap: 2, hooks: 3 });
+    expect(parsed.delta.infoGap[0]).toMatchObject({ objectiveFact: '藏于木匣', readerKnown: '只见木匣', characterKnowledge: [{ name: '阿锦', knows: '亲眼见到木匣' }] });
+    expect(parsed.delta.hookPatches).toEqual([{ id: 'H1', summary: '新证据' }]);
+    expect(parsed.delta.hooks).toEqual([expect.objectContaining({ action: 'retire', id: 'H2', reason: '已被推翻' })]);
+  });
+
+  it('SQL 拒绝越权、未知字段、额外 WHERE、混用 JSON 写集和非法修订号', () => {
+    const parse = (sql: string) => parseAgentMaintainerOutput_ACU({ summary: '测试', sql });
+    expect(() => parse("INSERT INTO web_refs (name) VALUES ('越权')")).toThrow(/无权/);
+    expect(() => parse("INSERT INTO hooks (arbitrary) VALUES ('值')")).toThrow(/白名单/);
+    expect(() => parse("UPDATE hooks SET summary = '假' WHERE id = 'H1' AND reason = '忽略' AND expected_revision = 0")).toThrow(/WHERE 不允许/);
+    expect(() => parse("DELETE FROM hooks WHERE id = 'H1' AND reason = '删' AND expected_revision = -1")).toThrow(/非负整数/);
+    expect(() => parseAgentMaintainerOutput_ACU({ sql: "DELETE FROM hooks WHERE id = 'H1' AND reason = '删'", delta: {} })).toThrow(/不能同时包含/);
+    expect(() => parse(' ; ; ')).toThrow(/空写集/);
+    expect(() => parseAgentResearcherOutput_ACU({ sql: ' ; ; ' })).toThrow(/空写集/);
+    expect(() => parseAgentMaintainerOutput_ACU({ sql: "INSERT INTO hooks (id, summary) VALUES ('H1', '正常');", volumes: [{ id: 'V1', action: 'upsert', title: '夹带' }] })).toThrow(/不能同时包含 sql 与 JSON 写集字段 volumes/);
+    expect(() => parseAgentMaintainerOutput_ACU({ sql: "INSERT INTO hooks (id, summary) VALUES ('H1', '正常');", expectedRevisions: { hooks: 999 } })).toThrow(/不能同时包含 sql 与 JSON 写集字段 expectedRevisions/);
+  });
+
+
+  it('SQL 更新及删除必须携带模块 revision，网页资料退役不需要 pageRef', () => {
+    const retired = parseAgentResearcherOutput_ACU({ summary: '退役旧资料', sql: "DELETE FROM web_refs WHERE id = 'WR-001' AND reason = '来源失效' AND expected_revision = 4;" });
+    expect(retired).toMatchObject({ expectedRevision: 4, items: [{ action: 'retire', id: 'WR-001', reason: '来源失效' }] });
+    expect(() => parseAgentResearcherOutput_ACU({ sql: "DELETE FROM web_refs WHERE id = 'WR-001' AND reason = '来源失效';" })).toThrow(/expected_revision/);
+    expect(() => parseAgentMaintainerOutput_ACU({ sql: "UPDATE hooks SET summary = '修正' WHERE id = 'H1';" })).toThrow(/expected_revision/);
+    expect(() => parseAgentMaintainerOutput_ACU({ sql: "DELETE FROM hooks WHERE id = 'H1' AND reason = '过期';" })).toThrow(/expected_revision/);
+  });
+
+
+  it('网页资料与年代学 SQL UPDATE 只映射指定栏位，不丢失 id 和 revision', () => {
+    const web = parseAgentResearcherOutput_ACU({ summary: '更新百科', sql: "UPDATE web_refs SET brief = '新简介' WHERE id = 'WR-001' AND expected_revision = 2;" });
+    expect(web).toMatchObject({ expectedRevision: 2, items: [], patches: [{ id: 'WR-001', brief: '新简介' }] });
+    const chronology = parseAgentMaintainerOutput_ACU({ summary: '修正时间', sql: "UPDATE chronology SET evidence_indexes = '[5,2,5]' WHERE id = 'T1' AND expected_revision = 4;" });
+    expect(chronology.delta.expectedRevisions).toMatchObject({ chronology: 4 });
+    expect(chronology.delta.chronology).toEqual([]);
+    expect(chronology.delta.chronologyPatches).toEqual([{ id: 'T1', evidenceIndexes: [2, 5] }]);
+    expect(() => parseAgentResearcherOutput_ACU({ sql: "UPDATE hooks SET summary = '越权' WHERE id = 'H1';" })).toThrow(/只允许写入 web_refs/);
+    expect(() => parseAgentMaintainerOutput_ACU({ sql: "UPDATE chronology SET precision = '大概吧' WHERE id = 'T1' AND expected_revision = 4;" })).toThrow(/precision 必须是/);
+    expect(() => parseAgentMaintainerOutput_ACU({ delta: { chronology: [{ action: 'patch', id: 'T1' }] } })).toThrow(/至少要带一个/);
+    expect(() => parseAgentResearcherOutput_ACU({ delta: { webRefs: [{ action: 'patch', id: 'WR-001' }] } })).toThrow(/至少要带一个/);
+  });
+
+  it('策划类必须给出 recommendation，资料不足应改走工具调用', () => {
+    expect(parseAgentPlannerOutput_ACU({ summary: '要点', recommendation: '这样推进', mustPreserve: ['林瑶有伤'], risks: ['提前回收'] }))
+      .toMatchObject({ recommendation: '这样推进', mustPreserve: ['林瑶有伤'] });
+    expect(() => parseAgentPlannerOutput_ACU({ summary: '只有摘要' })).toThrowError(/必须给出 recommendation/);
+  });
+
+  it('审查类判词非法时直接拒绝，由重试机制纠正', () => {
+    expect(parseAgentReviewerOutput_ACU({ verdict: 'revise', reason: '与 H1 冲突', fixes: ['改为部分回收'] }))
+      .toMatchObject({ verdict: 'revise', fixes: ['改为部分回收'] });
+    expect(() => parseAgentReviewerOutput_ACU({ verdict: '说不清' })).toThrowError(/verdict 必须是/);
+  });
+
+  it('instruction-composer 拒绝空 instruction，并收下 constraints 增量', () => {
+    expect(parseAgentComposerOutput_ACU({ instruction: '从守门人的回避写起', summary: '试探', constraints: { add: ['不得揭穿'], retire: [] } }))
+      .toEqual({ instruction: '从守门人的回避写起', summary: '试探', constraints: { add: ['不得揭穿'], retire: [] } });
+    expect(() => parseAgentComposerOutput_ACU({ instruction: '  ', summary: '空' })).toThrowError(/非空 instruction/);
+  });
+});
+describe('协议错误压缩', () => {
+  it('把校验错误压成带错误码的单行原因串', () => {
+    try {
+      parseAgentMainAction_ACU({ action: 'write_story' }, true);
+    } catch (error) {
+      expect(compactAgentProtocolError_ACU(error)).toContain('CONTINUATION_AGENT_PROTOCOL_INVALID');
+    }
+    expect(compactAgentProtocolError_ACU(new Error('普通错误'))).toBe('普通错误');
+  });
+});
+
+
+describe('逐栏 write_sql 意图解析', () => {
+  it('保留合法栏目并逐栏拒绝未知列，不把坏列扩大为整条拒绝', () => {
+    const parsed = parseAgentModuleSqlFieldWrites_ACU(
+      "UPDATE hooks SET summary='新内容', bogus=7, status='active' WHERE id='H1' AND expected_revision=2",
+      'hook-cognition-maintainer',
+    );
+    expect(parsed.intents).toEqual([{ kind: 'update', module: 'hooks', id: 'H1', expectedRevision: 2, fields: { summary: '新内容', status: 'active' } }]);
+    expect(parsed.rejected).toEqual([{ path: 'sql[0].hooks.bogus', reason: expect.stringContaining('白名单') }]);
+  });
+
+  it('严格校验角色、条件与修订号；拒绝的语句不提交', () => {
+    const parsed = parseAgentModuleSqlFieldWrites_ACU(
+      "UPDATE web_refs SET brief='越权' WHERE id='WR-001' AND expected_revision=0; UPDATE hooks SET summary='有效' WHERE id='H1' AND expected_revision=1 AND scope='bad'; UPDATE hooks SET summary='合法' WHERE id='H1' AND expected_revision=1",
+      'hook-cognition-maintainer',
+    );
+    expect(parsed.rejected.map(item => item.path)).toEqual(['sql[0].web_refs', 'sql[1].hooks.WHERE']);
+    expect(parsed.intents).toEqual([{ kind: 'update', module: 'hooks', id: 'H1', expectedRevision: 1, fields: { summary: '合法' } }]);
+    const invalid = parseAgentModuleSqlFieldWrites_ACU("UPDATE hooks SET summary='甲' WHERE id='H1'; UPDATE hooks SET summary=() WHERE id='H1'; INSERT INTO chronology (anchor, 入城后第七天, elapsed, precision, transition, evidence_indexes) VALUES ('入城后第七天', '七日', 'approximate', '迁居客栈', '[1]'); UPDATE hooks SET summary='丙' WHERE id='H2'", 'hook-cognition-maintainer');
+    expect(invalid.intents.map(item => item.fields)).toEqual([{ summary: '甲' }, { summary: '丙' }]);
+    expect(invalid.rejected).toEqual([
+      { path: 'sql[1]', reason: expect.stringContaining('该语句未写入'), repairTarget: { module: 'hooks', column: 'id', value: 'H1', fields: ['summary'] } },
+      { path: 'sql[2]', reason: expect.stringContaining('6 个字段、5 个值'), repairTarget: { module: 'chronology', column: 'anchor', value: '入城后第七天', fields: ['anchor', 'elapsed', 'precision', 'transition', 'evidenceIndexes'] } },
+    ]);
+    expect(invalid.rejected[1].reason).toContain('不要把正文内容写进列名');
+    expect(invalid.rejected[1].reason).not.toContain('单引号把值拆开了');
+  });
+
+  it('映射结构化值与网页句柄，退役语句携带原因，约束提议单独归集', () => {
+    const parsed = parseAgentModuleSqlFieldWrites_ACU(
+      "INSERT INTO web_refs (expected_revision, page_ref, name, brief) VALUES (0, 'page-1', '名称', '摘要'); DELETE FROM web_refs WHERE id='WR-001' AND expected_revision=0 AND reason='过时'",
+      'web-researcher',
+    );
+    expect(parsed.intents).toEqual([
+      { kind: 'insert', module: 'webRefs', id: '', expectedRevision: 0, fields: { title: '名称', brief: '摘要' }, pageRef: 'page-1' },
+      { kind: 'delete', module: 'webRefs', id: 'WR-001', expectedRevision: 0, fields: {}, reason: '过时' },
+    ]);
+    const knowledge = [{ name: '林', knows: '亲眼看到写着 "封城" 的告示；署名 O\'Neil' }];
+    const nestedJson = JSON.stringify(JSON.stringify(knowledge)).replace(/'/g, "''");
+    const maintainer = parseAgentModuleSqlFieldWrites_ACU(
+      `INSERT INTO constraint_proposals (text) VALUES ('请登记红线'); UPDATE info_gap SET characterKnowledge='${nestedJson}' WHERE id='E1' AND expectedRevision=3`,
+      'hook-cognition-maintainer',
+    );
+    expect(maintainer.constraintProposals).toEqual(['请登记红线']);
+    expect(maintainer.rejected).toEqual([]);
+    expect(maintainer.intents[0]).toMatchObject({ expectedRevision: 3, fields: { characterKnowledge: knowledge } });
+  });
+});

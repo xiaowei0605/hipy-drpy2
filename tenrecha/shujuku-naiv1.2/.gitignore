@@ -1,0 +1,46 @@
+# spec-kit 本地工具链（不上传 git）
+.codebuddy/
+.specify/
+.limcode/
+.kilo/plans/
+
+# 本地文档、设计稿与计划（保留工作区，不提交仓库）
+docs/
+plans/
+specs/
+/*.md
+/*.txt
+/素材/
+
+# Node.js
+node_modules/
+
+# 构建产物
+dist/
+
+# 本地 SillyTavern 参考源码
+SillyTavern-1.13.1/
+
+
+# 本地分析缓存/归档
+.analysis-cache.md
+.analysis-archive/
+.analysis-*.md
+
+# macOS
+.DS_Store
+
+# 本地诊断/测试日志与临时备份
+*.log
+.acu-*.txt
+tsc.log
+.tmp/
+.tmp-*
+*.tsbuildinfo
+tsc-out*.txt
+vitest-*.txt
+temp_*.txt
+backups/pr8-review/
+
+# 本地导入的世界书/角色数据
+/_WNE-Core (1).json

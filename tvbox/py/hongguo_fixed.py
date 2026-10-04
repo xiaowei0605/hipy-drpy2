@@ -45,7 +45,6 @@ try:
 except Exception:
     from spider import Spider as BaseSpider
 
-
 class Spider(BaseSpider):
 
     def getName(self):

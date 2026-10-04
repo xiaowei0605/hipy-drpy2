@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# 蜂蜜影视（FongMi TV）原生 Python 蜘蛛 - 57短剧 正式版 (V4.1 分类ID安全命名修复版)
+# 蜂蜜影视 / Hawk Player 原生 Python 蜘蛛 - 57短剧 iOS深度调优版
 
 import sys
 import os
@@ -33,7 +33,8 @@ class Spider(SpiderBase):
         self.tgGroup = "https://t.me/tvshare23"
         self.brandActor = "🦋 TG群: @tvshare23"
         self.brandDirector = "🦋 蝴蝶影视"
-        self._ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+        # 切换为移动端 iOS 原生 UA，减小响应体积提升解析速度
+        self._ua = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
         self.options = {}
 
         self.ctx = ssl.create_default_context()
@@ -77,16 +78,17 @@ class Spider(SpiderBase):
         headers = {
             "User-Agent": self._ua,
             "Referer": referer if referer else self.imgReferer,
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
             "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
             "Accept-Encoding": "gzip, deflate",
             "Connection": "keep-alive"
         }
 
+        # iOS 严苛超时契约：将超时降至 5 秒，单次快速重试，避免整页卡死
         for attempt in range(2):
             try:
                 req = urllib.request.Request(target_url, headers=headers)
-                with self.opener.open(req, timeout=12) as resp:
+                with self.opener.open(req, timeout=5) as resp:
                     code = resp.getcode()
                     final_url = resp.geturl()
                     raw = resp.read()
@@ -110,20 +112,22 @@ class Spider(SpiderBase):
 
         return {"code": -1, "text": "", "bytes": b"", "err": "timeout", "final_url": target_url}
 
+    # 核心修复点：彻底去除导致 iOS 海报全白的 @User-Agent=，仅保留 @Referer=
     def _wrap_pic(self, pic_url):
         if not pic_url:
             return ""
-        if pic_url.startswith("//"):
-            pic_url = "https:" + pic_url
-        elif pic_url.startswith("/"):
-            pic_url = self.siteUrl + pic_url
+        pic = pic_url.strip()
+        if pic.startswith("//"):
+            pic = "https:" + pic
+        elif pic.startswith("/"):
+            pic = self.siteUrl + pic
         
-        if "s.chigua.media" in pic_url and "@" not in pic_url:
-            return "%s@Referer=%s@User-Agent=%s" % (pic_url, self.imgReferer, quote(self._ua))
-        return pic_url
+        # 针对防盗链图床，仅拼接标准 Referer，绝不拼接 User-Agent
+        if "s.chigua.media" in pic and "@Referer=" not in pic:
+            return "%s@Referer=%s" % (pic, self.imgReferer)
+        return pic
 
     def homeContent(self, filter):
-        # 彻底规避 hot / video / root 等底层保留关键字
         classes = [
             {"type_name": "成人AI短剧", "type_id": "cat_aichengduanju"},
             {"type_name": "热门精选", "type_id": "cat_hot"},
@@ -210,11 +214,9 @@ class Spider(SpiderBase):
         page = int(pg) if pg else 1
         raw_slug = str(tid).strip("/")
 
-        # 去除命名保护前缀
         slug = raw_slug.replace("cat_", "")
         sort_val = extend.get("sort") if isinstance(extend, dict) else ""
 
-        # 构建规范 URL 路由
         if slug == "all":
             base = self.siteUrl
             target_url = ("%s/page/%d/" % (base, page)) if page > 1 else ("%s/" % base)
@@ -232,12 +234,13 @@ class Spider(SpiderBase):
         html_text = res.get("text", "")
         vod_list = self._parse_card_list(html_text)
 
+        # iOS 端每页适度返回不超过 20 条，保障极速渲染
         return {
             "page": page,
             "pagecount": page + 1 if len(vod_list) >= 10 else page,
             "limit": len(vod_list),
             "total": 9999,
-            "list": vod_list
+            "list": vod_list[:20]
         }
 
     def detailContent(self, ids):
@@ -282,7 +285,7 @@ class Spider(SpiderBase):
                 ep_name = "片段 %02d" % (len(episodes) + 1)
                 episodes.append("%s$%s" % (ep_name, stream_url))
 
-        # 2. 从 JSON-LD 或正则匹配全局 VideoObject
+        # 2. 从 JSON-LD 提取
         if not episodes:
             m_schema = re.findall(r'<script\s+type=["\']application/ld\+json["\']>([\s\S]*?)</script>', detail_html)
             for s in m_schema:
@@ -318,19 +321,26 @@ class Spider(SpiderBase):
             if m_pic:
                 cover = m_pic.group(1).strip()
 
+        final_cover = self._wrap_pic(cover)
+
         full_desc = (
             "【🔥 官方交流群: %s】\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "本贴为您解析到【%d】个现场视频片段，点击下方片段即可起播！\n\n%s"
         ) % (self.tgGroup, len(episodes), desc)
 
-        play_url = "#".join(episodes) if episodes else ("无可用视频流$http://127.0.0.1")
+        # 严禁假死链（http://127.0.0.1 会触发 Hawk 探活断路器覆盖全屏）
+        play_url = "#".join(episodes) if episodes else ("暂无可用视频流$https://dummyimage.com/1x1/000/000.png")
 
         return {
             "list": [{
                 "vod_id": event_id,
                 "vod_name": title,
-                "vod_pic": self._wrap_pic(cover),
+                "vod_pic": final_cover,
+                # 绑定详情页顶部大背景（Backdrop）字段
+                "vod_bg": final_cover,
+                "vod_background": final_cover,
+                "vod_banner": final_cover,
                 "vod_actor": self.brandActor,
                 "vod_director": self.brandDirector,
                 "vod_remarks": "共 %d 个片段" % len(episodes) if len(episodes) > 1 else "蝴蝶影视",
@@ -341,17 +351,23 @@ class Spider(SpiderBase):
         }
 
     def playerContent(self, flag, id, vipFlags):
-        raw_url = str(id).strip()
+        play_url = str(id).strip()
+        
+        # 伪扩展名注入：针对无扩展名的直链注入伪 .m3u8 扩展名，强制促使 Hawk 走 AVPlayer 硬件解码
+        if ".m3u8" not in play_url.lower() and ".mp4" not in play_url.lower():
+            sep = "&" if "?" in play_url else "?"
+            play_url = play_url + sep + "format=.m3u8"
+
+        # 精简请求头，剔除会导致 TS 分片拉取失败的 Origin
         headers = {
             "User-Agent": self._ua,
-            "Referer": self.imgReferer,
-            "Origin": self.imgReferer.rstrip("/")
+            "Referer": self.imgReferer
         }
 
         return {
             "parse": 0,
             "playUrl": "",
-            "url": raw_url,
+            "url": play_url,
             "header": headers
         }
 
@@ -371,7 +387,7 @@ class Spider(SpiderBase):
             "pagecount": page + 1 if len(vod_list) >= 10 else page,
             "limit": len(vod_list),
             "total": 9999,
-            "list": vod_list
+            "list": vod_list[:20]
         }
 
     def action(self, action):
@@ -381,11 +397,7 @@ class Spider(SpiderBase):
         return ""
 
     def localProxy(self, params):
-        url = params.get("url", "")
-        if not url:
-            return [404, "text/plain; charset=utf-8", "Missing url parameter"]
-        res = self._fetch(url, referer=self.imgReferer)
-        return [res.get("code", 200), "image/jpeg", res.get("bytes", b"")]
+        return [404, "text/plain; charset=utf-8", "Proxy not configured"]
 
     def destroy(self):
         self.options = {}

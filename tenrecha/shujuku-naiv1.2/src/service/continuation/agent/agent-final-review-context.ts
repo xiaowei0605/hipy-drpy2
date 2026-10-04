@@ -1,0 +1,73 @@
+import { renderAgentOutlineWindow_ACU, renderAgentStoryTail_ACU, resolveAgentReadToken_ACU, type AgentResolveContext_ACU } from './agent-placeholder-resolver';
+import { renderAgentWorldbookTriggeredInjection_ACU } from './agent-worldbook-read';
+import type { AgentGateItem_ACU } from './agent-read-gate';
+
+export interface AgentFinalReviewEvidenceInput_ACU {
+  resolveContext: AgentResolveContext_ACU;
+  candidateInstruction: string;
+  currentUserInput: string;
+  planningSummary?: string;
+}
+
+export interface AgentFinalReviewEvidence_ACU {
+  gateItems: AgentGateItem_ACU[];
+  supplementalMaterials: string;
+  worldbookEvidence: string;
+  worldbookSeeds: string[];
+  fixedReadKeys: string[];
+}
+
+function unique_ACU(values: readonly string[]): string[] {
+  return [...new Set(values.map(value => value.trim()).filter(Boolean))];
+}
+
+export function extractAgentFinalReviewWorldbookSeeds_ACU(text: string): string[] {
+  const matches = String(text ?? '').match(/[\p{Script=Han}]{2,12}|[A-Za-z][A-Za-z0-9_-]{2,}/gu) ?? [];
+  const candidates: string[] = [];
+  for (const match of matches) {
+    candidates.push(match);
+    if (!/^[\p{Script=Han}]+$/u.test(match)) continue;
+    for (let index = 0; index < match.length - 1; index += 1) {
+      candidates.push(match.slice(index, index + 2));
+    }
+  }
+  return unique_ACU(candidates).slice(0, 48);
+}
+
+export function buildAgentFinalReviewEvidence_ACU(input: AgentFinalReviewEvidenceInput_ACU): AgentFinalReviewEvidence_ACU {
+  const { resolveContext: context } = input;
+  const outline = renderAgentOutlineWindow_ACU(context);
+  const storyArc = resolveAgentReadToken_ACU('$STORY_ARC', context).text;
+  const tail = renderAgentStoryTail_ACU(context);
+  const constraints = resolveAgentReadToken_ACU('$ACTIVE_CONSTRAINTS', context).text;
+  const chronology = resolveAgentReadToken_ACU('$CHRONOLOGY', context).text;
+  const seedSource = [context.originInstruction, input.currentUserInput, input.candidateInstruction, outline, tail].join('\n');
+  const worldbookSeeds = extractAgentFinalReviewWorldbookSeeds_ACU(seedSource);
+  const worldbookEvidence = context.worldbook?.available
+    ? renderAgentWorldbookTriggeredInjection_ACU(context.worldbook, seedSource)
+    : '世界书当前不可用；涉及人物、能力、地点、组织、种族、社会规则或世界常识的结论必须标注未验证。不要臆测或把读取失败当作空世界书。';
+  const supplementalMaterials = [
+    `### 本轮用户输入\n${input.currentUserInput || '（本轮没有额外用户输入）'}`,
+    `### 长期约束\n${constraints}`,
+    `### 故事年代学账本（已发生正文结算出的时间事实；大纲时间字段只是计划）\n${chronology}`,
+    `### 本轮策划结果摘要\n${input.planningSummary || '（未提供策划结果摘要）'}`,
+    `### 世界书检索种子\n${worldbookSeeds.length ? worldbookSeeds.join('、') : '（未提取到有效检索种子）'}`,
+  ].join('\n\n');
+  return {
+    supplementalMaterials,
+    worldbookEvidence,
+    worldbookSeeds,
+    fixedReadKeys: unique_ACU(['$USER_INTENT', '$USER_REQUIREMENTS', '$OUTLINE_WINDOW', '$STORY_ARC', '$STORY_TAIL', '$ACTIVE_CONSTRAINTS', '$CHRONOLOGY']),
+    gateItems: [
+      { label: '用户初始要求', text: context.originInstruction || '（用户未提供初始要求）' },
+      { label: '用户累计要求', text: resolveAgentReadToken_ACU('$USER_REQUIREMENTS', context).text },
+      { label: '本轮用户输入', text: input.currentUserInput || '（本轮没有额外用户输入）' },
+      { label: '候选写作指导', text: input.candidateInstruction },
+      { label: '完整当前阶段大纲', text: outline },
+      { label: '故事总纲', text: storyArc },
+      { label: '最近正文', text: tail },
+      { label: '长期约束、故事年代学账本、策划摘要、检索种子与世界书目录', text: supplementalMaterials },
+      { label: '本轮语境命中的世界书条目预览', text: worldbookEvidence },
+    ],
+  };
+}

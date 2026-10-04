@@ -1,0 +1,243 @@
+import type { SummaryVectorIndexShard_ACU } from '../../service/vector/summary-vector-index-types';
+
+const DB_NAME_ACU = 'TavernDB_ACU_VectorTempCache';
+const DB_VERSION_ACU = 1;
+const STORE_NAME_ACU = 'shards';
+
+/**
+ * P7：临时缓存字节预算。超出预算时按 lastAccessAt 从最旧开始淘汰（LRU），
+ * 防止跨聊天累积导致 IndexedDB 无界增长。缓存 miss 只意味着回源外置权威文件。
+ */
+const VECTOR_TEMP_CACHE_MAX_BYTES_ACU = 64 * 1024 * 1024;
+const VECTOR_TEMP_CACHE_TRIM_THROTTLE_MS_ACU = 60_000;
+let lastTempCacheTrimAt_ACU = 0;
+
+interface CachedShardRecord_ACU {
+    key: string;
+    indexId: string;
+    shardId: string;
+    shard: SummaryVectorIndexShard_ACU;
+    byteSize: number;
+    checksum: string;
+    lastAccessAt: number;
+    createdAt: number;
+}
+
+function isIdbAvailable_ACU(): boolean {
+    return typeof indexedDB !== 'undefined';
+}
+
+function openDb_ACU(): Promise<IDBDatabase> {
+    return new Promise((resolve, reject) => {
+        if (!isIdbAvailable_ACU()) {
+            reject(new Error('IndexedDB 不可用'));
+            return;
+        }
+        const request = indexedDB.open(DB_NAME_ACU, DB_VERSION_ACU);
+        request.onupgradeneeded = () => {
+            const db = request.result;
+            if (!db.objectStoreNames.contains(STORE_NAME_ACU)) {
+                const store = db.createObjectStore(STORE_NAME_ACU, { keyPath: 'key' });
+                store.createIndex('indexId', 'indexId', { unique: false });
+                store.createIndex('lastAccessAt', 'lastAccessAt', { unique: false });
+            }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error('打开向量临时缓存失败'));
+    });
+}
+
+function makeKey_ACU(indexId: string, shardId: string): string {
+    return `${indexId}::${shardId}`;
+}
+
+function runStore_ACU<T>(mode: IDBTransactionMode, runner: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {
+    return openDb_ACU().then((db) => new Promise<T>((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME_ACU, mode);
+        const store = tx.objectStore(STORE_NAME_ACU);
+        const request = runner(store);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error('向量临时缓存操作失败'));
+        tx.oncomplete = () => db.close();
+        tx.onerror = () => {
+            db.close();
+            reject(tx.error || new Error('向量临时缓存事务失败'));
+        };
+    }));
+}
+
+export async function getVectorIndexCachedShard_ACU(indexId: string, shardId: string, expectedChecksum = ''): Promise<SummaryVectorIndexShard_ACU | null> {
+    try {
+        const key = makeKey_ACU(indexId, shardId);
+        const record = await runStore_ACU<CachedShardRecord_ACU | undefined>('readonly', (store): IDBRequest<CachedShardRecord_ACU | undefined> => store.get(key));
+        if (!record?.shard) return null;
+        const normalizedExpectedChecksum = String(expectedChecksum || '').trim();
+        if (normalizedExpectedChecksum && String(record.checksum || '') !== normalizedExpectedChecksum) {
+            return null;
+        }
+        void putVectorIndexCachedShard_ACU(indexId, shardId, record.shard, record.checksum).catch((): undefined => undefined);
+        return record.shard;
+    } catch {
+        return null;
+    }
+}
+
+export async function putVectorIndexCachedShard_ACU(
+    indexId: string,
+    shardId: string,
+    shard: SummaryVectorIndexShard_ACU,
+    checksum = '',
+): Promise<void> {
+    try {
+        // 向量内存表示可能是 Float32Array（解码路径）。IDB 序列化路径保持不变：
+        // 写库前统一转回普通 number[]，避免结构化克隆改变既有缓存存储形态。
+        const normalizedShard: SummaryVectorIndexShard_ACU = {
+            ...shard,
+            chunks: Array.isArray(shard?.chunks)
+                ? shard.chunks.map((chunk) => ({
+                    ...chunk,
+                    vector: Array.isArray(chunk.vector) || chunk.vector instanceof Float32Array
+                        ? Array.from(chunk.vector as number[] | Float32Array, (value) => Number(value) || 0)
+                        : [],
+                }))
+                : [],
+        };
+        const json = JSON.stringify(normalizedShard);
+        const now = Date.now();
+        const record: CachedShardRecord_ACU = {
+            key: makeKey_ACU(indexId, shardId),
+            indexId,
+            shardId,
+            shard: normalizedShard,
+            byteSize: new Blob([json]).size,
+            checksum,
+            lastAccessAt: now,
+            createdAt: now,
+        };
+        await runStore_ACU<IDBValidKey>('readwrite', (store) => store.put(record));
+        if (Date.now() - lastTempCacheTrimAt_ACU >= VECTOR_TEMP_CACHE_TRIM_THROTTLE_MS_ACU) {
+            lastTempCacheTrimAt_ACU = Date.now();
+            void trimVectorIndexTempCacheToBudget_ACU().catch((): undefined => undefined);
+        }
+    } catch {
+        // 临时缓存失败不应影响权威外置文件链路。
+    }
+}
+
+/**
+ * 按 lastAccessAt 从最旧开始淘汰，直到总字节数回到预算内。
+ * 实现为两趟 cursor：第一趟只读统计总量，第二趟按时间升序删除到位，
+ * 避免在单个 readwrite 事务里长时间持锁。
+ */
+export async function trimVectorIndexTempCacheToBudget_ACU(
+    maxBytes: number = VECTOR_TEMP_CACHE_MAX_BYTES_ACU,
+): Promise<void> {
+    try {
+        const { bytes } = await estimateVectorIndexTempCache_ACU();
+        if (bytes <= maxBytes) return;
+        let bytesToFree = bytes - maxBytes;
+        const db = await openDb_ACU();
+        await new Promise<void>((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME_ACU, 'readwrite');
+            const store = tx.objectStore(STORE_NAME_ACU);
+            const request = store.index('lastAccessAt').openCursor();
+            request.onsuccess = () => {
+                const cursor = request.result;
+                if (cursor && bytesToFree > 0) {
+                    const record = cursor.value as CachedShardRecord_ACU;
+                    bytesToFree -= Math.max(0, Number(record.byteSize) || 0);
+                    cursor.delete();
+                    cursor.continue();
+                }
+            };
+            request.onerror = () => reject(request.error || new Error('向量临时缓存 LRU 淘汰失败'));
+            tx.oncomplete = () => {
+                db.close();
+                resolve();
+            };
+            tx.onerror = () => {
+                db.close();
+                reject(tx.error || new Error('向量临时缓存 LRU 淘汰事务失败'));
+            };
+        });
+    } catch {
+        // 淘汰失败不影响读写链路，下次 put 会再次尝试。
+    }
+}
+
+export async function deleteVectorIndexCachedShard_ACU(indexId: string, shardId: string): Promise<void> {
+    try {
+        await runStore_ACU<undefined>('readwrite', (store) => store.delete(makeKey_ACU(indexId, shardId)) as IDBRequest<undefined>);
+    } catch {}
+}
+
+export async function deleteVectorIndexCacheByIndex_ACU(indexId: string): Promise<void> {
+    try {
+        const db = await openDb_ACU();
+        await new Promise<void>((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME_ACU, 'readwrite');
+            const store = tx.objectStore(STORE_NAME_ACU);
+            const index = store.index('indexId');
+            const request = index.openCursor(IDBKeyRange.only(indexId));
+            request.onsuccess = () => {
+                const cursor = request.result;
+                if (cursor) {
+                    cursor.delete();
+                    cursor.continue();
+                }
+            };
+            request.onerror = () => reject(request.error || new Error('清理向量临时缓存失败'));
+            tx.oncomplete = () => {
+                db.close();
+                resolve();
+            };
+            tx.onerror = () => {
+                db.close();
+                reject(tx.error || new Error('清理向量临时缓存事务失败'));
+            };
+        });
+    } catch {}
+}
+
+export async function clearVectorIndexTempCache_ACU(): Promise<void> {
+    try {
+        await runStore_ACU<undefined>('readwrite', (store) => store.clear() as IDBRequest<undefined>);
+    } catch {}
+}
+
+export async function estimateVectorIndexTempCache_ACU(indexId?: string): Promise<{ bytes: number; count: number }> {
+    try {
+        const targetIndexId = String(indexId || '').trim();
+        const db = await openDb_ACU();
+        return await new Promise((resolve, reject) => {
+            let bytes = 0;
+            let count = 0;
+            const tx = db.transaction(STORE_NAME_ACU, 'readonly');
+            const store = tx.objectStore(STORE_NAME_ACU);
+            const source = targetIndexId ? store.index('indexId') : store;
+            const request = targetIndexId
+                ? source.openCursor(IDBKeyRange.only(targetIndexId))
+                : source.openCursor();
+            request.onsuccess = () => {
+                const cursor = request.result;
+                if (cursor) {
+                    const record = cursor.value as CachedShardRecord_ACU;
+                    bytes += Math.max(0, Number(record.byteSize) || 0);
+                    count += 1;
+                    cursor.continue();
+                }
+            };
+            request.onerror = () => reject(request.error || new Error('估算向量临时缓存失败'));
+            tx.oncomplete = () => {
+                db.close();
+                resolve({ bytes, count });
+            };
+            tx.onerror = () => {
+                db.close();
+                reject(tx.error || new Error('估算向量临时缓存事务失败'));
+            };
+        });
+    } catch {
+        return { bytes: 0, count: 0 };
+    }
+}

@@ -156,10 +156,7 @@ class _PureAES128:
             s[i] ^= rk[i]
         return bytes(s)
 
-
-
 _PureAES128._SI = tuple({v: i for i, v in enumerate(_PureAES128._S)}[i] for i in range(256))
-
 
 def _pure_ctr_decrypt(key: bytes, counter: bytes, data: bytes) -> bytes:
     if not data:
@@ -178,7 +175,6 @@ def _pure_ctr_decrypt(key: bytes, counter: bytes, data: bytes) -> bytes:
         out.extend(c ^ k for c, k in zip(chunk, ks))
     return bytes(out)
 
-
 def _pure_cbc_decrypt(key: bytes, iv: bytes, data: bytes) -> bytes:
     if not data:
         return b""
@@ -194,7 +190,6 @@ def _pure_cbc_decrypt(key: bytes, iv: bytes, data: bytes) -> bytes:
         prev = block
     return bytes(out)
 
-
 def _aes_ctr_decrypt(key: bytes, counter: bytes, data: bytes) -> bytes:
     if not data:
         return b""
@@ -208,7 +203,6 @@ def _aes_ctr_decrypt(key: bytes, counter: bytes, data: bytes) -> bytes:
         return cipher.decrypt(data)
     return _pure_ctr_decrypt(key, counter, data)
 
-
 def _aes_cbc_decrypt(key: bytes, iv: bytes, data: bytes) -> bytes:
     if not data:
         return b""
@@ -218,7 +212,6 @@ def _aes_cbc_decrypt(key: bytes, iv: bytes, data: bytes) -> bytes:
     if AES_BACKEND == "pycryptodome":
         return CryptoAES.new(key, CryptoAES.MODE_CBC, iv).decrypt(data)
     return _pure_cbc_decrypt(key, iv, data)
-
 
 SITE = "https://hongguoduanju.com"
 EPISODE_PREFIX = "hg-episode-v1:"
@@ -238,7 +231,6 @@ _QUALITY_LINE_NAME_TO_Q = {
     "540": "540", "480": "480", "360": "360",
 }
 
-
 def _split_episode_token(token: str) -> tuple[str, str]:
     """把 'hg-episode-v1:<q>:<vid>' 解析为 (清晰度, vid)；兼容旧格式 'hg-episode-v1:<vid>'。"""
     body = str(token or "")
@@ -255,13 +247,11 @@ _AI_MANJU_KEYWORDS = [
     "AI漫剧", "AI动画", "AI短剧", "AI动漫", "漫剧AI", "二次元AI", "AI漫画", "动画短剧",
 ]
 
-
 # ---- 本机解密缓存 + 自动清理 ----
 _HG_CACHE_DIR = None
 _HG_CACHE_MAX_FILES = 8          # 最多保留集数
 _HG_CACHE_MAX_BYTES = 400 * 1024 * 1024  # 总容量约 400MB
 _HG_CACHE_MAX_AGE = 6 * 3600     # 超过 6 小时自动删
-
 
 def _hg_cache_dir() -> str:
     global _HG_CACHE_DIR
@@ -301,12 +291,10 @@ def _hg_cache_dir() -> str:
     _HG_CACHE_DIR = tempfile.mkdtemp(prefix="hg_cenc_")
     return _HG_CACHE_DIR
 
-
 def _hg_cache_path(vid: str, quality: str) -> str:
     safe = re.sub(r"[^0-9A-Za-z_-]", "", str(vid))[:40]
     q = re.sub(r"[^0-9A-Za-z]", "", str(quality or "q"))[:8]
     return os.path.join(_hg_cache_dir(), "%s_%s.mp4" % (safe, q))
-
 
 def _hg_cache_list() -> list:
     root = _hg_cache_dir()
@@ -328,7 +316,6 @@ def _hg_cache_list() -> list:
         return []
     files.sort(key=lambda x: x["mtime"])  # 旧 -> 新
     return files
-
 
 def _hg_cache_cleanup(force: bool = False) -> None:
     """按时间 + 数量 + 体积自动清理本机缓存。"""
@@ -366,7 +353,6 @@ def _hg_cache_cleanup(force: bool = False) -> None:
     except Exception:
         pass
 
-
 def _hg_cache_clear_all() -> None:
     try:
         root = _hg_cache_dir()
@@ -379,7 +365,6 @@ def _hg_cache_clear_all() -> None:
                 pass
     except Exception:
         pass
-
 
 def _hg_cache_get(vid: str, quality: str) -> bytes | None:
     _hg_cache_cleanup(False)
@@ -396,7 +381,6 @@ def _hg_cache_get(vid: str, quality: str) -> bytes | None:
     except Exception:
         return None
     return None
-
 
 def _hg_cache_put(vid: str, quality: str, data: bytes) -> None:
     if not data or len(data) < 64:
@@ -416,21 +400,17 @@ def _hg_cache_put(vid: str, quality: str, data: bytes) -> None:
         except Exception:
             pass
 
-
 def _aes_is_fast() -> bool:
     return AES_BACKEND in ("cryptography", "pycryptodome")
 
-
 def _aes_is_fast() -> bool:
     return AES_BACKEND in ("cryptography", "pycryptodome")
-
 
 def _http_get_bytes(url: str, headers: dict | None = None, timeout: int = 60) -> bytes:
     h = dict(headers or {})
     r = requests.get(url, headers=h, timeout=timeout)
     r.raise_for_status()
     return r.content
-
 
 def _probe_content_length(url: str, headers: dict | None = None, timeout: int = 30) -> int:
     h = dict(headers or {})
@@ -459,7 +439,6 @@ def _probe_content_length(url: str, headers: dict | None = None, timeout: int = 
         pass
     return 0
 
-
 def _download_range(url: str, start: int, end: int, headers: dict | None, timeout: int) -> tuple[int, bytes]:
     h = dict(headers or {})
     h["Range"] = "bytes=%d-%d" % (start, end)
@@ -480,7 +459,6 @@ def _download_range(url: str, start: int, end: int, headers: dict | None, timeou
             except Exception:
                 pass
     raise RuntimeError("range %s-%s failed: %s" % (start, end, last_err))
-
 
 def _multi_download(url: str, headers: dict | None = None, timeout: int = 90, workers: int = 4) -> bytes:
     """多分片并行下载，失败则回退整文件单线程。"""
@@ -525,8 +503,6 @@ def _multi_download(url: str, headers: dict | None = None, timeout: int = 90, wo
         return _http_get_bytes(url, headers, timeout=timeout)
     return bytes(buf)
 
-
-
 _MANJU_KEYWORDS = [
     "漫剧", "动漫短剧", "二次元", "漫画短剧", "国漫短剧", "日漫", "动态漫", "动画剧",
 ]
@@ -535,9 +511,6 @@ VIDEO_URL = "https://api5-normal-sinfonlineb.fqnovel.com/novel/player/multi_vide
 UA = "Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 APP_UA = "com.phoenix.read/71332 (Linux; U; Android 16; zh_CN; 25053RT47C; Build/BP2A.250605.031.A3; Cronet/TTNetVersion:04657795 2026-01-23 QuicVersion:c67e9834 2025-09-08)"
 MEDIA_UA = "com.phoenix.read/71332"
-
-
-
 
 _HTML_FETCH_ATTEMPTS = 3
 
@@ -850,7 +823,6 @@ _STREAM_MAX_SESSIONS = 4
 _STREAM_STATE: dict[str, Any] = {"port": 0, "server": None, "sessions": {}}
 _STREAM_LOCK = threading.RLock()
 
-
 def _toplevel_boxes(buf: bytes) -> list[tuple[int, int, bytes]]:
     boxes: list[tuple[int, int, bytes]] = []
     cursor = 0
@@ -866,7 +838,6 @@ def _toplevel_boxes(buf: bytes) -> list[tuple[int, int, bytes]]:
         boxes.append((cursor, size, fourcc))
         cursor += size
     return boxes
-
 
 def _range_get(url: str, start: int, end: int) -> tuple[bytes, int]:
     headers = dict(MEDIA_HEADERS)
@@ -905,7 +876,6 @@ def _range_get(url: str, start: int, end: int) -> tuple[bytes, int]:
         return body, total
     raise last_error or HongguoPluginError("媒体分片请求失败")
 
-
 def _fetch_moov(url: str) -> tuple[int, int, bytes]:
     probe, total = _range_get(url, 0, _STREAM_HEAD_PROBE - 1)
     if not total:
@@ -928,7 +898,6 @@ def _fetch_moov(url: str) -> tuple[int, int, bytes]:
         raise HongguoPluginError("moov 分片长度不符")
     return total, moov_start, moov
 
-
 def _original_format_near(data: bytearray, entry_pos: int, default: bytes) -> bytes:
     """从 sample entry 后的 sinf/frma 读取原始四字符码（avc1/hvc1/mp4a 等）。"""
     blob = bytes(data[entry_pos : min(len(data), entry_pos + 800)])
@@ -942,7 +911,6 @@ def _original_format_near(data: bytearray, entry_pos: int, default: bytes) -> by
             if fmt not in (b"", b"\x00\x00\x00\x00", b"encv", b"enca") and all(32 <= c < 127 for c in fmt):
                 return fmt
         idx = pos + 4
-
 
 def _restore_cenc_codecs(data: bytearray) -> None:
     """把 encv/enca 还原为 frma 中的真实编码，避免一律改成 hvc1 导致只有声音。"""
@@ -961,13 +929,11 @@ def _restore_cenc_codecs(data: bytearray) -> None:
         data[pos : pos + 4] = _original_format_near(data, pos, b"mp4a")
         pos += 4
 
-
 def _rewrite_moov(moov: bytes) -> bytes:
     result = bytearray(moov)
     _restore_cenc_codecs(result)
     _replace_sinf(result)
     return bytes(result)
-
 
 def _sample_table(moov: bytes, moov_start: int) -> list[tuple[int, int, bytes]]:
     view = memoryview(moov)
@@ -1008,7 +974,6 @@ def _sample_table(moov: bytes, moov_start: int) -> list[tuple[int, int, bytes]]:
         raise HongguoPluginError("moov 中没有可解密的 CENC 样本")
     samples.sort()
     return samples
-
 
 class _StreamSession:
     """按 Range 逐块拉取加密 MP4，边下边解 CENC，供本地播放器直连。"""
@@ -1083,7 +1048,6 @@ class _StreamSession:
             yield block
             cursor += len(block)
 
-
 def _stream_session(video_id: str, config: Mapping[str, Any], quality: str = "1080") -> "_StreamSession":
     quality = quality if quality in _QUALITY_LINE_NAME_TO_Q else "1080"
     cache_key = "%s|%s" % (video_id, quality)
@@ -1115,7 +1079,6 @@ def _stream_session(video_id: str, config: Mapping[str, Any], quality: str = "10
         sessions[cache_key] = session
     return session
 
-
 _RANGE_UNSATISFIABLE = "unsatisfiable"
 
 def _parse_range(value: str, total: int) -> Any:
@@ -1142,7 +1105,6 @@ def _parse_range(value: str, total: int) -> Any:
     if start >= total or start > end:
         return _RANGE_UNSATISFIABLE
     return start, end
-
 
 class _StreamHandler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
@@ -1232,7 +1194,6 @@ class _StreamHandler(BaseHTTPRequestHandler):
             self.close_connection = True
         except Exception:
             self.close_connection = True
-
 
 def _start_stream_server() -> int:
     with _STREAM_LOCK:
@@ -3455,7 +3416,6 @@ def _video_list_from_model(model: Mapping[str, Any]) -> Any:
         return _video_list_from_model(data)
     return None
 
-
 _QUALITY_ORDER = ("2160", "1440", "1080", "720", "576", "540", "480", "360")
 
 def _int(value: Any) -> int:
@@ -3656,7 +3616,6 @@ def _cat_item(x):
 def _filter_group(key, name, values):
     return {"key": key, "name": name, "value": [{"n": n, "v": v} for n, v in values]}
 
-
 def _search_loader(key: str) -> dict:
     """拉取搜索页 loaderData，失败重试。"""
     last = {}
@@ -3674,7 +3633,6 @@ def _search_loader(key: str) -> dict:
         except Exception:
             pass
     return last
-
 
 def _search_by_keywords(keywords, page: int) -> dict:
     """多关键词轮换：第 N 页用第 N 个关键词（循环），避免搜索无法翻页。"""
@@ -3705,7 +3663,6 @@ def _search_by_keywords(keywords, page: int) -> dict:
         "total": total or len(out) * pagecount,
         "list": out,
     }
-
 
 def _category_loader(page: int, q: dict) -> dict:
     """分类页带重试；page=1 偶发空列表时多试几次。"""
@@ -3942,7 +3899,6 @@ class Spider(_BaseSpider):
             "list": [_item(x) for x in rows],
         }
 
-
     def detailContent(self, ids):
         sid = str(ids[0] if isinstance(ids, (list, tuple)) else ids)
         sid = sid.replace("hg-series-v1:", "")
@@ -4036,7 +3992,6 @@ class Spider(_BaseSpider):
             "url": SITE + "/",
             "header": {"User-Agent": UA},
         }
-
 
     def proxy(self, param):
         """部分壳调用 proxy 而不是 localProxy。"""
@@ -4162,4 +4117,3 @@ class Spider(_BaseSpider):
         except Exception as exc:
             msg = "hg localProxy failed: %s\n%s" % (exc, traceback.format_exc())
             return [500, "text/plain; charset=utf-8", msg.encode("utf-8")]
-

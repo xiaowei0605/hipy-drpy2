@@ -4107,6 +4107,7 @@ Zylo Into Crime,
 Сити Эдем КиноДок,
 Stingray ZenLIFE,
 Explosión Creativa,
+Docu.,
 
 动画片,#genre#
 青春动漫,
@@ -7040,6 +7041,7 @@ TV Arbëria 3 Fëmijë,
 FilmRise Anime,
 Nick HD+,
 Freeform,
+Disney International HD,
 
 音乐,#genre#
 MTV Live,
@@ -7852,6 +7854,7 @@ VOA美国之音,
 Zee Alwan,
 Zee Yuva,
 Showtime,
+Zee Zest HD,
 
 福建,#genre#
 漳州新闻综合,
