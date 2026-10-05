@@ -103,6 +103,12 @@
             "api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/ASMR吧.py"
         },
         {
+        	"key": "洛雪TV",
+            "name": "🐬[追剧]洛雪TV(关梯)",
+            "type": 3,
+            "api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/洛雪TV.py"
+		},
+        {
         	"key": "人人视频",
             "name": "🐬[追剧]人人视频(关梯)",
             "type": 3,
@@ -1092,16 +1098,14 @@
 			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/聚合直播.py"
 		},
 		{
-           "key": "央视网页",
-           "name": "🐬[直播]央视网页直播.js(关梯)",
-           "type": 3,
-           "jar": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/jar_js/WvSpider.jar",
-           "api": "csp_WvSpider",
-           "ext": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/jar_js/央视直播.js"
-        },
+            "key":"央视频",
+            "name":"🐬[直播]央视频(关梯)",
+			"type": 3,
+			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/央视频.py"
+		},
 		{
             "key":"youtube2",
-            "name":"🐬[直播]油管直播,py",
+            "name":"🐬[直播]油管直播.py",
 			"type": 3,
 			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/油管直播.py"
 		},
@@ -1185,6 +1189,12 @@
       ]
     },
 		{
+			"key": "七星短剧",
+			"name": "🐬[短剧]七星短剧",
+			"type": 3,
+			"api": "https://ghfast.top/https://raw.githubusercontent.com/phu889/kjh998/refs/heads/main/py/七星短剧.py"
+		},
+        {
 			"key": "红果短剧",
 			"name": "🐬[短剧]红果短剧(关梯)",
 			"type": 3,
