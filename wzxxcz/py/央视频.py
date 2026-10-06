@@ -4,6 +4,21 @@
 央视频直播 - 双源统一版 (Script 1 native + Script 2 YSPTP)
 - 文件日志已禁用 (不写 /storage/emulated/0/Download/ysp-live.log)
 - 双源: 央视频源1 (JCE/bk) + 央视频源2 (YSPTP)
+
+================================================================
+ 版本标识: STABLE-v1
+ 生成日期: 2026-10-05
+ 基线: 原始双源统一版
+ 改动: 仅 3 个数字, 逻辑一行未动
+ 识别: 搜索 "STABLE-v1" 可定位所有改动处
+================================================================
+
+稳定版说明:
+  本版只在原版基础上调整 3 个数字, 逻辑一行未动:
+    IDLE_TIMEOUT    = 600   (原 300)   暂停/切走 10 分钟内回来不用重新缓冲
+    MAX_SEGS        = 800   (原 400)   长时播放内存里保留更多段
+    PLAYLIST_WINDOW = 15    (原 8)     播放器缓冲从 ~48 秒升到 ~90 秒
+  除此之外, 请求方式/响应格式/m3u8 结构/缓存策略/所有接口完全与原版一致。
 """
 
 import base64, gzip, hashlib, json, os, random, re, struct, threading, time
@@ -39,9 +54,9 @@ def format_remarks(brand="央视频", meta=""):
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36'
 WINDOW = 300
 REFRESH_INTERVAL = 2
-IDLE_TIMEOUT = 300
-MAX_SEGS = 400
-PLAYLIST_WINDOW = 8
+IDLE_TIMEOUT = 600      # ★ STABLE-v1 改动1: 原 300
+MAX_SEGS = 800          # ★ STABLE-v1 改动2: 原 400
+PLAYLIST_WINDOW = 15    # ★ STABLE-v1 改动3: 原 8
 LOCAL_PORT_PREFERRED = 19876
 LOCAL_PORT_RANGE = 50
 

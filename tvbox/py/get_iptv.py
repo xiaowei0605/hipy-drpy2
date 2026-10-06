@@ -13,6 +13,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from concurrent.futures import TimeoutError as FuturesTimeoutError
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from logging.handlers import RotatingFileHandler
 
 # === 配置日志 ===
 def setup_logger():
@@ -32,8 +33,13 @@ def setup_logger():
     console_handler.setFormatter(formatter)
     logger.addHandler(console_handler)
     
-    # 文件输出
-    file_handler = logging.FileHandler(os.path.join(log_dir, "iptv_update.log"), encoding="utf-8")
+    # 文件输出(轮转: 单文件 10MB, 保留 3 个备份, 防止长期运行无限膨胀)
+    file_handler = RotatingFileHandler(
+        os.path.join(log_dir, "iptv_update.log"),
+        maxBytes=10 * 1024 * 1024,
+        backupCount=3,
+        encoding="utf-8",
+    )
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
     
@@ -210,6 +216,8 @@ def fetch_channels(url):
     # 内容量不足以承载任何频道。此类响应直接判定为无效源：
     # - 不计入成功数/缓存(避免 source_state.json 被伪源撑大)
     # - 不进入待匹配数据(避免每次都当作"快照抖动"回退或将空缓存写盘)
+    # 优化: 128B 仅作快速预筛(真正的判定在解析后按"频道数==0"进行)，
+    # 避免把合法的小体积 txt 源(几个频道)误杀，也避免放行 1KB 的 HTML 错误页
     MIN_VALID_BODY_BYTES = 128
     if len(raw_bytes) < MIN_VALID_BODY_BYTES:
         logger.warning(f"源 {url} 响应内容过小({len(raw_bytes)}B < {MIN_VALID_BODY_BYTES}B)，"
@@ -280,6 +288,13 @@ def fetch_channels(url):
                     if name.strip() and url_part.strip():
                         channels[current_category].append((name.strip(), url_part.strip()))
 
+    # 真正的伪源判定(优化②): 解析完成后仍无任何频道 -> 该响应不承载有效数据
+    # (如 1KB 的 HTML 错误页、只有头部注释的占位文件)，按无效源处理，
+    # 不计入成功数/缓存，避免污染 source_state.json 与待匹配数据
+    if not channels:
+        logger.warning(f"源 {url} 解析后频道数为 0，判定为伪源/空源，忽略")
+        return OrderedDict()
+
     return channels
 
 SOURCE_STATE_FILE = "py/config/source_state.json"
@@ -288,6 +303,9 @@ SOURCE_STATE_FILE = "py/config/source_state.json"
 # 直接当成"这条源已失效"处理，会导致每次生成结果里的线路数量/顺序反复
 # 来回变化，而源其实并未真正下线或替换。
 SOURCE_FAIL_THRESHOLD = 3
+# fail_streak 计数封顶: 达到阈值后失效源的计数不再无意义地无限增长(曾观察到 488 次)
+# 达到封顶值且判定为真正失效时，同时清空该源缓存的 channels，收缩 source_state.json 体积
+SOURCE_FAIL_STREAK_CAP = 30
 
 def load_source_state(path=SOURCE_STATE_FILE):
     """加载各源 URL 的连续失败计数 + 最近一次成功抓取结果 (跨进程持久化)。"""
@@ -301,10 +319,13 @@ def load_source_state(path=SOURCE_STATE_FILE):
         return {}
 
 def save_source_state(state, path=SOURCE_STATE_FILE):
+    """原子写: 先写临时文件再 os.replace，避免并发/中断时写坏状态文件。"""
     try:
         ensure_dir(path)
-        with open(path, "w", encoding="utf-8") as f:
+        tmp_path = path + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(state, f, ensure_ascii=False)
+        os.replace(tmp_path, path)
     except Exception as e:
         logger.error(f"写入源状态文件失败: {e}")
 
@@ -367,7 +388,9 @@ def fetch_all_channels(tv_urls, max_workers=5, overall_timeout=120):
                     entry["channels"] = {cat: [[n, u] for n, u in chans] for cat, chans in data.items()}
                     use_data = data
                 else:
-                    entry["fail_streak"] = entry.get("fail_streak", 0) + 1
+                    # 计数封顶: 达到 CAP 后停止增长(失效源没有继续计数的意义)
+                    entry["fail_streak"] = min(
+                        entry.get("fail_streak", 0) + 1, SOURCE_FAIL_STREAK_CAP)
                     if entry["fail_streak"] < SOURCE_FAIL_THRESHOLD and entry.get("channels"):
                         # 未达阈值且有历史成功结果可用: 视为瞬时抖动，回退复用
                         fallback_count += 1
@@ -380,6 +403,10 @@ def fetch_all_channels(tv_urls, max_workers=5, overall_timeout=120):
                         # 达到/超过阈值，或从未有过成功结果: 判定为真正失效
                         dead_count += 1
                         use_data = None
+                        # 真正失效的源不再需要缓存的频道数据: 清空以收缩
+                        # source_state.json 体积(回退只发生在未达阈值阶段)
+                        if entry.get("channels"):
+                            entry["channels"] = {}
                         if entry["fail_streak"] >= SOURCE_FAIL_THRESHOLD:
                             logger.error(
                                 f"源 {url} 已连续失败 {entry['fail_streak']} 次(阈值 {SOURCE_FAIL_THRESHOLD})，判定为真正失效"
@@ -419,6 +446,35 @@ def fetch_all_channels(tv_urls, max_workers=5, overall_timeout=120):
     )
     return all_channels
 
+def parse_template_variants(tmpl_name):
+    """拆分模板行的变体列表(保护 re: 段: 行内 |re: 之后全部归正则变体)。"""
+    if tmpl_name.lower().startswith("re:"):
+        variants_raw = [tmpl_name.strip()]
+    elif "|re:" in tmpl_name:
+        re_idx = tmpl_name.index("|re:")
+        variants_raw = [n.strip() for n in tmpl_name[:re_idx].split("|") if n.strip()]
+        variants_raw.append(tmpl_name[re_idx + 1:].strip())  # 保留 "re:..."
+    else:
+        variants_raw = [n.strip() for n in tmpl_name.split("|") if n.strip()]
+    return list(OrderedDict.fromkeys(variants_raw))
+
+
+def literal_variant_patterns(variant):
+    """
+    返回字面变体对应的"匹配键"列表(0-2 个):
+      [0] = 归一化名(norm)匹配键
+      [1] = 净化名(san)匹配键(去连字符/HD 等, 与 norm 不同时才返回)
+    与原实现的 pattern / pattern_san 两条搜索完全对应。
+    """
+    variant_lower = normalize_channel_name(variant).lower()
+    if not variant_lower:
+        return ()
+    variant_san = normalize_channel_name(sanitize_channel_name(variant)).lower()
+    if variant_san and variant_san != variant_lower:
+        return (variant_lower, variant_san)
+    return (variant_lower,)
+
+
 def match_channels(template_channels, all_channels):
     matched = OrderedDict()
     unmatched_template = OrderedDict()
@@ -431,11 +487,116 @@ def match_channels(template_channels, all_channels):
                 # 增强(频道名归一化): 匹配前统一全角/半角、破折号变体、多余空白，
                 # 提升如 ＣＣＴＶ１ / CCTV－1 / CCTV 1 等变体的识别率
                 'norm_name': normalize_channel_name(name).lower(),
+                # 增强(净化名兜底): sanitize 会把 CCTV-1 综合 -> CCTV1、去 HD 后缀等，
+                # 供匹配时做第二遍兜底，解决"CCTV-1"式源名匹配不到模板"CCTV1"的缺口
+                'san_name': normalize_channel_name(sanitize_channel_name(name)).lower(),
                 'name': name,
                 'url': url,
                 'cat': cat,
-                'key': f"{name}_{url}"
+                'key': f"{name}_{url}",
+                # 优化①: 扁平化顺序号，用于索引候选合并后还原原扫描顺序
+                'order': len(flattened_source_channels),
             })
+
+    # 优化①: 字典树多模式匹配。
+    # 将所有模板字面变体的匹配键(norm 键 + san 键)插入同一棵树，
+    # 一次扫描所有源名(norm_name / san_name)，按原边界语义
+    # (^|非字母数字 起、$|非字母数字非+ 止)判定命中；
+    # 结果按 (源序号, 模板行序, 变体序, 键序) 存入 hits，
+    # 随后按同序贪心消费 -> 与原实现"按扁平化顺序扫、命中即取"完全一致。
+    trie = {}   # 字符 -> 子节点; 叶子带 {"variants": [(行序, 变体序, 键序)], "tail": bool}
+
+    def _trie_insert(word, tag):
+        node = trie
+        for ch in word:
+            node = node.setdefault(ch, {})
+        node.setdefault("_v", []).append(tag)
+
+    template_rows = []   # (分类, 模板行名, variants, re_specs)
+    re_specs = []        # (行序, 变体序, pattern)  单独编译, 保持全表扫描
+    for category, tmpl_names in template_channels.items():
+        for tmpl_name in tmpl_names:
+            row_idx = len(template_rows)
+            variants = parse_template_variants(tmpl_name)
+            if not variants:
+                continue
+            specs = []
+            for v_idx, variant in enumerate(variants):
+                if variant.lower().startswith("re:"):
+                    regex_expr = variant[len("re:"):].strip()
+                    if not regex_expr:
+                        continue
+                    try:
+                        pat = re.compile(regex_expr, re.IGNORECASE)
+                    except re.error as e:
+                        logger.warning(f"模板正则变体无效, 已跳过: {variant} -> {e}")
+                        continue
+                    specs.append((v_idx, pat))
+                    re_specs.append((row_idx, v_idx, pat))
+                else:
+                    for k_idx, word in enumerate(literal_variant_patterns(variant)):
+                        _trie_insert(word, (row_idx, v_idx, k_idx))
+            template_rows.append((category, tmpl_name, variants, specs))
+        # end for tmpl_names
+    # end for categories
+
+    def _trie_scan(text):
+        """扫描单个源名, 返回命中的 (行序, 变体序, 键序) 列表; 严格复刻原边界语义。
+        注意: 沿途每个深度都要检查(短词是长词前缀时两者都可能命中)，
+        不能在遇到首个 _v 时停止下降。"""
+        if not text:
+            return []
+        out = []
+        n = len(text)
+        for start in range(n):
+            # 开头边界: 字符串起始, 或前一字符非 [a-z0-9]
+            # (源名已 lower: 用 isalnum+isascii 等价于 [a-z0-9]，CJK 等非 ascii 视为边界)
+            if start > 0 and (text[start - 1].isalnum()
+                              and text[start - 1].isascii()):
+                continue
+            node = trie.get(text[start])
+            if node is None:
+                continue
+            end = start + 1   # node 覆盖 text[start:end]
+            while True:
+                if "_v" in node:
+                    # 结尾边界: 字符串末尾, 或下一字符非 [a-z0-9+]
+                    if end >= n:
+                        out.extend(node["_v"])
+                    else:
+                        nx = text[end]
+                        if not ((nx.isalnum() and nx.isascii()) or nx == '+'):
+                            out.extend(node["_v"])
+                if end >= n:
+                    break
+                nxt = node.get(text[end])
+                if nxt is None:
+                    break
+                node = nxt
+                end += 1
+        return out
+
+    # 字面命中 + re: 正则命中 统一收集为 (源序, 行序, 变体序, 键序)
+    # 键序: 0=归一化名扫描, 1=净化名扫描(对应原 pattern 先、pattern_san 后)
+    hits_set = set()
+    for src in flattened_source_channels:
+        so = src['order']
+        for row_idx, v_idx, k_idx in _trie_scan(src['norm_name']):
+            hits_set.add((so, row_idx, v_idx, k_idx))
+        san = src['san_name']
+        if san != src['norm_name']:
+            for row_idx, v_idx, k_idx in _trie_scan(san):
+                hits_set.add((so, row_idx, v_idx, k_idx))
+        # re: 正则变体(全表扫描, 数量占比极低)
+        for row_idx, v_idx, pat in re_specs:
+            if pat.search(src['norm_name']):
+                hits_set.add((so, row_idx, v_idx, 0))
+            elif san != src['norm_name'] and pat.search(san):
+                hits_set.add((so, row_idx, v_idx, 1))
+
+    # 消费顺序 = 原实现顺序: 按 模板行 -> 变体 -> 源序 (键序仅用于去重,
+    # 原实现对同一变体按源顺序消费, 键 norm/san 在同一 if 中取或)
+    hits = sorted(hits_set, key=lambda h: (h[1], h[2], h[0], h[3]))
 
     used_channel_keys = set()
 
@@ -444,79 +605,25 @@ def match_channels(template_channels, all_channels):
         matched[cat] = OrderedDict()
         unmatched_template[cat] = []
 
-    # 2. 匹配逻辑
-    for category, tmpl_names in template_channels.items():
-        for tmpl_name in tmpl_names:
-            
-            # 去重并解析变体。
-            # 注意: 以 "re:" 开头的变体是"正则变体"，其内部可以包含正则的
-            # 分支语法 "|"（如 re:^cnn\s*(international|world)?$），因此不能
-            # 简单地用 tmpl_name.split("|") 拆分——必须保护 re: 段：
-            #   - 整行以 "re:" 开头 -> 整行视为单个正则变体
-            #   - 行内含 "|re:"      -> 从第一个 "|re:" 截断，其后全部归正则
-            #     (正则变体建议放在行尾)
-            if tmpl_name.lower().startswith("re:"):
-                variants_raw = [tmpl_name.strip()]
-            elif "|re:" in tmpl_name:
-                re_idx = tmpl_name.index("|re:")
-                literal_part = tmpl_name[:re_idx]
-                variants_raw = [n.strip() for n in literal_part.split("|") if n.strip()]
-                variants_raw.append(tmpl_name[re_idx + 1:].strip())  # 保留 "re:..."
-            else:
-                variants_raw = [n.strip() for n in tmpl_name.split("|") if n.strip()]
-            variants = list(OrderedDict.fromkeys(variants_raw))
+    # 2. 匹配消费(优化①): 按预排序 hits 贪心消费，语义与原"行->变体->源序"
+    # 顺序扫描完全一致: 一行会消费其所有命中且未被更早行占用的源
+    found_rows = set()
+    for so, row_idx, _v_idx, _k_idx in hits:
+        src = flattened_source_channels[so]
+        if src['key'] in used_channel_keys:
+            continue          # 源已被更早的行消费: 跳过
+        category, tmpl_name, variants, _specs = template_rows[row_idx]
+        primary_name = variants[0]
+        if primary_name not in matched[category]:
+            matched[category][primary_name] = []
+        matched[category][primary_name].append((src['name'], src['url']))
+        used_channel_keys.add(src['key'])
+        found_rows.add(row_idx)
 
-            # 修复(崩溃预防): 理论上 parse_template 已过滤空名称，这里再做一层防御，
-            # 避免 variants 为空时 variants[0] 抛出 IndexError
-            if not variants:
-                continue
-
-            primary_name = variants[0]
-            found_for_this_template = False
-
-            for variant in variants:
-                # 支持正则变体: 变体以 "re:" 开头时，直接作为正则表达式编译匹配
-                # (大小写不敏感、匹配源归一化后的名字)。不带前缀的变体保持
-                # 原有"字面量 + 边界限制"语义，两者可混用，完全向后兼容。
-                # 例: CNN|cnn|re:^cnn\s*(international|world)?$ 
-                if variant.lower().startswith("re:"):
-                    regex_expr = variant[len("re:"):].strip()
-                    if not regex_expr:
-                        continue
-                    try:
-                        pattern = re.compile(regex_expr, re.IGNORECASE)
-                    except re.error as e:
-                        logger.warning(f"模板正则变体无效, 已跳过: {variant} -> {e}")
-                        continue
-                else:
-                    variant_lower = normalize_channel_name(variant).lower()
-                    if not variant_lower:
-                        continue
-
-                    # 强化正则: 两端都加边界限制
-                    # 结尾: 匹配到字符串末尾($) 或 非字母数字且非加号([^a-z0-9\+])，防止 CCTV5 匹配 CCTV5+
-                    # 开头: 匹配字符串开头(^) 或 非字母数字([^a-z0-9])，防止变体作为子串被更长的名称
-                    #       误匹配（例如变体 "5" 不应命中 "CCTV15" 中间的 "5"）
-                    pattern = re.compile(
-                        r'(?:^|[^a-z0-9])' + re.escape(variant_lower) + r'(?:$|[^a-z0-9\+])'
-                    )
-
-                for src in flattened_source_channels:
-                    if src['key'] in used_channel_keys:
-                        continue
-
-                    # 使用正则搜索
-                    if pattern.search(src['norm_name']):
-                        if primary_name not in matched[category]:
-                            matched[category][primary_name] = []
-
-                        matched[category][primary_name].append((src['name'], src['url']))
-
-                        used_channel_keys.add(src['key'])
-                        found_for_this_template = True
-
-            if not found_for_this_template:
-                unmatched_template[category].append(tmpl_name)
+    # 未匹配: template_rows 中未被命中的行(与原 found_for_this_template 逻辑一致)
+    for row_idx, (category, tmpl_name, _variants, _specs) in enumerate(template_rows):
+        if row_idx not in found_rows:
+            unmatched_template[category].append(tmpl_name)
 
     # 3. 找出源中未使用的频道
     unmatched_source = OrderedDict()
@@ -530,6 +637,34 @@ def match_channels(template_channels, all_channels):
 
 def is_ipv6(url):
     return "://[" in url
+
+# === 线路地址类型分类(生成配置时按 ipv4 -> 域名 -> ipv6 顺序排列) ===
+_IPV4_HOST_RE = re.compile(r'^\d{1,3}(?:\.\d{1,3}){3}$')
+
+def classify_url_type(url):
+    """
+    将线路地址分类为三组，返回排序用序号(小的在前)：
+      0 = IPv4 直连   (host 为纯数字点分十进制，如 1.2.3.4:8080)
+      1 = 域名        (host 含字母，如 example.com、xn--xx.net)
+      2 = IPv6 直连   (host 为方括号形式，如 [2001:db8::1])
+    仅按 "$" 分隔前的真实播放地址判断，忽略 $token 等附加参数与路径。
+    """
+    base = url.split("$", 1)[0].strip()
+    m = re.match(r'^(?:[a-zA-Z][a-zA-Z0-9+.-]*://)?([^/?#]+)', base)
+    if not m:
+        return 1  # 解析不出 host 按域名组处理
+    hostport = m.group(1)
+    # 去掉 user:pass@ 前缀
+    if '@' in hostport:
+        hostport = hostport.rsplit('@', 1)[1]
+    if hostport.startswith('['):          # [2001:db8::1]:port
+        return 2
+    host = hostport.split(':', 1)[0]      # 去端口
+    if _IPV4_HOST_RE.match(host):         # 纯数字点分
+        return 0
+    if re.match(r'^\d{1,3}(?:\.\d{1,3}){3}$', host):  # 冗余保险，实际同上
+        return 0
+    return 1
 
 def _build_extinf(display_name, category, clean_name=None):
     """
@@ -591,6 +726,10 @@ def generate_outputs(channels, template_channels, m3u_path, txt_path):
                                 unique_urls.append(url)
                                 seen_base_urls.add(base_for_dedup)
                                 written_line_keys.add((channel_key_name, base_for_dedup))
+
+                        # 排序(生成格式): 按 ipv4 -> 域名 -> ipv6 顺序排列线路；
+                        # 稳定排序保证同类型内保持源抓取时的原始顺序
+                        unique_urls.sort(key=classify_url_type)
 
                         # 净化名供 tvg-id / tvg-name 使用；可见名保留模板名
                         clean_name = sanitize_channel_name(channel_key_name) or channel_key_name
@@ -754,15 +893,25 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
     existing = parse_template(target_template_file) or OrderedDict()
 
     # 记录每个频道的滞留轮数(从旧文件注释头读取)
+    # 修复(轮数不持久): 原实现 fail_rounds 每次调用都从空字典起算，
+    # 累计值从不写回文件 -> 每轮计数恒为 1，退役永不触发。
+    # 现将各频道累计轮数以 JSON 写入文件头 FAIL_COUNTS 行，跨轮读回累加。
     fail_rounds = {}
     old_max = max_append_rounds
     if os.path.exists(target_template_file):
         try:
             with open(target_template_file, "r", encoding="utf-8") as f:
                 for line in f:
-                    m = re.match(r'#\s*MATCH_FAIL_ROUNDS:\s*(\d+)', line.strip())
+                    stripped = line.strip()
+                    m = re.match(r'#\s*MATCH_FAIL_ROUNDS:\s*(\d+)', stripped)
                     if m:
                         old_max = int(m.group(1))
+                    m2 = re.match(r'#\s*FAIL_COUNTS:\s*(\{.*\})\s*$', stripped)
+                    if m2:
+                        try:
+                            fail_rounds = json.loads(m2.group(1))
+                        except Exception:
+                            fail_rounds = {}
         except Exception:
             pass
 
@@ -800,14 +949,17 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
                 appended_count += 1
 
     # 3) 自动退役: 超过 max_append_rounds 轮仍未匹配
+    # 修复(死代码): 原条件要求 (cat,name) 不在本轮未匹配中才退役，但轮数只在
+    # "本轮未匹配"时才递增、匹配成功时归零，两个条件互斥导致退役永远不触发。
+    # 按注释本意("超过 max_append_rounds 轮仍未匹配的频道自动移出")移除该子句：
+    # 仍在重试但累计轮数超限的频道同样退役；已匹配频道轮数已归零不受影响。
     retire_rounds = max_append_rounds if max_append_rounds and max_append_rounds > 0 else old_max
     if retire_rounds > 0:
         retired = 0
         for cat in list(new_template.keys()):
             kept = []
             for name in new_template[cat]:
-                if fail_rounds.get(f"{cat}\u0001{name}", 0) > retire_rounds \
-                   and (cat, name) not in this_unmatched:
+                if fail_rounds.get(f"{cat}\u0001{name}", 0) > retire_rounds:
                     retired += 1
                     continue
                 kept.append(name)
@@ -824,6 +976,9 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
         with open(target_template_file, "w", encoding="utf-8") as f:
             f.write(f"# 测试模板(由 get_iptv.py 自动维护)\n")
             f.write(f"# MATCH_FAIL_ROUNDS: {max_append_rounds}\n")
+            # 持久化各频道累计未匹配轮数，供下轮读回继续累加(退役依赖此值)
+            active_counts = {k: v for k, v in fail_rounds.items() if v}
+            f.write(f"# FAIL_COUNTS: {json.dumps(active_counts, ensure_ascii=False)}\n")
             for cat, names in new_template.items():
                 uniq = list(OrderedDict.fromkeys(names))
                 if not uniq:
