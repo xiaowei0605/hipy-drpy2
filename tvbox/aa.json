@@ -2,7 +2,7 @@
  "sites": [
   {
    "key": "py_douban",
-   "name": "豆瓣[py]",
+   "name": "豆瓣",
    "type": 3,
    "api": "./py/douban.py",
    "searchable": 0,
@@ -19,6 +19,17 @@
     "ratio": 1.33
    },
    "changeable": 1
+  },
+  {
+   "key": "exp_ai",
+   "name": "AI 平台",
+   "type": 3,
+   "api": "csp_ProxySpider",
+   "searchable": 0,
+   "changeable": 0,
+   "ext": {
+    "class": "Ai"
+   }
   },
   {
    "key": "油管so",
