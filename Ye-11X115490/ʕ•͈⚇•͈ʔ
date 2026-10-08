@@ -1,0 +1,138 @@
+{
+    "sites": [
+    {
+            "key": "腾讯视频",
+            "name": "腾讯视频",
+            "type": 3,
+            "api": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/drpy2.min.js",
+            "ext": "https://gh-proxy.com/https://raw.githubusercontent.com/barry818/jTV/refs/heads/main/js/腾讯.js"
+        },
+        {
+            "key": "影探影视",
+            "name": "影探影视",
+            "type": 3,
+            "api": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/影探影视.py",
+            "timeout": 10,
+            "searchable": 1,
+            "quickSearch": 0,
+            "changeable": 0
+        },
+        {
+            "key": "枫叶",
+            "name": "枫叶影院",
+            "type": 3,
+            "api": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/枫叶.py",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "changeable": 1,
+            "playable": 1
+        },
+{
+            "key": "ppx",
+            "name": "皮皮影视",
+            "type": 3,
+            "api": "http://8.134.205.252:39466/setbox/PY/ApptoV5.py",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 0,
+            "ext": "http://154.94.224.56:8762"
+        },
+        {
+            "key": "星耀4K",
+            "name": "星耀影探",
+            "type": 4,
+            "api": "http://8.134.205.252:39466/pz/sx4k.php/api.php/provide/vod/?ac=list",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "布布",
+            "name": "布布影视",
+            "type": 3,
+            "api": "https://api.uumnet.com/tvbox/1002469838.php?fileid=%2Fffdbcc62-9661-11f1-aeba-525400459a98&filename=%E8%BF%99%E6%98%AF%E5%B8%83%E5%B8%83.py"
+        },
+        {
+            "key": "山楂影视",
+            "name": "山楂影视",
+            "type": 3,
+            "api": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/山楂影视.py",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+        {
+            "key": "mihdr",
+            "name": "小米网盘",
+            "type": 3,
+            "jar": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/PsyDuck-wp.jar",
+            "api": "csp_ZC4K",
+            "ext": "YUhSMGNEb3ZMekUyTUM0eU1ESXVNak00TGpNNU9qTTNNekU1TDJGd2FTNXdhSEEvYzJsMFpUMXRhV2hrY2lNakkyMXBhR1J5"
+        },
+        {
+            "key": "ouge",
+            "name": "讴歌网盘",
+            "type": 3,
+            "jar": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/PsyDuck-wp.jar",
+            "api": "csp_ZC4K",
+            "ext": "YUhSMGNEb3ZMekUyTUM0eU1ESXVNak00TGpNNU9qTTNNekU1TDJGd2FTNXdhSEEvYzJsMFpUMXZkV2RsSXlNamIzVm5aUT09"
+        },
+        {
+            "key": "mogg",
+            "name": "木偶网盘",
+            "type": 3,
+            "jar": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/PsyDuck-wp.jar",
+            "api": "csp_ZC4K",
+            "ext": "YUhSMGNEb3ZMekUyTUM0eU1ESXVNak00TGpNNU9qTTNNekU1TDJGd2FTNXdhSEEvYzJsMFpUMXRiMmRuSXlNamJXOW5adz09"
+        },
+        {
+            "key": "wogg",
+            "name": "玩偶网盘",
+            "type": 3,
+            "jar": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/PsyDuck-wp.jar",
+            "api": "csp_ZC4K",
+            "ext": "YUhSMGNEb3ZMekUyTUM0eU1ESXVNak00TGpNNU9qTTNNekU1TDJGd2FTNXdhSEEvYzJsMFpUMTNiMmRuSXlNamQyOW5adz09"
+        },
+        {
+            "key": "huban",
+            "name": "虎斑网盘",
+            "type": 3,
+            "jar": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/PsyDuck-wp.jar",
+            "api": "csp_ZC4K",
+            "ext": "YUhSMGNEb3ZMekUyTUM0eU1ESXVNak00TGpNNU9qTTNNekU1TDJGd2FTNXdhSEEvYzJsMFpUMW9kV0poYmlNakkyaDFZbUZ1"
+        },
+        {
+            "key": "erxiao",
+            "name": "小二网盘",
+            "type": 3,
+            "jar": "https://gitee.com/Ye-11X115490/PsyDuck/raw/master/lib/PsyDuck-wp.jar",
+            "api": "csp_ZC4K",
+            "ext": "YUhSMGNEb3ZMekUyTUM0eU1ESXVNak00TGpNNU9qTTNNekU1TDJGd2FTNXdhSEEvYzJsMFpUMWxjbmhwWVc4akl5TmxjbmhwWVc4PQ=="
+        }
+    ],
+    "parses": [
+        {
+            "name": "网盘",
+            "type": 1,
+            "url": "http://8.134.205.252:39466/ceshi/ss.php?key=ysj&url=",
+            "ext": {
+                "flag": [
+                    "baidu",
+                    "baidu2",
+                    "abaidu",
+                    "a123",
+                    "a189",
+                    "a115",
+                    "ali",
+                    "臻彩",
+                    "臻彩2",
+                    "原彩",
+                    "真彩",
+                    "清秋",
+                    "明月"
+                ]
+            }
+        }
+    ]
+}
