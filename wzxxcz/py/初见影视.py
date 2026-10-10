@@ -25,6 +25,9 @@ except Exception:
     pass
 
 
+INTRO_PREFIX = "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！"
+
+
 class Spider(Spider):
 
     def __init__(self):
@@ -32,7 +35,7 @@ class Spider(Spider):
             super().__init__()
         except Exception:
             pass
-        self.name = "初8影视"
+        self.name = "初见影视"
         self.host = "https://cjysw.cc"
         self.header = {
             'User-Agent': ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
@@ -44,8 +47,6 @@ class Spider(Spider):
         self._player_list = None
         self._session = None
         self._last = {}
-
-    # ================= 基础 =================
 
     def getName(self):
         return self.name
@@ -68,8 +69,6 @@ class Spider(Spider):
 
     def localProxy(self, params):
         return [200, "video/MP2T", {}, ""]
-
-    # ================= 工具 =================
 
     def _sess(self):
         if self._session is None:
@@ -165,9 +164,6 @@ class Spider(Spider):
             pass
         return total or default
 
-    # ================= 列表解析 =================
-
-    # 精确 class 匹配 (整词), 防止 xxx-title / xxx-content 之类被误命中
     CLS = ('//*[contains(concat(" ", normalize-space(@class), " "), " %s ")]')
 
     def _parse_item(self, node):
@@ -176,7 +172,7 @@ class Spider(Spider):
             a = node
         else:
             for xp in ('.//a[contains(@class,"module-card-item-poster")]',
-                       './/a[contains(@class,"module-item-poster")]',
+                       './/a[contains(@class,"module-poster-item")]',
                        './/a[contains(@href,"/voddetail/")]'):
                 got = node.xpath(xp)
                 if got:
@@ -220,10 +216,9 @@ class Spider(Spider):
             return out
         try:
             root = etree.HTML(html)
-            # 精确匹配 class, 避免命中 module-card-item-title 等子元素
             nodes = root.xpath(self.CLS % 'module-card-item')
             if not nodes:
-                nodes = root.xpath(self.CLS % 'module-item')
+                nodes = root.xpath(self.CLS % 'module-poster-item')
             if not nodes:
                 nodes = root.xpath('//a[contains(@href,"/voddetail/")]')
             for n in nodes:
@@ -238,7 +233,12 @@ class Spider(Spider):
             pass
         return out
 
-    # ================= 首页 =================
+    def _filters(self):
+        # 独立方法，出错返回空 dict，绝不污染类加载
+        try:
+            return json.loads(r'''{"1": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "动作片", "v": "2"}, {"n": "喜剧片", "v": "3"}, {"n": "爱情片", "v": "4"}, {"n": "科幻片", "v": "5"}, {"n": "恐怖片", "v": "6"}, {"n": "剧情片", "v": "7"}, {"n": "战争片", "v": "8"}, {"n": "悬疑片", "v": "10"}, {"n": "动画片", "v": "11"}, {"n": "犯罪片", "v": "12"}, {"n": "奇幻片", "v": "13"}, {"n": "其他片", "v": "67"}]}, {"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "美国", "v": "美国"}, {"n": "法国", "v": "法国"}, {"n": "英国", "v": "英国"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "德国", "v": "德国"}, {"n": "泰国", "v": "泰国"}, {"n": "印度", "v": "印度"}, {"n": "意大利", "v": "意大利"}, {"n": "西班牙", "v": "西班牙"}, {"n": "加拿大", "v": "加拿大"}, {"n": "其他", "v": "其他"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "法语", "v": "法语"}, {"n": "德语", "v": "德语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "15": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "国产剧", "v": "16"}, {"n": "香港剧", "v": "17"}, {"n": "台湾剧", "v": "18"}, {"n": "美国剧", "v": "19"}, {"n": "韩国剧", "v": "20"}, {"n": "日本剧", "v": "21"}, {"n": "海外剧", "v": "22"}, {"n": "泰剧", "v": "23"}, {"n": "其他剧", "v": "68"}]}, {"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "内地", "v": "内地"}, {"n": "韩国", "v": "韩国"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "美国", "v": "美国"}, {"n": "泰国", "v": "泰国"}, {"n": "英国", "v": "英国"}, {"n": "新加坡", "v": "新加坡"}, {"n": "其他", "v": "其他"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "30": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "国产动漫", "v": "31"}, {"n": "日韩动漫", "v": "32"}, {"n": "欧美动漫", "v": "33"}, {"n": "港台动漫", "v": "34"}, {"n": "海外动漫", "v": "35"}]}, {"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "内地", "v": "内地"}, {"n": "日本", "v": "日本"}, {"n": "欧美", "v": "欧美"}, {"n": "其他", "v": "其他"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "47": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "有声动漫", "v": "48"}, {"n": "女频恋爱", "v": "49"}, {"n": "反转爽剧", "v": "50"}, {"n": "脑洞悬疑", "v": "51"}, {"n": "年代穿越", "v": "52"}, {"n": "古装仙侠", "v": "53"}, {"n": "现代都市", "v": "54"}, {"n": "漫剧", "v": "66"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "24": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "大陆综艺", "v": "25"}, {"n": "日韩综艺", "v": "26"}, {"n": "港台综艺", "v": "27"}, {"n": "欧美综艺", "v": "28"}, {"n": "演唱会", "v": "29"}]}, {"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "内地", "v": "内地"}, {"n": "港台", "v": "港台"}, {"n": "日韩", "v": "日韩"}, {"n": "欧美", "v": "欧美"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "63": [{"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "美国", "v": "美国"}, {"n": "法国", "v": "法国"}, {"n": "英国", "v": "英国"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "德国", "v": "德国"}, {"n": "泰国", "v": "泰国"}, {"n": "印度", "v": "印度"}, {"n": "意大利", "v": "意大利"}, {"n": "西班牙", "v": "西班牙"}, {"n": "加拿大", "v": "加拿大"}, {"n": "其他", "v": "其他"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "法语", "v": "法语"}, {"n": "德语", "v": "德语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}]}''')
+        except Exception:
+            return {}
 
     def homeContent(self, filter):
         classes = [
@@ -249,22 +249,19 @@ class Spider(Spider):
             {"type_name": "综艺", "type_id": "24"},
             {"type_name": "纪录片", "type_id": "63"},
         ]
-        result = {
+        return {
             "class": classes,
-            "filters": self.FILTERS,
+            "filters": self._filters(),
             "list": self.homeVideoContent().get('list', []),
             "parse": 0,
             "jx": 0
         }
-        return result
 
     def homeVideoContent(self):
         _, vlist = self._fetch_list(self.host + '/', tries=2)
         if not vlist:
             _, vlist = self._fetch_list(self.host + '/vodshow/1-----------.html', tries=2)
         return {"list": vlist[:60], "parse": 0, "jx": 0}
-
-    # ================= 分类 =================
 
     def categoryContent(self, tid, pg, filter, extend):
         page = int(pg) if str(pg).isdigit() and int(pg) > 0 else 1
@@ -277,18 +274,17 @@ class Spider(Spider):
             if not isinstance(extend, dict):
                 extend = {}
 
-            # 子分类替换 type_id
             real_tid = str(extend.get('tid') or tid)
 
             segs = [''] * 12
             segs[0] = real_tid
-            segs[1] = quote(extend.get('area', ''))
+            segs[1] = quote(extend.get('area', '') or '')
             segs[2] = extend.get('by', '') or 'time'
-            segs[3] = quote(extend.get('class', ''))
-            segs[4] = quote(extend.get('lang', ''))
-            segs[5] = quote(extend.get('letter', ''))
+            segs[3] = quote(extend.get('class', '') or '')
+            segs[4] = quote(extend.get('lang', '') or '')
+            segs[5] = quote(extend.get('letter', '') or '')
             segs[8] = str(page)
-            segs[11] = quote(extend.get('year', ''))
+            segs[11] = quote(extend.get('year', '') or '')
 
             url = '%s/vodshow/%s.html' % (self.host, '-'.join(segs))
             html, vlist = self._fetch_list(url)
@@ -304,8 +300,6 @@ class Spider(Spider):
         except Exception:
             return {'list': [], 'page': page, 'pagecount': 1, 'limit': 45, 'total': 0}
 
-    # ================= 详情 =================
-
     def detailContent(self, ids):
         try:
             vid = ids[0] if isinstance(ids, (list, tuple)) else ids
@@ -315,7 +309,6 @@ class Spider(Spider):
                 return {'list': [], 'parse': 0, 'jx': 0}
             root = etree.HTML(html)
 
-            # 标题
             name = ''
             h1 = root.xpath('//div[contains(@class,"module-info-heading")]/h1')
             if h1:
@@ -325,13 +318,11 @@ class Spider(Spider):
                 if t:
                     name = re.split(r'[-_|]', t[0])[0].strip()
 
-            # 封面
             pic = ''
             box = root.xpath('//div[contains(@class,"module-info-poster")]')
             if box:
                 pic = self._pic(box[0])
 
-            # 标签: 年份 / 地区 / 剧情
             year = area = vclass = ''
             for a in root.xpath('//div[contains(@class,"module-info-tag")]//a'):
                 t = self._txt(a)
@@ -345,7 +336,6 @@ class Spider(Spider):
                 elif not area and t:
                     area = t
 
-            # 导演 / 主演 / 备注
             director = actor = remarks = ''
             for item in root.xpath('//div[contains(@class,"module-info-item")]'):
                 key = item.xpath('./span[contains(@class,"module-info-item-title")]/text()')
@@ -363,22 +353,35 @@ class Spider(Spider):
                 elif '备注' in key or '更新' in key:
                     remarks = remarks or val
 
-            # 简介
+            # 简介：多重兜底
             content = ''
             desc = root.xpath('//div[contains(@class,"module-info-introduction-content")]')
             if desc:
                 content = self._txt(desc[0])
+            if not content:
+                ps = root.xpath('//div[contains(@class,"module-info-introduction")]//p')
+                if ps:
+                    content = ' '.join(self._txt(p) for p in ps if self._txt(p))
+            if not content:
+                d2 = root.xpath('//div[contains(@class,"module-info-introduction")]')
+                if d2:
+                    content = self._txt(d2[0])
+            if not content:
+                md = root.xpath('//meta[@name="description"]/@content')
+                if md:
+                    content = md[0].strip()
             content = re.sub(r'\s*展开\s*$', '', content).strip()
+            if content:
+                content = INTRO_PREFIX + content
 
-            # 播放线路
             froms = root.xpath('//div[contains(@class,"module-tab-item")]/@data-dropdown-value')
             if not froms:
-                froms = [x.strip() for x in
-                         root.xpath('//div[contains(@class,"module-tab-item")]//span/text()')]
+                froms = [self._txt(x) for x in
+                         root.xpath('//div[contains(@class,"module-tab-item")]//span')]
             froms = [f.strip() for f in froms if f and f.strip()]
 
             boxes, seen = [], set()
-            for b in root.xpath(self.CLS % 'module-play-list'):
+            for b in root.xpath(self.CLS % 'module-play-list-content'):
                 links = b.xpath('.//a[contains(@href,"/vodplay/")]')
                 if not links:
                     continue
@@ -387,6 +390,12 @@ class Spider(Spider):
                     continue
                 seen.add(key)
                 boxes.append(links)
+
+            if not boxes:
+                for b in root.xpath(self.CLS % 'module-play-list'):
+                    links = b.xpath('.//a[contains(@href,"/vodplay/")]')
+                    if links:
+                        boxes.append(links)
 
             play_from, play_url = [], []
             for i, links in enumerate(boxes):
@@ -421,22 +430,37 @@ class Spider(Spider):
         except Exception:
             return {'list': [], 'parse': 0, 'jx': 0}
 
-    # ================= 播放 =================
-
     def _player_conf(self):
         if self._player_list is not None:
             return self._player_list
         self._player_list = {}
         try:
             js = self._get(self.host + '/static/js/playerconfig.js')
-            m = re.search(r'player_list\s*=\s*', js)
+            if not js:
+                return self._player_list
+            m = re.search(r'MacPlayerConfig\.player_list\s*=\s*', js) or \
+                re.search(r'player_list\s*=\s*', js)
             if m:
                 start = js.index('{', m.end())
                 depth = 0
+                in_str = False
+                esc = False
                 for i in range(start, len(js)):
-                    if js[i] == '{':
+                    ch = js[i]
+                    if esc:
+                        esc = False
+                        continue
+                    if ch == '\\':
+                        esc = True
+                        continue
+                    if ch == '"':
+                        in_str = not in_str
+                        continue
+                    if in_str:
+                        continue
+                    if ch == '{':
                         depth += 1
-                    elif js[i] == '}':
+                    elif ch == '}':
                         depth -= 1
                         if depth == 0:
                             self._player_list = json.loads(js[start:i + 1])
@@ -463,6 +487,47 @@ class Spider(Spider):
             return None
         return None
 
+    def _resolve(self, src, raw_url, headers):
+        info = self._player_conf().get(src, {})
+        api = info.get('parse', '')
+        if isinstance(api, list) and api:
+            api = api[0]
+        if not api or str(info.get('ps', '0')) != '1':
+            return ''
+
+        base = api
+        for tail in ('&player&url=', '?player&url=', '&player&url', '?player&url',
+                     '&url=', '?url=', '&url', '?url'):
+            if base.endswith(tail):
+                base = base[:-len(tail)]
+                break
+        if 'key=' not in base:
+            return ''
+        if '?' not in base:
+            base += '?'
+
+        enc = quote(raw_url, safe='')
+        json_url = base + '&from=player&url=' + enc
+
+        try:
+            r = self._sess().get(json_url, headers=headers, timeout=20, verify=False)
+            r.encoding = 'utf-8'
+            txt = r.text.strip()
+            if not txt.startswith('{'):
+                return ''
+            j = json.loads(txt)
+            got = j.get('url') or j.get('play_url') or ''
+            if not got and isinstance(j.get('data'), dict):
+                got = j['data'].get('url') or j['data'].get('play_url') or ''
+            if not got and isinstance(j.get('data'), str) and j['data'].startswith('http'):
+                got = j['data']
+            code = str(j.get('code', '200'))
+            if got and code in ('1', '200'):
+                return got.replace('\\/', '/')
+        except Exception:
+            pass
+        return ''
+
     def playerContent(self, flag, id, vipFlags):
         play_page = id if str(id).startswith('http') else self._fix(id)
         headers = {
@@ -487,20 +552,10 @@ class Spider(Spider):
                         pass
                 url = url.replace('\\/', '/')
 
-            # 非直链 (爱奇艺/B站等官方页) -> 走站点解析接口
             if url and not self.isVideoFormat(url) and src:
-                info = self._player_conf().get(src, {})
-                if str(info.get('ps', '0')) == '1' and info.get('parse'):
-                    api = info['parse'].replace('&player', '')
-                    try:
-                        r = self._sess().get(api + url, headers=headers, timeout=20, verify=False)
-                        r.encoding = 'utf-8'
-                        j = json.loads(r.text)
-                        got = j.get('url') or j.get('play_url') or ''
-                        if got and str(j.get('code', 200)) in ('1', '200'):
-                            url = got.replace('\\/', '/')
-                    except Exception:
-                        pass
+                got = self._resolve(src, url, headers)
+                if got:
+                    url = got
 
             if not url:
                 found = re.findall(r'(https?:[^\s"\'<>\\]+\.(?:m3u8|mp4)[^\s"\'<>\\]*)', html)
@@ -515,19 +570,16 @@ class Spider(Spider):
             pass
         return result
 
-    # ================= 搜索 =================
-
     def searchContent(self, key, quick, pg='1'):
         page = int(pg) if str(pg).isdigit() and int(pg) > 0 else 1
         try:
-            segs = [''] * 14
-            segs[0] = quote(str(key))
-            segs[10] = str(page)
+            segs = [''] * 13
+            segs[1] = quote(str(key))
+            segs[9] = str(page)
             url = '%s/vodsearch/%s.html' % (self.host, '-'.join(segs))
             html, vlist = self._fetch_list(url, key='search')
             pc = self._pagecount(html, page if vlist else 1)
 
-            # 回退: 被限流或无结果时, 首页用联想接口补全
             if not vlist and page == 1:
                 try:
                     api = '%s/index.php/ajax/suggest?mid=1&wd=%s&limit=30' % (
@@ -548,7 +600,3 @@ class Spider(Spider):
                     'limit': len(vlist) or 16, 'total': pc * (len(vlist) or 16)}
         except Exception:
             return {'list': [], 'page': page, 'pagecount': 1, 'limit': 16, 'total': 0}
-
-    # ================= 筛选器 (实爬站点生成) =================
-
-    FILTERS = json.loads(r'''{"1": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "动作片", "v": "2"}, {"n": "喜剧片", "v": "3"}, {"n": "爱情片", "v": "4"}, {"n": "科幻片", "v": "5"}, {"n": "恐怖片", "v": "6"}, {"n": "剧情片", "v": "7"}, {"n": "战争片", "v": "8"}, {"n": "悬疑片", "v": "10"}, {"n": "动画片", "v": "11"}, {"n": "犯罪片", "v": "12"}, {"n": "奇幻片", "v": "13"}, {"n": "其他片", "v": "67"}]}, {"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "美国", "v": "美国"}, {"n": "法国", "v": "法国"}, {"n": "英国", "v": "英国"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "德国", "v": "德国"}, {"n": "泰国", "v": "泰国"}, {"n": "印度", "v": "印度"}, {"n": "意大利", "v": "意大利"}, {"n": "西班牙", "v": "西班牙"}, {"n": "加拿大", "v": "加拿大"}, {"n": "其他", "v": "其他"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "法语", "v": "法语"}, {"n": "德语", "v": "德语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "15": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "国产剧", "v": "16"}, {"n": "香港剧", "v": "17"}, {"n": "台湾剧", "v": "18"}, {"n": "美国剧", "v": "19"}, {"n": "韩国剧", "v": "20"}, {"n": "日本剧", "v": "21"}, {"n": "海外剧", "v": "22"}, {"n": "泰剧", "v": "23"}, {"n": "其他剧", "v": "68"}]}, {"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "内地", "v": "内地"}, {"n": "韩国", "v": "韩国"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"}, {"n": "美国", "v": "美国"}, {"n": "泰国", "v": "泰国"}, {"n": "英国", "v": "英国"}, {"n": "新加坡", "v": "新加坡"}, {"n": "其他", "v": "其他"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "30": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "国产动漫", "v": "31"}, {"n": "日韩动漫", "v": "32"}, {"n": "欧美动漫", "v": "33"}, {"n": "港台动漫", "v": "34"}, {"n": "海外动漫", "v": "35"}]}, {"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "内地", "v": "内地"}, {"n": "日本", "v": "日本"}, {"n": "欧美", "v": "欧美"}, {"n": "其他", "v": "其他"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "47": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "有声动漫", "v": "48"}, {"n": "女频恋爱", "v": "49"}, {"n": "反转爽剧", "v": "50"}, {"n": "脑洞悬疑", "v": "51"}, {"n": "年代穿越", "v": "52"}, {"n": "古装仙侠", "v": "53"}, {"n": "现代都市", "v": "54"}, {"n": "漫剧", "v": "66"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "24": [{"key": "tid", "name": "类型", "value": [{"n": "全部", "v": ""}, {"n": "大陆综艺", "v": "25"}, {"n": "日韩综艺", "v": "26"}, {"n": "港台综艺", "v": "27"}, {"n": "欧美综艺", "v": "28"}, {"n": "演唱会", "v": "29"}]}, {"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "内地", "v": "内地"}, {"n": "港台", "v": "港台"}, {"n": "日韩", "v": "日韩"}, {"n": "欧美", "v": "欧美"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}], "63": [{"key": "area", "name": "地区", "value": [{"n": "全部", "v": ""}, {"n": "大陆", "v": "大陆"}, {"n": "香港", "v": "香港"}, {"n": "台湾", "v": "台湾"}, {"n": "美国", "v": "美国"}, {"n": "法国", "v": "法国"}, {"n": "英国", "v": "英国"}, {"n": "日本", "v": "日本"}, {"n": "韩国", "v": "韩国"}, {"n": "德国", "v": "德国"}, {"n": "泰国", "v": "泰国"}, {"n": "印度", "v": "印度"}, {"n": "意大利", "v": "意大利"}, {"n": "西班牙", "v": "西班牙"}, {"n": "加拿大", "v": "加拿大"}, {"n": "其他", "v": "其他"}]}, {"key": "lang", "name": "语言", "value": [{"n": "全部", "v": ""}, {"n": "国语", "v": "国语"}, {"n": "英语", "v": "英语"}, {"n": "粤语", "v": "粤语"}, {"n": "闽南语", "v": "闽南语"}, {"n": "韩语", "v": "韩语"}, {"n": "日语", "v": "日语"}, {"n": "法语", "v": "法语"}, {"n": "德语", "v": "德语"}, {"n": "其它", "v": "其它"}]}, {"key": "year", "name": "年份", "value": [{"n": "全部", "v": ""}, {"n": "2026", "v": "2026"}, {"n": "2025", "v": "2025"}, {"n": "2024", "v": "2024"}, {"n": "2023", "v": "2023"}, {"n": "2022", "v": "2022"}, {"n": "2021", "v": "2021"}, {"n": "2020", "v": "2020"}, {"n": "2019", "v": "2019"}, {"n": "2018", "v": "2018"}, {"n": "2017", "v": "2017"}, {"n": "2016", "v": "2016"}, {"n": "2015", "v": "2015"}, {"n": "2014", "v": "2014"}]}, {"key": "letter", "name": "字母", "value": [{"n": "全部", "v": ""}, {"n": "A", "v": "A"}, {"n": "B", "v": "B"}, {"n": "C", "v": "C"}, {"n": "D", "v": "D"}, {"n": "E", "v": "E"}, {"n": "F", "v": "F"}, {"n": "G", "v": "G"}, {"n": "H", "v": "H"}, {"n": "I", "v": "I"}, {"n": "J", "v": "J"}, {"n": "K", "v": "K"}, {"n": "L", "v": "L"}, {"n": "M", "v": "M"}, {"n": "N", "v": "N"}, {"n": "O", "v": "O"}, {"n": "P", "v": "P"}, {"n": "Q", "v": "Q"}, {"n": "R", "v": "R"}, {"n": "S", "v": "S"}, {"n": "T", "v": "T"}, {"n": "U", "v": "U"}, {"n": "V", "v": "V"}, {"n": "W", "v": "W"}, {"n": "X", "v": "X"}, {"n": "Y", "v": "Y"}, {"n": "Z", "v": "Z"}, {"n": "0-9", "v": "0"}]}, {"key": "by", "name": "排序", "value": [{"n": "时间", "v": "time"}, {"n": "人气", "v": "hits"}, {"n": "评分", "v": "score"}]}]}''')
