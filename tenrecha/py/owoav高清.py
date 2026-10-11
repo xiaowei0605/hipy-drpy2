@@ -105,9 +105,9 @@ class Spider(BaseSpider):
         
         # 隔离根分类 ID，确保绝不与网络层二级 URL 重叠
         cate_list = [
+            {"type_name": "分类", "type_id": "folder_categories"},
             {"type_name": "视频", "type_id": "videos"},
             {"type_name": "女优", "type_id": "cate_models_root"}, # 一级分类独占 ID
-            {"type_name": "分类", "type_id": "folder_categories"},
             {"type_name": "频道", "type_id": "folder_channels"},
             {"type_name": "标签", "type_id": "folder_tags"}
         ]

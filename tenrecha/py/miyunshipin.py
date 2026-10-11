@@ -494,12 +494,13 @@ class Spider(SpiderBase):
         header = {
             "User-Agent": self.UA,
             "Referer": self.siteUrl + "/",
+            "Origin": self.siteUrl,
         }
         return {
-            "parse": 0 if self._is_media_url(url) else 1,
+            "parse": 0,
             "playUrl": "",
             "url": url,
-            "header": header,
+            "header": json.dumps(header, ensure_ascii=False),
         }
 
     def _first_match(self, text, patterns):
