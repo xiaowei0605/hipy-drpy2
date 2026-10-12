@@ -5,6 +5,195 @@
     "notice": "10.11.2",
     "sites": [
   {
+    "key": "py_4KVM",
+    "name": "[點播]4KVM",
+    "type": 3,
+    "api": "./py/4KVM.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_4k影视",
+    "name": "[點播]4k影视",
+    "type": 3,
+    "api": "./py/4k影视.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_6v影视_2",
+    "name": "[點播]6v影视_2",
+    "type": 3,
+    "api": "./py/6v影视_2.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_8x8x",
+    "name": "[點播]8x8x",
+    "type": 3,
+    "api": "./py/8x8x.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_9g88x_2",
+    "name": "[點播]9g88x_2",
+    "type": 3,
+    "api": "./py/9g88x_2.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_99短剧网",
+    "name": "[點播]99短剧网",
+    "type": 3,
+    "api": "./py/99短剧网.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_123AV·ZakaTV",
+    "name": "[點播]123AV·ZakaTV",
+    "type": 3,
+    "api": "./py/123AV·ZakaTV.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_123TV-2K",
+    "name": "[點播]123TV-2K",
+    "type": 3,
+    "api": "./py/123TV-2K.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_456听书网",
+    "name": "[點播]456听书网",
+    "type": 3,
+    "api": "./py/456听书网.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_777hub",
+    "name": "[點播]777hub",
+    "type": 3,
+    "api": "./py/777hub.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_911爆料网_2",
+    "name": "[點播]911爆料网_2",
+    "type": 3,
+    "api": "./py/911爆料网_2.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_2048核基地_2",
+    "name": "[點播]2048核基地_2",
+    "type": 3,
+    "api": "./py/2048核基地_2.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_2048核基地_3",
+    "name": "[點播]2048核基地_3",
+    "type": 3,
+    "api": "./py/2048核基地_3.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_6080电影",
+    "name": "[點播]6080电影",
+    "type": 3,
+    "api": "./py/6080电影.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_887717_2",
+    "name": "[點播]887717_2",
+    "type": 3,
+    "api": "./py/887717_2.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_AcFan",
+    "name": "[點播]AcFan",
+    "type": 3,
+    "api": "./py/AcFan.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_AEX短剧",
+    "name": "[點播]AEX短剧",
+    "type": 3,
+    "api": "./py/AEX短剧.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_AQX",
+    "name": "[點播]AQX",
+    "type": 3,
+    "api": "./py/AQX.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_avgood",
+    "name": "[點播]avgood",
+    "type": 3,
+    "api": "./py/avgood.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_ayk",
+    "name": "[點播]ayk",
+    "type": 3,
+    "api": "./py/ayk.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_BaoPorn",
+    "name": "[點播]BaoPorn",
+    "type": 3,
+    "api": "./py/BaoPorn.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
     "key": "py_caoliu28",
     "name": "[點播]caoliu28",
     "type": 3,
@@ -14,10 +203,28 @@
     "changeable": 1
   },
   {
-    "key": "py_chabeihu",
-    "name": "[點播]chabeihu",
+    "key": "py_CjJson_SingleFile_Ultimate",
+    "name": "[點播]CjJson_SingleFile_Ultimate",
     "type": 3,
-    "api": "./py/chabeihu.py",
+    "api": "./py/CjJson_SingleFile_Ultimate.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_CNFLIX",
+    "name": "[點播]CNFLIX",
+    "type": 3,
+    "api": "./py/CNFLIX.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_CYJ短剧",
+    "name": "[點播]CYJ短剧",
+    "type": 3,
+    "api": "./py/CYJ短剧.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -59,6 +266,15 @@
     "changeable": 1
   },
   {
+    "key": "py_dusheduanju",
+    "name": "[點播]dusheduanju",
+    "type": 3,
+    "api": "./py/dusheduanju.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
     "key": "py_emk.686235.xyz",
     "name": "[點播]emk.686235.xyz",
     "type": 3,
@@ -68,19 +284,28 @@
     "changeable": 1
   },
   {
-    "key": "py_epong",
-    "name": "[點播]epong",
+    "key": "py_fandaziyingshi",
+    "name": "[點播]fandaziyingshi",
     "type": 3,
-    "api": "./py/epong.py",
+    "api": "./py/fandaziyingshi.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_fullhd2",
-    "name": "[點播]fullhd2",
+    "key": "py_fenglinwang",
+    "name": "[點播]fenglinwang",
     "type": 3,
-    "api": "./py/fullhd2.py",
+    "api": "./py/fenglinwang.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_FoFoyingyuan",
+    "name": "[點播]FoFoyingyuan",
+    "type": 3,
+    "api": "./py/FoFoyingyuan.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -90,6 +315,15 @@
     "name": "[點播]g002",
     "type": 3,
     "api": "./py/g002.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_guoguoduanju",
+    "name": "[點播]guoguoduanju",
+    "type": 3,
+    "api": "./py/guoguoduanju.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -113,10 +347,10 @@
     "changeable": 1
   },
   {
-    "key": "py_hubff",
-    "name": "[點播]hubff",
+    "key": "py_hscka",
+    "name": "[點播]hscka",
     "type": 3,
-    "api": "./py/hubff.py",
+    "api": "./py/hscka.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -131,37 +365,10 @@
     "changeable": 1
   },
   {
-    "key": "py_javhd",
-    "name": "[點播]javhd",
+    "key": "py_Libvio",
+    "name": "[點播]Libvio",
     "type": 3,
-    "api": "./py/javhd.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_javxtu",
-    "name": "[點播]javxtu",
-    "type": 3,
-    "api": "./py/javxtu.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_jyzj",
-    "name": "[點播]jyzj",
-    "type": 3,
-    "api": "./py/jyzj.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_kkb1",
-    "name": "[點播]kkb1",
-    "type": 3,
-    "api": "./py/kkb1.py",
+    "api": "./py/Libvio.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -176,10 +383,10 @@
     "changeable": 1
   },
   {
-    "key": "py_lust12",
-    "name": "[點播]lust12",
+    "key": "py_March 视频",
+    "name": "[點播]March 视频",
     "type": 3,
-    "api": "./py/lust12.py",
+    "api": "./py/March 视频.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -189,24 +396,6 @@
     "name": "[點播]miniyingshi",
     "type": 3,
     "api": "./py/miniyingshi.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_miyunshipin",
-    "name": "[點播]miyunshipin",
-    "type": 3,
-    "api": "./py/miyunshipin.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_myfreecamszhibo",
-    "name": "[點播]myfreecamszhibo",
-    "type": 3,
-    "api": "./py/myfreecamszhibo.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -257,10 +446,19 @@
     "changeable": 1
   },
   {
-    "key": "py_ntr_yin_qi_lu",
-    "name": "[點播]ntr_yin_qi_lu",
+    "key": "py_n028_2",
+    "name": "[點播]n028_2",
     "type": 3,
-    "api": "./py/ntr_yin_qi_lu.py",
+    "api": "./py/n028_2.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_nanrenbense",
+    "name": "[點播]nanrenbense",
+    "type": 3,
+    "api": "./py/nanrenbense.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -297,6 +495,15 @@
     "name": "[點播]p417",
     "type": 3,
     "api": "./py/p417.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_p418",
+    "name": "[點播]p418",
+    "type": 3,
+    "api": "./py/p418.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -347,60 +554,6 @@
     "changeable": 1
   },
   {
-    "key": "py_p436",
-    "name": "[點播]p436",
-    "type": 3,
-    "api": "./py/p436.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_p437",
-    "name": "[點播]p437",
-    "type": 3,
-    "api": "./py/p437.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_p439",
-    "name": "[點播]p439",
-    "type": 3,
-    "api": "./py/p439.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_p441",
-    "name": "[點播]p441",
-    "type": 3,
-    "api": "./py/p441.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_p442",
-    "name": "[點播]p442",
-    "type": 3,
-    "api": "./py/p442.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_p443",
-    "name": "[點播]p443",
-    "type": 3,
-    "api": "./py/p443.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
     "key": "py_p445",
     "name": "[點播]p445",
     "type": 3,
@@ -437,15 +590,6 @@
     "changeable": 1
   },
   {
-    "key": "py_p474",
-    "name": "[點播]p474",
-    "type": 3,
-    "api": "./py/p474.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
     "key": "py_ptt.co",
     "name": "[點播]ptt.co",
     "type": 3,
@@ -455,10 +599,19 @@
     "changeable": 1
   },
   {
-    "key": "py_py_Xhm",
-    "name": "[點播]py_Xhm",
+    "key": "py_R3E2O",
+    "name": "[點播]R3E2O",
     "type": 3,
-    "api": "./py/py_Xhm.py",
+    "api": "./py/R3E2O.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_shaofu36",
+    "name": "[點播]shaofu36",
+    "type": 3,
+    "api": "./py/shaofu36.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -468,6 +621,15 @@
     "name": "[點播]shenmidianying",
     "type": 3,
     "api": "./py/shenmidianying.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },
+  {
+    "key": "py_shiliuduanju",
+    "name": "[點播]shiliuduanju",
+    "type": 3,
+    "api": "./py/shiliuduanju.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -491,91 +653,55 @@
     "changeable": 1
   },
   {
-    "key": "py_s爽上天",
-    "name": "[點播]s爽上天",
+    "key": "py_t66yy",
+    "name": "[點播]t66yy",
     "type": 3,
-    "api": "./py/s爽上天.py",
+    "api": "./py/t66yy.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_tideember短剧",
-    "name": "[點播]tideember短剧",
+    "key": "py_Truvaze",
+    "name": "[點播]Truvaze",
     "type": 3,
-    "api": "./py/tideember短剧.py",
+    "api": "./py/Truvaze.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_tiktok成人版",
-    "name": "[點播]tiktok成人版",
+    "key": "py_UU直播破解",
+    "name": "[點播]UU直播破解",
     "type": 3,
-    "api": "./py/tiktok成人版.py",
+    "api": "./py/UU直播破解.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_truvaze_client",
-    "name": "[點播]truvaze_client",
+    "key": "py_VV视频",
+    "name": "[點播]VV视频",
     "type": 3,
-    "api": "./py/truvaze_client.py",
+    "api": "./py/VV视频.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_twitter",
-    "name": "[點播]twitter",
+    "key": "py_WanWuu (作者_ 飞鱼)",
+    "name": "[點播]WanWuu (作者_ 飞鱼)",
     "type": 3,
-    "api": "./py/twitter.py",
+    "api": "./py/WanWuu (作者_ 飞鱼).py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_unnamed_2",
-    "name": "[點播]unnamed_2",
+    "key": "py_weimeijingpin",
+    "name": "[點播]weimeijingpin",
     "type": 3,
-    "api": "./py/unnamed_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_unnamed_4",
-    "name": "[點播]unnamed_4",
-    "type": 3,
-    "api": "./py/unnamed_4.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_xhamster",
-    "name": "[點播]xhamster",
-    "type": 3,
-    "api": "./py/xhamster.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_xhamster_2",
-    "name": "[點播]xhamster_2",
-    "type": 3,
-    "api": "./py/xhamster_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_Xhm",
-    "name": "[點播]Xhm",
-    "type": 3,
-    "api": "./py/Xhm.py",
+    "api": "./py/weimeijingpin.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -590,73 +716,10 @@
     "changeable": 1
   },
   {
-    "key": "py_xpg",
-    "name": "[點播]xpg",
+    "key": "py_YYCM影视",
+    "name": "[點播]YYCM影视",
     "type": 3,
-    "api": "./py/xpg.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_xszav",
-    "name": "[點播]xszav",
-    "type": 3,
-    "api": "./py/xszav.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_Xvd",
-    "name": "[點播]Xvd",
-    "type": 3,
-    "api": "./py/Xvd.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_XX01",
-    "name": "[點播]XX01",
-    "type": 3,
-    "api": "./py/XX01.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_XX01_2",
-    "name": "[點播]XX01_2",
-    "type": 3,
-    "api": "./py/XX01_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_xxbrits",
-    "name": "[點播]xxbrits",
-    "type": 3,
-    "api": "./py/xxbrits.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_yingkeduanju",
-    "name": "[點播]yingkeduanju",
-    "type": 3,
-    "api": "./py/yingkeduanju.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_YouPorn",
-    "name": "[點播]YouPorn",
-    "type": 3,
-    "api": "./py/YouPorn.py",
+    "api": "./py/YYCM影视.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -680,33 +743,6 @@
     "changeable": 1
   },
   {
-    "key": "py_ZakaTV·MissAV",
-    "name": "[點播]ZakaTV·MissAV",
-    "type": 3,
-    "api": "./py/ZakaTV·MissAV.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_zgtv",
-    "name": "[點播]zgtv",
-    "type": 3,
-    "api": "./py/zgtv.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_ZheTian_BaiHeTV",
-    "name": "[點播]ZheTian_BaiHeTV",
-    "type": 3,
-    "api": "./py/ZheTian_BaiHeTV.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
     "key": "py_ZheTian_SWLT_DiBing",
     "name": "[點播]ZheTian_SWLT_DiBing",
     "type": 3,
@@ -725,24 +761,6 @@
     "changeable": 1
   },
   {
-    "key": "py_ZIP0yingshi",
-    "name": "[點播]ZIP0yingshi",
-    "type": 3,
-    "api": "./py/ZIP0yingshi.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_ztzssz影视",
-    "name": "[點播]ztzssz影视",
-    "type": 3,
-    "api": "./py/ztzssz影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
     "key": "py_一牛影视",
     "name": "[點播]一牛影视",
     "type": 3,
@@ -752,46 +770,19 @@
     "changeable": 1
   },
   {
-    "key": "py_七猫短剧",
-    "name": "[點播]七猫短剧",
+    "key": "py_一起看影院",
+    "name": "[點播]一起看影院",
     "type": 3,
-    "api": "./py/七猫短剧.py",
+    "api": "./py/一起看影院.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_万性视频",
-    "name": "[點播]万性视频",
+    "key": "py_七味-最终稳定版(含大屏分组排序+防串位修复)",
+    "name": "[點播]七味-最终稳定版(含大屏分组排序+防串位修复)",
     "type": 3,
-    "api": "./py/万性视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_三流视频",
-    "name": "[點播]三流视频",
-    "type": 3,
-    "api": "./py/三流视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_东方色文化",
-    "name": "[點播]东方色文化",
-    "type": 3,
-    "api": "./py/东方色文化.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_中国x站",
-    "name": "[點播]中国x站",
-    "type": 3,
-    "api": "./py/中国x站.py",
+    "api": "./py/七味-最终稳定版(含大屏分组排序+防串位修复).py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -806,24 +797,6 @@
     "changeable": 1
   },
   {
-    "key": "py_亚色影库",
-    "name": "[點播]亚色影库",
-    "type": 3,
-    "api": "./py/亚色影库.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_人妻偷情",
-    "name": "[點播]人妻偷情",
-    "type": 3,
-    "api": "./py/人妻偷情.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
     "key": "py_仙腾影院",
     "name": "[點播]仙腾影院",
     "type": 3,
@@ -833,46 +806,28 @@
     "changeable": 1
   },
   {
-    "key": "py_低端影视",
-    "name": "[點播]低端影视",
+    "key": "py_共和国动漫",
+    "name": "[點播]共和国动漫",
     "type": 3,
-    "api": "./py/低端影视.py",
+    "api": "./py/共和国动漫.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_你的秘书",
-    "name": "[點播]你的秘书",
+    "key": "py_分類很亂",
+    "name": "[點播]分類很亂",
     "type": 3,
-    "api": "./py/你的秘书.py",
+    "api": "./py/分類很亂.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_倒茶小妹",
-    "name": "[點播]倒茶小妹",
+    "key": "py_初8影视",
+    "name": "[點播]初8影视",
     "type": 3,
-    "api": "./py/倒茶小妹.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_全能短剧",
-    "name": "[點播]全能短剧",
-    "type": 3,
-    "api": "./py/全能短剧.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_八戒修车",
-    "name": "[點播]八戒修车",
-    "type": 3,
-    "api": "./py/八戒修车.py",
+    "api": "./py/初8影视.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -887,64 +842,19 @@
     "changeable": 1
   },
   {
-    "key": "py_十八禁视频",
-    "name": "[點播]十八禁视频",
+    "key": "py_动漫巴士",
+    "name": "[點播]动漫巴士",
     "type": 3,
-    "api": "./py/十八禁视频.py",
+    "api": "./py/动漫巴士.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_十区影视",
-    "name": "[點播]十区影视",
+    "key": "py_千千音乐",
+    "name": "[點播]千千音乐",
     "type": 3,
-    "api": "./py/十区影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_华谊影视",
-    "name": "[點播]华谊影视",
-    "type": 3,
-    "api": "./py/华谊影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_叔叔和侄女",
-    "name": "[點播]叔叔和侄女",
-    "type": 3,
-    "api": "./py/叔叔和侄女.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_吉利猫",
-    "name": "[點播]吉利猫",
-    "type": 3,
-    "api": "./py/吉利猫.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_向上影院",
-    "name": "[點播]向上影院",
-    "type": 3,
-    "api": "./py/向上影院.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_咖啡直播",
-    "name": "[點播]咖啡直播",
-    "type": 3,
-    "api": "./py/咖啡直播.py",
+    "api": "./py/千千音乐.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -959,10 +869,10 @@
     "changeable": 1
   },
   {
-    "key": "py_啪啪指南",
-    "name": "[點播]啪啪指南",
+    "key": "py_喜福短劇",
+    "name": "[點播]喜福短劇",
     "type": 3,
-    "api": "./py/啪啪指南.py",
+    "api": "./py/喜福短劇.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -977,82 +887,10 @@
     "changeable": 1
   },
   {
-    "key": "py_多多影视",
-    "name": "[點播]多多影视",
+    "key": "py_大象影视",
+    "name": "[點播]大象影视",
     "type": 3,
-    "api": "./py/多多影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_夜晚小树林",
-    "name": "[點播]夜晚小树林",
-    "type": 3,
-    "api": "./py/夜晚小树林.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_夜社",
-    "name": "[點播]夜社",
-    "type": 3,
-    "api": "./py/夜社.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_夜色",
-    "name": "[點播]夜色",
-    "type": 3,
-    "api": "./py/夜色.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_大师兄影视",
-    "name": "[點播]大师兄影视",
-    "type": 3,
-    "api": "./py/大师兄影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_大象影视_2",
-    "name": "[點播]大象影视_2",
-    "type": 3,
-    "api": "./py/大象影视_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_大象短剧",
-    "name": "[點播]大象短剧",
-    "type": 3,
-    "api": "./py/大象短剧.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_大马猴影视",
-    "name": "[點播]大马猴影视",
-    "type": 3,
-    "api": "./py/大马猴影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_大马猴影视_2",
-    "name": "[點播]大马猴影视_2",
-    "type": 3,
-    "api": "./py/大马猴影视_2.py",
+    "api": "./py/大象影视.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -1067,388 +905,46 @@
     "changeable": 1
   },
   {
-    "key": "py_太极影视",
-    "name": "[點播]太极影视",
+    "key": "py_威视TV_2",
+    "name": "[點播]威视TV_2",
     "type": 3,
-    "api": "./py/太极影视.py",
+    "api": "./py/威视TV_2.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_奇点影视",
-    "name": "[點播]奇点影视",
+    "key": "py_宝园影视",
+    "name": "[點播]宝园影视",
     "type": 3,
-    "api": "./py/奇点影视.py",
+    "api": "./py/宝园影视.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_女优库",
-    "name": "[點播]女优库",
+    "key": "py_影子音乐",
+    "name": "[點播]影子音乐",
     "type": 3,
-    "api": "./py/女优库.py",
+    "api": "./py/影子音乐.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_女优色库",
-    "name": "[點播]女优色库",
+    "key": "py_抖音直播",
+    "name": "[點播]抖音直播",
     "type": 3,
-    "api": "./py/女优色库.py",
+    "api": "./py/抖音直播.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_好淫社",
-    "name": "[點播]好淫社",
+    "key": "py_樱之空动漫",
+    "name": "[點播]樱之空动漫",
     "type": 3,
-    "api": "./py/好淫社.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_好莱污影院",
-    "name": "[點播]好莱污影院",
-    "type": 3,
-    "api": "./py/好莱污影院.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_妙笔影院 (1)",
-    "name": "[點播]妙笔影院 (1)",
-    "type": 3,
-    "api": "./py/妙笔影院 (1).py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_威视TV",
-    "name": "[點播]威视TV",
-    "type": 3,
-    "api": "./py/威视TV.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_完美人妻",
-    "name": "[點播]完美人妻",
-    "type": 3,
-    "api": "./py/完美人妻.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_完美苹果",
-    "name": "[點播]完美苹果",
-    "type": 3,
-    "api": "./py/完美苹果.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_射我里面",
-    "name": "[點播]射我里面",
-    "type": 3,
-    "api": "./py/射我里面.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_小心御欲",
-    "name": "[點播]小心御欲",
-    "type": 3,
-    "api": "./py/小心御欲.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_小武",
-    "name": "[點播]小武",
-    "type": 3,
-    "api": "./py/小武.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_小男娘",
-    "name": "[點播]小男娘",
-    "type": 3,
-    "api": "./py/小男娘.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_小苹果",
-    "name": "[點播]小苹果",
-    "type": 3,
-    "api": "./py/小苹果.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_小黄书_2",
-    "name": "[點播]小黄书_2",
-    "type": 3,
-    "api": "./py/小黄书_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_尤物视频",
-    "name": "[點播]尤物视频",
-    "type": 3,
-    "api": "./py/尤物视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_工口av",
-    "name": "[點播]工口av",
-    "type": 3,
-    "api": "./py/工口av.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_影视+专属全网聚合",
-    "name": "[點播]影视+专属全网聚合",
-    "type": 3,
-    "api": "./py/影视+专属全网聚合.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_影视+专属全网聚合_2",
-    "name": "[點播]影视+专属全网聚合_2",
-    "type": 3,
-    "api": "./py/影视+专属全网聚合_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_御姐宿舍 (1)",
-    "name": "[點播]御姐宿舍 (1)",
-    "type": 3,
-    "api": "./py/御姐宿舍 (1).py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_快活林",
-    "name": "[點播]快活林",
-    "type": 3,
-    "api": "./py/快活林.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_怦然心动",
-    "name": "[點播]怦然心动",
-    "type": 3,
-    "api": "./py/怦然心动.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_懂色帝",
-    "name": "[點播]懂色帝",
-    "type": 3,
-    "api": "./py/懂色帝.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_成人文化馆",
-    "name": "[點播]成人文化馆",
-    "type": 3,
-    "api": "./py/成人文化馆.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_抖阴",
-    "name": "[點播]抖阴",
-    "type": 3,
-    "api": "./py/抖阴.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_抖阴破解",
-    "name": "[點播]抖阴破解",
-    "type": 3,
-    "api": "./py/抖阴破解.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_拍摄现场",
-    "name": "[點播]拍摄现场",
-    "type": 3,
-    "api": "./py/拍摄现场.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_探索妹妹",
-    "name": "[點播]探索妹妹",
-    "type": 3,
-    "api": "./py/探索妹妹.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_推特APP",
-    "name": "[點播]推特APP",
-    "type": 3,
-    "api": "./py/推特APP.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_搬淫基地",
-    "name": "[點播]搬淫基地",
-    "type": 3,
-    "api": "./py/搬淫基地.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_撸状元",
-    "name": "[點播]撸状元",
-    "type": 3,
-    "api": "./py/撸状元.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_撸状元_2",
-    "name": "[點播]撸状元_2",
-    "type": 3,
-    "api": "./py/撸状元_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_教授",
-    "name": "[點播]教授",
-    "type": 3,
-    "api": "./py/教授.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_教授_2",
-    "name": "[點播]教授_2",
-    "type": 3,
-    "api": "./py/教授_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_春心一动",
-    "name": "[點播]春心一动",
-    "type": 3,
-    "api": "./py/春心一动.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_暖魅社写真",
-    "name": "[點播]暖魅社写真",
-    "type": 3,
-    "api": "./py/暖魅社写真.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_有声小说",
-    "name": "[點播]有声小说",
-    "type": 3,
-    "api": "./py/有声小说.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_望春视频",
-    "name": "[點播]望春视频",
-    "type": 3,
-    "api": "./py/望春视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_杏吧视频",
-    "name": "[點播]杏吧视频",
-    "type": 3,
-    "api": "./py/杏吧视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_极品少女_JPSN",
-    "name": "[點播]极品少女_JPSN",
-    "type": 3,
-    "api": "./py/极品少女_JPSN.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_极品少女_JPSN_2",
-    "name": "[點播]极品少女_JPSN_2",
-    "type": 3,
-    "api": "./py/极品少女_JPSN_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_梅花阁",
-    "name": "[點播]梅花阁",
-    "type": 3,
-    "api": "./py/梅花阁.py",
+    "api": "./py/樱之空动漫.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -1463,15 +959,6 @@
     "changeable": 1
   },
   {
-    "key": "py_橘汁视频",
-    "name": "[點播]橘汁视频",
-    "type": 3,
-    "api": "./py/橘汁视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
     "key": "py_欧美影院",
     "name": "[點播]欧美影院",
     "type": 3,
@@ -1481,46 +968,19 @@
     "changeable": 1
   },
   {
-    "key": "py_欲女心经",
-    "name": "[點播]欲女心经",
+    "key": "py_水兰亭",
+    "name": "[點播]水兰亭",
     "type": 3,
-    "api": "./py/欲女心经.py",
+    "api": "./py/水兰亭.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_欲女心经_2",
-    "name": "[點播]欲女心经_2",
+    "key": "py_汤头条",
+    "name": "[點播]汤头条",
     "type": 3,
-    "api": "./py/欲女心经_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_正妹AV",
-    "name": "[點播]正妹AV",
-    "type": 3,
-    "api": "./py/正妹AV.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_母狗园",
-    "name": "[點播]母狗园",
-    "type": 3,
-    "api": "./py/母狗园.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_水仙视频",
-    "name": "[點播]水仙视频",
-    "type": 3,
-    "api": "./py/水仙视频.py",
+    "api": "./py/汤头条.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -1544,136 +1004,19 @@
     "changeable": 1
   },
   {
-    "key": "py_海角社区",
-    "name": "[點播]海角社区",
+    "key": "py_河马短剧_2",
+    "name": "[點播]河马短剧_2",
     "type": 3,
-    "api": "./py/海角社区.py",
+    "api": "./py/河马短剧_2.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_淫兽穴院",
-    "name": "[點播]淫兽穴院",
+    "key": "py_爱听音乐",
+    "name": "[點播]爱听音乐",
     "type": 3,
-    "api": "./py/淫兽穴院.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_淫荡女友",
-    "name": "[點播]淫荡女友",
-    "type": 3,
-    "api": "./py/淫荡女友.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_淫荡阁",
-    "name": "[點播]淫荡阁",
-    "type": 3,
-    "api": "./py/淫荡阁.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_深液传媒",
-    "name": "[點播]深液传媒",
-    "type": 3,
-    "api": "./py/深液传媒.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_溏心次元",
-    "name": "[點播]溏心次元",
-    "type": 3,
-    "api": "./py/溏心次元.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_激速阁",
-    "name": "[點播]激速阁",
-    "type": 3,
-    "api": "./py/激速阁.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_熟女汇",
-    "name": "[點播]熟女汇",
-    "type": 3,
-    "api": "./py/熟女汇.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_熟妇公寓",
-    "name": "[點播]熟妇公寓",
-    "type": 3,
-    "api": "./py/熟妇公寓.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_爆款片库",
-    "name": "[點播]爆款片库",
-    "type": 3,
-    "api": "./py/爆款片库.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_爆款片库_3",
-    "name": "[點播]爆款片库_3",
-    "type": 3,
-    "api": "./py/爆款片库_3.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_爱看机器人",
-    "name": "[點播]爱看机器人",
-    "type": 3,
-    "api": "./py/爱看机器人.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_爽水妹",
-    "name": "[點播]爽水妹",
-    "type": 3,
-    "api": "./py/爽水妹.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_爽水妹_2",
-    "name": "[點播]爽水妹_2",
-    "type": 3,
-    "api": "./py/爽水妹_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_狂飙短剧",
-    "name": "[點播]狂飙短剧",
-    "type": 3,
-    "api": "./py/狂飙短剧.py",
+    "api": "./py/爱听音乐.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -1697,33 +1040,6 @@
     "changeable": 1
   },
   {
-    "key": "py_玉花房",
-    "name": "[點播]玉花房",
-    "type": 3,
-    "api": "./py/玉花房.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_玩物社区AI",
-    "name": "[點播]玩物社区AI",
-    "type": 3,
-    "api": "./py/玩物社区AI.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_玩蛋吧",
-    "name": "[點播]玩蛋吧",
-    "type": 3,
-    "api": "./py/玩蛋吧.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
     "key": "py_环球王2",
     "name": "[點播]环球王2",
     "type": 3,
@@ -1733,82 +1049,19 @@
     "changeable": 1
   },
   {
-    "key": "py_百撸影院",
-    "name": "[點播]百撸影院",
+    "key": "py_短剧网",
+    "name": "[點播]短剧网",
     "type": 3,
-    "api": "./py/百撸影院.py",
+    "api": "./py/短剧网.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_皇朝会所",
-    "name": "[點播]皇朝会所",
+    "key": "py_短劇",
+    "name": "[點播]短劇",
     "type": 3,
-    "api": "./py/皇朝会所.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_直播录屏",
-    "name": "[點播]直播录屏",
-    "type": 3,
-    "api": "./py/直播录屏.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_真实未流出",
-    "name": "[點播]真实未流出",
-    "type": 3,
-    "api": "./py/真实未流出.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_短剧聚合",
-    "name": "[點播]短剧聚合",
-    "type": 3,
-    "api": "./py/短剧聚合.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_硬硬AV",
-    "name": "[點播]硬硬AV",
-    "type": 3,
-    "api": "./py/硬硬AV.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_神秘影院 (1)",
-    "name": "[點播]神秘影院 (1)",
-    "type": 3,
-    "api": "./py/神秘影院 (1).py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_禁忌短剧",
-    "name": "[點播]禁忌短剧",
-    "type": 3,
-    "api": "./py/禁忌短剧.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_禁片天堂",
-    "name": "[點播]禁片天堂",
-    "type": 3,
-    "api": "./py/禁片天堂.py",
+    "api": "./py/短劇.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -1823,100 +1076,19 @@
     "changeable": 1
   },
   {
-    "key": "py_秘境视频",
-    "name": "[點播]秘境视频",
+    "key": "py_第九短剧网",
+    "name": "[點播]第九短剧网",
     "type": 3,
-    "api": "./py/秘境视频.py",
+    "api": "./py/第九短剧网.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_笔盒",
-    "name": "[點播]笔盒",
+    "key": "py_耐看点播",
+    "name": "[點播]耐看点播",
     "type": 3,
-    "api": "./py/笔盒.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_精英突击",
-    "name": "[點播]精英突击",
-    "type": 3,
-    "api": "./py/精英突击.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_糖心Vlog",
-    "name": "[點播]糖心Vlog",
-    "type": 3,
-    "api": "./py/糖心Vlog.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_红杏视界",
-    "name": "[點播]红杏视界",
-    "type": 3,
-    "api": "./py/红杏视界.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_羞羞视频",
-    "name": "[點播]羞羞视频",
-    "type": 3,
-    "api": "./py/羞羞视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_腾爱优聚合",
-    "name": "[點播]腾爱优聚合",
-    "type": 3,
-    "api": "./py/腾爱优聚合.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_臻美视界",
-    "name": "[點播]臻美视界",
-    "type": 3,
-    "api": "./py/臻美视界.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_色中色在线视频",
-    "name": "[點播]色中色在线视频",
-    "type": 3,
-    "api": "./py/色中色在线视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_艾旦影视",
-    "name": "[點播]艾旦影视",
-    "type": 3,
-    "api": "./py/艾旦影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_花千色",
-    "name": "[點播]花千色",
-    "type": 3,
-    "api": "./py/花千色.py",
+    "api": "./py/耐看点播.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -1931,91 +1103,10 @@
     "changeable": 1
   },
   {
-    "key": "py_苹果视频",
-    "name": "[點播]苹果视频",
-    "type": 3,
-    "api": "./py/苹果视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_苹果视频_2",
-    "name": "[點播]苹果视频_2",
-    "type": 3,
-    "api": "./py/苹果视频_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
     "key": "py_苹果视频_3",
     "name": "[點播]苹果视频_3",
     "type": 3,
     "api": "./py/苹果视频_3.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_茄子精品",
-    "name": "[點播]茄子精品",
-    "type": 3,
-    "api": "./py/茄子精品.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_草榴BT_v2",
-    "name": "[點播]草榴BT_v2",
-    "type": 3,
-    "api": "./py/草榴BT_v2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_草莓短剧",
-    "name": "[點播]草莓短剧",
-    "type": 3,
-    "api": "./py/草莓短剧.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_菠萝七区",
-    "name": "[點播]菠萝七区",
-    "type": 3,
-    "api": "./py/菠萝七区.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_萝莉岛",
-    "name": "[點播]萝莉岛",
-    "type": 3,
-    "api": "./py/萝莉岛.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_蘑菇影院",
-    "name": "[點播]蘑菇影院",
-    "type": 3,
-    "api": "./py/蘑菇影院.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_蚕驰短剧网",
-    "name": "[點播]蚕驰短剧网",
-    "type": 3,
-    "api": "./py/蚕驰短剧网.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -2030,109 +1121,37 @@
     "changeable": 1
   },
   {
-    "key": "py_蝴蝶影视·95da",
-    "name": "[點播]蝴蝶影视·95da",
+    "key": "py_西瓜卡通",
+    "name": "[點播]西瓜卡通",
     "type": 3,
-    "api": "./py/蝴蝶影视·95da.py",
+    "api": "./py/西瓜卡通.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_蝴蝶影视·MissAV",
-    "name": "[點播]蝴蝶影视·MissAV",
+    "key": "py_追影",
+    "name": "[點播]追影",
     "type": 3,
-    "api": "./py/蝴蝶影视·MissAV.py",
+    "api": "./py/追影.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_蝴蝶影视·九区全功能稳定版",
-    "name": "[點播]蝴蝶影视·九区全功能稳定版",
+    "key": "py_逼哩直播2",
+    "name": "[點播]逼哩直播2",
     "type": 3,
-    "api": "./py/蝴蝶影视·九区全功能稳定版.py",
+    "api": "./py/逼哩直播2.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   },
   {
-    "key": "py_蝶卡影视",
-    "name": "[點播]蝶卡影视",
+    "key": "py_遊戲直播",
+    "name": "[點播]遊戲直播",
     "type": 3,
-    "api": "./py/蝶卡影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_袋鼠影视",
-    "name": "[點播]袋鼠影视",
-    "type": 3,
-    "api": "./py/袋鼠影视.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_西瓜_2",
-    "name": "[點播]西瓜_2",
-    "type": 3,
-    "api": "./py/西瓜_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_视频%s",
-    "name": "[點播]视频%s",
-    "type": 3,
-    "api": "./py/视频%s.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_谢欲频道",
-    "name": "[點播]谢欲频道",
-    "type": 3,
-    "api": "./py/谢欲频道.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_采花大盗",
-    "name": "[點播]采花大盗",
-    "type": 3,
-    "api": "./py/采花大盗.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_野战人妻",
-    "name": "[點播]野战人妻",
-    "type": 3,
-    "api": "./py/野战人妻.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_霸王鸟视频",
-    "name": "[點播]霸王鸟视频",
-    "type": 3,
-    "api": "./py/霸王鸟视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_青桔短剧",
-    "name": "[點播]青桔短剧",
-    "type": 3,
-    "api": "./py/青桔短剧.py",
+    "api": "./py/遊戲直播.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -2142,24 +1161,6 @@
     "name": "[點播]青禾视界",
     "type": 3,
     "api": "./py/青禾视界.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_青空次元",
-    "name": "[點播]青空次元",
-    "type": 3,
-    "api": "./py/青空次元.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_青空次元_2",
-    "name": "[點播]青空次元_2",
-    "type": 3,
-    "api": "./py/青空次元_2.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -2183,64 +1184,10 @@
     "changeable": 1
   },
   {
-    "key": "py_韩国色情电影",
-    "name": "[點播]韩国色情电影",
+    "key": "py_音乐聚合",
+    "name": "[點播]音乐聚合",
     "type": 3,
-    "api": "./py/韩国色情电影.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_风月阁",
-    "name": "[點播]风月阁",
-    "type": 3,
-    "api": "./py/风月阁.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_风欲",
-    "name": "[點播]风欲",
-    "type": 3,
-    "api": "./py/风欲.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_飞流视频",
-    "name": "[點播]飞流视频",
-    "type": 3,
-    "api": "./py/飞流视频.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_高清福利社",
-    "name": "[點播]高清福利社",
-    "type": 3,
-    "api": "./py/高清福利社.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_魅色仓库",
-    "name": "[點播]魅色仓库",
-    "type": 3,
-    "api": "./py/魅色仓库.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_鲍鲜膜_2",
-    "name": "[點播]鲍鲜膜_2",
-    "type": 3,
-    "api": "./py/鲍鲜膜_2.py",
+    "api": "./py/音乐聚合.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
@@ -2255,158 +1202,13 @@
     "changeable": 1
   },
   {
-    "key": "py_麻豆传媒🔞TG群：@tvshare23",
-    "name": "[點播]麻豆传媒🔞TG群：@tvshare23",
+    "key": "py_點播有廣告",
+    "name": "[點播]點播有廣告",
     "type": 3,
-    "api": "./py/麻豆传媒🔞TG群：@tvshare23.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_麻豆传媒🔞TG群：https___t.me_+3t5XRPPo9mlkZDRl",
-    "name": "[點播]麻豆传媒🔞TG群：https___t.me_+3t5XRPPo9mlkZDRl",
-    "type": 3,
-    "api": "./py/麻豆传媒🔞TG群：https___t.me_+3t5XRPPo9mlkZDRl.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_麻豆传媒🔞TG群：t.me_+3t5XRPPo9mlkZDRl",
-    "name": "[點播]麻豆传媒🔞TG群：t.me_+3t5XRPPo9mlkZDRl",
-    "type": 3,
-    "api": "./py/麻豆传媒🔞TG群：t.me_+3t5XRPPo9mlkZDRl.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_麻豆社",
-    "name": "[點播]麻豆社",
-    "type": 3,
-    "api": "./py/麻豆社.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_黄色仓库",
-    "name": "[點播]黄色仓库",
-    "type": 3,
-    "api": "./py/黄色仓库.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_黄色仓库_2",
-    "name": "[點播]黄色仓库_2",
-    "type": 3,
-    "api": "./py/黄色仓库_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_黄金右手",
-    "name": "[點播]黄金右手",
-    "type": 3,
-    "api": "./py/黄金右手.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_黑料不打烊",
-    "name": "[點播]黑料不打烊",
-    "type": 3,
-    "api": "./py/黑料不打烊.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_龙凤阁",
-    "name": "[點播]龙凤阁",
-    "type": 3,
-    "api": "./py/龙凤阁.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_🌈 51大赛_终极完美版",
-    "name": "[點播]🌈 51大赛_终极完美版",
-    "type": 3,
-    "api": "./py/🌈 51大赛_终极完美版.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_🌈 51爆料_终极完美版",
-    "name": "[點播]🌈 51爆料_终极完美版",
-    "type": 3,
-    "api": "./py/🌈 51爆料_终极完美版.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_🌈 91吃瓜中心_终极完美版",
-    "name": "[點播]🌈 91吃瓜中心_终极完美版",
-    "type": 3,
-    "api": "./py/🌈 91吃瓜中心_终极完美版.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_🌈 91吃瓜中心_终极完美版_2",
-    "name": "[點播]🌈 91吃瓜中心_终极完美版_2",
-    "type": 3,
-    "api": "./py/🌈 91吃瓜中心_终极完美版_2.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_🌈 818黑料网_终极完美版",
-    "name": "[點播]🌈 818黑料网_终极完美版",
-    "type": 3,
-    "api": "./py/🌈 818黑料网_终极完美版.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_🌈 吃瓜网_终极完美版",
-    "name": "[點播]🌈 吃瓜网_终极完美版",
-    "type": 3,
-    "api": "./py/🌈 吃瓜网_终极完美版.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_🌈 每日大乱斗_终极完美版",
-    "name": "[點播]🌈 每日大乱斗_终极完美版",
-    "type": 3,
-    "api": "./py/🌈 每日大乱斗_终极完美版.py",
-    "searchable": 1,
-    "filterable": 0,
-    "changeable": 1
-  },
-  {
-    "key": "py_🌟 EcoHub 影视",
-    "name": "[點播]🌟 EcoHub 影视",
-    "type": 3,
-    "api": "./py/🌟 EcoHub 影视.py",
+    "api": "./py/點播有廣告.py",
     "searchable": 1,
     "filterable": 0,
     "changeable": 1
   }
-
 ]
 }
