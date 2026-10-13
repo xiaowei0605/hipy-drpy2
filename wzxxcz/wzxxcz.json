@@ -3,159 +3,159 @@
     "wallpaper": "./xcz.php",
     "logo": "./logo.php",
     "lives": [
-		{
+        {
             "name": "央卫港台",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://ds65.tv1288.xyz"
         },
-		{
+        {
             "name": "酒店",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/adminouyang/231006/refs/heads/main/py/Hotel/hotel.txt"
         },
-		{
+        {
             "name": "优质",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/adminouyang/231006/refs/heads/main/py/%E4%BC%98%E8%B4%A8%E6%BA%90/output/ipv4/result.txt"
         },
-		{
+        {
             "name": "裤佬IPTV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/pyapk/1/refs/heads/main/zby"
         },
-		{
+        {
             "name": "裤佬体育直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://jsnzkpg.de5.net/all.m3u"
         },
-		{
+        {
             "name": "裤佬松果赛事",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://stymei.pages.dev/live.m3u"
         },
-		{
+        {
             "name": "涛涛TV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://445569.pages.dev/https://raw.githubusercontent.com/taoBox2620/taoBox2620/refs/heads/main/logo1.png"
         },
-		{
+        {
             "name": "华视TV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://445569.pages.dev/https://raw.githubusercontent.com/swhtv/111/refs/heads/main/华视box华视大全swtv"
         },
-		{
+        {
             "name": "易发TV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://445569.pages.dev/https://raw.githubusercontent.com/fafa002/yf2025/refs/heads/main/yiyifafa.txt"
         },
-		{
+        {
             "name": "日后TV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://jsnzkpg4.pages.dev/http://rihou.cc:555/gggg.nzk"
         },
-		{
+        {
             "name": "潇雨TV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://0701.tv1288.xyz/m3u"
         },
-		{
+        {
             "name": "Supprise0901",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/Supprise0901/TVBox_live/refs/heads/main/live.txt"
         },
-		{
+        {
             "name": "best-fan",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/best-fan/iptv-sources/refs/heads/main/cn_all.m3u8"
         },
-		{
+        {
             "name": "HZXS",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gitee.com/hzxs800274/iptv/raw/master/live/TV"
         },
-		{
+        {
             "name": "zwssina",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gitee.com/zwssina/yunduanyuan/raw/master/SB"
         },
-		{
+        {
             "name": "卡卡西IPTV",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/kakaxi-1/IPTV/refs/heads/main/ipv4.txt"
         },
-		{
+        {
             "name": "港澳台",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://iptv.852851.xyz/sub/bwQfdMcUYrjq/playlist.m3u"
         },
-		{
+        {
             "name": "台湾4GTV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "http://4gtv.cnlive.club/4gtv.m3u"
         },
-		{
+        {
             "name": "全球TV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://seep.eu.org/iptv-org.github.io/iptv/index.m3u"
         },
-		{
+        {
             "name": "内地港台",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/FGBLH/HKL/refs/heads/main/内地港台"
         },
-		{
+        {
             "name": "MIT",
             "type": 0,
             "playerType": 2,
             "ua": "okhttp",
-			"url": "https://gh-proxy.org/https://raw.githubusercontent.com/fleung49/star/refs/heads/main/mit"
+            "url": "https://gh-proxy.org/https://raw.githubusercontent.com/fleung49/star/refs/heads/main/mit"
         },
-		{
+        {
             "name": "电视家",
             "type": 0,
             "playerType": 2,
-             "ua": "okhttp",
-			 "url": "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dsjcs.txt"
+            "ua": "okhttp",
+            "url": "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dsjcs.txt"
         },
-		{
+        {
             "name": "薄荷直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/wujiangliu/live-sources/refs/heads/main/bhmb.m3u"
-        }, 
-		{
+        },
+        {
             "name": "国际TV",
             "type": 0,
             "ua": "okhttp",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/xJEYDAin/iptv/main/output/all_merged.m3u"
         },
-		{
+        {
             "name": "live",
             "type": 0,
             "ua": "okhttp",
             "url": "https://live.445569.xyz/live.m3u"
         },
-		{
+        {
             "name": "飞扬",
             "type": 0,
             "ua": "okhttp",
@@ -215,12 +215,12 @@
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/develop202/migu_video/refs/heads/main/interface.txt"
         },
-		{
+        {
             "name": "地方直播1",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/ipv4/result.m3u"
-        },    
+        },
         {
             "name": "天浪",
             "type": 0,
@@ -386,7 +386,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "央视频",
             "name": "🍊小橙子央视频",
             "type": 3,
@@ -435,7 +435,7 @@
             "filterable": 1,
             "timeout": 60
         },
-		{
+        {
             "key": "蜻蜓FM",
             "name": "🦟蜻蜓FM",
             "type": 3,
@@ -447,13 +447,13 @@
                 "type": "list"
             }
         },
-		{
+        {
             "key": "ytb",
             "name": "🎵悦听吧",
             "type": 3,
             "api": "./py/悦听吧.py"
         },
-		{
+        {
             "key": "堇夏听书",
             "name": "🎵堇夏听书",
             "type": 3,
@@ -466,7 +466,7 @@
                 "type": "list"
             }
         },
-		{
+        {
             "key": "博看听书",
             "name": "🎵博看听书",
             "type": 3,
@@ -478,19 +478,19 @@
                 "type": "list"
             }
         },
-		{
+        {
             "key": "kwms",
             "name": "🎵酷我音乐",
             "type": 3,
             "api": "./py/酷我音乐.py"
         },
-		{
+        {
             "key": "djyy",
             "name": "🎵呦呦DJ",
             "type": 3,
             "api": "./py/DJ呦呦.py"
         },
-		{
+        {
             "key": "戏曲多多",
             "name": "📺戏曲多多",
             "type": 3,
@@ -502,7 +502,7 @@
                 "type": "list"
             }
         },
-		{
+        {
             "key": "爱听音乐",
             "name": "🎤爱听音乐",
             "type": 3,
@@ -517,41 +517,41 @@
             "type": 3,
             "api": "./py/枫叶音乐.py"
         },
-		{
+        {
             "key": "千千音乐",
             "name": "🎵千千音乐",
             "type": 3,
             "api": "./py/千千音乐.py"
         },
-		{
+        {
             "key": "酷我音乐在线",
             "name": "🎵酷我音乐在线",
             "type": 3,
-			"api": "csp_Nostr",
+            "api": "csp_Nostr",
             "homePage": "https://xcz.iptv365.org/酷我音乐.html"
         },
-		{
+        {
             "key": "Nostr",
             "name": "🐲Nostr推荐",
             "type": 3,
-			"api": "csp_Nostr",
+            "api": "csp_Nostr",
             "homePage": "https://nostr.aws.dpdns.org/"
         },
-		{
+        {
             "key": "Nostrtv",
             "name": "🐲Nostrtv推荐",
             "type": 3,
-			"api": "csp_Nostr",
+            "api": "csp_Nostr",
             "homePage": "https://nostrtv.aws.dpdns.org/"
         },
-		{
+        {
             "key": "Nostrtvxcz",
             "name": "🐲Nostrtvxcz推荐",
             "type": 3,
-			"api": "csp_Nostr",
+            "api": "csp_Nostr",
             "homePage": "https://www.252035.xyz/xs/tvbox/nostr.html"
         },
-		{
+        {
             "key": "玩偶",
             "name": "🐲小橙子智能4K弹幕",
             "type": 3,
@@ -570,7 +570,7 @@
             },
             "timeout": 60
         },
-		{
+        {
             "key": "欧歌",
             "name": "🐲小橙子4K弹幕",
             "type": 3,
@@ -603,7 +603,7 @@
                 ]
             }
         },
-		{
+        {
             "key": "虎斑",
             "name": "🐅虎斑4K弹幕",
             "type": 3,
@@ -620,7 +620,7 @@
             },
             "timeout": 60
         },
-		{
+        {
             "key": "快映",
             "name": "🐅小斑4K弹幕",
             "type": 3,
@@ -656,7 +656,7 @@
             },
             "timeout": 60
         },
-		{
+        {
             "key": "蜡笔",
             "name": "🖍️蜡笔4K",
             "type": 3,
@@ -693,7 +693,7 @@
             },
             "timeout": 60
         },
-		{
+        {
             "key": "闪电",
             "name": "⚡闪电4K",
             "type": 3,
@@ -709,7 +709,7 @@
             },
             "timeout": 60
         },
-		{
+        {
             "key": "种子",
             "name": "🍊种子4K",
             "type": 3,
@@ -785,7 +785,7 @@
             "filterable": 1,
             "timeout": 60
         },
-		{
+        {
             "key": "迅雷云盘",
             "name": "🍊迅雷云盘",
             "type": 3,
@@ -837,7 +837,7 @@
                 "ratio": 1.433
             }
         },
-		{
+        {
             "key": "觅盘",
             "name": "🍊觅盘搜索",
             "type": 3,
@@ -867,7 +867,7 @@
             "filterable": 0,
             "timeout": 60
         },
-		{
+        {
             "key": "酷乐",
             "name": "🍊酷乐搜索",
             "type": 3,
@@ -897,7 +897,7 @@
             "filterable": 0,
             "timeout": 60
         },
-		{
+        {
             "key": "5",
             "name": "🍊小橙子影视",
             "type": 3,
@@ -915,7 +915,7 @@
             "type": 3,
             "api": "./js/荐片.js"
         },
-		{
+        {
             "key": "移动",
             "name": "💡移动影视",
             "type": 3,
@@ -925,7 +925,7 @@
             "filterable": 1,
             "timeout": 60
         },
-		{
+        {
             "key": "爱盼",
             "name": "💡爱盼4K",
             "type": 3,
@@ -935,7 +935,7 @@
             "filterable": 1,
             "timeout": 60
         },
-		{
+        {
             "key": "花卷",
             "name": "💡花卷4K",
             "type": 3,
@@ -952,7 +952,7 @@
             },
             "timeout": 60
         },
-		{
+        {
             "key": "八零",
             "name": "💡八零4K",
             "type": 3,
@@ -970,7 +970,7 @@
             },
             "timeout": 60
         },
-		{
+        {
             "key": "卡卡",
             "name": "💡卡卡4K",
             "type": 3,
@@ -1047,35 +1047,35 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260815",
+                "作者": "🍊小橙子/20260815",
                 "站名": "大米电影网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=78rnpkmpe2j4h995e96j0683dq&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.hn-ntm.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.hn-ntm.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.hn-ntm.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$20#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</p>",
                 "标题": "<a*>&&</a>",
                 "图片": "data-original=\"&&\"",
                 "副标题": "<span class=\"video-title text-nowrap ml-xs-0 mr-xs-0\">&&</span>",
                 "链接": "href=\"&&\"",
-				"影片年代": "年份：&&</li>",
+                "影片年代": "年份：&&</li>",
                 "影片地区": "地区：&&</li>",
                 "影片类型": "类型：&&</li>",
                 "状态": "状态：&&</li>",
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+剧情：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "#ewave-playlist&&</li>",
                 "线路标题": "javascript:;\">&&<",
                 "播放二次截取": "",
@@ -1084,7 +1084,7 @@
                 "播放列表": "<a&&/a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -1124,35 +1124,35 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260818",
+                "作者": "🍊小橙子/20260818",
                 "站名": "秒播影视1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@Hm_lvt_540f775a4e7b2d14f2acd853eb3860a9=1787060552；； HMACCOUNT=1D3FCEC4385536BF；； PHPSESSID=fsgsjntngul5jsjfj6utvfp6m3；； Hm_lpvt_540f775a4e7b2d14f2acd853eb3860a9=1787061518&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.njshunyue.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.njshunyue.com/mbsansw/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.njshunyue.com/mbsansw/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "<li class=\"dx-vod&&</li>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
                 "副标题": "<span class=\"vod_remarks\">&&</span>",
                 "链接": "href=\"&&\"",
-				"影片年代": "年份：&&</div>",
+                "影片年代": "年份：&&</div>",
                 "影片地区": "地区：&&</div>",
                 "影片类型": "类型：&&</div>",
                 "状态": "状态：&&</div>",
                 "导演": "导演：&&</div>",
                 "主演": "主演：&&</div>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+vod_content\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "player_info&&</span>",
                 "线路标题": "<h2>&&<",
                 "播放二次截取": "",
@@ -1161,7 +1161,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": "self\"*>&&<",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -1278,35 +1278,35 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260820",
+                "作者": "🍊小橙子/20260820",
                 "站名": "水母影视",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@Hm_lvt_765c2036f5ef1c01d50f58662d576693=1787211691；； HMACCOUNT=17BED804ED862610；； PHPSESSID=ggovsoo6jcqvd7h7hu1e7nptnb；； Hm_lpvt_765c2036f5ef1c01d50f58662d576693=1787212432&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.hnshenhu.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.hnshenhu.com/explore/id/{cateId}/page/{catePg}/year/{year}.html",
+                "分类url": "https://www.hnshenhu.com/explore/id/{cateId}/page/{catePg}/year/{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$24#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
                 "副标题": "<span class=\"pic-text text-right\">&&</span>",
                 "链接": "href=\"&&\"",
-				"影片年代": "年份：&&</p>",
+                "影片年代": "年份：&&</p>",
                 "影片地区": "地区：&&</p>",
                 "影片类型": "类型：&&</p>",
                 "状态": "状态：&&</p>",
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -1315,7 +1315,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -1372,133 +1372,133 @@
             "type": 3,
             "api": "./py/瓜子APP.py"
         },
-		{
+        {
             "key": "瓜子1影视",
             "name": "🍉瓜子影视备",
             "type": 3,
             "api": "csp_Gz360"
         },
-		{
+        {
             "key": "66影视1",
             "name": "💵66影视1",
             "type": 3,
             "api": "./py/66影视1.py"
         },
-		{
+        {
             "key": "蜗牛影院5",
             "name": "🐌蜗牛影院5",
             "type": 3,
             "api": "./py/蜗牛影院.py"
         },
-		{
+        {
             "key": "初见影视",
             "name": "🍊初见影视",
             "type": 3,
             "api": "./py/初见影视.py"
         },
-		{
+        {
             "key": "AI搜剧",
             "name": "🔎AI搜剧",
             "type": 3,
             "api": "./py/AI搜剧.py"
         },
-		{
+        {
             "key": "袋鼠影视",
             "name": "🦘袋鼠影视",
             "type": 3,
             "api": "./py/袋鼠影视.py"
         },
-		{
+        {
             "key": "ddvm",
             "name": "💧嘀嗒影视",
             "type": 3,
-            "api": "./py/嘀嗒影视.py"	
+            "api": "./py/嘀嗒影视.py"
         },
-		{
+        {
             "key": "番茄酱影视",
             "name": "🍅番茄酱影视",
             "type": 3,
             "api": "./py/番茄酱影视.py"
         },
-		{
-            "key": "被窝网",
-            "name": "🛏️被窝网",
+        {
+            "key": "不卡影视",
+            "name": "🍊不卡影视",
             "type": 3,
-            "api": "./py/被窝网.py"
+            "api": "./py/不卡影视.py"
         },
-		{
-            "key": "808yr",
-            "name": "🎞️808影院",
+        {
+            "key": "飘花播播",
+            "name": "❄️飘花播播",
             "type": 3,
-            "api": "./py/808影院.py"
+            "api": "./py/飘花播播.py"
         },
-		{
+        {
             "key": "gqc",
             "name": "🌃共青春影院",
             "type": 3,
             "api": "./py/共青春影院.py"
         },
-		{
+        {
             "key": "蝶卡影视",
             "name": "🦋蝶卡影视",
             "type": 3,
             "api": "./py/蝶卡影视.py"
         },
-		{
+        {
             "key": "ddyy",
             "name": "🥛低端影视",
             "type": 3,
             "api": "./py/低端影视.py"
         },
-		{
+        {
             "key": "hxq",
             "name": "🥨韩小圈",
             "type": 3,
             "api": "./py/韩小圈.py"
         },
-		{
+        {
             "key": "jgvy",
             "name": "🍊追光影视",
             "type": 3,
             "api": "./py/追光影视.py"
         },
-		{
+        {
             "key": "hstv",
             "name": "💶华数影视",
             "type": 3,
             "api": "./py/华数TV.py"
         },
-		{
+        {
             "key": "wstv",
             "name": "🍵威视影视",
             "type": 3,
             "api": "./py/威视TV.py"
         },
-		{
+        {
             "key": "8tdy",
             "name": "🌤️八天电影",
             "type": 3,
             "api": "./py/八天电影.py"
         },
-		{
+        {
             "key": "cjjh",
             "name": "🐝采集聚合",
             "type": 3,
             "api": "./py/采集聚合.py"
         },
-		{
+        {
             "key": "影视大全2",
             "name": "🍊影视大全2",
             "type": 3,
             "api": "./py/影视大全🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "一起影视",
             "name": "🍊一起影视",
             "type": 3,
             "api": "./py/一起影视🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "一起影视1",
             "name": "💡一起影视1",
             "type": 3,
@@ -1507,85 +1507,85 @@
             "quickSearch": 1,
             "filterable": 0
         },
-		{
+        {
             "key": "看戏影视1",
             "name": "🍊看戏影视1",
             "type": 3,
             "api": "./py/看戏影视🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "VIP兔影视",
             "name": "🐇VIP兔影视",
             "type": 3,
             "api": "./py/VIP兔🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "FoFo影院",
             "name": "🌱FoFo影院",
             "type": 3,
             "api": "./py/FoFo影院🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "飞快TV1",
             "name": "🕊️飞快TV1",
             "type": 3,
             "api": "./py/飞快TV🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "大马猴影视",
             "name": "🐒大马猴影视",
             "type": 3,
             "api": "./py/大马猴🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "pomo影视",
             "name": "🍊pomo影视",
             "type": 3,
             "api": "./py/pomo🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "枫叶影院",
             "name": "🍁枫叶影院",
             "type": 3,
             "api": "./py/枫叶影院🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "泡泡影院1",
             "name": "🐳泡泡影院1",
             "type": 3,
             "api": "./py/泡泡影院🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "看剧AI",
             "name": "🍊看剧影视",
             "type": 3,
             "api": "./py/看剧AI🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "高清点播1",
             "name": "🍊高清点播1",
             "type": 3,
             "api": "./py/高清点播🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "vidhub视频库",
             "name": "🍊vidhub视频库",
             "type": 3,
             "api": "./py/vidhub🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "网飞影视",
             "name": "🕊️网飞影视",
             "type": 3,
             "api": "./py/网飞TV.py"
         },
-		{
+        {
             "key": "厂长影视",
             "name": "🍊厂长影视",
             "type": 3,
             "api": "./py/厂长影视.py"
         },
-		{
+        {
             "key": "厂长资源",
             "name": "🍊厂长资源",
             "type": 3,
@@ -1597,7 +1597,7 @@
             "type": 3,
             "api": "./py/多多影视.py"
         },
-		{
+        {
             "key": "VS影院2",
             "name": "🍊VS影院2",
             "type": 3,
@@ -1609,14 +1609,14 @@
             "type": 3,
             "api": "./py/金牌APP.py"
         },
-		{
+        {
             "key": "金牌影视",
             "name": "🏅金牌影视",
             "type": 3,
             "api": "csp_Jpys",
             "ext": "https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.sizhengxt.com,https://m.jiabaide.cn"
         },
-		{
+        {
             "key": "葫芦影视",
             "name": "💡葫芦影视",
             "type": 3,
@@ -1629,227 +1629,227 @@
                 "ua": "okhttp/3.10.0"
             }
         },
-		{
+        {
             "key": "多瑙影视",
             "name": "🐿️多瑙影视",
             "type": 3,
             "api": "./py/多瑙影视.py"
         },
-		{
+        {
             "key": "泥巴影视",
             "name": "💡泥巴影视",
             "type": 3,
             "api": "./py/泥巴影视.py"
         },
-		{
+        {
             "key": "电影侠",
             "name": "💡电影侠",
             "type": 3,
             "api": "./py/电影侠🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "电影侠1",
             "name": "💡电影侠1",
             "type": 3,
             "api": "./py/电影侠.py"
         },
-		{
+        {
             "key": "首映网",
             "name": "💡首映网",
             "type": 3,
             "api": "./py/首映网🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "兔岛影院",
             "name": "🐇兔岛影院",
             "type": 3,
             "api": "./py/兔岛影院.py"
         },
-		{
+        {
             "key": "青牛影视",
             "name": "🐂青牛影视",
             "type": 3,
             "api": "./py/青牛影视🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "搜剧AI",
             "name": "🔍搜剧AI",
             "type": 3,
             "api": "./py/搜剧AI🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "66大片网",
             "name": "💡66大片网",
             "type": 3,
             "api": "./py/66大片网🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "楓林網",
             "name": "🍁楓林網",
             "type": 3,
             "api": "./py/楓林網🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "草莓影视",
             "name": "🍓草莓影视",
             "type": 3,
             "api": "./py/草莓影视🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "八戒影视1",
             "name": "🐷八戒影视1",
             "type": 3,
             "api": "./py/八戒影视🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "qlys",
             "name": "🐲麒麟影视2",
             "type": 3,
             "api": "./py/麒麟影视.py"
         },
-		{
+        {
             "key": "开心影院",
             "name": "💵开心影院",
             "type": 3,
             "api": "./js/开心影院.js",
             "changeable": 0
         },
-		{
+        {
             "key": "西瓜影视2",
             "name": "🍉西瓜影视2",
             "type": 3,
             "api": "./js/西瓜影视.js",
             "changeable": 0
         },
-		{
+        {
             "key": "枫叶影院1",
             "name": "🍁枫叶影院1",
             "type": 3,
             "api": "./js/枫叶影院.js",
             "changeable": 0
         },
-		{
+        {
             "key": "dnyy",
             "name": "💡多瑙影院",
             "type": 3,
             "api": "./py/多瑙影院.py"
         },
-		{
+        {
             "key": "ayf",
             "name": "💡爱壹帆影视",
             "type": 3,
             "api": "./py/爱壹帆.py"
         },
-		{
+        {
             "key": "nmvm",
             "name": "👨‍🌾农民影视3",
             "type": 3,
             "api": "./py/农民影视.py"
         },
-		{
+        {
             "key": "迷你影视",
             "name": "💵迷你影视",
             "type": 3,
             "api": "./py/迷你影视.py"
         },
-		{
+        {
             "key": "华谊影视1",
             "name": "🍊华谊影视1",
             "type": 3,
             "api": "./py/华谊影视.py"
         },
-		{
+        {
             "key": "6080新视觉",
             "name": "🍊6080新视觉",
             "type": 3,
             "api": "./py/6080新视觉.py"
         },
-		{
+        {
             "key": "橘汁视频",
             "name": "🍊橘汁视频",
             "type": 3,
             "api": "./py/橘汁视频.py"
         },
-		{
+        {
             "key": "芭蕉剧场",
             "name": "🍌芭蕉剧场",
             "type": 3,
             "api": "./py/芭蕉剧场.py"
         },
-		{
+        {
             "key": "第九短剧网",
             "name": "🍊第九短剧网",
             "type": 3,
             "api": "./py/第九短剧网.py"
         },
-		{
+        {
             "key": "君念影院",
             "name": "🍊君念影院",
             "type": 3,
             "api": "./py/君念影院.py"
         },
-		{
+        {
             "key": "手机影院",
             "name": "📱手机影院",
             "type": 3,
             "api": "./py/手机影院.py"
         },
-		{
+        {
             "key": "白洋影院",
             "name": "🐏白洋影院",
             "type": 3,
             "api": "./py/白洋影院.py"
         },
-		{
+        {
             "key": "第七影院1",
             "name": "🍊第七影院1",
             "type": 3,
             "api": "./py/第七影院.py"
         },
-		{
+        {
             "key": "飞流视频1",
             "name": "🦅飞流视频1",
             "type": 3,
             "api": "./py/飞流视频🍀TG @hshsjk9.py"
         },
-		{
+        {
             "key": "网飞猫影视",
             "name": "🐈网飞猫影视",
             "type": 3,
             "api": "./py/网飞猫影视(关梯).py"
         },
-		{
+        {
             "key": "ZIP0影视",
             "name": "🚬ZIP0影视",
             "type": 3,
             "api": "./py/ZIP0影视.py"
         },
-		{
+        {
             "key": "饭搭子影视",
             "name": "🍗饭搭子影视",
             "type": 3,
             "api": "./py/饭搭子影视.py"
         },
-		{
+        {
             "key": "10",
             "name": "🍊T4影视",
             "type": 4,
             "api": "https://banyeomni.780420.xyz:17777/api/tvbox/source/2097848348508688384?token=banye666"
         },
-		{
+        {
             "key": "1234影视",
             "name": "🍊1234影视",
             "type": 3,
             "api": "./py/1234影视.py"
         },
-		{
+        {
             "key": "爱剧影视",
             "name": "🍊爱剧影视",
             "type": 3,
             "api": "./py/爱剧影视.py",
-			"ext": "http://43.248.117.123:4680"
+            "ext": "http://43.248.117.123:4680"
         },
-		{
+        {
             "key": "4K电影网",
             "name": "🍊4K电影网",
             "type": 3,
@@ -1860,205 +1860,205 @@
             "filterable": 1,
             "playerType": 2
         },
-		{
+        {
             "key": "追剧达人",
             "name": "🍊追剧达人",
             "type": 3,
             "api": "./py/追剧达人.py"
         },
-		{
+        {
             "key": "未来影院",
             "name": "🍊未来影院",
             "type": 3,
             "api": "./py/未来影院(关梯).py"
         },
-		{
+        {
             "key": "大白鲨影院",
             "name": "🦈大白鲨影院",
             "type": 3,
             "api": "./py/大白鲨影院.py"
         },
-		{
+        {
             "key": "咸鱼影视",
             "name": "🐠咸鱼影视",
             "type": 3,
             "api": "./py/咸鱼影视.py"
         },
-		{
+        {
             "key": "LIBVIO",
             "name": "🍊LIBVIO影视",
             "type": 3,
             "api": "./py/LIBVIO.py"
         },
-		{
+        {
             "key": "咕噜咕噜",
             "name": "🍊咕噜咕噜",
             "type": 3,
             "api": "./py/咕噜咕噜.py"
         },
-		{
+        {
             "key": "云朵视频",
             "name": "☁️云朵视频",
             "type": 3,
             "api": "./py/云朵视频(关梯).py"
         },
-		{
+        {
             "key": "独播库2",
             "name": "🍊独播库2",
             "type": 3,
             "api": "./py/独播库.py"
         },
-		{
+        {
             "key": "55影院",
             "name": "🍊55影院",
             "type": 3,
             "api": "./py/55影院(关梯).py"
         },
-		{
+        {
             "key": "无极电影网",
             "name": "🍊无极电影网",
             "type": 3,
             "api": "./py/无极电影网(关梯).py"
         },
-		{
+        {
             "key": "果果短剧1",
             "name": "🍎果果短剧1",
             "type": 3,
             "api": "./py/果果短剧.py"
         },
-		{
+        {
             "key": "飞牛影视3",
             "name": "🐂飞牛影视3",
             "type": 3,
             "api": "./py/飞牛影视.py"
         },
-		{
+        {
             "key": "剧下饭4K",
             "name": "🍗剧下饭4K",
             "type": 3,
             "api": "./py/剧下饭4K.py"
         },
-		{
+        {
             "key": "追剧猫",
             "name": "🐈追剧猫",
             "type": 3,
             "api": "./py/追剧猫.py"
         },
-		{
+        {
             "key": "剧OK",
             "name": "🍊剧OK",
             "type": 3,
             "api": "./py/剧OK.py"
         },
-		{
+        {
             "key": "蝴蝶影院",
             "name": "🦋蝴蝶影院",
             "type": 3,
             "api": "./py/蝴蝶影院.py"
         },
-		{
+        {
             "key": "看剧AI1",
             "name": "🍊看剧AI",
             "type": 3,
             "api": "./py/看剧AI.py"
         },
-		{
+        {
             "key": "千千影视",
             "name": "💵千千影视",
             "type": 3,
             "api": "./py/千千影视.py"
         },
-		{
+        {
             "key": "绿色影视",
             "name": "🍊绿色影视",
             "type": 3,
             "api": "./py/绿色影视.py"
         },
-		{
+        {
             "key": "极速追剧",
             "name": "🚤极速追剧",
             "type": 3,
             "api": "./py/极速追剧.py"
         },
-		{
+        {
             "key": "极速追剧1",
             "name": "🚤极速追剧1",
             "type": 3,
             "api": "./py/极速追剧1.py"
         },
-		{
+        {
             "key": "达达兔影院",
             "name": "🐇达达兔影院",
             "type": 3,
             "api": "./py/达达兔影院.py"
         },
-		{
+        {
             "key": "小蜜蜂影院",
             "name": "🐝小蜜蜂影院",
             "type": 3,
             "api": "./py/小蜜蜂影院.py"
         },
-		{
+        {
             "key": "洛雪TV",
             "name": "⛄洛雪TV",
             "type": 3,
             "api": "./py/洛雪TV.py"
         },
-		{
+        {
             "key": "人人视频",
             "name": "🍊人人视频",
             "type": 3,
             "api": "./py/人人视频.py"
         },
-		{
+        {
             "key": "ik4k影院",
             "name": "🍊ik4k影院",
             "type": 3,
             "api": "./py/ik4k影院.py"
         },
-		{
+        {
             "key": "追影影视",
             "name": "🍊追影影视",
             "type": 3,
             "api": "./py/追影.py"
         },
-		{
+        {
             "key": "云途影视",
             "name": "🌥️云途影视",
             "type": 3,
             "api": "./py/云途影视.py"
         },
-		{
+        {
             "key": "开心影院1",
             "name": "💵开心影院1",
             "type": 3,
             "api": "./py/开心影院1.py"
         },
-		{
+        {
             "key": "豆花电影网",
             "name": "🥛豆花电影网",
             "type": 3,
             "api": "./py/豆花电影网.py"
         },
-		{
+        {
             "key": "Auete影视",
             "name": "🍊Auete影视",
             "type": 3,
             "api": "./py/Auete影视.py"
         },
-		{
+        {
             "key": "电影人生",
             "name": "🍊电影人生",
             "type": 3,
             "api": "./py/电影人生.py"
         },
-		{
+        {
             "key": "晴天影视2",
             "name": "🌤️晴天影视2",
             "type": 3,
             "api": "./py/晴天影视2.py"
         },
-		{
+        {
             "key": "爬虫影视",
             "name": "🐛爬虫影视",
             "type": 1,
@@ -2094,7 +2094,7 @@
             "playerType": 2,
             "ext": "7lj763gg0939790h44298182lk5j9k99k2g4ih53jl9i376l514k16hilj0443400h9k4jgh8312j1912818glikl7lh1jk9k4222k1kg696igkk32ig6lhj3kl50j08lkl6j0h6gi7k2j31jj0k7i1784l25g757hhkl42i7jg68illihj867l82g53532j62i92kljhj5llh498k24796l57j55ji0ji2g22i501jl541j9j4i68i5j602744l10413k457hl80l91j5l44139j23g64h27k08l5509h202gl84338hi17082hkj5746g298j640i002jk1265h745j289303h6i6j6j15jgkg15485h8g935hk83g9g7j661l4i557jl56h6l0h40i5j9hkiig7066523l2h24gj9k1083g6l2gihh2j5hhgkgij04j8900jhg4l6731hkhij7kk2i594536563674gki85li59jhk79067964197h5k7k2641h03l45074jkkklhik123407146l1i0jk90k1hgl151076ig7i4gi0858h62j37lh8l4hl519ghi7g04h2h900jlj7ll333i736549624gjk8k508g9499gj3jj7050jjhgh4i57326j83301i0kkl88040ih52gj8j0gk0h4g5g7lh561k2gk6k7k56h01598ji23g27k3i17878j92k2gj1l5ih8h0jj73k94g9hl5g7h229i10g099k09l958h3hk18l72h1j43gg7177g4h7ll8987644383606klgh9h4ll42h7293k694kl20j539g6jl17ig655461138jgj7306i1296k3i03586k6l32j5hlik4051187741218271j8j4g3i1h6719877l10k1ijl220i8hlil3j3g129ll3k2i5164lkg12k253kk1h8j5l0gki49jg25hlii704l5ih74439hlj9jih5ki53242ijgh6359i8i5j4h2j2i4581l244j4ij728490hk0k34542916i2lig57836gg7kji3l160234i24hik5g18h790488748j680k5i0l885lj66kjk78j2i57i5021g283ik9g38g62259h1lgi811ihki506k5934g7h737hg9360lll98l4j8i049903l1354lg00019g0934h005h8jjkl60j91k7j74i96h8h26hk59i653209lgj07g1g298k48jllgh00l4i742gi72l27038157gji9j32gh0k5672167k2588h31967l3867g50k503ik403781ki72j47hh4363l0708k4g961k4hl8g4j35ilk143h3424010i165lj612h50k68l61ghl9h80kh874k14ggk2ilg018hi5l1g34262196lkl45ih981jkl42271l4232k93hk8ih3g814i6h63h0g64l300i42il1g0454921j12h4844ii714ih71lg172326009812833h62kj8009kijk5hhg763031235l45h78614l7h9k579h6lj290i98851gll70024834hgj2lg5hk3l905i346gij11kl5j9i7h5j5k12hl061l488k061564g398i2150h9j343901865h7567g874i1gghl5ihg8il8hh0650h6308l2i5053997g8g12g16l3l7h5lhlji71i1i23h0ljl1h14688h7g13987h548h33k34hi6h2i63h424jhl1kik26kl3h60662846j6j0749l8kh95018kl1971j5j5gjk9hg70542391j77hjj65l127627h6h8h0hi003i2hih6h0k9k878lj858k30iljgik0l9248jk25l4h701l6gllhkhi54g24g926jgj884266514056805k2h15hh442i3170ilik20h88i561k0682k04459i154i03ikglg6220i4jii1g32067il925g450k0i1241l3il2jjl6k186gjj53h611il59k650i4kjhi87i798hg6h01g306ig104145ig9h68i092ghhh59jig99j12383792452h44206glk62g67gj204hk874l5li8646g65i9085244i092g70ig9h8657kg0413466ii87k9i32hglh24hi2li7174735i520ik608ilg71292838j5k1h39271ghg5288g930lg6h75626l71h8h5g011k9l9lgk691i04166h7996g452kij4l4l72881k6kl5701jl707hi415j8h3k67576966g2k94k03k0lj31995h2j26hi69jhjji162625l50j7790093hli0jjkh1ll804i3lhh40lk4k240kh48k0k16l544hg033k594gh0l93682l86h35i1i36klhgjg90lkl54746i2k63481h37hilj3ikig52h0j80k5gj6h879lk6g8ll6k616966h59h42l24h824ljj77g6l03kg260i80h2g2k123251j22jg36k5j14781i6197929il9j03k16h4l1i78693g45k64j0jl0k58hj8493h76gj2202470ig12lh2llj2l5k5541k4h506i3hij81lg9i037jgk22i2l3j12j6l394h51ii2ll0022j292h8036767i835k47071jl9illl2gli06524g66984902j6j1h5g788019hl4712032977h41l0k36073ig880g2jgklh26k736180591639h4k2gjk9gl2071h685923kl5363l5lj0ll91901g12kk29hll4280h9h51870j721516j6g66i379g203932726h42g927h19733k237492l8j0jh148gl95048l5524j4j0l2445130153i802169102i14g586h8g64j2lk28492169li3292877837108k7i9557h3jk31il2lklg494lgl4j91jig614216ki68i2j140l1jg03lk16lljg039h21kj313h8jk79h99j2g89j327i7h9052h9hj71721jg927340956k6jl4i7k0430"
         },
-		{
+        {
             "key": "天天",
             "name": "🧿天天秒播",
             "type": 3,
@@ -2105,7 +2105,7 @@
             "jar": "https://ncstatic.clewm.net/rsrc/2025/0725/20/318ccef14687421637f5aa0ba1021e33.png;md5;939FFBC2941A28CA533F2653FA4B449E",
             "ext": "7lj763gg0939791h1l3888jig44gi291li"
         },
-		{
+        {
             "key": "免扫4K",
             "name": "♻高清秒播",
             "type": 3,
@@ -2114,32 +2114,32 @@
             "playerType": 2,
             "ext": "7lj763gg0939790h44298182lk5j9k99k2g4ih53jl9i376l514k16hilj0443400h9k4jgh8312j1912818glikl7lh1jk9k4222k1kg696igkk32ig6lhj3kl50j08lkl6j0h6gi7k2j31jj0k7i1784l25g757hhkl42i7jg68illihj867l82g53532j62i92kljhj5llh498k24796l57j55ji0ji2g22i501jl541j9j4i68i5j602744l10413k457hl80l91j5l44139j23g64h27k08l5509h202gl84338hi17082hkj5746g298j640i002jk1265h745j289303h6i6j6j15jgkg15485h8g935hk83g9g7j661l4i557jl56h6l0h40i5j9hkiig7066523l2h24gj9k1083g6l2gihh2j5hhgkgij04j8900jhg4l6731hkhij7kk2i594536563674gki85li59jhk79067964197h5k7k2641h03l45074jkkklhik123407146l1i0jk90k1hgl151076ig7i4gi0858h62j37lh8l4hl519ghi7g04h2h900jlj7ll333i736549624gjk8k508g9499gj3jj7050jjhgh4i57326j83301i0kkl88040ih52gj8j0gk0h4g5g7lh561k2gk6k7k56h01598ji23g27k3i17878j92k2gj1l5ih8h0jj73k94g9hl5g7h229i10g099k09l958h3hk18l72h1j43gg7177g4h7ll8987644383606klgh9h4ll42h7293k694kl20j539g6jl17ig655461138jgj7306i1296k3i03586k6l32j5hlik4051187741218271j8j4g3i1h6719877l10k1ijl220i8hlil3j3g129ll3k2i5164lkg12k253kk1h8j5l0gki49jg25hlii704l5ih74439hlj9jih5ki53242ijgh6359i8i5j4h2j2i4581l244j4ij728490hk0k34542916i2lig57836gg7kji3l160234i24hik5g18h790488748j680k5i0l885lj66kjk78j2i57i5021g283ik9g38g62259h1lgi811ihki506k5934g7h737hg9360lll98l4j8i049903l1354lg00019g0934h005h8jjkl60j91k7j74i96h8h26hk59i653209lgj07g1g298k48jllgh00l4i742gi72l27038157gji9j32gh0k5672167k2588h31967l3867g50k503ik403781ki72j47hh4363l0708k4g961k4hl8g4j35ilk143h3424010i165lj612h50k68l61ghl9h80kh874k14ggk2ilg018hi5l1g34262196lkl45ih981jkl42271l4232k93hk8ih3g814i6h63h0g64l300i42il1g0454921j12h4844ii714ih71lg172326009812833h62kj8009kijk5hhg763031235l45h78614l7h9k579h6lj290i98851gll70024834hgj2lg5hk3l905i346gij11kl5j9i7h5j5k12hl061l488k061564g398i2150h9j343901865h7567g874i1gghl5ihg8il8hh0650h6308l2i5053997g8g12g16l3l7h5lhlji71i1i23h0ljl1h14688h7g13987h548h33k34hi6h2i63h424jhl1kik26kl3h60662846j6j0749l8kh95018kl1971j5j5gjk9hg70542391j77hjj65l127627h6h8h0hi003i2hih6h0k9k878lj858k30iljgik0l9248jk25l4h701l6gllhkhi54g24g926jgj884266514056805k2h15hh442i3170ilik20h88i561k0682k04459i154i03ikglg6220i4jii1g32067il925g450k0i1241l3il2jjl6k186gjj53h611il59k650i4kjhi87i798hg6h01g306ig104145ig9h68i092ghhh59jig99j12383792452h44206glk62g67gj204hk874l5li8646g65i9085244i092g70ig9h8657kg0413466ii87k9i32hglh24hi2li7174735i520ik608ilg71292838j5k1h39271ghg5288g930lg6h75626l71h8h5g011k9l9lgk691i04166h7996g452kij4l4l72881k6kl5701jl707hi415j8h3k67576966g2k94k03k0lj31995h2j26hi69jhjji162625l50j7790093hli0jjkh1ll804i3lhh40lk4k240kh48k0k16l544hg033k594gh0l93682l86h35i1i36klhgjg90lkl54746i2k63481h37hilj3ikig52h0j80k5gj6h879lk6g8ll6k616966h59h42l24h824ljj77g6l03kg260i80h2g2k123251j22jg36k5j14781i6197929il9j03k16h4l1i78693g45k64j0jl0k58hj8493h76gj2202470ig12lh2llj2l5k5541k4h506i3hij81lg9i037jgk22i2l3j12j6l394h51ii2ll0022j292h8036767i835k47071jl9illl2gli06524g66984902j6j1h5g788019hl4712032977h41l0k36073ig880g2jgklh26k736180591639h4k2gjk9gl2071h685923kl5363l5lj0ll91901g12kk29hll4280h9h51870j721516j6g66i379g203932726h42g927h19733k237492l8j0jh148gl95048l5524j4j0l2445130153i802169102i14g586h8g64j2lk28492169li3292877837108k7i9557h3jk31il2lklg494lgl4j91jig614216ki68i2j140l1jg03lk16lljg039h21kj313h8jk79h99j2g89j327i7h9052h9hj71721jg927340956k6jl4i7k0430"
         },
-		{
+        {
             "key": "爱看剧",
             "name": "👓️爱看剧",
             "type": 3,
             "api": "./py/爱看影视.py",
             "ext": "http://43.248.117.123:4680"
         },
-		{
+        {
             "key": "毒舌影视",
             "name": "💡毒舌影视",
             "type": 3,
             "api": "./js/毒舌影视.js"
         },
-		{
+        {
             "key": "独播库1",
             "name": "💡播库影视",
             "type": 3,
             "api": "./js/VmOlRys8_vip.js"
         },
-		{
+        {
             "key": "猎手",
             "name": "💡猎手影视",
             "type": 3,
             "api": "./py/猎手.py"
         },
-		{
+        {
             "key": "星河",
             "name": "🌌星河影视",
             "type": 3,
@@ -2152,7 +2152,7 @@
                 "ua": "okhttp/3.10.0"
             }
         },
-		{
+        {
             "key": "戒",
             "name": "💡视界影视",
             "type": 3,
@@ -2162,7 +2162,7 @@
             "filterable": 0,
             "changeable": 0
         },
-		{
+        {
             "key": "剧圈99",
             "name": "🥨剧圈影视",
             "type": 3,
@@ -2176,7 +2176,7 @@
                 "buildSignature": "054FA8DDA4319C6B6A9B954CA5777541C993F00B1B0BD4394F7EDE48184C4594"
             }
         },
-		{
+        {
             "key": "半日99",
             "name": "🌥️半日影视",
             "type": 3,
@@ -2190,7 +2190,7 @@
                 "buildSignature": "A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC"
             }
         },
-		{
+        {
             "key": "天堂",
             "name": "🕍天堂影视1",
             "type": 3,
@@ -2210,7 +2210,7 @@
                 "decrypt": "0"
             }
         },
-		{
+        {
             "key": "橘汁",
             "name": "🍊橘汁影视",
             "type": 3,
@@ -2250,7 +2250,7 @@
                 "decrypt": "1"
             }
         },
-		{
+        {
             "key": "苹果",
             "name": "🍎苹果影视",
             "type": 3,
@@ -2297,7 +2297,7 @@
                 "sign": "ddtvf65f3a83d6d9ad6f"
             }
         },
-		{
+        {
             "key": "马猴影视",
             "name": "🐒马猴影视",
             "type": 3,
@@ -2313,7 +2313,7 @@
                 "ver": "1"
             }
         },
-		{
+        {
             "key": "韩圈",
             "name": "🥯韩圈影视",
             "type": 3,
@@ -2340,35 +2340,35 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260825",
+                "作者": "🍊小橙子/20260825",
                 "站名": "火龙果影视",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@Hm_lvt_765c2036f5ef1c01d50f58662d576693=1787621286；； HMACCOUNT=17BED804ED862610；； Hm_lpvt_765c2036f5ef1c01d50f58662d576693=1787623850&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.gljade.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.gljade.com/cat/{cateId}-{catePg}.html",
+                "分类url": "https://www.gljade.com/cat/{cateId}-{catePg}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$24#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
                 "副标题": "<span class=\"video-title text-nowrap ml-xs-0 mr-xs-0\">&&</span>",
                 "链接": "href=\"&&\"",
-				"影片年代": "年份：&&</li>",
+                "影片年代": "年份：&&</li>",
                 "影片地区": "地区：&&</li>",
                 "影片类型": "类型：&&</li>",
                 "状态": "状态：&&</li>",
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+col-pd text-collapse content\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "swiper-slide ewave-tab&&</li>",
                 "线路标题": ">&&</",
                 "播放二次截取": "",
@@ -2377,7 +2377,7 @@
                 "播放列表": "<a&&/a>",
                 "播放标题": ">&&<",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -2429,22 +2429,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260825",
+                "作者": "🍊小橙子/20260825",
                 "站名": "酷客影视1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=n5he15lsqhkqr9k4crnlvcb8tb&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://m.dachibafang.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://m.dachibafang.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://m.dachibafang.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$20#动画片$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -2457,7 +2457,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+detail col-pd\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "nore text-muted pull-right&&</div>",
                 "线路标题": "title\">&&</h3>",
                 "播放二次截取": "",
@@ -2466,7 +2466,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -2506,22 +2506,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260825",
+                "作者": "🍊小橙子/20260825",
                 "站名": "爱看影视1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=nas188um5fc25fhtujo84iad3f&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.ourente.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.ourente.com/enteso/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.ourente.com/enteso/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -2534,7 +2534,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "<li&&/li>",
                 "线路标题": "javascript:;\">&&<",
                 "播放二次截取": "",
@@ -2543,7 +2543,7 @@
                 "播放列表": "<a&&/a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -2572,7 +2572,7 @@
                 "排序值": "time&hits&score"
             }
         },
-		{
+        {
             "key": "茉莉",
             "name": "🌸茉莉影视",
             "type": 3,
@@ -2604,7 +2604,7 @@
                 "site": "https://www.hkybqufgh.com,https://www.sizhengxt.com,https://www.tjrongze.com,https://www.jiabaide.cn"
             }
         },
-		{
+        {
             "key": "cat_剧迷网",
             "name": "🥇剧迷影视",
             "type": 3,
@@ -2626,22 +2626,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260826",
+                "作者": "🍊小橙子/20260826",
                 "站名": "饭团影视1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@Hm_lvt_001f633810e5d268106ac0c13e883663=1787717030；； HMACCOUNT=17BED804ED862610；； PHPSESSID=qm99ughcn9dii74vhr1429re5k；； Hm_lvt_71ecd664d9fd07def264fa80290259fa=1787717035；； Hm_lpvt_001f633810e5d268106ac0c13e883663=1787718302；； Hm_lpvt_71ecd664d9fd07def264fa80290259fa=1787718302&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.daijia369.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.daijia369.com/ijia36sw/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.daijia369.com/ijia36sw/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -2654,7 +2654,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "stui-pannel__head bottom-line active clearfix&&</div>",
                 "线路标题": "src*>&&</h3",
                 "播放二次截取": "",
@@ -2663,7 +2663,7 @@
                 "播放列表": "<a&&/a>[不包含:APP高清]",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -2703,22 +2703,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260826",
+                "作者": "🍊小橙子/20260826",
                 "站名": "全能影视",
                 "请求头": "User-Agent$MOBILE_UA",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.csxndz.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.csxndz.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.csxndz.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#动画片$35#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -2731,7 +2731,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+detail col-pd\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "nore text-muted pull-right&&</div>",
                 "线路标题": "title\">&&</h3>",
                 "播放二次截取": "",
@@ -2740,7 +2740,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -2780,22 +2780,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260826",
+                "作者": "🍊小橙子/20260826",
                 "站名": "扁豆影院1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=qvo3avffgb4ro7ffer5d0879tb&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.hngqjc.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.hngqjc.com/vodtype/{cateId}-{catePg}.html",
+                "分类url": "https://www.hngqjc.com/vodtype/{cateId}-{catePg}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#动画片$35#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "<a class=\"video-link&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -2808,7 +2808,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "#ewave-playlist&&</li>",
                 "线路标题": ">&&<",
                 "播放二次截取": "",
@@ -2817,7 +2817,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -3010,7 +3010,6 @@
                 "字母值": "*",
                 "排序": "时间&人气&评分",
                 "排序值": "time&hits&score"
-
             }
         },
         {
@@ -3486,22 +3485,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260827",
+                "作者": "🍊小橙子/20260827",
                 "站名": "火花影视",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@gffg_iscookie=1；； Hm_lvt_5db1bb6571675f892b6551b7b853d965=1787794685；； HMACCOUNT=17BED804ED862610；； Hm_lvt_5ff019417ee131372485b717a8a702f7=1787794685；； PHPSESSID=ktnhl7ags9ejm5nuo8hqllsrla；； gffg_iscookie=1；； Hm_lpvt_5db1bb6571675f892b6551b7b853d965=1787794733；； Hm_lpvt_5ff019417ee131372485b717a8a702f7=1787794733&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://0iy9h4xz.cn/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://0iy9h4xz.cn/klass/{cateId}2-{catePg}.html",
+                "分类url": "https://0iy9h4xz.cn/klass/{cateId}2-{catePg}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$24#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -3514,7 +3513,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -3523,7 +3522,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -3794,22 +3793,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260827",
+                "作者": "🍊小橙子/20260827",
                 "站名": "最新短剧网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=nn8gnh7irnniophohhurd9p49b&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://xgfwb.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://xgfwb.com/sh/{cateId}--------{catePg}---{year}/",
+                "分类url": "https://xgfwb.com/sh/{cateId}--------{catePg}---{year}/",
                 "分类": "电影$dianying#电视剧$dianshi#综艺$zongyi#动漫$dongman#纪录片$jilupian#短剧$duanju#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "stui-vodlist__thumb&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "(&&)",
@@ -3822,7 +3821,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -3831,7 +3830,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -3871,35 +3870,35 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260827",
+                "作者": "🍊小橙子/20260827",
                 "站名": "电影天堂",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@X_CACHE_KEY=5773c5d3f1e950b82bf1fd166cc4c931；； Hm_lvt_0c7bb76e22c1638f7bf48a4ae03c4c65=1787804988；； HMACCOUNT=17BED804ED862610；； PHPSESSID=snuguhe1iv9o5nb6ktoe82nvj9；； Hm_lpvt_0c7bb76e22c1638f7bf48a4ae03c4c65=1787805007&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://dyttmo.cc/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://dyttmo.cc/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://dyttmo.cc/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$35#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
                 "副标题": "<span class=\"pic-text text-right\">&&</span>",
                 "链接": "href=\"&&\"",
-				"影片年代": "年份：&&</p>",
+                "影片年代": "年份：&&</p>",
                 "影片地区": "地区：&&</p>",
                 "影片类型": "类型：&&</p>",
                 "状态": "状态：&&</p>",
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -3908,7 +3907,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -3948,22 +3947,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260827",
+                "作者": "🍊小橙子/20260827",
                 "站名": "星光影院1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@Hm_lvt_07e6553645add7a70f9a10e0a6e4255d=1787816483；； HMACCOUNT=17BED804ED862610；； Hm_lpvt_07e6553645add7a70f9a10e0a6e4255d=1787817720&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.yjbzfz.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.yjbzfz.com/xgyitp/{cateId}-{catePg}.html",
+                "分类url": "https://www.yjbzfz.com/xgyitp/{cateId}-{catePg}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "link-hover&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "src=\"&&\"",
@@ -3976,7 +3975,7 @@
                 "导演": "导演：&&</dd>",
                 "主演": "主演：&&</dd>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+tab-jq\">&&</div>",
-				"线路二次截取": "id=\"stab1&&</div>",
+                "线路二次截取": "id=\"stab1&&</div>",
                 "线路数组": "<li&&/li>",
                 "线路标题": "</i>&&<",
                 "播放二次截取": "",
@@ -3985,7 +3984,7 @@
                 "播放列表": "<a&&/a>[不包含:дрр滈凊]",
                 "播放标题": ">&&<",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -4179,22 +4178,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260827",
+                "作者": "🍊小橙子/20260827",
                 "站名": "可乐影视",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@gg_iscookie=1；； server_session_7a69de78=c0e4b8ca04576f6241227f14273c4fd0；； PHPSESSID=3a2rfnj4vpqi2uaa8vs6puojpr&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.sxknlc.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.sxknlc.com/vodshow/{cateId}--------{catePg}---{year}/",
+                "分类url": "https://www.sxknlc.com/vodshow/{cateId}--------{catePg}---{year}/",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$26#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -4207,7 +4206,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": ">&&</a>",
                 "播放二次截取": "",
@@ -4216,7 +4215,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -4410,22 +4409,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260828",
+                "作者": "🍊小橙子/20260828",
                 "站名": "风驰影视",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@Hm_tf_gfe78a3wbm3=1787879417；； Hm_lvt_gfe78a3wbm3=1787879417；； Hm_lpvt_gfe78a3wbm3=1787879426&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.systemcdh.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.systemcdh.com/tv/{cateId}/page/{catePg}/year/{year}.html",
+                "分类url": "https://www.systemcdh.com/tv/{cateId}/page/{catePg}/year/{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$5#动漫$4#短剧$3#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -4438,7 +4437,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "web-pannel__head clearfix&&</div>",
                 "线路标题": "title\">&&</h3>",
                 "播放二次截取": "",
@@ -4447,7 +4446,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -4487,22 +4486,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260828",
+                "作者": "🍊小橙子/20260828",
                 "站名": "小小影视3",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@df_iscookie=1；； df_show_number6379=1；； PHPSESSID=9ani9f7u4a9mv50mn8ko4ddok0；； df_iscookie=1；； XLA_CI=26f8e9e28d41d6f87c74ded014888581&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "http://www.zanskeson.com/index.php",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "http://www.zanskeson.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
+                "分类url": "http://www.zanskeson.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -4515,7 +4514,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -4524,7 +4523,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -5135,22 +5134,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260828",
+                "作者": "🍊小橙子/20260828",
                 "站名": "天空影视",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=m8hksdg1ip1qss4badd680iu6u；； _uid=6596ac8b-c0f9-4fe1-839b-23ac46976f84&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.mylgds.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.mylgds.com/show/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.mylgds.com/show/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#连续剧$2#综艺$3#动漫$4#短剧$26#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -5163,7 +5162,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "stui-vodlist__head&&</div>",
                 "线路标题": "<h3>&&</h3>",
                 "播放二次截取": "",
@@ -5172,7 +5171,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -5212,35 +5211,35 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260828",
+                "作者": "🍊小橙子/20260828",
                 "站名": "达智电影网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@HWTOKEN=8aaf72ba772d8ceb472a580f1725696fca4c0b2f6b3e9c4f13db7df9a94949d1fbb5e77450b376638815e6ec5456bd3dfcf0b02dec151abd5bba435f4cc5faff；； HWIDHASH=07733010dc2095e4939ef6b9d0c014ac；； PHPSESSID=2aoanq3msrfc14ntfbi55loqu7&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.dazss.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.dazss.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.dazss.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#连续剧$2#综艺$3#动漫$4#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</p>",
                 "标题": "<a*>&&</a>",
                 "图片": "data-original=\"&&\"",
                 "副标题": "<span class=\"video-title text-nowrap ml-xs-0 mr-xs-0\">&&</span>",
                 "链接": "href=\"&&\"",
-				"影片年代": "年份：&&</li>",
+                "影片年代": "年份：&&</li>",
                 "影片地区": "地区：&&</li>",
                 "影片类型": "类型：&&</li>",
                 "状态": "状态：&&</li>",
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+剧情：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "#ewave-playlist&&</li>",
                 "线路标题": "javascript:;\">&&<",
                 "播放二次截取": "",
@@ -5249,7 +5248,7 @@
                 "播放列表": "<a&&/a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -5295,7 +5294,7 @@
                 "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
             }
         },
-		{
+        {
             "key": "蓝鹰",
             "name": "🦅蓝鹰影视",
             "type": 3,
@@ -5310,7 +5309,7 @@
                 "ua": "okhttp/3.10.0"
             }
         },
-		{
+        {
             "key": "蓝鸟",
             "name": "🐦‍🔥蓝鸟影视",
             "type": 3,
@@ -5325,20 +5324,7 @@
                 "ua": "okhttp/3.10.0"
             }
         },
-		{
-            "key": "世界",
-            "name": "🗺️世界影视",
-            "type": 3,
-            "api": "csp_AppGet",
-            "searchable": 1,
-            "changeable": 1,
-            "ext": {
-                "url": "https://appcms.4ksj.app",
-                "dataKey": "O3K6rYx75Q4xtiIE",
-                "dataIv": "O3K6rYx75Q4xtiIE"
-            }
-        },
-		{
+        {
             "key": "魔方",
             "name": "🧿魔方影视",
             "type": 3,
@@ -5452,22 +5438,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260828",
+                "作者": "🍊小橙子/20260828",
                 "站名": "白羊影院3",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=js9j4ect4g4av5rj50p29jk7ci；； BD_UPN=3&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.hengoujx.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.hengoujx.com/show/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.hengoujx.com/show/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -5480,7 +5466,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": ">&&</a>",
                 "播放二次截取": "",
@@ -5489,7 +5475,7 @@
                 "播放列表": "<a&&</a>",
                 "播放标题": ">&&</a>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -5529,35 +5515,35 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260830",
+                "作者": "🍊小橙子/20260830",
                 "站名": "三豆影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@Hm_tf_y9xsfax8ouc=1788066352；； Hm_lvt_y9xsfax8ouc=1788066352；； DS_Records=%7Blog%3A%5B%7B%22name%22%3A%22%E8%80%81%E8%88%85%22%2C%22url%22%3A%22%2Fsearch.html%22%7D%5D%7D；； Hm_lpvt_y9xsfax8ouc=1788066369&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.bikeframer.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.bikeframer.com/tv/{cateId}/page/{catePg}/year/{year}.html",
+                "分类url": "https://www.bikeframer.com/tv/{cateId}/page/{catePg}/year/{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$5#动漫$4#短剧$3#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "public-list-div public-list-bj&&/div></div>",
                 "标题": "title=\"&&\"",
                 "图片": "data-src=\"&&\"",
                 "副标题": "public-list-subtitle cor5 hide ft2\">&&<",
                 "链接": "href=\"&&\"",
-				"影片年代": "年份：&&</div>",
+                "影片年代": "年份：&&</div>",
                 "影片地区": "地区：&&</div>",
                 "影片类型": "类型：&&</div>",
                 "状态": "状态：&&</div>",
                 "导演": "导演：&&</div>",
                 "主演": "主演：&&</div>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+text cor3\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "<a class=\"swiper-slide&&</a>",
                 "线路标题": "</i>&&<span",
                 "播放二次截取": "",
@@ -5606,22 +5592,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260830",
+                "作者": "🍊小橙子/20260830",
                 "站名": "花生电影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=goidn254p0drv440sclgaqieni&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.zrcqm.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.zrcqm.com/show/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.zrcqm.com/show/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -5634,7 +5620,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": ">&&</a>[不包含:线路1]",
                 "播放二次截取": "",
@@ -5683,22 +5669,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260830",
+                "作者": "🍊小橙子/20260830",
                 "站名": "低端影视2",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@gffg_iscookie=1；； Hm_lvt_5db1bb6571675f892b6551b7b853d965=1788095678；； HMACCOUNT=1D3FCEC4385536BF；； gffg_iscookie=1；； 551381ea8c28471478e409ed431f8c4b=9a933b082a95528650856bdde79929a0；； Hm_lpvt_5db1bb6571675f892b6551b7b853d965=1788095706&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://ezhenzhu.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://ezhenzhu.com/list/id/{cateId}/page/{catePg}/year/{year}.html",
+                "分类url": "https://ezhenzhu.com/list/id/{cateId}/page/{catePg}/year/{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$24#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -5711,7 +5697,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -5915,22 +5901,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260831",
+                "作者": "🍊小橙子/20260831",
                 "站名": "青丝影院1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=71peuh7kkaqt35lhq3akafb53k&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.snowpagoda.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.snowpagoda.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.snowpagoda.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#动画片$35#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -5943,7 +5929,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "more text-muted pull-right&&</div>",
                 "线路标题": "src*>&&</h3>",
                 "播放二次截取": "",
@@ -5992,22 +5978,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260902",
+                "作者": "🍊小橙子/20260902",
                 "站名": "六九八影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@mx_style=white；； UM_distinctid=1a06010f03f829-078328b459fe56-6a1b2a32-64496-1a06010f0409ec；； ts_bd231680be5e3e5a=1788318124847；； PHPSESSID=388a6ehh05dua409c2ajkdaq1j；； CNZZDATA1281471536=1287365228-1788318118-%7C1788318160&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.698yy.cc/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.698yy.cc/vodshow/{cateId}-{area}-------{catePg}---{year}.html",
+                "分类url": "https://www.698yy.cc/vodshow/{cateId}-{area}-------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$4#动漫$3#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "/preview/&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -6020,7 +6006,7 @@
                 "导演": "导演：&&</div>",
                 "主演": "主演：&&</div>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+module-info-item module-info-introduction\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-dropdown-value&&</div>",
                 "线路标题": "<span>&&</span>",
                 "播放二次截取": "",
@@ -6029,7 +6015,7 @@
                 "播放列表": "<a&&/a>",
                 "播放标题": "<span>&&</span>",
                 "播放链接": "href=\"&&\"",
-				"解析": "",
+                "解析": "",
                 "跳转播放链接": "var player_*\"url\":\"&&\"",
                 "跳转解析": "",
                 "搜索请求头": "User-Agent$MOBILE_UA",
@@ -6069,22 +6055,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260902",
+                "作者": "🍊小橙子/20260902",
                 "站名": "无忧影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@__51cke__=；； Hm_lvt_eab4d88883bf6cb06ca4f2cab006d504=1788331189；； HMACCOUNT=17BED804ED862610；； __51uvsct__3QNlY2QC6Eo9QJxx=1；； __51vcke__3QNlY2QC6Eo9QJxx=1fb2a87a-aea6-5ca0-a871-8587a3ee1296；； __51vuft__3QNlY2QC6Eo9QJxx=1788331189347；； PHPSESSID=m8vp932pqt0g5j29jtg24a8cv2；； __tins__21845301=%7B%22sid%22%3A%201788331188828%2C%20%22vd%22%3A%203%2C%20%22expires%22%3A%201788333004114%7D；； __51laig__=3；； Hm_lpvt_eab4d88883bf6cb06ca4f2cab006d504=1788331204；； __vtins__3QNlY2QC6Eo9QJxx=%7B%22sid%22%3A%20%2264561fd7-8720-5029-ae20-56b5bc49ea49%22%2C%20%22vd%22%3A%203%2C%20%22stt%22%3A%2015002%2C%20%22dr%22%3A%207027%2C%20%22expires%22%3A%201788333004343%2C%20%22ct%22%3A%201788331204343%7D&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.nmgqly.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.nmgqly.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.nmgqly.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$dianying#电视剧$dianshiju#综艺$zongyi#动漫$dongman#其它$qita#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</div>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -6097,7 +6083,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -6146,22 +6132,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260902",
+                "作者": "🍊小橙子/20260902",
                 "站名": "一起看影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@gffg_iscookie=1；； PHPSESSID=n2d3b07q3o0uc0uic7i8r9h4dk；； Hm_lvt_5a6842b2cacdefde416cb0f7720f38b2=1788334761；； HMACCOUNT=17BED804ED862610；； gffg_iscookie=1；； Hm_lpvt_5a6842b2cacdefde416cb0f7720f38b2=1788336186&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.roddchen.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.roddchen.com/search.php?page={catePg}&searchtype=5&tid={cateId}&area={area}&year={year}",
+                "分类url": "https://www.roddchen.com/search.php?page={catePg}&searchtype=5&tid={cateId}&area={area}&year={year}",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$30#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -6174,7 +6160,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+stui-content__desc\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "more text-muted pull-right&&</div>",
                 "线路标题": "title\">&&</h3>",
                 "播放二次截取": "",
@@ -6223,22 +6209,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260902",
+                "作者": "🍊小橙子/20260902",
                 "站名": "52电影网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=qh4drenhsb1tcff53chddkcl2s&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://m.seeworldinno.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://m.seeworldinno.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://m.seeworldinno.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#动画片$35#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -6251,7 +6237,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+detail col-pd\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "nore text-muted pull-right&&</div>",
                 "线路标题": "title\">&&</h3>",
                 "播放二次截取": "",
@@ -6300,22 +6286,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260903",
+                "作者": "🍊小橙子/20260903",
                 "站名": "酷客影院1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=mek7h1plfdlpfsb2hh1453793p；； Hm_lvt_e0b9631d1e7e02f138161f1a8bdd40b9=1788419971；； HMACCOUNT=17BED804ED862610；； Hm_lpvt_e0b9631d1e7e02f138161f1a8bdd40b9=1788419991&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://zzwexc.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://zzwexc.com/view/{cateId}-{area}-time------{year}-{catePg}.html",
+                "分类url": "https://zzwexc.com/view/{cateId}-{area}-time------{year}-{catePg}.html",
                 "分类": "电影$1#连续剧$2#综艺$4#动漫$3#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "vod-item-img&&</h3>",
                 "标题": "<a*>&&</a>",
                 "图片": "data-original=\"&&\"",
@@ -6328,7 +6314,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "#ewave-playlist&&</li>",
                 "线路标题": "javascript:;\">&&<",
                 "播放二次截取": "",
@@ -6685,22 +6671,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260903",
+                "作者": "🍊小橙子/20260903",
                 "站名": "西瓜影院2",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=8u30sc1v00n1aa7ok70r8if53e&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.zh-hzx.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.zh-hzx.com/show/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.zh-hzx.com/show/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -6713,7 +6699,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+detail col-pd\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": ">&&</a",
                 "播放二次截取": "",
@@ -6762,22 +6748,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260903",
+                "作者": "🍊小橙子/20260903",
                 "站名": "乐乐电影网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=6b5eplsdoued9e3qbkjj6t8akm&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://sanceebz.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://sanceebz.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://sanceebz.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#动画片$35#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -6790,7 +6776,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -6993,22 +6979,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260904",
+                "作者": "🍊小橙子/20260904",
                 "站名": "蜗牛影院2",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@server_name_session=47905df4054b2606de35cba20afa3502；； PHPSESSID=c5dc11329451b9c5b527ea2042f909e0&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.rdzjax.cn/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.rdzjax.cn/rdzjghshow/{cateId}----{year}-------{catePg}.html",
+                "分类url": "https://www.rdzjax.cn/rdzjghshow/{cateId}----{year}-------{catePg}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$9#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "col-xs-4 col-md-3 col-lg-2&&</li>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -7021,7 +7007,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "swiper-slide ewave-tab&&</li>",
                 "线路标题": ">&&</",
                 "播放二次截取": "",
@@ -7224,22 +7210,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260904",
+                "作者": "🍊小橙子/20260904",
                 "站名": "久久电影网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=hg63al44a8903a2a9k011cboqm&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.xcjzsj.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.xcjzsj.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.xcjzsj.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$20#动画片$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -7252,7 +7238,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+detail col-pd\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "nore text-muted pull-right&&</div>",
                 "线路标题": "title\">&&</h3>",
                 "播放二次截取": "",
@@ -7455,22 +7441,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260904",
+                "作者": "🍊小橙子/20260904",
                 "站名": "影视工厂1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@gg_iscookie=1；； PHPSESSID=5fdg6uq15grdfv3j7nnqmpudki&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.tlyyss.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.tlyyss.com/yysssw/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.tlyyss.com/yysssw/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "stui-vodlist__thumb&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "(&&)",
@@ -7483,7 +7469,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "stui-pannel__head bottom-line active clearfix&&</div>",
                 "线路标题": "title\">&&</h3>",
                 "播放二次截取": "",
@@ -7609,22 +7595,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260905",
+                "作者": "🍊小橙子/20260905",
                 "站名": "樱花影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=08e91dnvk4fhm999dbrnr477j2；； server_name_session=0d1064e796e6d8b906fac140fc9d1f9f；； __51uvsct__3LiywNogt06wfZSa=1；； __51vcke__3LiywNogt06wfZSa=204972f4-3baf-5c2a-803b-ce4965ab0c80；； __51vuft__3LiywNogt06wfZSa=1788571694207；； __vtins__3LiywNogt06wfZSa=%7B%22sid%22%3A%20%222184cf78-dc09-54bf-b53d-f0238e8fe52c%22%2C%20%22vd%22%3A%203%2C%20%22stt%22%3A%2036969%2C%20%22dr%22%3A%2016527%2C%20%22expires%22%3A%201788573531163%2C%20%22ct%22%3A%201788571731163%7D；； XLA_CI=599618125076dcfa02060e8622bd7496&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "http://www.zhongdantec.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "http://www.zhongdantec.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
+                "分类url": "http://www.zhongdantec.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#电影解说$40#抖音短剧$41#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -7637,7 +7623,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -7763,22 +7749,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260905",
+                "作者": "🍊小橙子/20260905",
                 "站名": "星空影院2",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@gg_iscookie=1；； PHPSESSID=0l26jsik3b5pnjp53e2m6gmpqt&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://m.sjzhcheng.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://m.sjzhcheng.com/xkshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://m.sjzhcheng.com/xkshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -7791,7 +7777,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "stui-pannel__head bottom-line active clearfix&&</div>",
                 "线路标题": "title\">&&</h3>",
                 "播放二次截取": "",
@@ -8157,22 +8143,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260907",
+                "作者": "🍊小橙子/20260907",
                 "站名": "老历史影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@gg_iscookie=1；； PHPSESSID=62ucgqbmqgcffsfqk4aocra865；； server_session_5ae8f0af=1bd45e211c981f849ef5784318f7ed2b&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://laolishi123.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://laolishi123.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
+                "分类url": "https://laolishi123.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -8185,7 +8171,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -8234,22 +8220,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260908",
+                "作者": "🍊小橙子/20260908",
                 "站名": "万能影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.kwkywys.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.kwkywys.com/hsettso/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.kwkywys.com/hsettso/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "video-pic loading&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -8262,7 +8248,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+剧情简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#con_playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -8311,22 +8297,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260908",
+                "作者": "🍊小橙子/20260908",
                 "站名": "云端影视网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@Hm_lvt_a52ec7be79d680a5eb70b1d8d57655f3=1788854583；； HMACCOUNT=1D3FCEC4385536BF；； Hm_lpvt_a52ec7be79d680a5eb70b1d8d57655f3=1788854811&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://yundysw.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://yundysw.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://yundysw.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#纪录片$6#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "fed-list-pics fed-lazy fed-part-2by3&&</li>",
                 "标题": "alt=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -8339,7 +8325,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+剧情简介：&&</div>",
-				"线路二次截取": "fed-tabs-foot&&</div>",
+                "线路二次截取": "fed-tabs-foot&&</div>",
                 "线路数组": "<a&&/a>",
                 "线路标题": ">&&<",
                 "播放二次截取": "",
@@ -8388,22 +8374,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260908",
+                "作者": "🍊小橙子/20260908",
                 "站名": "金牌影院3",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=prliplsar2ku9p9bemaq1f49l6；； XLA_CI=386a76cc4968333bc4dbd03314b673b0&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "http://hlcm.net/index.php",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "http://hlcm.net/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
+                "分类url": "http://hlcm.net/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
                 "分类": "电影$1#连续剧$2#综艺$3#动漫$4#短剧$25#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -8416,7 +8402,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -8696,22 +8682,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260908",
+                "作者": "🍊小橙子/20260908",
                 "站名": "大象影视",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@PHPSESSID=4vgcvsnceeok5d22sqgfb4rsal&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.zhimaosujiao.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.zhimaosujiao.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.zhimaosujiao.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#动画片$35#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -8724,7 +8710,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "more text-muted pull-right&&</div>",
                 "线路标题": "src*>&&</h3>",
                 "播放二次截取": "",
@@ -8927,22 +8913,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260909",
+                "作者": "🍊小橙子/20260909",
                 "站名": "蘑菇影视3",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； ASUS_I005DA Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36&&Cookie@gffg_iscookie=1；； Hm_lvt_5db1bb6571675f892b6551b7b853d965=1788934796；； HMACCOUNT=1D3FCEC4385536BF；； PHPSESSID=mjh8h12k84k55iuudu9d3vs4li；； Hm_lvt_1f95357b18a54dbdd6a3fe853155edb3=1788934810；； gffg_iscookie=1；； gffg_is_ff_com1005=1；； Hm_lpvt_5db1bb6571675f892b6551b7b853d965=1788934868；； Hm_lpvt_1f95357b18a54dbdd6a3fe853155edb3=1788934868&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://m.em21jfv.cn/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://m.em21jfv.cn/browse/id/{cateId}/page/{catePg}/year/{year}.html",
+                "分类url": "https://m.em21jfv.cn/browse/id/{cateId}/page/{catePg}/year/{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$24#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "fed-list-pics fed-lazy fed-part-2by3&&</li>",
                 "标题": "<a*>&&</a>",
                 "图片": "data-original=\"&&\"",
@@ -8955,7 +8941,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+fed-conv-boxs fed-conv-cont\">&&</div>",
-				"线路二次截取": "fed-tabs-foot&&</div>",
+                "线路二次截取": "fed-tabs-foot&&</div>",
                 "线路数组": "<a&&/a>",
                 "线路标题": ">&&<",
                 "播放二次截取": "",
@@ -9081,22 +9067,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260915",
+                "作者": "🍊小橙子/20260915",
                 "站名": "酷猫电影网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@PHPSESSID=0b9oqi8t87e450nnf95iivpc82&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.gowayit.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.gowayit.com/vodtype/{cateId}-{catePg}.html",
+                "分类url": "https://www.gowayit.com/vodtype/{cateId}-{catePg}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$20#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "vod-item-img shining&&</h3>",
                 "标题": "<a*>&&</a>",
                 "图片": "data-original=\"&&\"",
@@ -9109,7 +9095,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "#ewave-playlist&&</li>",
                 "线路标题": "javascript:;\">&&<",
                 "播放二次截取": "",
@@ -9235,22 +9221,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260917",
+                "作者": "🍊小橙子/20260917",
                 "站名": "吉吉电影网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@gg_iscookie=1；； server_session_5ae8f0af=3285787f1faca4ede97fa25d9eaaa46a；； PHPSESSID=76hibia00bmurt6688reioqdum&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.xinshici.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.xinshici.com/vodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.xinshici.com/vodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$26#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -9263,7 +9249,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "more text-muted pull-right&&</div>",
                 "线路标题": "src*>&&</h3>",
                 "播放二次截取": "",
@@ -9312,22 +9298,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260917",
+                "作者": "🍊小橙子/20260917",
                 "站名": "时代TV",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@mx_style=white；； HMACCOUNT=17BED804ED862610；； Hm_lvt_989f21b00a99b3b263647579b7984317=1787906851；； Hm_lpvt_989f21b00a99b3b263647579b7984317=1787906851；； server_session_48ada293=088ad0090d1a7f413081844639014b2b；； PHPSESSID=ldi98bbtrda9k8ss43ls5m5rl2&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.shidai.tv/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.shidai.tv/vodshow/id/{cateId}/page/{catePg}/year/{year}.html",
+                "分类url": "https://www.shidai.tv/vodshow/id/{cateId}/page/{catePg}/year/{year}.html",
                 "分类": "电影$1#剧集$2#综艺$3#动漫$4#纪录$5#短剧$47#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "/voddetail&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "src=\"&&\"",
@@ -9340,7 +9326,7 @@
                 "导演": "导演：&&</div>",
                 "主演": "主演：&&</div>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+module-info-item module-info-introduction\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "module-tab-item&&/small>",
                 "线路标题": "<span>&&</span>",
                 "播放二次截取": "",
@@ -9620,22 +9606,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260918",
+                "作者": "🍊小橙子/20260918",
                 "站名": "八点半剧场",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@gffg_iscookie=1；； Hm_lvt_1ebb10b8342ddd2938eb4ec6e0dfab21=1789714436；； HMACCOUNT=17BED804ED862610；； Hm_lpvt_1ebb10b8342ddd2938eb4ec6e0dfab21=1789714445&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.woodb2b.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.woodb2b.com/wosw/{cateId}/-{area}-{year}---/page/{catePg}.html",
+                "分类url": "https://www.woodb2b.com/wosw/{cateId}/-{area}-{year}---/page/{catePg}.html",
                 "分类": "电影$dianying#电视剧$dianshiju#综艺$zongyi#动漫$dongman#短剧$dj#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -9648,7 +9634,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -9697,22 +9683,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260918",
+                "作者": "🍊小橙子/20260918",
                 "站名": "奇速电影",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@_ga=GA1.1.752137333.1789719689；； PHPSESSID=640h36u7nv73fr17luei8g49dv；； _ga_4SF95T93LF=GS2.1.s1789719688$o1$g1$t1789719697$j51$l0$h0&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.qisudy.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.qisudy.com/show/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.qisudy.com/show/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "hl-item-thumb hl-lazy&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -9725,7 +9711,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "<a class=\"hl-tabs-btn hl-slide-swiper&&/a>",
                 "线路标题": "</i>&&<",
                 "播放二次截取": "",
@@ -9851,22 +9837,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260920",
+                "作者": "🍊小橙子/20260920",
                 "站名": "蜂鸟影院1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@gg_iscookie=1；； server_session_9400565f=718beb4293c93508752825a1b818b9d1；； PHPSESSID=ui4k41km4msk8d50o9l5advnkr&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://ksldjkljids.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://ksldjkljids.com/vodshow/{cateId}--------{catePg}---{year}/",
+                "分类url": "https://ksldjkljids.com/vodshow/{cateId}--------{catePg}---{year}/",
                 "分类": "电影$qppppq#电视剧$tppppq#综艺$0ppppq#动漫$nppppq#短剧$oppppq#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -9879,7 +9865,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": ">&&</a>",
                 "播放二次截取": "",
@@ -9928,22 +9914,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260920",
+                "作者": "🍊小橙子/20260920",
                 "站名": "如意影院",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@PHPSESSID=cdu4q3k2t06hvu64v9sp8m1jqu&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.jinleishiye.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.jinleishiye.com/show/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.jinleishiye.com/show/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$33#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "img-pic&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -9956,7 +9942,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "javascript:void(0);&&/a>",
                 "线路标题": ">&&</a>",
                 "播放二次截取": "",
@@ -10005,22 +9991,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260921",
+                "作者": "🍊小橙子/20260921",
                 "站名": "星空影院3",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@PHPSESSID=8akivsnibucgmh766gvb195bsr；； Hm_lvt_e3e4dcb8029209d8644165914c753c37=1789958799；； HMACCOUNT=17BED804ED862610；； Hm_lpvt_e3e4dcb8029209d8644165914c753c37=1789958832&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://m.cnhaojun.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://m.cnhaojun.com/show/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://m.cnhaojun.com/show/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$36#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -10033,7 +10019,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+detail col-pd\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": ">&&</a>",
                 "播放二次截取": "",
@@ -10082,22 +10068,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260922",
+                "作者": "🍊小橙子/20260922",
                 "站名": "多瑙影院1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@gg_iscookie=1；； PHPSESSID=so8ie46740jcuh0b1r947t8nnu；； server_session_5ae8f0af=adf2da498d225da5bc2cdad56884f437&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.hxkzzj.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.hxkzzj.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
+                "分类url": "https://www.hxkzzj.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$31#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -10110,7 +10096,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "\\#playlist&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -10159,22 +10145,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260922",
+                "作者": "🍊小橙子/20260922",
                 "站名": "大师兄影视1",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@_ga=GA1.1.669336771.1790049410；； UM_distinctid=1a0c7425c1718e-0aff23f9eddf8e-1c7a7e4d-64496-1a0c7425c183ef；； PHPSESSID=4bt1stnmgfhnr2jnnrrg7sc0pj；； recente1=%5B%7B%22sea_name%22%3A%22%E8%80%81%E8%88%85%22%2C%22sea_url%22%3A%22https%3A%2F%2Fwww.jiupincha.com%2Fjivodsearch%2F-------------.html%3Fwd%3D%25E8%2580%2581%25E8%2588%2585%22%2C%22sea_part%22%3A%22%E6%90%9C%E7%B4%A2%22%7D%5D；； CNZZDATA1281466735=1157466729-1790049410-%7C1790049424；； _ga_X3CECLCS7N=GS2.1.s1790049410$o1$g1$t1790049423$j47$l0$h0&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.jiupincha.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.jiupincha.com/jivodshow/{cateId}--------{catePg}---{year}.html",
+                "分类url": "https://www.jiupincha.com/jivodshow/{cateId}--------{catePg}---{year}.html",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#豆瓣电影Top250$42#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -10187,7 +10173,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "data-toggle&&</a>",
                 "线路标题": "tab\">&&</a>",
                 "播放二次截取": "",
@@ -10467,35 +10453,35 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260923",
+                "作者": "🍊小橙子/20260923",
                 "站名": "小调网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@lt_iscookie=1；； PHPSESSID=9hhpemchhidkmkecruh2uclf9e；； server_session_205ed71d=02676973ad019725f0951aedcc21e317&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.xiaodiao123.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.xiaodiao123.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
+                "分类url": "https://www.xiaodiao123.com/search.php?page={catePg}&searchtype=5&tid={cateId}&year={year}",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
                 "副标题": "<span class=\"pic-text text-right\">&&</span>",
                 "链接": "href=\"&&\"",
-				"影片年代": "年份：&&</div>",
+                "影片年代": "年份：&&</div>",
                 "影片地区": "地区：&&</div>",
                 "影片类型": "类型：&&</div>",
                 "状态": "状态：&&</div>",
                 "导演": "导演：&&</div>",
                 "主演": "主演：&&</div>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+剧情简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "<div class=\"panel-head\">&&</div>",
                 "线路标题": "<h3>&&</h3>",
                 "播放二次截取": "",
@@ -10621,22 +10607,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260923",
+                "作者": "🍊小橙子/20260923",
                 "站名": "剧踪电影网",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@server_session_cda1d5fe=a3007112b16f147c6ce9d1dec389ce1a；； every_6h_index_tips=true；； PHPSESSID=qrtuftl342kkrk4j7oia2kv0cr&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.juzong01.me/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.juzong01.me/vodshow/{cateId}--------{catePg}---{year}/",
+                "分类url": "https://www.juzong01.me/vodshow/{cateId}--------{catePg}---{year}/",
                 "分类": "电影$1#电视剧$2#综艺$3#动漫$4#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "lazyload&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -10649,7 +10635,7 @@
                 "导演": "导演：&&</p>",
                 "主演": "主演：&&</p>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+简介：&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "more text-muted pull-right&&</div>",
                 "线路标题": "src*>&&</h3>",
                 "播放二次截取": "",
@@ -10929,22 +10915,22 @@
             "filterable": 1,
             "timeout": 120,
             "ext": {
-				"作者": "🍊小橙子/20260924",
+                "作者": "🍊小橙子/20260924",
                 "站名": "八戒影院5",
                 "请求头": "User-Agent@Mozilla/5.0 (Linux；； Android 9；； NX809J Build/PI；； wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/116.0.0.0 Mobile Safari/537.36&&Cookie@PHPSESSID=07mcdsdnl0noauapqf5ea2pv98&&Accept@text/html,application/xhtml+xml,application/xml；；q=0.9,image/avif,image/webp,image/apng,*/*；；q=0.8,application/signed-exchange；；v=b3；；q=0.7&&Accept-Language@zh-CN,zh；；q=0.9",
                 "编码": "UTF-8",
-				"图片代理": "0",
+                "图片代理": "0",
                 "直接播放": "0",
                 "播放请求头": "",
                 "嗅探词": ".mp4#.m3u8#.flv#hcts-m3u8#index.m3u8",
                 "免嗅": "1",
                 "过滤词": "",
                 "主页url": "https://www.gsruiling.com/",
-				"首页": "120",
+                "首页": "120",
                 "起始页": "1",
-				"分类url": "https://www.gsruiling.com/type/{cateId}--time------{year}-{catePg}.html",
+                "分类url": "https://www.gsruiling.com/type/{cateId}--time------{year}-{catePg}.html",
                 "分类": "电影$1#连续剧$2#综艺$4#动漫$3#短剧$5#",
-				"二次截取": "",
+                "二次截取": "",
                 "数组": "img-pic&&</a>",
                 "标题": "title=\"&&\"",
                 "图片": "data-original=\"&&\"",
@@ -10957,7 +10943,7 @@
                 "导演": "导演：&&</li>",
                 "主演": "主演：&&</li>",
                 "简介": "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！+vod-content\">&&</div>",
-				"线路二次截取": "",
+                "线路二次截取": "",
                 "线路数组": "javascript:void(0);&&/a>",
                 "线路标题": ">&&<",
                 "播放二次截取": "",
@@ -11745,7 +11731,7 @@
             "api": "csp_XBPQ",
             "ext": "./XBPQ/面包影视.json"
         },
-		{
+        {
             "key": "VIP",
             "name": "🧿VIP影视",
             "type": 3,
@@ -11758,7 +11744,7 @@
                 "分类url": "https://www.vipdy.vip/;;!H"
             }
         },
-		{
+        {
             "key": "先生",
             "name": "🧿先生影视",
             "type": 3,
@@ -11855,7 +11841,7 @@
             "api": "csp_Wwys",
             "ext": "https://vip.wwgz.cn:5200"
         },
-		{
+        {
             "key": "枫叶影视",
             "name": "🍁枫叶影视",
             "type": 3,
@@ -36035,7 +36021,7 @@
                 "排序值": "time&hits&score"
             }
         },
-		{
+        {
             "key": "双星99",
             "name": "🤣双星动漫",
             "type": 3,
@@ -36050,7 +36036,7 @@
                 "buildSignature": "A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC"
             }
         },
-		{
+        {
             "key": "番社动漫",
             "name": "🤖番社动漫",
             "type": 3,
@@ -36077,7 +36063,7 @@
                 "type": "list"
             }
         },
-		{
+        {
             "key": "魔都资源",
             "name": "🤣魔都动漫",
             "type": 1,
@@ -36105,7 +36091,7 @@
                 "dataIv": "nKfZ8KX6JTNWRzTD"
             }
         },
-		{
+        {
             "key": "巴士动漫",
             "name": "🚐巴士动漫",
             "type": 3,
@@ -36123,67 +36109,67 @@
                 "倒序": "1"
             }
         },
-		{
+        {
             "key": "黑猫动漫",
             "name": "🐈黑猫动漫",
             "type": 3,
             "api": "./py/黑猫动漫.py"
         },
-		{
+        {
             "key": "MiFun",
             "name": "🍚MiFun动漫",
             "type": 3,
             "api": "./py/MiFun动漫.py"
         },
-		{
+        {
             "key": "动漫巴士",
             "name": "🚐动漫巴士",
             "type": 3,
             "api": "./py/动漫巴士.py"
         },
-		{
+        {
             "key": "青空次元",
             "name": "🤣青空次元",
             "type": 3,
             "api": "./py/青空次元.py"
         },
-		{
+        {
             "key": "共和国动漫",
             "name": "🇨🇳共和国动漫",
             "type": 3,
             "api": "./py/共和国动漫.py"
         },
-		{
+        {
             "key": "米动漫",
             "name": "🍚米动漫",
             "type": 3,
             "api": "./py/米动漫.py"
         },
-		{
+        {
             "key": "红果短剧",
             "name": "🍎红果短剧",
             "type": 3,
             "api": "./py/红果短剧.py"
         },
-		{
+        {
             "key": "红果短剧备",
             "name": "🍎红果短剧备",
             "type": 3,
             "api": "./py/红果短剧最终版.py"
         },
-		{
+        {
             "key": "繁花剧场",
             "name": "🌸繁花剧场",
             "type": 3,
             "api": "./py/繁花剧场.py"
         },
-		{
+        {
             "key": "短剧巴士",
             "name": "🚐短剧巴士",
             "type": 3,
             "api": "./py/短剧巴士.py"
         },
-		{
+        {
             "key": "cj_360资源",
             "name": "🛡️360短剧",
             "type": 1,
@@ -36202,25 +36188,25 @@
                 "成长逆袭"
             ]
         },
-		{
+        {
             "key": "喜福网",
             "name": "🍫喜福短剧",
             "type": 3,
             "api": "./py/喜福短剧.py"
         },
-		{
+        {
             "key": "hmjc",
             "name": "🦛河马剧场",
             "type": 3,
             "api": "./py/河马剧场.py"
         },
-		{
+        {
             "key": "石榴短剧",
             "name": "🍊石榴短剧",
             "type": 3,
             "api": "./py/石榴短剧.py"
         },
-		{
+        {
             "key": "百度短剧",
             "name": "🍊百度短剧",
             "type": 3,
@@ -36232,14 +36218,14 @@
             "type": 3,
             "api": "./js/聚合短剧.js"
         },
-		{
+        {
             "key": "围观短剧",
             "name": "🍊围观短剧",
             "type": 3,
             "api": "csp_ShortWeiguan",
             "genre": "shortdrama"
         },
-		{
+        {
             "key": "好看短剧",
             "name": "🍊好看短剧",
             "type": 3,
@@ -36253,7 +36239,7 @@
             "api": "csp_ShortXingya",
             "genre": "shortdrama"
         },
-		{
+        {
             "key": "果果短剧",
             "name": "🍎果果短剧",
             "type": 3,
@@ -36266,7 +36252,7 @@
             },
             "genre": "shortdrama"
         },
-		{
+        {
             "key": "七猫短剧",
             "name": "🐈七猫短剧",
             "type": 3,
@@ -36280,7 +36266,7 @@
             "api": "csp_ShortHema",
             "genre": "shortdrama"
         },
-		{
+        {
             "key": "在线短剧",
             "name": "🍊在线短剧",
             "type": 3,
@@ -36363,7 +36349,7 @@
                 "排序值": "time&hits&score"
             }
         },
-		{
+        {
             "key": "急救教学",
             "name": "🚑急救教学",
             "type": 3,
@@ -36377,7 +36363,7 @@
             },
             "gridview": "0-0-4.1"
         },
-		{
+        {
             "key": "养生堂",
             "name": "🐦‍🔥养生知识",
             "type": 3,
@@ -36390,7 +36376,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "88看球",
             "name": "⚽88看球",
             "type": 3,
@@ -36402,7 +36388,7 @@
                 "type": "list"
             }
         },
-		{
+        {
             "key": "飞球体育",
             "name": "⚽飞球体育",
             "type": 3,
@@ -36414,7 +36400,7 @@
                 "type": "list"
             }
         },
-		{
+        {
             "key": "瓜子体育",
             "name": "⚽瓜子体育",
             "type": 3,
@@ -36426,7 +36412,7 @@
                 "type": "list"
             }
         },
-		{
+        {
             "key": "咖啡体育",
             "name": "⚽咖啡体育",
             "type": 3,
@@ -36444,7 +36430,7 @@
             "type": 3,
             "api": "./py/哔哩直播.py"
         },
-		{
+        {
             "key": "哔哩合集",
             "name": "🍊哔哩合集",
             "type": 3,
@@ -36462,7 +36448,7 @@
                 "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
             }
         },
-		{
+        {
             "key": "哔哩哔哩音乐",
             "name": "🍊哔哩音乐",
             "type": 3,
@@ -36479,7 +36465,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "哔哩哔哩听书",
             "name": "🍊哔哩听书",
             "type": 3,
@@ -36496,7 +36482,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "哔哩哔哩相声",
             "name": "🍊哔哩相声",
             "type": 3,
@@ -36513,7 +36499,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "哔哩哔哩小品",
             "name": "🍊哔哩小品",
             "type": 3,
@@ -36530,7 +36516,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "哔哩哔哩戏曲",
             "name": "🍊哔哩戏曲",
             "type": 3,
@@ -36547,7 +36533,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "童趣",
             "name": "📚童趣儿童",
             "type": 3,
@@ -36560,7 +36546,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "兔小贝",
             "name": "🐰兔小贝儿童",
             "type": 3,
@@ -36573,7 +36559,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "贝乐虎",
             "name": "🐅贝乐虎儿童",
             "type": 3,
@@ -36586,7 +36572,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "少儿教育",
             "name": "📚少儿教育",
             "type": 3,
@@ -36603,7 +36589,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "小学课堂",
             "name": "📚小学课堂",
             "type": 3,
@@ -36620,7 +36606,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "初中课堂",
             "name": "📚初中课堂",
             "type": 3,
@@ -36637,7 +36623,7 @@
                 "ratio": 1.618
             }
         },
-		{
+        {
             "key": "高中课堂",
             "name": "📚高中课堂",
             "type": 3,
