@@ -4,6 +4,7 @@ import json
 import re
 import requests
 import sys
+import time
 from functools import wraps
 from urllib.parse import quote, unquote, urljoin, urlparse
 
@@ -14,6 +15,19 @@ from base.spider import Spider as BaseSpider
 
 
 LOG_TAG = "[威视TV_DEBUG]"
+
+# 简介前缀（统一风格）
+INTRO_PREFIX = "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！"
+
+# 线路优先级与别名（统一风格）
+_LINE_PRIORITY = ["vip", "1080zyk", "wztv", "bfzym3u8", "dyttm3u8",
+                  "ffm3u8", "lzm3u8", "modum3u8", "jsm3u8", "mtm3u8"]
+_LINE_ALIAS = {
+    "vip": "VIP线路", "modum3u8": "魔都M3U8", "jsm3u8": "极速M3U8",
+    "mtm3u8": "茅台M3U8", "1080zyk": "1080资源", "lzm3u8": "量子M3U8",
+    "bfzym3u8": "暴风资源", "dyttm3u8": "电影天堂", "ffm3u8": "非凡M3U8",
+    "wztv": "王者TV",
+}
 
 
 def trace_interface(function):
@@ -55,6 +69,38 @@ class Spider(BaseSpider):
         {"type_id": "4", "type_name": "动漫"},
     ]
 
+    # 筛选器（参照豆花电影风格）
+    _SORTS = [
+        {"n": "最新", "v": "time"},
+        {"n": "人气", "v": "hits"},
+        {"n": "评分", "v": "score"},
+    ]
+    _YEARS = [{"n": "全部", "v": ""}] + \
+             [{"n": str(y), "v": str(y)} for y in range(2026, 1999, -1)]
+    _AREAS = [
+        {"n": "全部", "v": ""},
+        {"n": "中国大陆", "v": "中国大陆"}, {"n": "美国", "v": "美国"},
+        {"n": "日本", "v": "日本"}, {"n": "英国", "v": "英国"},
+        {"n": "中国香港", "v": "中国香港"}, {"n": "法国", "v": "法国"},
+        {"n": "韩国", "v": "韩国"}, {"n": "加拿大", "v": "加拿大"},
+        {"n": "印度", "v": "印度"}, {"n": "德国", "v": "德国"},
+        {"n": "意大利", "v": "意大利"}, {"n": "中国台湾", "v": "中国台湾"},
+    ]
+    _FILTERS_MAP = {
+        "1": ["全部", "剧情", "喜剧", "动作", "爱情", "惊悚", "犯罪", "恐怖",
+              "悬疑", "冒险", "奇幻", "科幻", "院线", "家庭", "历史", "战争",
+              "纪录片", "古装", "音乐", "动画", "传记", "武侠", "运动", "西部", "短片"],
+        "2": ["全部", "剧情", "喜剧", "爱情", "犯罪", "悬疑", "家庭", "古装",
+              "惊悚", "动作", "奇幻", "科幻", "都市", "历史", "战争", "冒险",
+              "武侠", "恐怖", "青春", "传记", "谍战", "情感", "纪录", "军旅", "时装"],
+        "3": ["全部", "真人秀", "脱口秀", "国产综艺", "喜剧", "晚会", "综艺",
+              "音乐", "纪录", "游戏", "生活", "港台综艺", "日韩综艺", "剧情",
+              "文化", "相声", "情感", "悬疑", "欧美综艺", "美食", "竞技"],
+        "4": ["全部", "动画", "冒险", "喜剧", "奇幻", "剧情", "科幻", "动作",
+              "儿童", "悬疑", "都市", "家庭", "国漫", "日常", "爱情", "玄幻",
+              "日漫", "音乐", "治愈", "短片", "古风", "犯罪", "武侠", "运动", "校园"],
+    }
+
     @trace_interface
     def getName(self):
         return "威视TV"
@@ -81,22 +127,69 @@ class Spider(BaseSpider):
         self.session = requests.Session()
         self.session.trust_env = False
         self.session.headers.update(self.headers)
+        # 播放缓存（参照豆花电影风格）
+        self._play_cache = {}
+        # 预热标记
+        self._warmed = False
+
+    def _warm_up(self):
+        """预热（参照豆花电影风格）"""
+        if self._warmed:
+            return
+        try:
+            self._get(self.host + "/")
+            self._warmed = True
+            self._debug("预热完成")
+        except Exception as error:
+            self._debug("预热失败", error_type=type(error).__name__, error=str(error))
 
     @trace_interface
     def homeContent(self, filter):
         result = {"class": list(self.CLASSES)}
         if filter:
-            result["filters"] = {}
+            filters = {}
+            for c in self.CLASSES:
+                tid = c["type_id"]
+                filters[tid] = [
+                    {"key": "class", "name": "分类",
+                     "value": [{"n": x, "v": "" if x == "全部" else x}
+                               for x in self._FILTERS_MAP.get(tid, ["全部"])]},
+                    {"key": "area", "name": "地区", "value": self._AREAS},
+                    {"key": "year", "name": "年份", "value": self._YEARS},
+                    {"key": "sort_field", "name": "排序", "value": self._SORTS},
+                ]
+            result["filters"] = filters
         return result
 
     @trace_interface
     def homeVideoContent(self):
+        self._warm_up()
         return {"list": self._parse_list(self._get(self.host + "/"))[:60]}
 
     @trace_interface
     def categoryContent(self, tid, pg, filter, extend):
+        self._warm_up()
         page = self._page(pg)
-        html = self._get(f"{self.host}/index.php/vod/show/id/{quote(str(tid))}/page/{page}.html")
+        if isinstance(extend, str):
+            try:
+                extend = json.loads(extend)
+            except Exception:
+                extend = {}
+        if not extend:
+            extend = {}
+        # 清理空值
+        for k in list(extend.keys()):
+            if extend[k] in ("", None, "全部"):
+                del extend[k]
+
+        # 构造 URL，兼容筛选参数
+        params = []
+        for key in ("class", "area", "year", "sort_field"):
+            if extend.get(key):
+                params.append(f"{key}={quote(str(extend[key]))}")
+        suffix = ("&" + "&".join(params)) if params else ""
+        url = f"{self.host}/index.php/vod/show/id/{quote(str(tid))}/page/{page}.html{suffix}"
+        html = self._get(url)
         items = self._parse_list(html)
         pagecount = self._page_count(html, page + 1 if items else page)
         return {
@@ -116,6 +209,7 @@ class Spider(BaseSpider):
 
     @trace_interface
     def searchContent(self, key, quick, pg="1"):
+        self._warm_up()
         page = self._page(pg)
         suffix = f"&page={page}" if page > 1 else ""
         html = self._get(f"{self.host}/index.php/vod/search.html?wd={quote(str(key))}{suffix}")
@@ -129,12 +223,25 @@ class Spider(BaseSpider):
     @trace_interface
     def playerContent(self, flag, id, vipFlags):
         value = str(id or "")
+        # 缓存检查（参照豆花电影风格）
+        now = int(time.time())
+        if value in self._play_cache:
+            ts, res = self._play_cache[value]
+            if now - ts < 600:
+                return res
+
         if self._is_media(value):
-            return {"parse": 0, "url": value, "header": self._player_headers()}
+            res = {"parse": 0, "url": value, "header": self._player_headers()}
+            self._play_cache[value] = (now, res)
+            return res
         url = self._decode_player(self._get(self._absolute(value)))
         if not url:
-            return {"parse": 1, "url": "", "header": self._player_headers()}
-        return {"parse": 0 if self._is_media(url) else 1, "url": url, "header": self._player_headers()}
+            res = {"parse": 1, "url": "", "header": self._player_headers()}
+            self._play_cache[value] = (now, res)
+            return res
+        res = {"parse": 0 if self._is_media(url) else 1, "url": url, "header": self._player_headers()}
+        self._play_cache[value] = (now, res)
+        return res
 
     def _get(self, url):
         self._debug("HTTP请求", method="GET", url=self._safe_url(url))
@@ -295,6 +402,12 @@ class Spider(BaseSpider):
                 actor = value
         content = self._first_text(doc, "//*[@id='height_limit']//*[contains(concat(' ', normalize-space(@class), ' '), ' text ')]")
         content = re.sub(r"^\s*简介[:：]?\s*", "", content).strip()
+        # 简介添加前缀（统一风格）
+        if content:
+            content = INTRO_PREFIX + "\n" + content
+        else:
+            content = INTRO_PREFIX
+
         line_nodes = doc.xpath("//*[contains(concat(' ', normalize-space(@class), ' '), ' anthology-tab ')]//*[contains(concat(' ', normalize-space(@class), ' '), ' line-btn ')]")
         blocks = doc.xpath("//*[contains(concat(' ', normalize-space(@class), ' '), ' anthology-list ')]//*[contains(concat(' ', normalize-space(@class), ' '), ' anthology-list-box ')]")
         play_from = []
@@ -302,6 +415,9 @@ class Spider(BaseSpider):
         for index in range(min(len(line_nodes), len(blocks))):
             line_texts = line_nodes[index].xpath(".//text()[not(ancestor::span[contains(concat(' ', normalize-space(@class), ' '), ' badge ')])]")
             line_name = self._clean("".join(line_texts)) or f"线路{index + 1}"
+            # 线路别名映射（统一风格）
+            if line_name in _LINE_ALIAS:
+                line_name = _LINE_ALIAS[line_name]
             episodes = []
             episode_nodes = blocks[index].xpath(".//a[contains(concat(' ', normalize-space(@class), ' '), ' episode-btn ') and @href]")
             for episode_index, episode in enumerate(episode_nodes):

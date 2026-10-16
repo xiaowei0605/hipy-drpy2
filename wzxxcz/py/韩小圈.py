@@ -1,41 +1,483 @@
-# -*- coding: utf-8 -*-
-import sys
+# coding=utf-8
+"""
+韩小圈 jennyhow.com | TVBox Python 爬虫 
+关键:
+  - module-item 卡片解析 (首页/分类/搜索通用)
+  - nav-tabs 多线路剧集，兼容相对路径 / data-target
+  - 播放页三重解析: var now= / player_aaaa / iframe 跟进
+  - 简介添加指定前缀
+  - _fetch 内置重试 (MAX_RETRY=2，共 3 次)
+"""
 import re
-from bs4 import BeautifulSoup
-import requests as rq
-from urllib.parse import quote
+import sys
+import json
+import time
+import html as html_lib
+import urllib.parse
 
 sys.path.append('..')
+
 try:
     from base.spider import Spider
 except ImportError:
-    class Spider:
+    import requests as _rq
+    try:
+        import urllib3
+        urllib3.disable_warnings()
+    except Exception:
+        pass
+
+    class _BaseSpider:
+        def __init__(self):
+            self._session = None
+
+        @property
+        def _sess(self):
+            if self._session is None:
+                self._session = _rq.Session()
+                self._session.verify = False
+                adapter = _rq.adapters.HTTPAdapter(
+                    pool_connections=10, pool_maxsize=10, max_retries=0)
+                self._session.mount('https://', adapter)
+                self._session.mount('http://', adapter)
+            return self._session
+
         def fetch(self, url, headers=None, **kw):
-            kw.pop('timeout', None)
-            r = rq.get(url, headers=headers, timeout=15, **kw)
+            timeout = kw.pop('timeout', 15)
+            r = self._sess.get(url, headers=headers, timeout=timeout, **kw)
             r.encoding = 'utf-8'
             return r
 
-HOST = "https://www.jennyhow.com"
-UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        def log(self, *a, **kw):
+            try:
+                print("[jenny]", *a)
+            except Exception:
+                pass
 
-CLASS_MAP = {
-    "/hxq/1.html": "最新韩剧",
-    "/hxq/2.html": "韩国电影",
-    "/hxq/3.html": "韩国综艺",
-    "/hxq/4.html": "韩国动漫"
+    Spider = _BaseSpider
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
+
+
+HOST = "https://www.jennyhow.com"
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+DEFAULT_PIC = HOST + "/static/images/loading.png"
+
+INTRO_PREFIX = "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！"
+
+MAX_RETRY = 2  # 总请求次数 = MAX_RETRY + 1 = 3，抖动容错最优值
+
+CLASSES = [
+    {"type_id": "/hxq/1.html", "type_name": "最新韩剧"},
+    {"type_id": "/hxq/2.html", "type_name": "韩国电影"},
+    {"type_id": "/hxq/3.html", "type_name": "韩国综艺"},
+    {"type_id": "/hxq/4.html", "type_name": "韩国动漫"},
+]
+
+TID_ALIAS = {
+    "20": "/hxq/1.html", "1": "/hxq/1.html",
+    "21": "/hxq/2.html", "2": "/hxq/2.html",
+    "22": "/hxq/3.html", "3": "/hxq/3.html",
+    "23": "/hxq/4.html", "4": "/hxq/4.html",
 }
 
+
+# ===================== 正则 =====================
+_RE_H1 = re.compile(r'<h1[^>]*>([\s\S]*?)</h1>', re.I)
+_RE_TITLE = re.compile(r'<title>(.*?)</title>', re.S | re.I)
+_RE_NOW = re.compile(r'var\s+now\s*=\s*[\'"](.*?)[\'"]\s*;', re.S | re.I)
+_RE_PLAYER_AA = re.compile(r'player_aaaa\s*=\s*(\{[^}]+\})', re.S)
+_RE_IFRAME = re.compile(r'<iframe[^>]+src=[\'"]([^\'"]+)[\'"]', re.I)
+_RE_M3U8_JSON = re.compile(
+    r'["\']url["\']\s*:\s*["\'](https?://[^"\']+\.(?:m3u8|mp4)[^"\']*)["\']', re.I)
+_RE_NEXT_PAGE = re.compile(r'下一页|下页')
+
+
 class Spider(Spider):
-    def init(self, extend=""):
-        self._session = rq.Session()
-        self._session.headers.update({
-            "User-Agent": UA,
-            "Referer": HOST
-        })
 
     def getName(self):
         return "韩小圈"
+
+    def init(self, extend=""):
+        try:
+            self.extend = json.loads(extend) if extend else {}
+        except Exception:
+            self.extend = {}
+
+        self.site_url = (self.extend.get("site") or HOST).rstrip("/")
+        self.headers = {
+            "User-Agent": UA,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "Cache-Control": "no-cache",
+            "Pragma": "no-cache",
+            "Referer": self.site_url + "/",
+            "Upgrade-Insecure-Requests": "1",
+        }
+        self.default_pic = DEFAULT_PIC
+        self._play_cache = {}
+        self.log("init: site=%s" % self.site_url)
+
+    # ---------- 网络 ----------
+    def _fetch(self, url, timeout=15, headers=None):
+        h = dict(self.headers)
+        if headers:
+            h.update(headers)
+        last_err = ""
+        for attempt in range(MAX_RETRY + 1):
+            try:
+                rsp = self.fetch(url, headers=h, timeout=timeout)
+                text = ""
+                if hasattr(rsp, "text"):
+                    text = rsp.text or ""
+                elif hasattr(rsp, "content"):
+                    text = rsp.content.decode("utf-8", "ignore")
+                else:
+                    text = str(rsp)
+                if text:
+                    return text
+                last_err = "空响应"
+            except Exception as e:
+                last_err = str(e)
+                self.log("fetch#%d FAIL %s -> %s" % (attempt + 1, url, e))
+        self.log("fetch 最终失败 %s -> %s" % (url, last_err))
+        return ""
+
+    def _fix_url(self, url):
+        if not url:
+            return ""
+        url = url.strip()
+        if url.startswith("//"):
+            return "https:" + url
+        if url.startswith("http"):
+            return url
+        if url.startswith("/"):
+            return self.site_url + url
+        return urllib.parse.urljoin(self.site_url + "/", url)
+
+    def _clean(self, s):
+        if not s:
+            return ""
+        s = re.sub(r"<br\s*/?>", "\n", s, flags=re.I)
+        s = re.sub(r"<[^>]+>", "", s)
+        s = html_lib.unescape(s)
+        s = s.replace("\xa0", " ")
+        s = re.sub(r"[ \t\r\f\v]+", " ", s)
+        s = re.sub(r"\n{2,}", "\n", s)
+        return s.strip()
+
+    def _clean_title(self, title):
+        if not title:
+            return title
+        title = self._clean(title)
+        return re.sub(r'\s*[-|_]\s*(韩小圈|JennyHow|韩剧TV).*$', '', title,
+                      flags=re.I).strip()
+
+    def _pick_img(self, img_tag):
+        if not img_tag:
+            return ""
+        for attr in ('data-src', 'data-original', 'data-echo',
+                     'data-lazyload', 'data-lazy', 'data-url', 'src'):
+            v = img_tag.get(attr)
+            if v and not v.startswith('data:image'):
+                return v.strip()
+        srcset = img_tag.get('srcset') or img_tag.get('data-srcset')
+        if srcset:
+            return srcset.split(',')[0].strip().split(' ')[0]
+        return ""
+
+    # ---------- 列表解析 ----------
+    def _extract_videos(self, html):
+        videos = []
+        seen = set()
+        if not html or BeautifulSoup is None:
+            return videos
+        soup = BeautifulSoup(html, 'html.parser')
+        items = soup.find_all('div', class_='module-item')
+        for item in items:
+            a_tag = (item.find('a', class_='module-item-pic')
+                     or item.find('a', class_='module-item-title')
+                     or item.find('a'))
+            if not a_tag:
+                continue
+            href = a_tag.get('href', '')
+            if not href or href in seen:
+                continue
+            seen.add(href)
+
+            img_tag = item.find('img')
+            name = a_tag.get('title') \
+                or (img_tag.get('alt') if img_tag else "") \
+                or a_tag.get_text(strip=True)
+            pic = self._pick_img(img_tag)
+            remarks_tag = (item.find(class_='module-item-text')
+                           or item.find(class_='module-item-note'))
+            remarks = remarks_tag.get_text(strip=True) if remarks_tag else ""
+
+            videos.append({
+                "vod_id":      href,
+                "vod_name":    self._clean_title(name)[:100],
+                "vod_pic":     self._fix_url(pic) or self.default_pic,
+                "vod_remarks": remarks,
+            })
+        return videos
+
+    def _page_count(self, html, page):
+        if not html or BeautifulSoup is None:
+            return page
+        try:
+            soup = BeautifulSoup(html, 'html.parser')
+            has_next = bool(soup.find('a', string=_RE_NEXT_PAGE))
+            if not has_next:
+                has_next = bool(soup.select_one('.page a[href*="-%d"]' % (page + 1)))
+            return page + 1 if has_next else page
+        except Exception:
+            return page
+
+    # ---------- 首页 ----------
+    # ⭐ 修复：去掉 filters 字段，避免空 filters 导致分类不显示
+    def homeContent(self, filter=False):
+        return {"class": CLASSES}
+
+    def homeVideoContent(self):
+        html = self._fetch(self.site_url + "/")
+        self.log("home HTML 长度: %d" % len(html))
+        return {"list": self._extract_videos(html)}
+
+    # ---------- 分类 ----------
+    # ⭐ 修复：加默认值，兼容只传部分参数的前端
+    def categoryContent(self, tid, pg=1, filter=False, extend=None):
+        page = int(pg) if pg else 1
+        tid = TID_ALIAS.get(str(tid), str(tid))
+
+        url = tid
+        if page > 1 and url.endswith('.html'):
+            url = url.replace('.html', '-%d.html' % page)
+        url = self._fix_url(url)
+
+        self.log("category: %s" % url)
+        html = self._fetch(url)
+        self.log("  HTML 长度: %d" % len(html))
+
+        videos = self._extract_videos(html)
+        pagecount = self._page_count(html, page)
+        self.log("  最终: %d 条, 总页数: %d" % (len(videos), pagecount))
+
+        return {
+            "list": videos, "page": page, "pagecount": pagecount,
+            "limit": 24, "total": pagecount * 24,
+        }
+
+    # ---------- 搜索 ----------
+    # ⭐ 修复：加默认值
+    def searchContent(self, key, quick=False, pg=1):
+        page = int(pg) if pg else 1
+        kw = urllib.parse.quote(key, safe='')
+        url = "%s/vodsearch/%s----------%d---.html" % (self.site_url, kw, page)
+        self.log("search: %s" % url)
+        html = self._fetch(url)
+        self.log("  HTML 长度: %d" % len(html))
+
+        videos = self._extract_videos(html)
+        pagecount = self._page_count(html, page)
+        return {
+            "list": videos, "page": page, "pagecount": pagecount,
+            "limit": 24, "total": pagecount * 24,
+        }
+
+    def searchContentPage(self, key, quick=False, pg=1):
+        return self.searchContent(key, quick, pg)
+
+    # ---------- 详情 ----------
+    def detailContent(self, ids):
+        if not ids:
+            return {"list": []}
+        vod_id = str(ids[0])
+        url = vod_id if vod_id.startswith("http") else self._fix_url(vod_id)
+        self.log("detail: %s" % url)
+
+        html = self._fetch(url)
+        self.log("  HTML 长度: %d" % len(html))
+        if not html or BeautifulSoup is None:
+            return {"list": []}
+
+        soup = BeautifulSoup(html, 'html.parser')
+
+        # 标题
+        name = ""
+        m = _RE_H1.search(html)
+        if m:
+            name = self._clean(m.group(1))
+        if not name:
+            m = _RE_TITLE.search(html)
+            if m:
+                name = self._clean(m.group(1).split("_")[0].split("-")[0])
+        name = self._clean_title(name) or vod_id
+
+        # 封面
+        pic_tag = (soup.find('img', class_='lazyload')
+                   or soup.find('img', class_='lazy')
+                   or soup.find('img'))
+        pic = self._fix_url(self._pick_img(pic_tag)) or self.default_pic
+
+        # 简介 + 元信息
+        director, actor, year, content = "", "", "", ""
+        for tag in soup.find_all(string=re.compile(r'导演|主演|上映|年份|剧情|简介')):
+            text_str = tag.strip()
+            parent = tag.parent
+            if parent is None or parent.name in ['title', 'meta', 'script', 'style']:
+                continue
+            container = parent.parent if parent.name in ['span', 'strong', 'b', 'font'] else parent
+            full_text = container.get_text(separator=' ', strip=True)
+
+            if '导演' in text_str and not director:
+                director = re.sub(r'.*?导演[：:]?\s*', '', full_text).strip()
+            elif '主演' in text_str and not actor:
+                actor = re.sub(r'.*?主演[：:]?\s*', '', full_text).strip()
+            elif ('上映' in text_str or '年份' in text_str) and not year:
+                year = re.sub(r'.*?(上映|年份)[：:]?\s*', '', full_text).strip()
+            elif ('剧情' in text_str or '简介' in text_str) and not content:
+                content = re.sub(r'.*?(剧情|简介)[：:]?\s*', '', full_text).strip()
+
+        if not content:
+            intro_tag = (soup.find(class_='module-info-introduction-content')
+                         or soup.find(class_='module-info-introduction'))
+            if intro_tag:
+                content = intro_tag.get_text(strip=True)
+
+        content = self._clean(content)
+        content = INTRO_PREFIX + ("\n" + content if content else "")
+
+        # 播放列表
+        groups = {}
+        tabs_ul = (soup.find('ul', class_='nav-tabs')
+                   or soup.find('ul', class_='nav nav-tabs'))
+        if tabs_ul:
+            for li in tabs_ul.find_all('li'):
+                a_tag = li.find('a')
+                if not a_tag:
+                    continue
+                line_name = a_tag.get_text(strip=True)
+                target_id = a_tag.get('href', '').replace('#', '')
+                playlist_div = soup.find('div', id=target_id)
+                if not playlist_div:
+                    t2 = a_tag.get('data-target', '').replace('#', '')
+                    if t2:
+                        playlist_div = soup.find('div', id=t2)
+                if not playlist_div:
+                    continue
+
+                seen = set()
+                eps = []
+                for ep in playlist_div.find_all('a'):
+                    ep_name = ep.get('title') or ep.get_text(strip=True)
+                    ep_href = ep.get('href', '')
+                    if not ep_href or ep_href in seen:
+                        continue
+                    seen.add(ep_href)
+                    if not ep_href.startswith('http') and not ep_href.startswith('/'):
+                        ep_href = '/' + ep_href
+                    eps.append((self._clean(ep_name) or ("第%d集" % (len(eps) + 1)),
+                                ep_href))
+                if eps:
+                    groups[line_name] = eps
+
+        self.log("  剧集: %s" % {k: len(v) for k, v in groups.items()})
+
+        if not groups:
+            return {"list": []}
+
+        play_from = list(groups.keys())
+        play_url = ["#".join("%s$%s" % (n, h) for n, h in groups[k]) for k in play_from]
+
+        return {"list": [{
+            "vod_id": vod_id,
+            "vod_name": name,
+            "vod_pic": pic,
+            "vod_content": content,
+            "vod_actor": actor,
+            "vod_director": director,
+            "vod_year": year,
+            "vod_remarks": "%d条线路" % len(groups),
+            "vod_play_from": "$$$".join(play_from),
+            "vod_play_url":  "$$$".join(play_url),
+        }]}
+
+    # ---------- 播放 ----------
+    def playerContent(self, flag, id, vipFlags):
+        play_page = id if id.startswith("http") else self._fix_url(id)
+        self.log("player: %s" % play_page)
+
+        now = int(time.time())
+        if play_page in self._play_cache:
+            ts, res = self._play_cache[play_page]
+            if now - ts < 600:
+                return res
+
+        html = self._fetch(play_page)
+
+        result = None
+        if html:
+            # ① var now='xxx'
+            m = _RE_NOW.search(html)
+            if m:
+                result = {
+                    "parse": 0,
+                    "playUrl": "",
+                    "url": m.group(1),
+                    "header": {"User-Agent": UA, "Referer": play_page},
+                }
+
+            # ② player_aaaa = {...}
+            if not result:
+                m = _RE_PLAYER_AA.search(html)
+                if m:
+                    try:
+                        data = json.loads(m.group(1))
+                        u = data.get("url", "")
+                        if u:
+                            result = {
+                                "parse": 0,
+                                "playUrl": "",
+                                "url": u,
+                                "header": {"User-Agent": UA, "Referer": play_page},
+                            }
+                    except Exception:
+                        pass
+
+            # ③ iframe 播放页，跟进去再找
+            if not result:
+                m_iframe = _RE_IFRAME.search(html)
+                if m_iframe:
+                    inner = self._fix_url(m_iframe.group(1))
+                    self.log("  iframe: %s" % inner[:160])
+                    inner_html = self._fetch(inner)
+                    m2 = _RE_NOW.search(inner_html)
+                    if not m2:
+                        m2 = _RE_M3U8_JSON.search(inner_html)
+                    if m2:
+                        result = {
+                            "parse": 0, "playUrl": "",
+                            "url": m2.group(1),
+                            "header": {"User-Agent": UA, "Referer": inner},
+                        }
+
+        # 兜底：交给 TVBox 嗅探
+        if not result:
+            result = {
+                "parse": 1, "playUrl": "", "url": play_page,
+                "header": {"User-Agent": UA, "Referer": self.site_url + "/"},
+            }
+
+        self._play_cache[play_page] = (now, result)
+        return result
+
+    def localProxy(self, param):
+        return None
 
     def isVideoFormat(self, url):
         return ".m3u8" in url or ".mp4" in url
@@ -43,236 +485,8 @@ class Spider(Spider):
     def manualVideoCheck(self):
         return False
 
-    def _get(self, url, timeout=10):
-        try:
-            r = self._session.get(url, timeout=timeout)
-            r.encoding = 'utf-8'
-            return r.text
-        except Exception as e:
-            print(f"网络请求失败: {e}")
-            return ""
-
-    def _format_pic(self, pic_url):
-        if not pic_url: return ""
-        if pic_url.startswith('//'):
-            return "https:" + pic_url
-        if pic_url.startswith('/'):
-            return HOST + pic_url
-        return pic_url
-
-    def homeContent(self, filter=False):
-        classes = []
-        for tid, name in CLASS_MAP.items():
-            classes.append({"type_id": tid, "type_name": name})
-        return {"class": classes}
-
-    def homeVideoContent(self):
-        html = self._get(HOST)
-        soup = BeautifulSoup(html, 'html.parser')
-        videos = []
-        
-        items = soup.find_all('div', class_='module-item')
-        for item in items:
-            a_tag = item.find('a', class_='module-item-title') or item.find('a')
-            img_tag = item.find('img')
-            
-            if a_tag:
-                name = a_tag.get('title') or a_tag.get_text(strip=True)
-                href = a_tag.get('href', '')
-                pic = ""
-                if img_tag:
-                    pic = img_tag.get('data-src') or img_tag.get('data-original') or img_tag.get('src', '')
-                
-                videos.append({
-                    "vod_id": href,
-                    "vod_name": name,
-                    "vod_pic": self._format_pic(pic),
-                    "vod_remarks": ""
-                })
-        return {"list": videos}
-
-    def categoryContent(self, tid, pg=1, filter=False, extend=None):
-        try:
-            pn = max(int(str(pg)), 1)
-            
-            # 拦截缓存
-            if tid in ["20", "1"]: tid = "/hxq/1.html"
-            elif tid in ["21", "2"]: tid = "/hxq/2.html"
-            elif tid in ["22", "3"]: tid = "/hxq/3.html"
-            elif tid in ["23", "4"]: tid = "/hxq/4.html"
-
-            url = tid
-            if pn > 1 and url.endswith('.html'):
-                url = url.replace('.html', f'-{pn}.html')
-
-            if not url.startswith('http'):
-                url = HOST + url
-                
-            html = self._get(url)
-            soup = BeautifulSoup(html, 'html.parser')
-            videos = []
-            
-            for item in soup.find_all('div', class_='module-item'):
-                a_tag = item.find('a', class_='module-item-pic') or item.find('a')
-                if not a_tag: continue
-                
-                img_tag = item.find('img')
-                name = a_tag.get('title')
-                if not name and img_tag: name = img_tag.get('alt')
-                if not name: name = a_tag.get_text(strip=True)
-                
-                href = a_tag.get('href', '')
-                pic = ""
-                if img_tag:
-                    pic = img_tag.get('data-src') or img_tag.get('data-original') or img_tag.get('src', '')
-                    
-                remarks_tag = item.find(class_='module-item-text') or item.find(class_='module-item-note')
-                remarks = remarks_tag.get_text(strip=True) if remarks_tag else ""
-
-                if href:
-                    videos.append({
-                        "vod_id": href,
-                        "vod_name": name,
-                        "vod_pic": self._format_pic(pic),
-                        "vod_remarks": remarks
-                    })
-            
-            pagecount = pn + 1 if len(videos) > 0 else pn
-            return {"list": videos, "page": pn, "pagecount": pagecount, "limit": 24, "total": 0}
-        except:
-            return {"list": [], "page": pg}
-
-    # ================= 详情页大升级 =================
-    def detailContent(self, ids):
-        detail_url = ids[0] if ids[0].startswith('http') else HOST + ids[0]
-        html = self._get(detail_url)
-        if not html: return {"list": []}
-
-        soup = BeautifulSoup(html, 'html.parser')
-        
-        title_tag = soup.find('h1')
-        title = title_tag.get_text(strip=True) if title_tag else "未知名称"
-        
-        pic_tag = soup.find('img', class_='lazyload') or soup.find('img', class_='lazy')
-        pic = ""
-        if pic_tag:
-            pic = pic_tag.get('data-src') or pic_tag.get('data-original') or pic_tag.get('src', '')
-
-        # --- 新增：智能文本猎手，自动抓取导演/主演/剧情等信息 ---
-        vod_director, vod_actor, vod_year, vod_content = "", "", "", ""
-        
-        # 遍历所有文本节点寻找关键词
-        for tag in soup.find_all(text=re.compile(r'导演|主演|上映|年份|剧情|简介')):
-            text_str = tag.strip()
-            parent = tag.parent
-            
-            # 过滤掉系统标签
-            if parent.name in ['title', 'meta', 'script', 'style']: continue
-            
-            # 往上找包裹着文字的容器
-            container = parent.parent if parent.name in ['span', 'strong', 'b', 'font'] else parent
-            full_text = container.get_text(separator=' ', strip=True)
-            
-            if '导演' in text_str and not vod_director:
-                vod_director = re.sub(r'.*?导演[：:]?\s*', '', full_text)
-            elif '主演' in text_str and not vod_actor:
-                vod_actor = re.sub(r'.*?主演[：:]?\s*', '', full_text)
-            elif ('上映' in text_str or '年份' in text_str) and not vod_year:
-                vod_year = re.sub(r'.*?(上映|年份)[：:]?\s*', '', full_text)
-            elif ('剧情' in text_str or '简介' in text_str) and not vod_content:
-                vod_content = re.sub(r'.*?(剧情|简介)[：:]?\s*', '', full_text)
-
-        # 简介兜底：有的网站把简介放进了一个很隐蔽的 class 里
-        if not vod_content:
-            intro_tag = soup.find(class_='module-info-introduction-content') or soup.find(class_='module-info-introduction')
-            if intro_tag:
-                vod_content = intro_tag.get_text(strip=True)
-
-        # 抓取播放列表
-        play_from = []
-        play_url = []
-
-        tabs_ul = soup.find('ul', class_='nav-tabs')
-        if tabs_ul:
-            for li in tabs_ul.find_all('li'):
-                a_tag = li.find('a')
-                if not a_tag: continue
-
-                line_name = a_tag.get_text(strip=True)
-                target_id = a_tag.get('href', '').replace('#', '')
-
-                playlist_div = soup.find('div', id=target_id)
-                if playlist_div:
-                    episodes = []
-                    for ep in playlist_div.find_all('a'):
-                        ep_name = ep.get('title') or ep.get_text(strip=True)
-                        ep_href = ep.get('href', '')
-                        if ep_href:
-                            episodes.append(f"{ep_name}${ep_href}")
-                    
-                    if episodes:
-                        play_from.append(line_name)
-                        play_url.append("#".join(episodes))
-
-        vod = {
-            "vod_id": ids[0],
-            "vod_name": title,
-            "vod_pic": self._format_pic(pic),
-            "vod_director": vod_director,       # 🌟 给 APP 喂进去导演
-            "vod_actor": vod_actor,             # 🌟 给 APP 喂进去主演
-            "vod_year": vod_year,               # 🌟 给 APP 喂进去年份
-            "vod_content": vod_content,         # 🌟 给 APP 喂进去简介
-            "vod_play_from": "$$$".join(play_from),
-            "vod_play_url": "$$$".join(play_url),
-        }
-        return {"list": [vod]}
-
-    def playerContent(self, flag, id, vipFlags=None):
-        play_url = id if id.startswith('http') else HOST + id
-        html = self._get(play_url)
-        if not html: return {"url": ""}
-
-        match = re.search(r'var now=[\'"](.*?)[\'"];', html)
-        if match:
-            m3u8_url = match.group(1)
-            return {
-                "url": m3u8_url,
-                "header": {"User-Agent": UA}
-            }
-        
-        match_json = re.search(r'player_aaaa\s*=\s*(\{[^}]+\})', html)
-        if match_json:
-            import json
-            try:
-                data = json.loads(match_json.group(1))
-                return {"url": data.get("url", ""), "header": {"User-Agent": UA}}
-            except:
-                pass
-
-        return {"url": ""}
-
-    def searchContent(self, key, quick=False, pg=1):
-        try:
-            url = f"{HOST}/vodsearch/{quote(key)}----------{pg}---.html"
-            html = self._get(url)
-            soup = BeautifulSoup(html, 'html.parser')
-            videos = []
-
-            for item in soup.find_all('div', class_='module-search-item') or soup.find_all('div', class_='module-item'):
-                a_tag = item.find('a')
-                img_tag = item.find('img')
-                if a_tag and img_tag:
-                    name = img_tag.get('alt', '') or a_tag.get('title', '')
-                    href = a_tag.get('href', '')
-                    pic = img_tag.get('data-src') or img_tag.get('data-original') or img_tag.get('src', '')
-                    videos.append({
-                        "vod_id": href,
-                        "vod_name": name,
-                        "vod_pic": self._format_pic(pic)
-                    })
-            return {"list": videos}
-        except:
-            return {"list": []}
-
-    def localProxy(self, param):
+    def destroy(self):
         pass
+
+    def close(self):
+        self.destroy()

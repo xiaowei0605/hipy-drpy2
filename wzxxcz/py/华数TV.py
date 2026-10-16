@@ -1,539 +1,569 @@
 # coding=utf-8
-# !/usr/bin/python
+"""
+华数TV (wasu.cn) TVBox Python 爬虫  
+========================================================
+【重要说明】
 
-from Crypto.Util.Padding import unpad
-from Crypto.Util.Padding import pad
-from urllib.parse import urlparse
-from urllib.parse import unquote
-from Crypto.Cipher import ARC4
-from urllib.parse import quote
-from base.spider import Spider
-from Crypto.Cipher import AES
-from datetime import datetime
-from bs4 import BeautifulSoup
-from base64 import b64decode
-import concurrent.futures
-import urllib.request
-import urllib.parse
-import datetime
-import binascii
-import requests
-import hashlib
-import base64
+1. 站点是 Vue3 SPA（<div id="app"></div>），服务端不返回任何影视 HTML，
+   所有数据来自 XHR JSON 接口，因此本爬虫不解析 HTML，只调真实接口。
+
+2. 真实接口（全部实测通过）：
+   [配置]  GET  https://mcspapp.5g.wasu.tv/bvradio_app/hzhs/configServlet
+              ?functionName=getAppConf&siteId=1000101&platform=web
+   [导航]  GET  https://mcspapp.5g.wasu.tv/bvradio_app/hzhs/recommendServlet
+              ?functionName=getNavigationBar&indexId=41&siteId=1000101&platform=web
+   [列表]  GET  https://mcspapp.5g.wasu.tv/bvradio_app/hzhs/recommendServlet
+              ?functionName=getRecommond&modeId=<modeId>&siteId=1000101&platform=web
+   [详情]  GET  https://mcspapp.5g.wasu.tv/bvradio_app/hzhs/newsServlet
+              ?functionName=getCurrentNews&newsId=<id>&nodeId=<id>&siteId=1000101&platform=web
+   [搜索]  GET  https://ups.5g.wasu.tv/rmp-user-suggest/10001/hzhs/searchServlet
+              ?functionName=getServiceAndNewsSearch&keyword=<kw>&page=&pageSize=&siteId=1000101&platform=web
+   [播放]  POST https://mcspapp.5g.wasu.tv/thirdApiFile/file/getPlayUrl
+              Body: {"playUrl": "<.../xxx/playlist.m3u8>", "platform": "web"}
+              Headers 必须带 x-sign 签名头（见下）
+
+3. 【播放签名算法】—— 逆向自前端 JS：
+      x-sign = Base64( HMAC-SHA256( compact_json(body), KEY ) )
+      KEY    = b"3ecc90fe-da54-4bd6-8d2e-6e7820fbe76a"   # 直接字符串字节，勿 base64 解码
+      compact_json = json.dumps(body, separators=(',', ':'), ensure_ascii=False)
+      请求头还需：siteId:1000101、launchChannel:web_channel
+   播放流程：详情返回的 fileList[].playUrl 是 .../xxx.mp4，
+      前端把它替换成 .../xxx/playlist.m3u8 再调 getPlayUrl，
+      接口返回带 auth_key 的真实 m3u8 地址。
+
+4. 分类 modeId（来自 getNavigationBar indexId=41）：
+      首页 1033 / 电影 1036 / 电视剧 1034 / 少儿 1037 / 新闻 1035 / 栏目 1071 / 片库 1073
+"""
+import re
+import sys
 import json
 import time
 import hmac
-import sys
-import re
-import os
+import base64
+import hashlib
+import urllib.parse
 
 sys.path.append('..')
 
-xurl = "https://www.wasu.cn"
+try:
+    from base.spider import Spider
+except ImportError:
+    # 脱离 TVBox 环境时的独立运行兜底
+    try:
+        import urllib3
+        urllib3.disable_warnings()
+    except Exception:
+        pass
 
-headerx = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.87 Safari/537.36'
-          }
+    class Spider(object):
+        def __init__(self):
+            self._session = None
 
-headerz = {
-    'accept': '*/*',
-    'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
-    'cache-control': 'no-cache',
-    'origin': xurl,
-    'pragma': 'no-cache',
-    'priority': 'u=1, i',
-    'referer': xurl,
-    'sec-ch-ua': '"Microsoft Edge";v="143", "Chromium";v="143", "Not A(Brand";v="24"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'cross-site',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0',
-           }
+        def fetch(self, url, headers=None, **kw):
+            import requests
+            if self._session is None:
+                self._session = requests.Session()
+                self._session.verify = False
+            return self._session.get(url, headers=headers, **kw)
+
+        def post(self, url, headers=None, data=None, json=None, **kw):
+            import requests
+            if self._session is None:
+                self._session = requests.Session()
+                self._session.verify = False
+            return self._session.post(url, headers=headers, data=data, json=json, **kw)
+
+        def log(self, *a, **kw):
+            try:
+                print("[wasu]", *a)
+            except Exception:
+                pass
+
+
+# ===================== 常量（真实站点参数） =====================
+API_HOST = "https://mcspapp.5g.wasu.tv"
+SEARCH_HOST = "https://ups.5g.wasu.tv"
+SITE_ID = "1000101"
+PLATFORM = "web"
+
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+
+# 播放接口签名密钥（逆向自前端 index-*.js，字符串直接作为 key 字节）
+SIGN_KEY = b"3ecc90fe-da54-4bd6-8d2e-6e7820fbe76a"
+
+# 分类固定 modeId（若不动态拉取时的兜底）
+DEFAULT_CLASSES = [
+    {"type_id": "1036", "type_name": "电影"},
+    {"type_id": "1034", "type_name": "电视剧"},
+    {"type_id": "1037", "type_name": "少儿"},
+    {"type_id": "1035", "type_name": "新闻"},
+    {"type_id": "1071", "type_name": "栏目"},
+    {"type_id": "1073", "type_name": "片库"},
+]
+
+SORT_OPTIONS = [
+    {"n": "默认排序", "v": "1"},
+    {"n": "最新", "v": "2"},
+    {"n": "最热", "v": "3"},
+]
+
+# 简介前缀
+INTRO_PREFIX = "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！"
+
+# 清晰度：接口 type 取值 → 线路名（数值越大越清晰）
+# 实测：100=标清 / 110=高清 / 120=超清(1080P)
+QUALITY_ALIAS = {100: "标清", 110: "高清", 120: "超清", 130: "蓝光"}
+
 
 class Spider(Spider):
 
     def getName(self):
-        return "精彩"
+        return "华数TV"
 
-    def init(self, extend):
-        pass
+    def init(self, extend=""):
+        try:
+            self.extend = json.loads(extend) if extend else {}
+        except Exception:
+            self.extend = {}
+        self.api = API_HOST
+        self.search_api = SEARCH_HOST
+        self.site_id = self.extend.get("site_id") or SITE_ID
+        self.headers = {
+            "User-Agent": UA,
+            "Accept": "application/json, text/plain, */*",
+            "Referer": "https://www.wasu.cn/",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+        }
+        self._classes = None
+        self._play_cache = {}
+        self.log("init: api=%s" % self.api)
 
-    def isVideoFormat(self, url):
-        pass
+    # ---------------- 通用请求 ----------------
+    def _get(self, url, timeout=15):
+        try:
+            r = self.fetch(url, headers=self.headers, timeout=timeout)
+            txt = r.text if hasattr(r, "text") else str(r)
+            return json.loads(txt)
+        except Exception as e:
+            self.log("GET FAIL %s -> %s" % (url, e))
+            return None
 
-    def manualVideoCheck(self):
-        pass
+    def _sign(self, body):
+        raw = json.dumps(body, separators=(',', ':'), ensure_ascii=False)
+        digest = hmac.new(SIGN_KEY, raw.encode("utf-8"), hashlib.sha256).digest()
+        return raw, base64.b64encode(digest).decode()
+
+    def _post_play(self, body, timeout=15):
+        raw, sign = self._sign(body)
+        h = dict(self.headers)
+        h.update({
+            "Content-Type": "application/json;charset=utf-8",
+            "siteId": self.site_id,
+            "launchChannel": "web_channel",
+            "x-sign": sign,
+            "Accept": "application/json, text/plain, */*",
+        })
+        try:
+            r = self.post(self.api + "/thirdApiFile/file/getPlayUrl",
+                          headers=h, data=raw.encode("utf-8"), timeout=timeout)
+            txt = r.text if hasattr(r, "text") else str(r)
+            return json.loads(txt)
+        except Exception as e:
+            self.log("POST getPlayUrl FAIL -> %s" % e)
+            return None
+
+    def _clean(self, s):
+        if not s:
+            return ""
+        s = re.sub(r"<[^>]+>", "", str(s))
+        s = (s.replace("&nbsp;", " ").replace("&amp;", "&")
+              .replace("&quot;", '"').replace("&#39;", "'")
+              .replace("&lt;", "<").replace("&gt;", ">"))
+        return re.sub(r"\s+", " ", s).strip()
+
+    # ---------------- 分类 ----------------
+    def _get_classes(self):
+        if self._classes:
+            return self._classes
+        url = ("%s/bvradio_app/hzhs/recommendServlet?functionName=getNavigationBar"
+               "&indexId=41&siteId=%s&platform=%s" % (self.api, self.site_id, PLATFORM))
+        d = self._get(url)
+        out = []
+        if d and d.get("code") == 200 and isinstance(d.get("data"), list):
+            for it in d["data"]:
+                tid = str(it.get("dataId") or "")
+                name = it.get("name") or ""
+                if tid and name and name != "首页":
+                    out.append({"type_id": tid, "type_name": name})
+        self._classes = out or DEFAULT_CLASSES
+        self.log("classes: %s" % [(c["type_id"], c["type_name"]) for c in self._classes])
+        return self._classes
+
+    def homeContent(self, filter=False):
+        classes = self._get_classes()
+        filters = {}
+        for c in classes:
+            filters[c["type_id"]] = [
+                {"key": "sort", "name": "排序", "value": SORT_OPTIONS},
+            ]
+        return {"class": classes, "filters": filters}
 
     def homeVideoContent(self):
+        # 首页用 modeId=1033
+        return {"list": self._mode_list("1033")}
+
+    # ---------------- 列表（getRecommond） ----------------
+    def _pick(self, item, *keys):
+        for k in keys:
+            if item.get(k):
+                return item.get(k)
+        return ""
+
+    def _parse_items(self, nodes):
+        """从 getRecommond 返回的 data[].manualList[] / childModels 中提取视频"""
+        videos = []
+        seen = set()
+
+        def walk(node):
+            if not isinstance(node, dict):
+                return
+            ml = node.get("manualList")
+            if isinstance(ml, list):
+                for it in ml:
+                    self._append(videos, seen, it)
+            ch = node.get("childModels")
+            if isinstance(ch, list):
+                for c in ch:
+                    walk(c)
+
+        if isinstance(nodes, list):
+            for n in nodes:
+                walk(n)
+        return videos
+
+    def _append(self, videos, seen, it):
+        if not isinstance(it, dict):
+            return
+        raw_id = str(it.get("id") or "")
+        # id 形如 "961,179271" -> nodeId,newsId
+        node_id, news_id = "", ""
+        if "," in raw_id:
+            parts = raw_id.split(",")
+            node_id, news_id = parts[0].strip(), parts[1].strip()
+        if not news_id:
+            news_id = str(it.get("newsId") or "")
+            node_id = str(it.get("nodeId") or node_id)
+        if not news_id:
+            # 尝试从 reqUrl 解析
+            req = it.get("reqUrl") or ""
+            m = re.search(r"newsId=(\d+).*?nodeId=(\d+)", req)
+            if m:
+                news_id, node_id = m.group(1), m.group(2)
+        if not news_id:
+            return
+
+        title = self._clean(it.get("title")) or self._clean(it.get("subTitle"))
+        if not title:
+            return
+        vod_id = "%s,%s" % (node_id, news_id)
+        if vod_id in seen:
+            return
+        seen.add(vod_id)
+
+        pic = (it.get("hPic") or it.get("pPic") or it.get("coverPic") or "").strip()
+        remarks = ""
+        if it.get("episodeDesc"):
+            remarks = self._clean(it.get("episodeDesc"))
+        elif it.get("cornerMark"):
+            remarks = self._clean(it.get("cornerMark"))
+
+        videos.append({
+            "vod_id": vod_id,
+            "vod_name": title,
+            "vod_pic": pic,
+            "vod_remarks": remarks,
+        })
+
+    def _mode_list(self, mode_id):
+        url = ("%s/bvradio_app/hzhs/recommendServlet?functionName=getRecommond"
+               "&modeId=%s&siteId=%s&platform=%s" % (self.api, mode_id, self.site_id, PLATFORM))
+        d = self._get(url)
+        if not d or d.get("code") != 200:
+            self.log("mode %s 无数据: %s" % (mode_id, (d or {}).get("message")))
+            return []
+        return self._parse_items(d.get("data"))
+
+    def categoryContent(self, tid, pg, filter, extend):
+        """
+        说明：getRecommond 接口为一次性全量返回（实测 page=2 恒为空），
+        故这里不做真实翻页，pagecount 固定为 1，首屏即给出该分类全部内容。
+        """
+        self._get_classes()
+        page = int(pg) if pg else 1
+        if isinstance(extend, str):
+            try:
+                extend = json.loads(extend)
+            except Exception:
+                extend = {}
+        extend = extend or {}
+
+        videos = self._mode_list(str(tid))
+        # 兜底：个别栏目（如“片库”）本身是二级门户，无直接可播内容时给出首页内容
+        if not videos:
+            self.log("category %s 无直接内容, 回退首页" % tid)
+            videos = self._mode_list("1033")
+
+        self.log("category tid=%s -> %d 条" % (tid, len(videos)))
+        return {
+            "list": videos,
+            "page": page,
+            "pagecount": 1,
+            "limit": len(videos) or 24,
+            "total": len(videos),
+        }
+
+    # ---------------- 搜索（searchServlet） ----------------
+    def searchContent(self, key, quick, pg="1"):
+        page = int(pg) if pg else 1
+        kw = urllib.parse.quote(key)
+        url = ("%s/rmp-user-suggest/10001/hzhs/searchServlet?functionName=getServiceAndNewsSearch"
+               "&keyword=%s&page=%d&pageSize=24&siteId=%s&platform=%s"
+               % (self.search_api, kw, page, self.site_id, PLATFORM))
+        d = self._get(url)
+        videos = []
+        seen = set()
+        if d and d.get("code") == 200 and isinstance(d.get("data"), dict):
+            data = d["data"]
+            merged = []
+            for k in ("videoDataList", "shortVideoDataList", "serviceDataList"):
+                v = data.get(k)
+                if isinstance(v, list):
+                    merged.extend(v)
+            for it in merged:
+                self._append(videos, seen, it)
+        self.log("search '%s' -> %d 条" % (key, len(videos)))
+        limit = 24
+        return {
+            "list": videos,
+            "page": page,
+            "pagecount": 1 if len(videos) < limit else page + 1,
+            "limit": limit,
+            "total": len(videos),
+        }
+
+    def searchContentPage(self, key, quick, pg="1"):
+        return self.searchContent(key, quick, pg)
+
+    # ---------------- 详情（getCurrentNews） ----------------
+    def detailContent(self, ids):
+        if not ids:
+            return {"list": []}
+        vod_id = str(ids[0])
+        node_id, news_id = "", ""
+        if "," in vod_id:
+            node_id, news_id = vod_id.split(",", 1)
+        else:
+            news_id = vod_id
+        url = ("%s/bvradio_app/hzhs/newsServlet?functionName=getCurrentNews"
+               "&newsId=%s&nodeId=%s&siteId=%s&platform=%s"
+               % (self.api, news_id, node_id, self.site_id, PLATFORM))
+        d = self._get(url)
+        if not d or d.get("code") != 200 or not isinstance(d.get("data"), dict):
+            self.log("detail 无数据: %s" % (d or {}).get("message"))
+            return {"list": []}
+        data = d["data"]
+
+        title = self._clean(data.get("title")) or news_id
+        pic = (data.get("hPic") or data.get("pPic") or "").strip()
+
+        # 简介
+        content = self._clean(data.get("newsAbstract") or data.get("content") or "")
+        actor = self._clean(data.get("actor") or "")
+        director = self._clean(data.get("director") or "")
+        score = str(data.get("score") or "")
+
+        # 剧集/线路：每集可能含多个清晰度（fileList），按清晰度拆成多条线路
+        vod_list = data.get("vodList") or []
+
+        # 收集所有出现过的清晰度 type，按数值降序（越清晰越靠前）
+        quality_types = set()
+        for v in vod_list:
+            if not isinstance(v, dict):
+                continue
+            for f in (v.get("fileList") or []):
+                if isinstance(f, dict) and f.get("playUrl"):
+                    quality_types.add(int(f.get("type") or 0))
+        # 稳定的清晰度顺序：已知的按 100<110<120<130，未知的排后
+        quality_order = sorted(quality_types, key=lambda t: (t not in QUALITY_ALIAS, -t))
+
+        # 每条线路：{线路名: [ "集名$playUrl", ... ]}
+        lines = {}
+        for qt in quality_order:
+            qname = QUALITY_ALIAS.get(qt, "线路%s" % qt)
+            eps = []
+            for v in vod_list:
+                if not isinstance(v, dict):
+                    continue
+                ep_name = self._clean(v.get("title")) or ("第%s集" % v.get("episode"))
+                play = ""
+                for f in (v.get("fileList") or []):
+                    if isinstance(f, dict) and int(f.get("type") or 0) == qt and f.get("playUrl"):
+                        play = f["playUrl"]
+                        break
+                # 该集缺失此清晰度时，用该集任意一个可用地址兜底，避免断集
+                if not play:
+                    allf = v.get("fileList") or []
+                    if allf and isinstance(allf[0], dict):
+                        play = allf[0].get("playUrl") or ""
+                if play:
+                    eps.append("%s$%s" % (ep_name, play))
+            if eps:
+                lines[qname] = eps
+
+        # 兜底：极端情况下用原有单线路
+        if not lines:
+            eps = []
+            for v in vod_list:
+                if not isinstance(v, dict):
+                    continue
+                fl = v.get("fileList") or []
+                if fl and isinstance(fl[0], dict) and fl[0].get("playUrl"):
+                    ep_name = self._clean(v.get("title")) or ("第%s集" % v.get("episode"))
+                    eps.append("%s$%s" % (ep_name, fl[0]["playUrl"]))
+            if eps:
+                lines["华数TV"] = eps
+
+        if not lines:
+            return {"list": []}
+
+        play_from = "$$$".join(lines.keys())
+        play_url = "$$$".join("#".join(eps) for eps in lines.values())
+
+        # 简介加来源前缀（与需求一致）
+        remarks = self._clean(data.get("subTitle")) or data.get("newsTypeStr") or ""
+        vod_content = INTRO_PREFIX
+        if content:
+            vod_content = INTRO_PREFIX + "\n" + content
+
+        return {"list": [{
+            "vod_id": vod_id,
+            "vod_name": title,
+            "vod_pic": pic,
+            "vod_content": vod_content,
+            "vod_actor": actor,
+            "vod_director": director,
+            "vod_score": score,
+            "vod_year": str(data.get("yearTag") or ""),
+            "vod_area": self._clean(data.get("countryTag") or ""),
+            "vod_remarks": remarks,
+            "vod_play_from": play_from,
+            "vod_play_url": play_url,
+        }]}
+
+    # ---------------- 播放（getPlayUrl + 签名） ----------------
+    def playerContent(self, flag, id, vipFlags):
+        # id 为详情里的 fileList[].playUrl（形如 .../xxx.mp4）
+        play_id = id
+        if not play_id:
+            return {"parse": 1, "playUrl": "", "url": "", "header": {}}
+
+        # 命中缓存
+        now = int(time.time())
+        if play_id in self._play_cache:
+            ts, res = self._play_cache[play_id]
+            if now - ts < 1800:
+                return res
+
+        # mp4 -> playlist.m3u8（与前端 rt() 逻辑一致）
+        m3u8_in = play_id
+        base = play_id.split("?")[0]
+        if base.endswith(".mp4"):
+            m3u8_in = base[:-4] + "/playlist.m3u8"
+        elif ".m3u8" not in base:
+            m3u8_in = base.rstrip("/") + "/playlist.m3u8"
+
+        body = {"playUrl": m3u8_in, "platform": PLATFORM}
+        d = self._post_play(body)
+        real_url = ""
+        if d and d.get("code") == 200 and isinstance(d.get("data"), dict):
+            real_url = d["data"].get("playUrl") or ""
+
+        if real_url:
+            res = {
+                "parse": 0,
+                "playUrl": "",
+                "url": real_url,
+                "header": {
+                    "User-Agent": UA,
+                    "Referer": "https://www.wasu.cn/",
+                },
+            }
+            self._play_cache[play_id] = (now, res)
+            self.log("play OK -> %s" % real_url[:120])
+            return res
+
+        # 兜底：直接把原始地址交给 TVBox（可能因缺 auth_key 失败）
+        self.log("play 换 auth_key 失败, 兜底返回原地址")
+        res = {
+            "parse": 0,
+            "playUrl": "",
+            "url": play_id,
+            "header": {"User-Agent": UA, "Referer": "https://www.wasu.cn/"},
+        }
+        self._play_cache[play_id] = (now, res)
+        return res
+
+    # ---------------- 其他 ----------------
+    def isVideoFormat(self, url):
+        return bool(url and (".m3u8" in url or ".mp4" in url))
+
+    def manualVideoCheck(self):
+        return False
+
+    def localProxy(self, param):
+        return [200, "text/plain", "", ""]
+
+    def destroy(self):
         pass
 
-    def homeContent(self, filter):
-        result = {}
-        result = {"class": [{"type_id": "961", "type_name": "电影"},
-                            {"type_id": "962", "type_name": "剧集"},
-                            {"type_id": "963", "type_name": "少儿"},
-                            {"type_id": "965", "type_name": "栏目"},
-                            {"type_id": "966", "type_name": "新闻"}],
-                  "list": [],
-                  "filters": {"961": [{"key": "地区",
-                                      "name": "地区",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "内地", "v": "内地"},
-                                                {"n": "港台", "v": "港台"},
-                                                {"n": "欧美", "v": "欧美"},
-                                                {"n": "日韩", "v": "日韩"},
-                                                {"n": "泰国", "v": "泰国"},
-                                                {"n": "其他", "v": "其他"}]},
-                                      {"key": "类型",
-                                      "name": "类型",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "动作", "v": "动作"},
-                                                {"n": "科幻", "v": "科幻"},
-                                                {"n": "惊悚", "v": "惊悚"},
-                                                {"n": "冒险", "v": "冒险"},
-                                                {"n": "剧情", "v": "剧情"},
-                                                {"n": "励志", "v": "励志"},
-                                                {"n": "爱情", "v": "爱情"},
-                                                {"n": "喜剧", "v": "喜剧"},
-                                                {"n": "家庭", "v": "家庭"},
-                                                {"n": "历史", "v": "历史"},
-                                                {"n": "魔幻", "v": "魔幻"},
-                                                {"n": "恐怖", "v": "恐怖"},
-                                                {"n": "战争", "v": "战争"},
-                                                {"n": "武侠", "v": "武侠"}]},
-                                      {"key": "年代",
-                                      "name": "年代",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "2025", "v": "2025"},
-                                                {"n": "2024", "v": "2024"},
-                                                {"n": "2023", "v": "2023"},
-                                                {"n": "2022", "v": "2022"},
-                                                {"n": "2021", "v": "2021"},
-                                                {"n": "2020", "v": "2020"},
-                                                {"n": "2019", "v": "2019"},
-                                                {"n": "2018", "v": "2018"},
-                                                {"n": "2017", "v": "2017"},
-                                                {"n": "2016", "v": "2016"},
-                                                {"n": "2015", "v": "2015"},
-                                                {"n": "2014", "v": "2014"},
-                                                {"n": "2013", "v": "2013"},
-                                                {"n": "2012", "v": "2012"},
-                                                {"n": "2011", "v": "2011"},
-                                                {"n": "2010", "v": "2010"}]}],
-                              "962": [{"key": "地区",
-                                      "name": "地区",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "内地", "v": "内地"},
-                                                {"n": "港台", "v": "港台"},
-                                                {"n": "日韩", "v": "日韩"},
-                                                {"n": "欧美", "v": "欧美"},
-                                                {"n": "泰国", "v": "泰国"},
-                                                {"n": "其他", "v": "其他"}]},
-                                      {"key": "类型",
-                                      "name": "类型",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "都市", "v": "都市"},
-                                                {"n": "爱情", "v": "爱情"},
-                                                {"n": "战争", "v": "战争"},
-                                                {"n": "家庭", "v": "家庭"},
-                                                {"n": "悬疑", "v": "悬疑"},
-                                                {"n": "古装", "v": "古装"},
-                                                {"n": "短剧", "v": "短剧"},
-                                                {"n": "谍战", "v": "谍战"},
-                                                {"n": "喜剧", "v": "喜剧"},
-                                                {"n": "农村", "v": "农村"},
-                                                {"n": "刑侦", "v": "刑侦"},
-                                                {"n": "武侠", "v": "武侠"},
-                                                {"n": "历史", "v": "历史"}]},
-                                      {"key": "年代",
-                                      "name": "年代",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "2025", "v": "2025"},
-                                                {"n": "2024", "v": "2024"},
-                                                {"n": "2023", "v": "2023"},
-                                                {"n": "2022", "v": "2022"},
-                                                {"n": "2021", "v": "2021"},
-                                                {"n": "2020", "v": "2020"},
-                                                {"n": "2019", "v": "2019"},
-                                                {"n": "2018", "v": "2018"},
-                                                {"n": "2017", "v": "2017"},
-                                                {"n": "2016", "v": "2016"},
-                                                {"n": "2015", "v": "2015"},
-                                                {"n": "2014", "v": "2014"},
-                                                {"n": "2013", "v": "2013"},
-                                                {"n": "2012", "v": "2012"},
-                                                {"n": "2011", "v": "2011"},
-                                                {"n": "2010", "v": "2010"}]}],
-                              "963": [{"key": "地区",
-                                      "name": "地区",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "内地", "v": "内地"},
-                                                {"n": "日韩", "v": "日韩"},
-                                                {"n": "欧美", "v": "欧美"},
-                                                {"n": "港台", "v": "港台"},
-                                                {"n": "其他", "v": "其他"}]},
-                                      {"key": "类型",
-                                      "name": "类型",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "动作", "v": "动作"},
-                                                {"n": "冒险", "v": "冒险"},
-                                                {"n": "益智", "v": "益智"},
-                                                {"n": "亲子", "v": "亲子"},
-                                                {"n": "热血", "v": "热血"},
-                                                {"n": "剧情", "v": "剧情"},
-                                                {"n": "魔幻", "v": "魔幻"},
-                                                {"n": "励志", "v": "励志"},
-                                                {"n": "机战", "v": "机战"},
-                                                {"n": "搞笑", "v": "搞笑"},
-                                                {"n": "科幻", "v": "科幻"},
-                                                {"n": "治愈", "v": "治愈"},
-                                                {"n": "儿歌", "v": "儿歌"},
-                                                {"n": "教育", "v": "教育"},
-                                                {"n": "校园", "v": "校园"},
-                                                {"n": "童话", "v": "童话"},
-                                                {"n": "推理", "v": "推理"},
-                                                {"n": "怀旧", "v": "怀旧"},
-                                                {"n": "宠物", "v": "宠物"},
-                                                {"n": "舞蹈", "v": "舞蹈"}]},
-                                      {"key": "年代",
-                                      "name": "年代",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "2025", "v": "2025"},
-                                                {"n": "2024", "v": "2024"},
-                                                {"n": "2023", "v": "2023"},
-                                                {"n": "2022", "v": "2022"},
-                                                {"n": "2021", "v": "2021"},
-                                                {"n": "2020", "v": "2020"},
-                                                {"n": "2019", "v": "2019"},
-                                                {"n": "2018", "v": "2018"},
-                                                {"n": "2017", "v": "2017"},
-                                                {"n": "2016", "v": "2016"},
-                                                {"n": "2015", "v": "2015"},
-                                                {"n": "2014", "v": "2014"},
-                                                {"n": "2013", "v": "2013"},
-                                                {"n": "2012", "v": "2012"},
-                                                {"n": "2011", "v": "2011"},
-                                                {"n": "2010", "v": "2010"}]}],
-                              "965": [{"key": "地区",
-                                      "name": "地区",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "内地", "v": "内地"},
-                                                {"n": "欧美", "v": "欧美"}]},
-                                      {"key": "类型",
-                                      "name": "类型",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "文化", "v": "文化"},
-                                                {"n": "纪实", "v": "纪实"},
-                                                {"n": "访谈", "v": "访谈"},
-                                                {"n": "历史", "v": "历史"},
-                                                {"n": "美食", "v": "美食"},
-                                                {"n": "旅游", "v": "旅游"},
-                                                {"n": "时尚", "v": "时尚"},
-                                                {"n": "情感", "v": "情感"},
-                                                {"n": "生活", "v": "生活"},
-                                                {"n": "真人秀", "v": "真人秀"}]},
-                                      {"key": "年代",
-                                      "name": "年代",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "2025", "v": "2025"},
-                                                {"n": "2024", "v": "2024"},
-                                                {"n": "2023", "v": "2023"},
-                                                {"n": "2022", "v": "2022"},
-                                                {"n": "2021", "v": "2021"},
-                                                {"n": "2020", "v": "2020"},
-                                                {"n": "2019", "v": "2019"},
-                                                {"n": "2018", "v": "2018"},
-                                                {"n": "2017", "v": "2017"},
-                                                {"n": "2016", "v": "2016"},
-                                                {"n": "2015", "v": "2015"},
-                                                {"n": "2014", "v": "2014"},
-                                                {"n": "2013", "v": "2013"},
-                                                {"n": "2012", "v": "2012"},
-                                                {"n": "2011", "v": "2011"},
-                                                {"n": "2010", "v": "2010"}]}],
-                              "966": [{"key": "类型",
-                                      "name": "类型",
-                                      "value": [{"n": "全部", "v": ""},
-                                                {"n": "国内视野", "v": "国内视野"},
-                                                {"n": "国际纵览", "v": "国际纵览"},
-                                                {"n": "军事话题", "v": "军事话题"},
-                                                {"n": "社会百态", "v": "社会百态"},
-                                                {"n": "央视频", "v": "央视频"}]}]}}
-        return result
-
-    def generate_x_sign(self, secret_b64):
-        secret_key = self.decode_secret_key(secret_b64)
-        data = self.get_data_string()
-        signature = self.compute_signature(secret_key, data)
-        x_sign = self.encode_signature(signature)
-        return x_sign
-
-    def decode_secret_key(self, secret_b64):
-        return base64.b64decode(secret_b64)
-
-    def get_data_string(self):
-        return "{}"
-
-    def compute_signature(self, secret_key, data):
-        return hmac.new(secret_key, data.encode('utf-8'), hashlib.sha256).digest()
-
-    def encode_signature(self, signature):
-        return base64.b64encode(signature).decode('utf-8')
-
-    def get_current_app_key(self, xurl, headerx):
-        resp = self.fetch_index_page(xurl, headerx)
-        js_path = self.extract_js_path(resp.text)
-        js_url = f"{xurl}{js_path}"
-        js_content = self.fetch_js_content(js_url, headerx)
-        target_key_b64 = self.extract_target_key(js_content)
-        return target_key_b64
-
-    def fetch_index_page(self, xurl, headerx):
-        resp = requests.get(xurl, headers=headerx)
-        resp.raise_for_status()
-        return resp
-
-    def extract_js_path(self, html_content):
-        js_path_pattern = r'src="(/[\d\.]+/assets/js/index-[\w\.-]+\.js)"'
-        match = re.search(js_path_pattern, html_content)
-        return match.group(1)
-
-    def fetch_js_content(self, js_url, headerx):
-        js_resp = requests.get(js_url, headers=headerx)
-        js_resp.raise_for_status()
-        return js_resp.text
-
-    def extract_target_key(self, js_content):
-        key_pattern = r'const \w+="([^"]+)",\w+="([^"]+)",\w+="([^"]+)";'
-        key_match = re.search(key_pattern, js_content)
-        return key_match.group(2)
-
-    def get_headers(self, sign1, xurl):
-        return {
-            'accept': 'application/json, text/plain, */*',
-            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
-            'cache-control': 'no-cache',
-            'launchchannel': 'web_channel',
-            'origin': xurl,
-            'pragma': 'no-cache',
-            'priority': 'u=1, i',
-            'referer': xurl,
-            'sec-ch-ua': '"Microsoft Edge";v="143", "Chromium";v="143", "Not A(Brand";v="24"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'cross-site',
-            'siteid': '1000101',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0',
-            'x-sign': sign1,
-                 }
-
-    def categoryContent(self, cid, pg, filter, ext):
-        secret_b64 = self.get_current_app_key(xurl, headerx)
-        sign1 = self.generate_x_sign(secret_b64)
-        page = self.get_page_number(pg)
-        NdType, DqType, LxType = self.extract_filter_types(ext)
-        headers = self.get_headers(sign1, xurl)
-        params = self.build_category_params(cid, page, NdType, DqType, LxType)
-        data = self.fetch_category_data(params, headers)
-        videos = self.parse_category_videos(data)
-        return self.build_category_result(videos, pg)
-
-    def get_page_number(self, pg):
-        return int(pg) if pg else 1
-
-    def extract_filter_types(self, ext):
-        NdType = ext.get('年代', '全部')
-        DqType = ext.get('地区', '全部')
-        LxType = ext.get('类型', '全部')
-        return NdType, DqType, LxType
-
-    def build_category_params(self, cid, page, NdType, DqType, LxType):
-        return {'functionName': 'getNewsSearchedByCondition','nodeId': cid,'nodeTag': LxType,'yearTag': NdType,'countryTag': DqType,'orderType': '0','pageSize': '40','page': page,'keyword': '','siteId': '1000101',}
-
-    def fetch_category_data(self, params, headers):
-        detail = requests.get('https://ups.5g.wasu.tv/rmp-user-suggest/1000101/hzhs/searchServlet', params=params,headers=headers)
-        detail.encoding = "utf-8"
-        return detail.json()
-
-    def parse_category_videos(self, data):
-        videos = []
-        for vod in data['data']:
-            videos.append(self.parse_category_video(vod))
-        return videos
-
-    def parse_category_video(self, vod):
-        return {"vod_id": f"{vod['nodeId']}@{vod['newsId']}","vod_name": vod['title'],"vod_pic": vod['hPic'],"vod_year": vod.get('pubTime', '暂无日期'),"vod_remarks": vod.get('episodeDesc', '暂无备注')}
-
-    def build_category_result(self, videos, pg):
-        result = {'list': videos}
-        result['page'] = pg
-        result['pagecount'] = 9999
-        result['limit'] = 90
-        result['total'] = 999999
-        return result
-
-    def detailContent(self, ids):
-        did = ids[0]
-        secret_b64 = self.get_current_app_key(xurl, headerx)
-        sign1 = self.generate_x_sign(secret_b64)
-        fenge = did.split("@")
-        headers = self.get_headers(sign1, xurl)
-        params = self.build_detail_params(fenge)
-        data = self.fetch_detail_data(params, headers)
-        content = self.build_content(data)
-        director = self.extract_detail_field(data, 'director')
-        actor = self.extract_detail_field(data, 'actor')
-        remarks = self.extract_detail_field(data, 'episodeDesc')
-        year = self.extract_detail_field(data, 'pubTime')
-        area = self.extract_detail_field(data, 'countryTag')
-        bofang = self.build_play_url(data)
-        videos = [self.build_video_data(did, director, actor, remarks, year, area, content, bofang)]
-        return self.build_result(videos)
-
-    def build_detail_params(self, fenge):
-        return {'siteId': '1000101', 'functionName': 'getCurrentNews', 'nodeId': fenge[0], 'newsId': fenge[1],'platform': 'web',}
-
-    def fetch_detail_data(self, params, headers):
-        detail = requests.get('https://mcspapp.5g.wasu.tv/bvradio_app/hzhs/newsServlet', params=params, headers=headers)
-        detail.encoding = "utf-8"
-        return detail.json()
-
-    def build_content(self, data):
-        return '介绍剧情📢' + data.get('data', {}).get('newsAbstract', '')
-
-    def extract_detail_field(self, data, field_name):
-        return data.get('data', {}).get(field_name, '')
-
-    def build_play_url(self, data):
-        bofang = ''
-        for vod in data['data']['vodList']:
-            name = vod['title']
-            if len(vod['fileList']) > 1:
-                id = vod['fileList'][1]['playUrl']
-            else:
-                id = vod['fileList'][0]['playUrl']
-            bofang += name + '$' + id + '#'
-        return bofang[:-1]
-
-    def build_video_data(self, did, director, actor, remarks, year, area, content, bofang):
-        return {"vod_id": did, "vod_director": director, "vod_actor": actor, "vod_remarks": remarks, "vod_year": year, "vod_area": area, "vod_content": content, "vod_play_from": "华数专线", "vod_play_url": bofang}
-
-    def build_result(self, videos):
-        result = {}
-        result['list'] = videos
-        return result
-
-    def get_x_sign_for_post(self, secret_b64, playUrl):
-        secret_key = self.decode_secret_key(secret_b64)
-        payload_dict = self.build_payload_dict(playUrl)
-        data_string = self.serialize_payload(payload_dict)
-        signature = self.compute_hmac_signature(secret_key, data_string)
-        x_sign = self.encode_signature(signature)
-        return x_sign
-
-    def decode_secret_key(self, secret_b64):
-        return base64.b64decode(secret_b64)
-
-    def build_payload_dict(self, playUrl):
-        return {"playUrl": playUrl, "platform": "web"}
-
-    def serialize_payload(self, payload_dict):
-        return json.dumps(payload_dict, separators=(',', ':'), ensure_ascii=False)
-
-    def compute_hmac_signature(self, secret_key, data_string):
-        return hmac.new(secret_key, data_string.encode('utf-8'), hashlib.sha256).digest()
-
-    def encode_signature(self, signature):
-        return base64.b64encode(signature).decode('utf-8')
-
-    def playerContent(self, flag, id, vipFlags):
-        secret_b64 = self.get_current_app_key(xurl, headerx)
-        id = self.normalize_play_url(id)
-        sign2 = self.get_x_sign_for_post(secret_b64, id)
-        headers = self.get_headers(sign2, xurl)
-        json_data = self.build_request_json(id)
-        result = self.post_play_url_request(headers, json_data)
-        play_url = result['data']['playUrl']
-        return self.build_player_result(play_url)
-
-    def normalize_play_url(self, id):
-        return id.replace('.mp4', '/playlist.m3u8')
-
-    def build_request_json(self, playUrl):
-        return {'playUrl': playUrl, 'platform': 'web', }
-
-    def post_play_url_request(self, headers, json_data):
-        response = requests.post('https://mcspapp.5g.wasu.tv/thirdApiFile/file/getPlayUrl', headers=headers, json=json_data)
-        return response.json()
-
-    def build_player_result(self, play_url):
-        result = {}
-        result["parse"] = 0
-        result["playUrl"] = ''
-        result["url"] = play_url
-        result["header"] = headerz
-        return result
-
-    def searchContentPage(self, key, quick, pg):
-        page = self.get_page_number(pg)
-        secret_b64 = self.get_current_app_key(xurl, headerx)
-        sign1 = self.generate_x_sign(secret_b64)
-        headers = self.get_headers(sign1, xurl)
-        params = self.build_search_params(key, page)
-        data = self.fetch_search_data(params, headers)
-        videos = self.parse_search_videos(data)
-        return self.build_search_result(videos, pg)
-
-    def get_page_number(self, pg):
-        return int(pg) if pg else 1
-
-    def build_search_params(self, key, page):
-        return {'functionName': 'getNewsSearched', 'searchNewsType': '3,4,5', 'keyword': key, 'pageSize': 10, 'page': page, 'siteId': 1000101}
-
-    def fetch_search_data(self, params, headers):
-        detail = requests.get("https://ups.5g.wasu.tv/rmp-user-suggest/1000101/hzhs/searchServlet", params=params, headers=headers)
-        detail.encoding = "utf-8"
-        return detail.json()
-
-    def parse_search_videos(self, data):
-        videos = []
-        for vod in data['data']:
-            videos.append(self.parse_search_video(vod))
-        return videos
-
-    def parse_search_video(self, vod):
-        return {"vod_id": f"{vod['nodeId']}@{vod['newsId']}", "vod_name": vod['title'], "vod_pic": vod['hPic'], "vod_year": vod.get('pubTime', '暂无日期'), "vod_remarks": vod.get('episodeDesc', '暂无备注')}
-
-    def build_search_result(self, videos, pg):
-        result = {'list': videos}
-        result['page'] = pg
-        result['pagecount'] = 9999
-        result['limit'] = 90
-        result['total'] = 999999
-        return result
-
-    def searchContent(self, key, quick, pg="1"):
-        return self.searchContentPage(key, quick, '1')
-
-    def localProxy(self, params):
-        if params['type'] == "m3u8":
-            return self.proxyM3u8(params)
-        elif params['type'] == "media":
-            return self.proxyMedia(params)
-        elif params['type'] == "ts":
-            return self.proxyTs(params)
-        return None
+    def close(self):
+        self.destroy()
 
 
-
-
-
-
-
-
-
-
+# ===================== 独立自测 =====================
+if __name__ == "__main__":
+    sp = Spider()
+    sp.init()
+    print("=== homeContent ===")
+    hc = sp.homeContent()
+    print(json.dumps(hc["class"], ensure_ascii=False))
+    print("=== categoryContent 电影(1036) ===")
+    cc = sp.categoryContent("1036", "1", False, {})
+    print("条数:", len(cc["list"]))
+    for v in cc["list"][:3]:
+        print("  ", v["vod_name"], "|", v["vod_id"], "|", v["vod_pic"][:60])
+    print("=== searchContent 哆啦A梦 ===")
+    sc = sp.searchContent("哆啦A梦", False, "1")
+    print("条数:", len(sc["list"]))
+    for v in sc["list"][:3]:
+        print("  ", v["vod_name"], "|", v["vod_id"])
+    if cc["list"]:
+        vid = cc["list"][0]["vod_id"]
+        print("=== detailContent", vid, "===")
+        dc = sp.detailContent([vid])
+        if dc["list"]:
+            d = dc["list"][0]
+            print("  名称:", d["vod_name"])
+            print("  简介:", d["vod_content"][:80])
+            froms = d["vod_play_from"].split("$$$")
+            urls = d["vod_play_url"].split("$$$")
+            print("  线路:", froms)
+            for i, fn in enumerate(froms):
+                eps = urls[i].split("#")
+                print("    [%s] 集数=%d 首集=%s" % (fn, len(eps), eps[0].split("$")[0]))
+            # 播放最高清线路的第1集
+            first = urls[0].split("#")[0].split("$", 1)[-1]
+            print("=== playerContent (线路=%s) ===" % froms[0])
+            pc = sp.playerContent(froms[0], first, {})
+            print("  url:", pc.get("url", "")[:150])
