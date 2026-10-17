@@ -1,5 +1,17 @@
 {
- "sites": [
+ "sites":[
+  {
+   "key": "py_yangshipin",
+   "name": "cctv",
+   "type": 3,
+   "api": "./py/yangshipin.py"
+  },
+  {
+   "key": "py_lychee",
+   "name": "广东荔枝",
+   "type": 3,
+   "api": "./py/广东荔枝.py"
+  },
   {
    "key": "上海看看",
    "name": "上海看看",
@@ -59,6 +71,18 @@
     "cookie": "",
     "json": "./lib/youtube.json"
    }
+  }
+ ],
+ "lives":[
+  {
+   "api": "./py/yangshipin.py",
+   "ext": {},
+   "name": "央视频"
+  },
+  {
+   "api": "./py/广东荔枝.py",
+   "ext": {},
+   "name": "广东荔枝"
   }
  ],
  "spider": "./jar/yt.jar",

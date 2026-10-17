@@ -362,7 +362,7 @@ class Spider(Spider):
         result['total'] = 999999
         return result
 
-    def searchContent(self, key, quick, pg="1"):
+    def _searchContent_raw(self, key, quick, pg="1"):
         return self.searchContentPage(key, quick, '1')
 
     def localProxy(self, params):
@@ -373,6 +373,27 @@ class Spider(Spider):
         elif params['type'] == "ts":
             return self.proxyTs(params)
         return None
+
+    def searchContent(self, key, quick, pg="1"):
+        data = self._searchContent_raw(key, quick, pg)
+        return self._normalize_page(data, pg)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data
 
 
 

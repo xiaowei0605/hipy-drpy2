@@ -146,7 +146,7 @@ class Spider(Spider):
             if lst: return {"page": 1, "pagecount": 1, "limit": 24, "total": len(lst), "list": lst}
         return {"page": 1, "pagecount": 1, "limit": 24, "total": len(lst), "list": lst}
 
-    def searchContent(self, key, quick, pg="1"):
+    def _searchContent_raw(self, key, quick, pg="1"):
         pg = str(pg or "1")
         if str(pg) != "1": return {"list": [], "page": int(pg)}
         name = str(key or "").strip()
@@ -217,3 +217,24 @@ class Spider(Spider):
             if val and not val.startswith("#"): url = self._fix(val.split("$")[0]); break
         if not url: return {"parse": 1, "url": pid, "header": {"User-Agent": self.headers["User-Agent"], "Referer": self._referer(pid)}}
         return {"parse": 0, "url": url, "header": {"User-Agent": self.headers["User-Agent"], "Referer": self._referer(url)}}
+
+    def searchContent(self, key, quick, pg="1"):
+        data = self._searchContent_raw(key, quick, pg)
+        return self._normalize_page(data, pg)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data

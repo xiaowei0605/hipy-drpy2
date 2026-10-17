@@ -387,7 +387,7 @@ class Spider(Spider):
             print(e)
             return {'list': d, 'parse': 0, 'jx': 0}
 
-    def categoryContent(self, cid, page, filter, ext):
+    def _categoryContent_raw(self, cid, page, filter, ext):
         _class = ext.get('class', '0')  # 剧情/类型
         _area = ext.get('area', '0')  # 地区
         _year = ext.get('year', '0')  # 年份
@@ -477,7 +477,7 @@ class Spider(Spider):
             print(f"Error in detailContent: {e}")
             return {'list': [], 'msg': str(e)}
 
-    def searchContent(self, key, quick, page='1'):
+    def _searchContent_raw(self, key, quick, page='1'):
         if str(page) != '1':
             return {'list': [], 'parse': 0, 'jx': 0}
         url = f'{self.home_url}/video/refresh-video?page_num=1&sorttype=desc&page_size=28&tvNum=7&sort=new&keyword={key}'
@@ -531,6 +531,31 @@ class Spider(Spider):
     def get_data(self):
         url = self.home_url + 'https://aigua1.com/video/refresh-cate?page_num=1&sorttype=desc&channel_id=0&tag=0&area=0&year=0&page_size=28&sort=new'
         pass
+
+    def searchContent(self, key, quick, page="1"):
+        data = self._searchContent_raw(key, quick, page)
+        return self._normalize_page(data, page)
+
+    def categoryContent(self, tid, page, filter, extend):
+        data = self._categoryContent_raw(tid, page, filter, extend)
+        return self._normalize_page(data, page)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data
 
 if __name__ == '__main__':
     pass

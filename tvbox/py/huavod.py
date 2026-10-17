@@ -235,7 +235,7 @@ class Spider(Spider):
             return self._parse_list(html)
         return results
 
-    def searchContent(self, key, quick, pg="1"):
+    def _searchContent_raw(self, key, quick, pg="1"):
         name = str(key or "").strip()
         if not name:
             return {"list": [], "page": 1, "pagecount": 1}
@@ -497,3 +497,24 @@ class Spider(Spider):
         except Exception:
             pass
         return None
+
+    def searchContent(self, key, quick, pg="1"):
+        data = self._searchContent_raw(key, quick, pg)
+        return self._normalize_page(data, pg)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data

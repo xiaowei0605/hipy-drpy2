@@ -2,8 +2,6 @@ https://iptv.yang-1989.xyz/playlist.m3u
 
 https://iptv-org.github.io/iptv/index.m3u
 
-https://raw.githubusercontent.com/YueChan/Live/main/Global.m3u
-
 https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u
 
 https://raw.githubusercontent.com/hujingguang/ChinaIPTV/main/cnTV_AutoUpdate.m3u8

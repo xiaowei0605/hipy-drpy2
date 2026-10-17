@@ -56,7 +56,7 @@ class Spider(Spider):
         a = self.get_data(self.home_url)
         return {'list': a, 'parse': 0, 'jx': 0}
 
-    def categoryContent(self, cid, page, filter, ext):
+    def _categoryContent_raw(self, cid, page, filter, ext):
         url = self.home_url + f'/vod/show/id/{cid}/page/{page}'
         data = self.get_data(url)
         return {'list': data, 'parse': 0, 'jx': 0}
@@ -67,7 +67,7 @@ class Spider(Spider):
         data = self.get_detail_data(ids)
         return {"list": data, 'parse': 0, 'jx': 0}
 
-    def searchContent(self, key, quick, page='1'):
+    def _searchContent_raw(self, key, quick, page='1'):
         if int(page) > 1:
             return {'list': [], 'parse': 0, 'jx': 0}
         url = self.home_url + f'/vod/search/{key}'
@@ -96,19 +96,18 @@ class Spider(Spider):
             vod_pic_s = re.findall(r'\\"vodPic\\":\\"(.*?)\\"', res.text)
             vod_remarks_s = re.findall(r'\\"vodRemarks\\":\\"(.*?)\\"', res.text)
 
-            for i in range(len(vod_id_s)):
+            for i, vod_id in enumerate(vod_id_s):
                 data.append(
                     {
-                        'vod_id': vod_id_s[i],
-                        'vod_name': vod_name_s[i],
-                        'vod_pic': vod_pic_s[i],
-                        'vod_remarks': vod_remarks_s[i],
+                        'vod_id': vod_id,
+                        'vod_name': vod_name_s[i] if i < len(vod_name_s) else '',
+                        'vod_pic': vod_pic_s[i] if i < len(vod_pic_s) else '',
+                        'vod_remarks': vod_remarks_s[i] if i < len(vod_remarks_s) else '',
                     }
                 )
         except requests.RequestException as e:
             print(e)
         return data
-
     def get_detail_data(self, ids):
         url = self.home_url + f'/api/mw-movie/anonymous/video/detail?id={ids}'
         t = str(int(time.time() * 1000))
@@ -172,9 +171,33 @@ class Spider(Spider):
         }
         return headers
 
+    def searchContent(self, key, quick, page="1"):
+        data = self._searchContent_raw(key, quick, page)
+        return self._normalize_page(data, page)
+
+    def categoryContent(self, tid, page, filter, extend):
+        data = self._categoryContent_raw(tid, page, filter, extend)
+        return self._normalize_page(data, page)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data
+
 if __name__ == '__main__':
     pass
-
 
 
 

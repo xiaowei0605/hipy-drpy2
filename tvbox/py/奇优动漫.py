@@ -73,7 +73,7 @@ class Spider(Spider):
         except:
             return {'list': []}
     
-    def categoryContent(self, tid, pg, filter, extend):
+    def _categoryContent_raw(self, tid, pg, filter, extend):
         result = {}
         try:
             order = extend.get('by', 'time') if extend else 'time'
@@ -181,7 +181,7 @@ class Spider(Spider):
         except:
             return {'list': []}
     
-    def searchContent(self, key, quick, page='1'):
+    def _searchContent_raw(self, key, quick, page='1'):
         try:
             url = "http://qiyoudy5.com/search.php"
             # 修复：使用正确的参数名和变量
@@ -377,3 +377,28 @@ class Spider(Spider):
 
     def localProxy(self, param):
         return {}
+
+    def searchContent(self, key, quick, page="1"):
+        data = self._searchContent_raw(key, quick, page)
+        return self._normalize_page(data, page)
+
+    def categoryContent(self, tid, pg, filter, extend):
+        data = self._categoryContent_raw(tid, pg, filter, extend)
+        return self._normalize_page(data, pg)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data

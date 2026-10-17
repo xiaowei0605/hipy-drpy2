@@ -15,10 +15,44 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from logging.handlers import RotatingFileHandler
 
+# ============================================================================
+# 路径解析(修复回归): C2 曾把所有路径锚定到脚本所在目录，但两种部署布局下
+# 脚本位置不同，拼接结果不同:
+#   布局A(本工作区): <根>/get_iptv.py          -> 配置/输出期望在 <根>/py/config 与 <根>/lib
+#   布局B(tvbox CI): <根>/py/get_iptv.py       -> 期望仍在 <根>/py/config 与 <根>/lib
+# C2 的 BASE_DIR=dirname(__file__) 在布局B下等于 <根>/py，再拼 "py/config"
+# 产生 <根>/py/py/config(错误，即 CI 日志中的重复 py/py 段)。
+# 修复: 自动探测候选目录，取第一个真实存在者；都不存在时回退布局A基准。
+# ============================================================================
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def _resolve_first_dir(candidates, fallback):
+    """返回第一个真实存在的候选目录；都不存在时返回 fallback(便于日志定位)。"""
+    for c in candidates:
+        if os.path.isdir(c):
+            return c
+    return fallback
+
+CONFIG_DIR = _resolve_first_dir(
+    (
+        os.path.join(_SCRIPT_DIR, "py", "config"),          # 布局A/B 共用
+        os.path.join(_SCRIPT_DIR, "config"),                # 布局C: 配置与脚本同目录
+    ),
+    os.path.join(_SCRIPT_DIR, "py", "config"),
+)
+
+LIB_DIR = _resolve_first_dir(
+    (
+        os.path.join(_SCRIPT_DIR, "lib"),                   # 布局A: 输出在脚本根下
+        os.path.join(os.path.dirname(_SCRIPT_DIR), "lib"),  # 布局B: 输出在仓库根下
+    ),
+    os.path.join(_SCRIPT_DIR, "lib"),
+)
+
 # === 配置日志 ===
 def setup_logger():
     # 日志目录统一放 config 下，与源状态/报告同级，避免依赖"当前工作目录"
-    log_dir = "py/config/logs"
+    log_dir = os.path.join(CONFIG_DIR, "logs")
     # 确保日志目录存在
     os.makedirs(log_dir, exist_ok=True)
     
@@ -214,8 +248,8 @@ def fetch_channels(url):
 
     # 防护(伪源/空响应): 部分"直播源"实际只是占位文件(如 logo.png 返回空或极小内容)，
     # 内容量不足以承载任何频道。此类响应直接判定为无效源：
-    # - 不计入成功数/缓存(避免 source_state.json 被伪源撑大)
-    # - 不进入待匹配数据(避免每次都当作"快照抖动"回退或将空缓存写盘)
+    # - 不计入成功数
+    # - 不进入待匹配数据
     # 优化: 128B 仅作快速预筛(真正的判定在解析后按"频道数==0"进行)，
     # 避免把合法的小体积 txt 源(几个频道)误杀，也避免放行 1KB 的 HTML 错误页
     MIN_VALID_BODY_BYTES = 128
@@ -225,12 +259,13 @@ def fetch_channels(url):
         return channels
 
     # 修复(编码): 国内 IPTV 源大量使用 GBK/GB2312 编码，直接强制 utf-8 会导致乱码。
-    # 跳过缓慢的 chardet(apparent_encoding) 探测，改用 utf-8 优先、GBK 兜底的快速解码策略。
+    # 跳过缓慢的 chardet(apparent_encoding) 探测，改用 utf-8 优先、
+    # gb18030 兜底(GBK/GB2312 完整超集，覆盖全部生僻字/扩展区，几乎不再误丢字)。
     try:
         text_content = raw_bytes.decode('utf-8')
     except UnicodeDecodeError:
         try:
-            text_content = raw_bytes.decode('gbk')
+            text_content = raw_bytes.decode('gb18030')
         except UnicodeDecodeError:
             text_content = raw_bytes.decode('utf-8', errors='ignore')
 
@@ -290,44 +325,12 @@ def fetch_channels(url):
 
     # 真正的伪源判定(优化②): 解析完成后仍无任何频道 -> 该响应不承载有效数据
     # (如 1KB 的 HTML 错误页、只有头部注释的占位文件)，按无效源处理，
-    # 不计入成功数/缓存，避免污染 source_state.json 与待匹配数据
+    # 不计入成功数
     if not channels:
         logger.warning(f"源 {url} 解析后频道数为 0，判定为伪源/空源，忽略")
         return OrderedDict()
 
     return channels
-
-SOURCE_STATE_FILE = "py/config/source_state.json"
-# 连续失败达到该阈值才判定源"真正失效"；阈值内的失败视为瞬时网络抖动。
-# 跨境线路对同一源的抓取本身存在偶发超时/连接失败，如果把"这一次没抓到"
-# 直接当成"这条源已失效"处理，会导致每次生成结果里的线路数量/顺序反复
-# 来回变化，而源其实并未真正下线或替换。
-SOURCE_FAIL_THRESHOLD = 3
-# fail_streak 计数封顶: 达到阈值后失效源的计数不再无意义地无限增长(曾观察到 488 次)
-# 达到封顶值且判定为真正失效时，同时清空该源缓存的 channels，收缩 source_state.json 体积
-SOURCE_FAIL_STREAK_CAP = 30
-
-def load_source_state(path=SOURCE_STATE_FILE):
-    """加载各源 URL 的连续失败计数 + 最近一次成功抓取结果 (跨进程持久化)。"""
-    if not os.path.exists(path):
-        return {}
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as e:
-        logger.error(f"读取源状态文件失败，视为无历史状态重新计数: {e}")
-        return {}
-
-def save_source_state(state, path=SOURCE_STATE_FILE):
-    """原子写: 先写临时文件再 os.replace，避免并发/中断时写坏状态文件。"""
-    try:
-        ensure_dir(path)
-        tmp_path = path + ".tmp"
-        with open(tmp_path, "w", encoding="utf-8") as f:
-            json.dump(state, f, ensure_ascii=False)
-        os.replace(tmp_path, path)
-    except Exception as e:
-        logger.error(f"写入源状态文件失败: {e}")
 
 def fetch_all_channels(tv_urls, max_workers=5, overall_timeout=120):
     """
@@ -335,12 +338,6 @@ def fetch_all_channels(tv_urls, max_workers=5, overall_timeout=120):
     原先每个 process_iptv_task 都会各自抓取一遍相同的源，重复请求；
     抽出后可在主流程中"抓取一次、多任务复用"。
     返回聚合后的 all_channels (OrderedDict: 分类 -> [(name, url), ...])。
-
-    修复(线路来回跳变): 单次抓取失败不再直接当作该源真正失效——
-    连续失败次数 < SOURCE_FAIL_THRESHOLD 时，回退复用 source_state.json 中
-    该源上一次成功抓取的结果，使本次输出的线路数量/顺序保持稳定；
-    只有连续失败达到阈值，才判定为真正失效，不再回退，交由后续
-    match_channels 把它当作确实缺失来处理(可被清理/进入未匹配报告)。
 
     增强(整体超时): 单源有 (10, 30) 超时，但 N 个源并发仍可能被最慢的源
     拖到 N*30s。增加 overall_timeout 整体上限(默认120s)，超时后直接跳过
@@ -354,26 +351,28 @@ def fetch_all_channels(tv_urls, max_workers=5, overall_timeout=120):
     硬超时，实际最坏总时长仍在 Actions 15 分钟限制内。
     """
     all_channels = OrderedDict()
-    success_count = 0
-    fallback_count = 0   # 抓取失败但未达阈值，回退使用上次成功结果
-    dead_count = 0        # 抓取失败且判定为真正失效(达阈值，或从未成功过)
     timeout_count = 0     # 整体超时被强制跳过
+    success_count = 0     # 抓取且解析出频道 -> 真正成功
+    invalid_count = 0     # 伪源/空源/异常(解析结果为空) -> 不计入成功
 
-    state = load_source_state()
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    # 修复(C3): 旧实现用 with ThreadPoolExecutor(...)，其 __exit__ 等价于
+    # shutdown(wait=True)，整体超时后正在抓取的线程仍会被 join，主流程实际
+    # 最长在 overall_timeout 之后再阻塞约 90s(3 次连接重试×10s + 2 次读重试×30s)。
+    # 改为显式实例 + 超时分支 shutdown(wait=False, cancel_futures=True)，
+    # 立即返回已抓结果；未完成线程失去引用后随进程退出终止，不泄漏资源。
+    executor = ThreadPoolExecutor(max_workers=max_workers)
+    try:
         future_to_url = {executor.submit(fetch_channels, url): url for url in tv_urls}
         deadline = time.monotonic() + overall_timeout
         try:
             for future in as_completed(future_to_url, timeout=overall_timeout):
                 url = future_to_url[future]
-                entry = state.get(url, {"fail_streak": 0, "channels": {}})
 
                 try:
                     # 剩余时间不足时抛 TimeoutError，由外层 as_completed 继续
                     data = future.result(timeout=max(0.0, deadline - time.monotonic()))
                 except FuturesTimeoutError:
-                    # 未在整体时限内完成: 跳过，不再等待(资源由 executor 关闭时回收)
+                    # 未在整体时限内完成: 跳过，不再等待
                     timeout_count += 1
                     logger.warning(f"源 {url} 超过整体时限({overall_timeout}s)，跳过")
                     continue
@@ -382,46 +381,24 @@ def fetch_all_channels(tv_urls, max_workers=5, overall_timeout=120):
                     logger.error(f"源 {url} 异常: {e}")
 
                 if data:
-                    # 抓取成功: 清零连续失败计数，缓存本次结果供下次抖动时回退用
                     success_count += 1
-                    entry["fail_streak"] = 0
-                    entry["channels"] = {cat: [[n, u] for n, u in chans] for cat, chans in data.items()}
-                    use_data = data
-                else:
-                    # 计数封顶: 达到 CAP 后停止增长(失效源没有继续计数的意义)
-                    entry["fail_streak"] = min(
-                        entry.get("fail_streak", 0) + 1, SOURCE_FAIL_STREAK_CAP)
-                    if entry["fail_streak"] < SOURCE_FAIL_THRESHOLD and entry.get("channels"):
-                        # 未达阈值且有历史成功结果可用: 视为瞬时抖动，回退复用
-                        fallback_count += 1
-                        use_data = {cat: [(n, u) for n, u in chans] for cat, chans in entry["channels"].items()}
-                        logger.warning(
-                            f"源 {url} 本次抓取失败(连续 {entry['fail_streak']}/{SOURCE_FAIL_THRESHOLD} 次)，"
-                            f"判定为瞬时抖动，回退复用上次成功结果"
-                        )
-                    else:
-                        # 达到/超过阈值，或从未有过成功结果: 判定为真正失效
-                        dead_count += 1
-                        use_data = None
-                        # 真正失效的源不再需要缓存的频道数据: 清空以收缩
-                        # source_state.json 体积(回退只发生在未达阈值阶段)
-                        if entry.get("channels"):
-                            entry["channels"] = {}
-                        if entry["fail_streak"] >= SOURCE_FAIL_THRESHOLD:
-                            logger.error(
-                                f"源 {url} 已连续失败 {entry['fail_streak']} 次(阈值 {SOURCE_FAIL_THRESHOLD})，判定为真正失效"
-                            )
-
-                state[url] = entry
-
-                if use_data:
-                    for cat, chans in use_data.items():
+                    for cat, chans in data.items():
                         if cat not in all_channels:
                             all_channels[cat] = []
                         all_channels[cat].extend(chans)
+                else:
+                    # 修复(计数失真): 空数据=伪源(解析出0频道)或抓取/解析异常，
+                    # 旧日志把它们全部记作"成功"，高可用性被虚报
+                    invalid_count += 1
 
-        # 整体超时: as_completed 到点抛 TimeoutError；此时尚未完成的任务全部计入超时，
-        # 平滑收尾(仍然保存已处理源的 state 并返回已抓到的数据)
+            # 正常完成: 等待所有已提交任务收尾(语义与原 with 版本一致)
+            executor.shutdown(wait=True)
+            return _finalize_fetch_log(
+                all_channels, success_count, invalid_count, timeout_count, tv_urls)
+
+        # 整体超时: as_completed 到点抛 TimeoutError；未完成任务全部计入超时。
+        # cancel_futures 会清掉排队中未启动的任务；已在运行的线程无法被中断，
+        # 但不再 join，主流程立即收尾，总时长上限回归 overall_timeout 本身。
         except FuturesTimeoutError:
             pending = [f for f in future_to_url if not f.done()]
             for f in pending:
@@ -431,18 +408,29 @@ def fetch_all_channels(tv_urls, max_workers=5, overall_timeout=120):
             logger.warning(
                 f"整体抓取超过时限 {overall_timeout}s，剩余 {len(pending)} 个源被跳过"
             )
+            executor.shutdown(wait=False, cancel_futures=True)
+        except BaseException:
+            # 其余异常(如外部 KeyboardInterrupt)同样不再无限 join
+            executor.shutdown(wait=False, cancel_futures=True)
+            raise
 
-            # 给仍在运行的任务一个短暂收尾时间(不阻塞主流程)
-            # ThreadPoolExecutor 的 __exit__ 会 join 所有任务，这里显式短路避免无限等待
-            for f in pending:
-                f.cancel()
+    except BaseException:
+        # submit 阶段异常兜底(如 tv_urls 非可迭代等)，同样不无限 join
+        executor.shutdown(wait=False, cancel_futures=True)
+        raise
 
-    save_source_state(state)
+    return _finalize_fetch_log(
+        all_channels, success_count, invalid_count, timeout_count, tv_urls)
 
+def _finalize_fetch_log(all_channels, success_count, invalid_count,
+                        timeout_count, tv_urls):
+    """汇总抓取结果日志(成功/伪源/超时分类)，返回聚合数据。"""
+    total = len(tv_urls)
     logger.info(
-        f"数据获取完毕(共 {len(tv_urls)} 个源): 成功 {success_count} 个，"
-        f"判定瞬时抖动回退 {fallback_count} 个，判定真正失效 {dead_count} 个，"
-        f"整体超时跳过 {timeout_count} 个。"
+        f"数据获取完毕: 成功 {success_count} 个(解析出频道)，"
+        f"伪源/空源/异常 {invalid_count} 个，"
+        f"整体超时跳过 {timeout_count} 个"
+        f"(总计 {total}，核对: {success_count + invalid_count + timeout_count})"
     )
     return all_channels
 
@@ -662,8 +650,6 @@ def classify_url_type(url):
     host = hostport.split(':', 1)[0]      # 去端口
     if _IPV4_HOST_RE.match(host):         # 纯数字点分
         return 0
-    if re.match(r'^\d{1,3}(?:\.\d{1,3}){3}$', host):  # 冗余保险，实际同上
-        return 0
     return 1
 
 def _build_extinf(display_name, category, clean_name=None):
@@ -867,8 +853,92 @@ def process_iptv_task(template_file, tv_urls, output_m3u, output_txt, report_fil
     logger.info(f"=== 任务完成: {template_file} ===\n")
     return matched, unmatched_tmpl, unmatched_src
 
+# 频道未匹配轮数独立计数文件: 与模板文件同名替换扩展名，
+# 例如 py/config/iptv_test.txt -> py/config/iptv_test_fc.json
+# (_fail_counts.json 为早期后缀，读取时自动重命名迁移)
+_FAIL_COUNTS_EXT = "_fc.json"
+_LEGACY_FAIL_COUNTS_EXT = "_fail_counts.json"
+
+def _fail_counts_path(target_template_file):
+    """由目标模板路径推导独立计数文件路径。"""
+    root, _ext = os.path.splitext(target_template_file)
+    return root + _FAIL_COUNTS_EXT
+
+def load_fail_counts(target_template_file):
+    """读取目标模板对应独立计数文件中的"频道键 -> 累计未匹配轮数"。"""
+    path = _fail_counts_path(target_template_file)
+    # 旧后缀计数文件自动迁移为短名(仅在新文件不存在时执行一次)
+    legacy_path = os.path.splitext(target_template_file)[0] + _LEGACY_FAIL_COUNTS_EXT
+    if not os.path.exists(path) and os.path.exists(legacy_path):
+        try:
+            os.replace(legacy_path, path)
+            logger.info(f"计数文件已迁移: {legacy_path} -> {path}")
+        except Exception as e:
+            logger.error(f"迁移计数文件失败(仍可读旧文件): {e}")
+            path = legacy_path
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except Exception as e:
+        logger.error(f"读取 FAIL_COUNTS 计数文件失败，视为无历史计数: {e}")
+        return {}
+
+def save_fail_counts(target_template_file, fail_rounds):
+    """原子写计数文件: 只保留非零计数，避免文件无限膨胀。"""
+    path = _fail_counts_path(target_template_file)
+    try:
+        ensure_dir(path)
+        active_counts = {k: v for k, v in fail_rounds.items() if v}
+        tmp_path = path + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(active_counts, f, ensure_ascii=False)
+        os.replace(tmp_path, path)
+    except Exception as e:
+        logger.error(f"写入 FAIL_COUNTS 计数文件失败: {e}")
+
+def _strip_legacy_fail_counts_comment(target_template_file):
+    """迁移历史遗留: 模板头残留 "# FAIL_COUNTS: {...}" 注释行时，
+    读出计数并合并进独立计数文件，然后从模板头删除该注释行。"""
+    path = _fail_counts_path(target_template_file)
+    legacy_counts = None
+    try:
+        with open(target_template_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+        new_lines = []
+        for line in lines:
+            m = re.match(r'#\s*FAIL_COUNTS:\s*(\{.*\})\s*$', line.strip())
+            if m:
+                try:
+                    parsed = json.loads(m.group(1))
+                except Exception:
+                    parsed = None
+                if isinstance(parsed, dict) and legacy_counts is None:
+                    legacy_counts = parsed
+                continue          # 该行不再写回
+            new_lines.append(line)
+
+        if not new_lines and not lines:
+            return
+        if legacy_counts is not None:
+            merged = load_fail_counts(target_template_file)
+            for key, val in legacy_counts.items():
+                # 独立文件已有计数时取较大值，避免迁移覆盖更高轮数
+                merged[key] = max(int(merged.get(key, 0)), int(val))
+            save_fail_counts(target_template_file, merged)
+            with open(target_template_file, "w", encoding="utf-8") as f:
+                f.writelines(new_lines)
+            logger.info(
+                f"已将模板头 FAIL_COUNTS 注释行迁移至独立计数文件 {path}"
+            )
+    except Exception as e:
+        logger.error(f"迁移模板头 FAIL_COUNTS 注释行失败(不影响运行): {e}")
+
 def append_unmatched_to_template(unmatched_template, target_template_file,
-                                 max_append_rounds=8):
+                                 max_append_rounds=None):
     """
     把"任务1未匹配到的模板频道"合并进另一个模板文件(如 iptv_test.txt)，
     以便后续任务继续尝试匹配 / 持续观察这些频道后续是否恢复可用。
@@ -879,7 +949,12 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
     - 用"分类,#genre#" 结构整体重写(不再产生碎片分类/注释块)
 
     治理(自动退役): 记录每个频道累计滞留轮数(脚本注释头 MATCH_FAIL_ROUNDS)，
-    超过 max_append_rounds 轮仍未匹配的频道自动移出，防止只增不减。
+    超过阈值轮仍未匹配的频道自动移出，防止只增不减。
+    阈值优先级: 显式传参 max_append_rounds > 模板头 # MATCH_FAIL_ROUNDS: > 默认 8，
+    最终生效值会回写模板头。
+    各频道累计轮数持久化到独立计数文件 FAIL_COUNTS_FILE(跨轮读回累加)；若
+    旧模板文件头仍残留历史 FAIL_COUNTS 注释行，会自动迁移到独立文件并从
+    模板头清除。
 
     幂等: 已存在于目标模板对应分类下的频道不会被重复追加。
     返回本次实际追加的频道数量(0 表示无需追加)。
@@ -892,12 +967,16 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
     # 读取目标模板中已有的频道(parse_template 自动合并重复分类)
     existing = parse_template(target_template_file) or OrderedDict()
 
-    # 记录每个频道的滞留轮数(从旧文件注释头读取)
-    # 修复(轮数不持久): 原实现 fail_rounds 每次调用都从空字典起算，
-    # 累计值从不写回文件 -> 每轮计数恒为 1，退役永不触发。
-    # 现将各频道累计轮数以 JSON 写入文件头 FAIL_COUNTS 行，跨轮读回累加。
-    fail_rounds = {}
-    old_max = max_append_rounds
+    # 记录每个频道的滞留轮数: 从独立计数文件读取(跨轮持久化)，
+    # 若模板头残留历史 FAIL_COUNTS 注释行则迁移进独立文件并从模板头清除。
+    fail_rounds = load_fail_counts(target_template_file)
+    if os.path.exists(target_template_file):
+        _strip_legacy_fail_counts_comment(target_template_file)
+
+    # 读取模板头 MATCH_FAIL_ROUNDS 配置(允许沿用历史文件中的阈值)。
+    # 修复(死代码): 旧逻辑阈值恒等于默认 8，模板头配置永远不生效；
+    # 新语义: 显式传参 > 模板头配置 > 默认 8，最终生效值回写模板头保持一致。
+    file_max = None
     if os.path.exists(target_template_file):
         try:
             with open(target_template_file, "r", encoding="utf-8") as f:
@@ -905,13 +984,7 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
                     stripped = line.strip()
                     m = re.match(r'#\s*MATCH_FAIL_ROUNDS:\s*(\d+)', stripped)
                     if m:
-                        old_max = int(m.group(1))
-                    m2 = re.match(r'#\s*FAIL_COUNTS:\s*(\{.*\})\s*$', stripped)
-                    if m2:
-                        try:
-                            fail_rounds = json.loads(m2.group(1))
-                        except Exception:
-                            fail_rounds = {}
+                        file_max = int(m.group(1))
         except Exception:
             pass
 
@@ -948,13 +1021,13 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
                 fail_rounds[f"{cat}\u0001{name}"] = 1
                 appended_count += 1
 
-    # 3) 自动退役: 超过 max_append_rounds 轮仍未匹配
-    # 修复(死代码): 原条件要求 (cat,name) 不在本轮未匹配中才退役，但轮数只在
-    # "本轮未匹配"时才递增、匹配成功时归零，两个条件互斥导致退役永远不触发。
-    # 按注释本意("超过 max_append_rounds 轮仍未匹配的频道自动移出")移除该子句：
-    # 仍在重试但累计轮数超限的频道同样退役；已匹配频道轮数已归零不受影响。
-    retire_rounds = max_append_rounds if max_append_rounds and max_append_rounds > 0 else old_max
-    if retire_rounds > 0:
+    # 3) 自动退役: 阈值取值优先级 显式传参 > 模板头配置 > 默认 8
+    retire_rounds = max_append_rounds
+    if retire_rounds is None:
+        retire_rounds = file_max
+    if retire_rounds is None:
+        retire_rounds = 8
+    if retire_rounds and retire_rounds > 0:
         retired = 0
         for cat in list(new_template.keys()):
             kept = []
@@ -970,15 +1043,13 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
         if retired:
             logger.info(f"自动退役 {retired} 个长期无源频道(超过 {retire_rounds} 轮未匹配)")
 
-    # 整体重写: 分类聚合、无碎片分类
+    # 整体重写: 分类聚合、无碎片分类；FAIL_COUNTS 不再写回模板头，
+    # 独立持久化到计数文件
     try:
         ensure_dir(target_template_file)
         with open(target_template_file, "w", encoding="utf-8") as f:
             f.write(f"# 测试模板(由 get_iptv.py 自动维护)\n")
-            f.write(f"# MATCH_FAIL_ROUNDS: {max_append_rounds}\n")
-            # 持久化各频道累计未匹配轮数，供下轮读回继续累加(退役依赖此值)
-            active_counts = {k: v for k, v in fail_rounds.items() if v}
-            f.write(f"# FAIL_COUNTS: {json.dumps(active_counts, ensure_ascii=False)}\n")
+            f.write(f"# MATCH_FAIL_ROUNDS: {retire_rounds}\n")
             for cat, names in new_template.items():
                 uniq = list(OrderedDict.fromkeys(names))
                 if not uniq:
@@ -986,6 +1057,8 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
                 f.write(f"\n{cat},#genre#\n")
                 for name in uniq:
                     f.write(f"{name},\n")
+        # 频道键 -> 累计轮数的持久化(退役依赖此值跨轮累计)
+        save_fail_counts(target_template_file, fail_rounds)
         logger.info(f"已将 {appended_count} 个未匹配频道合并进 {target_template_file}"
                     f"(现有 {sum(len(v) for v in new_template.values())} 个频道)")
         return appended_count
@@ -995,7 +1068,11 @@ def append_unmatched_to_template(unmatched_template, target_template_file,
 
 if __name__ == "__main__":
     # === 配置区 ===
-    URLS_FILE = "py/config/urls.txt"
+    # 修复(C2+回归): 路径不再依赖 CWD 也不依赖单脚本的 BASE_DIR 拼接，
+    # 由 CONFIG_DIR / LIB_DIR 自动探测(见文件头部注释)，兼容:
+    #   布局A: <根>/get_iptv.py + <根>/py/config + <根>/lib (本工作区)
+    #   布局B: <根>/py/get_iptv.py + <根>/py/config + <根>/lib (tvbox CI)
+    URLS_FILE = os.path.join(CONFIG_DIR, "urls.txt")
 
     # 1. 加载源
     TV_URLS = load_urls_from_file(URLS_FILE)
@@ -1009,17 +1086,17 @@ if __name__ == "__main__":
 
     # === 任务1: 主列表 ===
     _matched1, unmatched_tmpl1, _unmatched_src1 = process_iptv_task(
-        template_file="py/config/iptv.txt",
+        template_file=os.path.join(CONFIG_DIR, "iptv.txt"),
         tv_urls=TV_URLS,
-        output_m3u="lib/iptv.m3u",
-        output_txt="lib/iptv.txt",
-        report_file="py/config/iptv.log",
+        output_m3u=os.path.join(LIB_DIR, "iptv.m3u"),
+        output_txt=os.path.join(LIB_DIR, "iptv.txt"),
+        report_file=os.path.join(CONFIG_DIR, "iptv.log"),
         auto_clean=False,
         all_channels=ALL_CHANNELS,
     )
 
     # === 新增: 把任务1未匹配到的频道追加进测试列表模板，再执行任务2 ===
-    TEST_TEMPLATE_FILE = "py/config/iptv_test.txt"
+    TEST_TEMPLATE_FILE = os.path.join(CONFIG_DIR, "iptv_test.txt")
     if unmatched_tmpl1:
         append_unmatched_to_template(unmatched_tmpl1, TEST_TEMPLATE_FILE)
 

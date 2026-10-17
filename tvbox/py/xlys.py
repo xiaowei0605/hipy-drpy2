@@ -321,7 +321,7 @@ class Spider(Spider):
         lst = self._parse_list(self._paged(base, pg))
         return {"page": int(pg), "pagecount": int(pg) + 1 if lst else int(pg), "limit": 30, "total": 999999, "list": lst}
 
-    def searchContent(self, key, quick, pg="1"):
+    def _searchContent_raw(self, key, quick, pg="1"):
         pg = str(pg or "1")
         for p in ["/s/all?wd=%s&page=%s" % (quote(key), pg), "/search?wd=%s&page=%s" % (quote(key), pg)]:
             lst = self._parse_list(self._get(p))
@@ -551,3 +551,24 @@ class Spider(Spider):
                     if val: url = self._fix(val); break
         if not url: return {"parse": 1, "url": pid, "header": self.headers}
         return {"parse": 0, "url": url, "header": {"User-Agent": self.headers["User-Agent"], "Referer": self.host + "/"}}
+
+    def searchContent(self, key, quick, pg="1"):
+        data = self._searchContent_raw(key, quick, pg)
+        return self._normalize_page(data, pg)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data

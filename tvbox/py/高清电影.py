@@ -44,7 +44,7 @@ class Spider(BaseSpider):
     def homeVideoContent(self):
         return {'list': [], 'parse': 0, 'jx': 0}
 
-    def categoryContent(self, tid, page, filter, extend):
+    def _categoryContent_raw(self, tid, page, filter, extend):
         result = {'list': [], 'parse': 0, 'jx': 0}
         doc = None
         if tid == "1":
@@ -125,7 +125,7 @@ class Spider(BaseSpider):
 
         return return_data
 
-    def searchContent(self, key, quick, pg='1'):
+    def _searchContent_raw(self, key, quick, pg='1'):
         return_data = {'list': [], 'parse': 0, 'jx': 0}
         url = self.baseUrl + f'/search?kw={key}'
         if pg == '1':
@@ -155,6 +155,31 @@ class Spider(BaseSpider):
         except Exception as e:
             print(e)
         return b''
+
+    def searchContent(self, key, quick, pg="1"):
+        data = self._searchContent_raw(key, quick, pg)
+        return self._normalize_page(data, pg)
+
+    def categoryContent(self, tid, page, filter, extend):
+        data = self._categoryContent_raw(tid, page, filter, extend)
+        return self._normalize_page(data, page)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data
 
 
 if __name__ == '__main__':

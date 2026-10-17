@@ -181,7 +181,7 @@ class Spider(Spider):
             "vod_play_url": "$$$".join(urls),
         }]}
 
-    def searchContent(self, key, quick, pg="1"):
+    def _searchContent_raw(self, key, quick, pg="1"):
         pg = int(pg) if str(pg).isdigit() else 1
         url = f"{self.host}/index.php/vod/search/page/{pg}/wd/{urllib.parse.quote(key)}.html"
         return {"list": self._parseList(self._get(url)), "page": pg}
@@ -225,3 +225,24 @@ class Spider(Spider):
         if playUrl and re.search(r"\.(m3u8|mp4|flv|mkv|ts)(\?|$)", playUrl.split("#")[0], re.I):
             return {"parse": 0, "url": playUrl, "header": self._play_headers(playUrl)}
         return {"parse": 1, "url": playUrl if str(playUrl).startswith("http") else url, "header": self._play_headers(playUrl)}
+
+    def searchContent(self, key, quick, pg="1"):
+        data = self._searchContent_raw(key, quick, pg)
+        return self._normalize_page(data, pg)
+
+    def _normalize_page(self, data, pg):
+        if not isinstance(data, dict):
+            data = {"list": data if isinstance(data, list) else []}
+        if not isinstance(data.get("list"), list):
+            data["list"] = []
+        try:
+            page = max(1, int(pg))
+        except Exception:
+            page = 1
+        if not data.get("page"):
+            data["page"] = page
+        if not data.get("limit"):
+            data["limit"] = len(data["list"])
+        if not data.get("pagecount"):
+            data["pagecount"] = page + 1 if data["list"] else page
+        return data

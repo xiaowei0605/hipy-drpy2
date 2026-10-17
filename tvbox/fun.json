@@ -88,6 +88,13 @@
    "ext": ""
   },
   {
+   "key": "py_redtube",
+   "name": "RedTube[py]",
+   "type": 3,
+   "api": "./js/ss/redtube.py",
+   "ext": ""
+  },
+  {
    "key": "py_Youavhub",
    "name": "Youavhub[py]",
    "type": 3,

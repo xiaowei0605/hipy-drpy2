@@ -21,6 +21,16 @@
   },
   {
    "key": "wv_3q",
+   "name": "wv | 哔哩哔哩",
+   "api": "csp_WvSpider",
+   "type": "3",
+   "ext": "./js/B站.js",
+   "searchable": 1,
+   "filterable": 1,
+   "switchable": 1
+  },
+  {
+   "key": "wv_3q",
    "name": "wv | 3Q影视",
    "api": "csp_WvSpider",
    "type": "3",

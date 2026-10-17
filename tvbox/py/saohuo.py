@@ -171,7 +171,7 @@ class Spider(Spider):
 		result["list"].append(info)
 		return result
 
-	def searchContent(self, key, quick, pg="1"):
+	def _searchContent_raw(self, key, quick, pg="1"):
 		url = f"{self.host}/s/{quote(key)}----------.html"
 		return {"list": self._cards(self._get(url)), "page": int(pg)}
 
@@ -239,3 +239,24 @@ class Spider(Spider):
 	def localProxy(self, param): return None
 
 	def destroy(self): return None
+
+	def searchContent(self, key, quick, pg="1"):
+		data = self._searchContent_raw(key, quick, pg)
+		return self._normalize_page(data, pg)
+
+	def _normalize_page(self, data, pg):
+		if not isinstance(data, dict):
+			data = {"list": data if isinstance(data, list) else []}
+		if not isinstance(data.get("list"), list):
+			data["list"] = []
+		try:
+			page = max(1, int(pg))
+		except Exception:
+			page = 1
+		if not data.get("page"):
+			data["page"] = page
+		if not data.get("limit"):
+			data["limit"] = len(data["list"])
+		if not data.get("pagecount"):
+			data["pagecount"] = page + 1 if data["list"] else page
+		return data
