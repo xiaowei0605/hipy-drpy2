@@ -53,7 +53,6 @@ coverage/
 .pnp.*
 
 # test
-.git/objects/*
 data/archive
 .DS_Store
 runtime/*

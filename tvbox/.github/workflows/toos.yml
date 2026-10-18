@@ -61,23 +61,18 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         
-        # if [ -n "$(git status --porcelain)" ]; then
-          # echo "Changes detected, committing..."
-          # git add .
-          # git commit -m "Update m3u"
-          
-          # git pull --rebase origin main
-          # git push origin main
-        # else
-          # echo "No changes detected, skipping push."
-        # fi
-        
-        git commit -a -m "Update m3u"
+        if [[ -n "$(git status --porcelain)" ]]; then
+          git add -A
+          git commit -m "Update m3u"
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "No changes detected."
+          echo "has_changes=false" >> "$GITHUB_OUTPUT"
+        fi
         
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
-        # pull: rebase   # pull --rebase before push; also accepts: merge | ff-only | true
-
+        pull: rebase   # pull --rebase before push; also accepts: merge | ff-only | true

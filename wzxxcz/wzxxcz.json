@@ -1484,7 +1484,7 @@
             "key": "一起影视",
             "name": "🍊一起影视",
             "type": 3,
-            "api": "./py/一起影视🍀TG @hshsjk9.py"
+            "api": "./py/一起影视.py"
         },
         {
             "key": "一起影视1",
@@ -1496,16 +1496,10 @@
             "filterable": 0
         },
         {
-            "key": "看戏影视1",
-            "name": "🍊看戏影视1",
+            "key": "达达兔影视3",
+            "name": "🐇达达兔影视3",
             "type": 3,
-            "api": "./py/看戏影视🍀TG @hshsjk9.py"
-        },
-        {
-            "key": "VIP兔影视",
-            "name": "🐇VIP兔影视",
-            "type": 3,
-            "api": "./py/VIP兔🍀TG @hshsjk9.py"
+            "api": "./py/达达兔影视.py"
         },
         {
             "key": "FoFo影院",
@@ -2047,6 +2041,12 @@
             "api": "./py/晴天影视2.py"
         },
         {
+            "key": "两个BT影视",
+            "name": "🍊两个BT影视",
+            "type": 3,
+            "api": "./py/两个BT影视.py"
+        },
+        {
             "key": "爬虫影视",
             "name": "🐛爬虫影视",
             "type": 1,
@@ -2258,6 +2258,15 @@
                 "version": "1.0.0.3",
                 "decrypt": "0"
             }
+        },
+        {
+            "key": "番茄影视",
+            "name": "🍅番茄影视",
+            "type": 3,
+            "api": "csp_AppFQ",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 0
         },
         {
             "key": "咕噜",
@@ -5310,19 +5319,6 @@
                 "dataIv": "oW5UxZ5kWVr1DI69",
                 "init": "initV122",
                 "ua": "okhttp/3.10.0"
-            }
-        },
-        {
-            "key": "魔方",
-            "name": "🧿魔方影视",
-            "type": 3,
-            "api": "csp_AppGet",
-            "searchable": 1,
-            "changeable": 1,
-            "ext": {
-                "url": "https://www.douy32mf.top",
-                "dataKey": "1234567887654321",
-                "dataIv": "1234567887654321"
             }
         },
         {
@@ -36010,21 +36006,6 @@
             }
         },
         {
-            "key": "双星99",
-            "name": "🤣双星动漫",
-            "type": 3,
-            "api": "csp_App99",
-            "ext": {
-                "host": "http://111.180.139.119:19987/app/bn",
-                "LoginPath": "/app/log",
-                "versionName": "6.4.9",
-                "name": "双子星动漫",
-                "package": "com.haiwang.liangxia.my.ym",
-                "buildNumber": "2001",
-                "buildSignature": "A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC"
-            }
-        },
-        {
             "key": "番社动漫",
             "name": "🤖番社动漫",
             "type": 3,
@@ -36066,18 +36047,6 @@
             "type": 3,
             "api": "./js/drpy2.min.js",
             "ext": "./js/Anime1.js"
-        },
-        {
-            "key": "咕咕动漫",
-            "name": "🤣咕咕动漫",
-            "type": 3,
-            "searchable": 1,
-            "api": "csp_AppGet",
-            "ext": {
-                "url": "https://www.gugu3.com",
-                "dataKey": "nKfZ8KX6JTNWRzTD",
-                "dataIv": "nKfZ8KX6JTNWRzTD"
-            }
         },
         {
             "key": "巴士动漫",
