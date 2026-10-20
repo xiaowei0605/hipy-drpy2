@@ -1,26 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-咕噜咕噜 —— TVBox T3 源（type=3 Python 爬虫）。
+咕噜咕噜 —— TVBox  Python 爬虫
 
-由上传的 T4 版「咕噜💕.py」改写：
-  · 接口层：VodHandler(home/category/detail/search/player) -> T3 Spider 五接口
-    (homeContent/categoryContent/detailContent/searchContent/playerContent)
-  · 依赖层：T3 运行时无 requests / pycryptodome，全部降级为纯标准库：
-    P-256 点运算(ECDH)、AES-256-CBC 握手、AES-256-GCM 会话、urllib HTTP、手动 gzip
-  · 协议逻辑（protobuf 编解码、握手、boot 线路表、搜索/详情/播放）原样保留
-
-协议要点（勿删）：
-  · handshake：本地生成 P-256 密钥对 -> ECC ECDH 协商共享密钥 -> HKDF 派生会话密钥
-  · 会话后所有请求 AES-GCM 加密（nonce+ciphertext+tag），内层 zlib raw-deflate
-  · 列表/详情/播放都走 POST（明文 http://103.45.132.22:19987/app/bn/v2）
-  · boot() 从服务器拉 players（线路表）+ parsers（解析器表）
-  · detail 有版本守卫：响应含 VERSION_GUARD_MARKERS 时拒绝（服务器要求升级）
-  · play：id 格式 "play_id@parser_id@vod_name@index"，分服务端/外部解析两种
-
-T3 运行说明：
-  - TVBox type=3 配置：api 填本文件公网 URL；searchable/quickSearch/filterable 按需
-  - 类名约定 Spider；文件底部另提供模块级函数双入口（drpy site 模式兼容）
-  - 命令行自检：python 咕噜💕-T3.py home | search 关键词 | category 分类 页 | detail id | play 解析器 id
+特征:
+  - protobuf 编解码 + 纯标准库 AES-256-CBC/GCM + P-256 ECDH 握手
+  - 会话级 GCM 加密请求，服务器下发播放器/解析器配置
+  - 线路优先级排序 + 别名映射
+  - 播放缓存 600s
+  - init/extend 配置化 + 预热 + 统一 fetch 封装
+  - 模块级单例双入口（drpy site / 旧内核）
 """
 
 from __future__ import annotations
@@ -35,22 +23,71 @@ import secrets
 import threading
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import zlib
 from urllib.parse import quote
 
+try:
+    import requests as _requests
+except Exception:
+    _requests = None
+
 API_URL = "http://103.45.132.22:19987/app/bn/v2"
 HOST = "http://103.45.132.22:19987"
 USER_AGENT = "Dart/3.10 (dart:io)"
-APP_VERSION = "2.1.3"
+APP_VERSION = "2.2.5"
 BUILD_NUMBER = "20109"
 APP_SIGNATURE = "32E0AB4FF93A29CE0E6F0BFB01F2F1B788E76262731F3F30F509CB822428ED58"
 DEVICE_BUILD = "pangu-build-component-system-513739-s9vkd-rlxnj-p3rhm"
 VERSION_GUARD_MARKERS = ("__v99_", "glgl.tv", "111.170.58.215", "shu.jpg")
+
+DEFAULT_PIC = HOST + "/static/default.png"
+INTRO_PREFIX = "🍊小橙子为您介绍剧情👉请不要相信视频中的广告，以免上当受骗！"
+
 FALLBACK_PARSERS = {
     28: {"name": "咕噜金牌", "url": "http://111.170.58.215:5499/api.php?id=",
          "mode": "json", "result_key": "url", "server": False},
 }
+
+# 线路优先级（豆花风格：常量提升到模块级）
+_LINE_PRIORITY = [
+    "咕噜4K", "菲乐4K", "鲸宝4K", "神话", "臻影4K", "精品2K",
+    "鲸宝2K", "短剧2K", "天堂", "☆讯飞☆", "☆奇趣☆", "☆果汁☆",
+    "☆酷萌☆", "☆哔哩☆", "咖啡", "量子", "非凡", "暴风", "蚂蚁",
+    "小熊", "海外", "花旗",
+]
+
+_LINE_ALIAS = {
+    "咕噜4K": "咕噜4K", "菲乐4K": "菲乐4K", "鲸宝4K": "鲸宝4K",
+    "臻影4K": "臻影4K", "精品2K": "精品2K", "鲸宝2K": "鲸宝2K",
+    "短剧2K": "短剧2K",
+}
+
+_CLASSES = [("1", "电影"), ("2", "电视剧"), ("3", "综艺"),
+            ("4", "动漫"), ("5", "短剧"), ("60", "直播")]
+
+_FILTER_GENRES = ["动作", "喜剧", "爱情", "科幻", "恐怖", "剧情", "战争", "犯罪",
+                  "悬疑", "动画", "冒险", "奇幻", "惊悚", "家庭"]
+_FILTER_AREAS = ["大陆", "香港", "台湾", "美国", "日本", "韩国", "英国", "法国",
+                 "泰国", "印度"]
+_FILTER_SORTS = [("月热门", "vod_hits_month"), ("周热门", "vod_hits_week"),
+                 ("日热门", "vod_hits_day"), ("最新", "vod_time"),
+                 ("评分", "vod_score")]
+
+FILTERS = {}
+for _tid, _nm in _CLASSES:
+    if _tid == "60":
+        FILTERS[_tid] = []
+        continue
+    FILTERS[_tid] = [
+        {"key": "类型", "name": "类型",
+         "value": [{"n": "全部", "v": ""}] + [{"n": g, "v": g} for g in _FILTER_GENRES]},
+        {"key": "地区", "name": "地区",
+         "value": [{"n": "全部", "v": ""}] + [{"n": a, "v": a} for a in _FILTER_AREAS]},
+        {"key": "排序", "name": "排序",
+         "value": [{"n": n, "v": v} for n, v in _FILTER_SORTS]},
+    ]
 
 
 # ============ protobuf 工具 ============
@@ -660,11 +697,19 @@ class _GuluProtocol:
         self.players = players
         self.parsers = parsers
 
-    def search(self, keyword, page=1, limit=21, category_id=""):
-        filters = _field_bytes(18, b"vod_hits_month") + _field_varint(19, 1)
+    def search(self, keyword, page=1, limit=21, category_id="", genre="", area="",
+               sort="vod_hits_month"):
+        sort = str(sort or "vod_hits_month")
+        filters = _field_bytes(18, sort.encode("utf-8")) + _field_varint(19, 1)
         category_id = str(category_id or "").strip()
         if category_id:
             filters += _field_bytes(3, category_id) + _field_bytes(4, category_id)
+        genre = str(genre or "").strip()
+        if genre:
+            filters += _field_bytes(8, genre)
+        area = str(area or "").strip()
+        if area:
+            filters += _field_bytes(6, area)
         payload = (_field_bytes(1, keyword) + _field_varint(2, int(page))
                    + _field_varint(3, int(limit)) + _field_bytes(5, filters))
         response = self.request(61, payload)
@@ -745,30 +790,141 @@ class _GuluProtocol:
 # ============ T3 接口 ============
 
 class Spider:
-    """咕噜咕噜 T3 源（TVBox type=3 Python 爬虫）。"""
+    """咕噜咕噜"""
 
     source_name = "gulu"
     display_name = "咕噜咕噜"
 
     HOST = HOST
     UA = USER_AGENT
+    default_pic = DEFAULT_PIC
 
-    _play_order = [
-        "咕噜4K", "菲乐4K", "鲸宝4K", "神话", "臻影4K", "精品2K",
-        "鲸宝2K", "短剧2K", "天堂", "☆讯飞☆", "☆奇趣☆", "☆果汁☆",
-        "☆酷萌☆", "☆哔哩☆", "咖啡", "量子", "非凡", "暴风", "蚂蚁",
-        "小熊", "海外", "花旗",
-    ]
-    _categories = [("1", "电影"), ("2", "电视剧"), ("3", "综艺"),
-                   ("4", "动漫"), ("5", "短剧"), ("60", "直播")]
+    _play_order = _LINE_PRIORITY
+    _categories = _CLASSES
+
+    @classmethod
+    def _filters_for(cls, tid):
+        return FILTERS.get(str(tid), [])
+
+    @staticmethod
+    def _extend_value(extend, key):
+        if not extend:
+            return ""
+        if isinstance(extend, str):
+            try:
+                extend = json.loads(extend)
+            except Exception:
+                return ""
+        if isinstance(extend, dict):
+            return str(extend.get(key) or "").strip()
+        return ""
 
     def __init__(self) -> None:
         self.protocol = _GuluProtocol()
         self.last_error = ""
+        self.site_url = HOST.rstrip("/")
+        self.intro_prefix = INTRO_PREFIX
+        self._play_cache = {}
+        self._warmed = False
+        # ---- 蜘蛛框架py 模板契约 ----
+        self.header = {
+            "User-Agent": "Mozilla/5.0 (Linux; Android 13; SM-S9080) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
+            "Referer": HOST,
+            "Accept-Language": "zh-CN,zh;q=0.9",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        }
+        self.s = self.session = self.sess = _requests.Session() if _requests else None
 
+    # ---- 豆花风格：init 支持 extend 配置 ----
     def init(self, extend=""):
-        """drpy 空闲刷新钩子：仅复位会话无关状态，不依赖本方法被执行。"""
+        try:
+            self.extend = json.loads(extend) if extend else {}
+        except Exception:
+            self.extend = {}
+        if isinstance(self.extend, dict):
+            if self.extend.get("site"):
+                self.site_url = str(self.extend["site"]).rstrip("/")
+            if self.extend.get("timeout"):
+                try:
+                    self.protocol.timeout = int(self.extend["timeout"])
+                except Exception:
+                    pass
+            if self.extend.get("user_agent"):
+                self.header["User-Agent"] = str(self.extend["user_agent"])
+            if self.extend.get("intro_prefix") is not None:
+                self.intro_prefix = str(self.extend["intro_prefix"])
+        self.log("init: site=%s timeout=%s" % (self.site_url, self.protocol.timeout))
         return None
+
+    def log(self, *args, **kwargs):
+        if kwargs.get("verbose") or getattr(self, "_verbose", False):
+            try:
+                print("[gulu]", *args)
+            except Exception:
+                pass
+
+    # ---- 豆花风格：预热 ----
+    def _warm_up(self):
+        if self._warmed:
+            return
+        try:
+            self._ensure_boot()
+            self._warmed = bool(self.protocol.session_id)
+            self.log("预热完成 session=%s" % (self.protocol.session_id[:8] if self.protocol.session_id else ""))
+        except Exception as e:
+            self.log("预热失败: %s" % e)
+
+    # ---- 豆花风格：统一 fetch 封装 ----
+    def _fetch(self, url, referer=None, timeout=12, headers=None):
+        h = dict(self.header)
+        if referer:
+            h["Referer"] = referer
+        if headers:
+            h.update(headers)
+        if self.s is not None:
+            try:
+                r = self.s.get(url, headers=h, timeout=timeout, allow_redirects=True)
+                if r.status_code < 400:
+                    r.encoding = "utf-8"
+                    return r.text
+            except Exception as e:
+                self.log("fetch(session) fail: %s" % e)
+        try:
+            req = urllib.request.Request(url, headers=h)
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                content = resp.read()
+                enc = resp.headers.get("Content-Encoding", "")
+                if "gzip" in enc.lower() or content[:2] == b"\x1f\x8b":
+                    try:
+                        content = gzip.decompress(content)
+                    except Exception:
+                        pass
+                return content.decode("utf-8", "ignore")
+        except Exception as e:
+            self.log("fetch(urllib) fail: %s" % e)
+            return ""
+
+    def _get(self, url, referer=None):
+        return self._fetch(url, referer=referer)
+
+    def _u(self, u):
+        if not u:
+            return u
+        u = u.strip()
+        if u.startswith("//"):
+            return "https:" + u
+        if u.startswith("http"):
+            return u
+        if u.startswith("/"):
+            m = re.match(r"(https?://[^/]+)", self.site_url)
+            return (m.group(1) if m else self.site_url) + u
+        return self.site_url + "/" + u.lstrip("/")
+
+    def isVideoFormat(self, url):
+        if not url:
+            return False
+        u = str(url).lower()
+        return u.endswith((".m3u8", ".mp4", ".flv", ".mkv", ".ts", ".avi")) or "m3u8" in u
 
     def _ensure_boot(self) -> None:
         try:
@@ -778,42 +934,59 @@ class Spider:
                 self.protocol.boot()
         except Exception as e:
             self.last_error = "%s:%s" % (type(e).__name__, e)
+            self.log("boot fail: %s" % self.last_error)
 
-    def _search(self, keyword, page=1, limit=21, category_id=""):
+    def _search(self, keyword, page=1, limit=21, category_id="", genre="", area="",
+                sort="vod_hits_month"):
         self._ensure_boot()
         try:
-            return self.protocol.search(keyword, page, limit, category_id)
-        except Exception:
+            return self.protocol.search(keyword, page, limit, category_id,
+                                        genre=genre, area=area, sort=sort)
+        except Exception as e1:
+            self.log("search#1 fail: %s, 重试..." % e1)
             try:
                 self.protocol.reset_session()
                 self._ensure_boot()
-                return self.protocol.search(keyword, page, limit, category_id)
-            except Exception as e:
-                self.last_error = "%s" % e
+                return self.protocol.search(keyword, page, limit, category_id,
+                                            genre=genre, area=area, sort=sort)
+            except Exception as e2:
+                self.last_error = "%s" % e2
+                self.log("search#2 fail: %s" % e2)
                 return {"videos": [], "page": page, "pagecount": 1,
                         "limit": limit, "total": 0}
+
+    # ---- 豆花风格：分页兜底 ----
+    def _page_count(self, html, default=1):
+        return default
 
     # ---- T3 契约 ----
 
     def homeContent(self, filter=False):
         classes = [{"type_id": tid, "type_name": nm} for tid, nm in self._categories]
+        filters = {tid: self._filters_for(tid) for tid, nm in self._categories}
         cards = []
         try:
+            self._warm_up()
             result = self._search("", 1, 21)
             cards = self._cards(result.get("videos", []), 1, 21)[:20]
         except Exception:
             pass
-        return {"class": classes, "filters": {}, "list": cards}
+        return {"class": classes, "filters": filters, "list": cards}
 
     def homeVideoContent(self):
         return self.homeContent()
 
     def categoryContent(self, tid, pg="1", filter=True, extend=""):
         pg = max(1, int(pg or 1))
-        result = self._search("", pg, 21, str(tid or "").strip())
-        return {"class": [{"type_id": tid, "type_name": nm}
-                          for tid, nm in self._categories],
-                "filters": {},
+        tid = str(tid or "").strip()
+        genre = self._extend_value(extend, "类型")
+        area = self._extend_value(extend, "地区")
+        sort = self._extend_value(extend, "排序") or "vod_hits_month"
+        self._warm_up()
+        result = self._search("", pg, 21, tid, genre=genre, area=area, sort=sort)
+        return {"class": [{"type_id": t, "type_name": nm}
+                          for t, nm in self._categories],
+                "filters": {t: self._filters_for(t) for t, nm in self._categories},
                 "list": self._cards(result.get("videos", []), pg, 21),
                 "page": pg, "pagecount": result.get("pagecount", 1),
                 "limit": result.get("limit", 21), "total": result.get("total", 0)}
@@ -822,14 +995,21 @@ class Spider:
         vod_id = self._detail_id(ids)
         if not vod_id:
             return {"list": []}
+        self._warm_up()
         self._ensure_boot()
         try:
             detail = self.protocol.detail(vod_id)
-        except Exception:
+        except Exception as e1:
+            self.log("detail#1 fail: %s, 重试..." % e1)
             self.protocol.reset_session()
             self._ensure_boot()
-            detail = self.protocol.detail(vod_id)
+            try:
+                detail = self.protocol.detail(vod_id)
+            except Exception as e2:
+                self.log("detail#2 fail: %s" % e2)
+                return {"list": []}
         if not detail:
+            self.log("detail invalid: %s" % self.protocol.last_detail_error)
             return {"list": []}
 
         play_from, play_blocks = [], []
@@ -841,18 +1021,23 @@ class Spider:
                                                detail["name"], idx)
                 episodes.append("%s$%s" % (ep["name"], encoded))
             if episodes:
-                play_from.append(self._clean_name(source["name"]))
+                alias = _LINE_ALIAS.get(source["name"], source["name"])
+                play_from.append(self._clean_name(alias))
                 play_blocks.append("#".join(episodes))
         paired = list(zip(play_from, play_blocks))
         paired.sort(key=lambda x: self._rank(x[0]))
 
+        content = detail["content"] or ""
+        if self.intro_prefix:
+            content = self.intro_prefix + ("\n" + content if content else "")
+
         vod = {
             "vod_id": detail["id"],
             "vod_name": detail["name"],
-            "vod_pic": detail["pic"],
+            "vod_pic": detail["pic"] or self.default_pic,
             "vod_year": detail["year"],
             "vod_area": detail["area"],
-            "vod_content": detail["content"],
+            "vod_content": content,
             "vod_remarks": detail["remarks"],
             "vod_play_from": "$$$".join(p[0] for p in paired),
             "vod_play_url": "$$$".join(p[1] for p in paired),
@@ -864,16 +1049,33 @@ class Spider:
         if not kw:
             return {"list": []}
         pg = max(1, int(pg or 1))
+        self._warm_up()
         result = self._search(kw, pg, 21)
         return {"list": self._cards(result.get("videos", []), pg, 21)}
 
-    def playerContent(self, flag, id, vipFlags=None):
+    def searchContentPage(self, key, quick, pg="1"):
+        return self.searchContent(key, quick, pg)
+
+    def playerContent(self, flag, ids, vipFlags=None):
+        # TVBox 传 list（如 ["id@parser@name@1"]），CLI 传 str，统一解包
+        id = ids[0] if isinstance(ids, (list, tuple)) and ids else ids
+        id = str(id or "").strip()
         header = self._play_header(id)
+
+        # 豆花风格：播放缓存
+        now = int(time.time())
+        cache_key = id
+        if cache_key in self._play_cache:
+            ts, res = self._play_cache[cache_key]
+            if now - ts < 600:
+                return res
+
         try:
             raw_id, parser_id, vod_name, episode_index = id.split("@", 3)
             parser_id = int(parser_id or 0)
         except ValueError:
             raw_id, parser_id, vod_name, episode_index = id, 0, "", "1"
+
         url = raw_id if (isinstance(raw_id, str) and self._is_playable_url(raw_id)) else ""
         if not url and parser_id:
             self._ensure_boot()
@@ -886,25 +1088,39 @@ class Spider:
             if not url:
                 try:
                     url = self.protocol.play(parser_id, raw_id)
-                except Exception:
+                except Exception as e1:
+                    self.log("play#1 fail: %s, 重试..." % e1)
                     try:
                         self.protocol.reset_session()
                         self._ensure_boot()
                         url = self.protocol.play(parser_id, raw_id)
-                    except Exception:
+                    except Exception as e2:
+                        self.log("play#2 fail: %s" % e2)
                         url = ""
-        return {"parse": 0, "url": url or "", "header": json.dumps(header)}
+        res = {"parse": 0, "url": url or "", "header": json.dumps(header)}
+        self._play_cache[cache_key] = (now, res)
+        return res
 
     # ---- 工具 ----
+
+    _PROMO_MARKS = ("glgl.tv", "下载地址", "版本已失效", "shu.jpg")
+
+    @classmethod
+    def _is_promo(cls, name, pic):
+        blob = "%s %s" % (name or "", pic or "")
+        return any(mk in blob for mk in cls._PROMO_MARKS)
 
     def _cards(self, videos, page, limit):
         cards = []
         for v in videos:
-            if v.get("vod_id"):
-                cards.append({"vod_id": str(v["vod_id"]),
-                              "vod_name": v.get("vod_name") or "",
-                              "vod_pic": v.get("vod_pic") or "",
-                              "vod_remarks": v.get("vod_remarks") or ""})
+            if not v.get("vod_id"):
+                continue
+            name, pic = v.get("vod_name") or "", v.get("vod_pic") or ""
+            if self._is_promo(name, pic):
+                continue
+            cards.append({"vod_id": str(v["vod_id"]), "vod_name": name,
+                          "vod_pic": pic or self.default_pic,
+                          "vod_remarks": v.get("vod_remarks") or ""})
         return cards
 
     @staticmethod
@@ -945,7 +1161,7 @@ class Spider:
         _no_ref = ("picovr.com", "ppvod", "drive.quark.cn")
         h = {"User-Agent": USER_AGENT}
         if not (url and any(d in url for d in _no_ref)):
-            h["Referer"] = self.HOST + "/"
+            h["Referer"] = self.site_url + "/"
         return h
 
     def _is_playable_url(self, value) -> bool:
@@ -1000,7 +1216,31 @@ class Spider:
         return []
 
     def localProxy(self, param):
-        return None
+        u = param.get("url", "") if isinstance(param, dict) else ""
+        if not u and isinstance(param, str):
+            for pair in str(param).split("&"):
+                if "=" in pair:
+                    k, v = pair.split("=", 1)
+                    if k == "url":
+                        u = v
+        if not u:
+            return [403, "text/plain", b"", None]
+        u = urllib.parse.unquote(u) if "%" in u else u
+        h = dict(self.header)
+        if self.s is not None:
+            try:
+                r = self.s.get(u, headers=h, timeout=15)
+                return [200, r.headers.get("Content-Type", "application/octet-stream"),
+                        r.content, None]
+            except Exception:
+                pass
+        try:
+            req = urllib.request.Request(u, headers=h)
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                return [200, resp.headers.get("Content-Type", "application/octet-stream"),
+                        resp.read(), None]
+        except Exception:
+            return [403, "text/plain", b"", None]
 
     def manualVideoCheck(self):
         return False
@@ -1010,6 +1250,9 @@ class Spider:
 
     def destroy(self):
         return None
+
+    def close(self):
+        self.destroy()
 
 
 # ============ 模块级双入口（drpy site 模式 / 旧内核兼容） ============
@@ -1022,6 +1265,14 @@ def _get_singleton():
     if _SINGLETON is None:
         _SINGLETON = Spider()
     return _SINGLETON
+
+
+def init(extend=""):
+    return _get_singleton().init(extend)
+
+
+def getName():
+    return _get_singleton().getName()
 
 
 def homeContent(filter=False):
@@ -1044,8 +1295,24 @@ def searchContent(key, quick=False, pg="1"):
     return _get_singleton().searchContent(key, quick, pg)
 
 
-def playerContent(flag, id, vipFlags=None):
-    return _get_singleton().playerContent(flag, id, vipFlags)
+def playerContent(flag, ids, vipFlags=None):
+    return _get_singleton().playerContent(flag, ids, vipFlags)
+
+
+def isVideoFormat(url):
+    return _get_singleton().isVideoFormat(url)
+
+
+def localProxy(param):
+    return _get_singleton().localProxy(param)
+
+
+def manualVideoCheck():
+    return _get_singleton().manualVideoCheck()
+
+
+def destroy():
+    return _get_singleton().destroy()
 
 
 # 类名别名（部分内核按小写 spider 约定取类）
@@ -1059,6 +1326,7 @@ if __name__ == "__main__":
     import sys
 
     parser = argparse.ArgumentParser(description="咕噜咕噜 T3 源自检")
+    parser.add_argument("--verbose", action="store_true", help="输出调试日志")
     sub = parser.add_subparsers(dest="action", required=True)
 
     sub.add_parser("home")
@@ -1082,6 +1350,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     sp = Spider()
+    if args.verbose:
+        sp._verbose = True
     try:
         if args.action == "home":
             result = sp.homeContent()

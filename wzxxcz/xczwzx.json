@@ -1018,16 +1018,16 @@
             "api": "./py/大马猴影视.py"
         },
         {
-            "key": "pomo影视",
-            "name": "🍊pomo影视",
+            "key": "滴答影院",
+            "name": "💧滴答影院",
             "type": 3,
-            "api": "./py/pomo🍀TG @hshsjk9.py"
+            "api": "./py/滴答影院.py"
         },
         {
             "key": "枫叶影院",
             "name": "🍁枫叶影院",
             "type": 3,
-            "api": "./py/枫叶影院🍀TG @hshsjk9.py"
+            "api": "./py/枫叶影院.py"
         },
         {
             "key": "泡泡影院1",
