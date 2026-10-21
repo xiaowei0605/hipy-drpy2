@@ -1,0 +1,3538 @@
+{
+  "spider": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fish-1151013.jar;md5;e521e2cc4db0d7de7c8c001d51a0bfd3",
+  "logo": "https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-i-0813_6e2553f5708c414386eeca88b5f2674a~c5_300x300.jpeg?from=2956013662",
+  "notice": "115.10.17 更新瀟灑源",
+  "danmaku": "http://127.0.0.1:5266/danmu/webhtv?name={name}&episode={episode}",
+  "sites": [
+
+{
+  "key": "懒懒视频APP",
+  "name": "懒懒视频ᵃᵖᵖ",
+  "type": 3,
+  "api": "./js/llsp.min.js",
+  "ext": {
+    "appId": "522",
+    "verCode": 58,
+    "verName": "2.4.21",
+    "pkg": "com.lanlanys.app",
+    "appKey": "dec99f2e3071ece8c7aa5b2fd5800a6f",
+    "appSecret": "d686e49b39c996326bfe7b5f28846bb8",
+    "soMd5": "99b9e59d555d4bdb5c7adf14c7f901e6",
+    "apkMd5": "78c25ff2caeb04f9199303e01d039eb6",
+    "pkgMd5": "4f7f5abdc826f5e62164fb0d0af1a9b1",
+    "signMd5": "9007968b9871d31ce96ed812d1128f0d",
+    "host": ["https://newrecha.neocities.org/json/llsp20250605.json"],
+    "newHost": "http://118.31.73.148:9981",
+    "bizHost": "http://llsp3.terribly.cn",
+    "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqAp1r0KfdEbfAATZXqWMQdEHCfeMdsI7gegO2CtQgzJ5UcXHtdnRUnWd8uKHd5p1jB8ndpTmZEv6BpODgYVLOqAjpO44Z1j6WJVXZ0h19zdjyzzOqhBkEmmKPcQiF+LYqjE/0t0xdNoxgxDBQXyK1PPfmQzfmhhlacQnStL181oCRimZhwEjjha4sqnjmMJTg6JBf6zj5o2btutVT8NUMMZRSmLXqMoDj6oTJapkStlRynihNKn9AiCyozUa6VOmrlZZEnL4yjIgBqYCIS7UAyWE38HeBj7OAEAn7IBrnn1Qrw9u0J2L3Fd40zdHcmBYZa6OF05GNpR1SVlmQtL/QwIDAQAB"
+  }
+},
+
+    {
+      "key": "豆瓣",
+      "name": "[老王]熱播排行榜(自動切換)",
+      "type": 3,
+      "api": "csp_Douban",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 0,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "豆瓣-搜索",
+      "name": "[老王]熱播排行榜(可選站)",
+      "type": 3,
+      "api": "csp_Douban",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "indexs": 1,
+      "searchable": 0,
+      "quickSearch": 0,
+      "changeable": 0
+    },
+    {
+      "key"        : "Douban",
+      "name"       : "[老王]熱播排行榜(可選站)",
+      "type"       : 3,
+      "api"        : "csp_PianDan",
+      "searchable" : 1,
+      "indexs"     : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "ext"        : {
+        "home": {
+          "douban": "https://6800.kstore.vip/douban.json",
+          "tmdb"  : "https://6800.kstore.vip/tmdb.json"
+        }
+      }
+    },
+    {
+      "key"        : "YGP",
+      "name"       : "[老王]新片預告",
+      "type"       : 3,
+      "api"        : "csp_YGP",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1
+    },
+    {
+      "key"       : "py_[直播]DreamTV",
+      "name"      : "[直播]DreamTV",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/[直播]DreamTV.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key" : "FishConfig",
+      "name": "[系統]設置中心",
+      "type": 3,
+      "api" : "csp_FishConfig"
+    },
+    {
+      "key"       : "Local",
+      "name"      : "[系統]文件瀏覽",
+      "type"      : 3,
+      "api"       : "csp_Local",
+      "searchable": 0,
+      "changeable": 0,
+      "indexs"    : 0,
+      "style"     : {"type": "list"},
+      "ext"       : "https://6800.kstore.vip/share.json"
+    },
+    {
+      "key"        : "YouTube-DASH-持續修正",
+      "name"       : "[官源]YouTubeFM版",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/py/油管-16.py",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "style"      : {"ratio": 1.7}
+    },
+    {
+      "key"        : "YouTube-直連",
+      "name"       : "[官源]YouTube老王-V11版",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/py/油管-11.py",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "style"      : {"ratio": 1.7}
+    },
+        {
+            "key": "魚-KaiFan",
+            "name": "[點播]開飯(4K)",
+            "type": 3,
+            "api": "csp_KaiFan",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "ext": "AfLGR2SW/7tjQA3K8Qgg5u7AG1NNWsCVAVxfMv/V44kP5aqzon5weT9IvX2w2KtBeMpAxc+Y0yRLN0eXf6oiuLw="
+        },   
+        {
+            "key": "mandian",
+            "name": "[點播]慢点(4K)",
+            "type": 3,
+            "api": "csp_ManDian",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "ext": "AU08qHcswQQ9GUNUYMdLgyq8HzPCy1gUxku0nrQgOwfSJrT0LgwdrXoWPVK+x4n+QQ8KbuVPdzA5/U2YL7fQmH8="
+        },     
+    {
+      "name": "[點播]墨落成白(4K)",
+      "key": "AppV7Fz",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "ext": "AppV7Fz"
+    },         
+    {
+      "key": "嗷-AppV7Mtq",
+      "name": "[點播]自由人(4K)",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "AppV7Mtq"
+    },           
+    {
+      "name": "[點播]四個匹(4K)",
+      "key": "AppV7Xy",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "AppV7Xy"
+    },    
+    {
+      "key": "飯-Woshinidie",
+      "name": "[點播]橘汁(4K)",
+      "type": 3,
+      "jar": "https://zl.wpscdn.cn/2026/09/11/space_img/0f5c235d-ee40-42a0-a19a-b7f29986c51c.png;md5;7a2cb30dc4937d27e57288b5c381e19c",
+      "api": "csp_Woshinidie",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "魚-bl",
+      "name": "[點播]擺爛(4K)",
+      "type": 3,
+      "api": "csp_App88",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "AaS+rL6EXhyvk8kjx88vlhuoYDJVmN5DsnAVOsk5czv2bwkZzheDDKql32lVf6q85wzRh5PjXcFBwpnie3x9mhA="
+    },
+    {
+      "key"        : "魚-KanJu",
+      "name"       : "[點播]流映(4K)",
+      "type"       : 3,
+      "api"        : "csp_KanJu",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "changeable" : 1,
+      "ext"        : {"site": "https://kanju.ai", "playname": "ly"}
+    },
+    {
+      "key": "魚-疏影",
+      "name": "[APP]疏影(4K)",
+      "api": "csp_AppUn",
+      "type": 3,
+      "ext": "AcWh+ygRkvJAOf11TNsY/RqlWx9GJlpo3j4tzpUl+u3fVki/utnqUPm2SGUaMOiuwO9ab8dc4NOr/Kone+3t4Pvvqo19sUMAcLVWyXq8gKIr"
+    },    
+    {
+      "key": "魚-香篆",
+      "name": "[APP]香篆(4K)",
+      "type": 3,
+      "api": "csp_NiuLai",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "ext": "AYVQFckfgSMV740pmmoXzEeC6ljk5SNI/vhWnsIgCUWttSOCyil7DK8MLbeYpwWSgUvM0jcGIDuwi43iiO0FSFX1ofrxXH3IU944OtJbNlpMo9hvLoJTJ2RQVjWu3HU58w=="
+    },    
+    {
+      "key": "魚-Luck",
+      "name": "[點播]青禾(4K)",
+      "type": 3,
+      "api": "csp_Luck",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "AVmGXIMHPYJNn3HvSEi3xt7y9lvzeljaj05GoaXvvD+OfVblWT5H+uivsxMUWrD0yr6b88fIHjZqG13478wcYgU="
+    },
+    {
+      "key": "魚-素笺",
+      "name": "[點播]素箋(4K)",
+      "type": 3,
+      "api": "csp_NiuLai",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "ext": "Aaf7w5/rzYE9yZfGXQS8eAKVq3W9pLaxvlvi6ZGZLpR8O3YSm7sXFS22QD04sh5rKbTiwymnUVmJuU564xlueIWO8sp8Q1lhlLJThJy5Yert"
+    },
+    {
+      "key": "魚-长泽",
+      "name": "[點播]長澤(4K)",
+      "type": 3,
+      "api": "csp_App88",
+      "ext": "AbUqYzi9KxmcqEBrph2PStNUDPxq/XlzxDHJ/Ho29gXr8NgMOEJGFKBsrdYb5xNb+w+Xaj3203DI9YWo5wBv6zGULMNZneW1yESyfC1/S1BM"
+    },
+    {
+      "key": "魚-云岫",
+      "name": "[點播]雲岫(4K)",
+      "type": 3,
+      "api": "csp_NiuLai",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "ext": "Af9dBxsQCjGtIKQ47cJEAnzHtmsGI04C7DCRpNBZk7hshaMWsb76puB4aGapQk4JgYpBV2BKnAQ6GRcUI+/vzYduXc8ItUUvkHR/+LR3Y+NT"
+    },
+    {
+      "key": "魚-zhiqiu",
+      "name": "[點播]聽風(4K)",
+      "type": 3,
+      "api": "csp_zhiqiu",
+      "searchable": 1,
+      "ext": "ATuDzsbtXNA1mpnRWIpcUB8B2+hY3LMP/3Z1xXurADboE8cAKUOjUN6TXimsApauJg/X7yLotzgNXhCsjAn5wuQ="
+    },
+    {
+      "key"       : "魚-Libvio",
+      "name"      : "[點播]立播(4K)",
+      "type"      : 3,
+      "api"       : "csp_Libvio",
+      "searchable": 1,
+      "changeable": 1,
+      "ext"       : {
+        "site": [
+          "https://libviofabu.com",
+          "https://libvio.app",
+          "https://libfabu.com",
+          "https://libviogroup.github.io"
+        ]
+      }
+    },
+        {
+            "key": "魚-bandeng",
+            "name": "[點播]板凳(4K)",
+            "type": 3,
+            "api": "csp_BanDeng",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "ext": "ASH3HkV5cxNhNR9+uQe0sWYxUWHzEywHT3rcYOx+wsK4Jx+sBd0qMO9kFic1Rc1osAMsAsTlMgabd1Ky2kmzQ/Y="
+        },    
+    {
+      "key": "瀟-咕噜",
+      "name": "[點播]咕嚕(4K)",
+      "type": 3,
+      "api": "csp_Gulu",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "瀟-橘汁",
+      "name": "[點播]橘汁(4K)",
+      "type": 3,
+      "api": "csp_AppDrama",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "appName": "橘汁",
+        "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCr8SzZhjYy+rsya1K09t8d2K50pWFoBkgUqMpKOiW+3IEVKd4eTdvg9RSOjQ82kypL6R9BnsmrS1V8s4PVDwjQbUtYhTPPC9Hz16qY7rpD6m0d2vr09/UpWQ5uOy9PR0QTrsioveZ+DIe9jc3C+zBCu/kZSY/R8stwJoiitki3gwIDAQAB",
+        "dataKey": "OW1WBLFZCLJ0WTNJQMRSZ2DYSGNBPT0=",
+        "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+        "pkg": "com.mxj.wylcjbxyx",
+        "host": "",
+        "site": "https://123-1349250429.cos.ap-shanghai.myqcloud.com/app.txt",
+        "version": "3.0.2.4",
+        "decrypt": "1"
+      }
+    },
+    {
+      "key": "瀟-蓝鹰",
+      "name": "[點播]藍鷹(4K)",
+      "type": 3,
+      "api": "csp_AppQi",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "url"    : "http://103.217.190.91:5566",
+        "dataKey": "hagYExMdMkeWfemK",
+        "dataIv" : "hagYExMdMkeWfemK",
+        "init"   : "initV122",
+        "ua"     : "okhttp/3.10.0"
+      }
+    },
+    {
+      "key": "瀟-蓝鸟",
+      "name": "[點播]藍鳥(4K)",
+      "type": 3,
+      "api": "csp_AppQi",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "site": "https://lanyingjisu.oss-cn-wuhan-lr.aliyuncs.com/lyjszx.txt",
+        "dataKey": "oW5UxZ5kWVr1DI69",
+        "dataIv": "oW5UxZ5kWVr1DI69",
+        "init": "initV122",
+        "ua": "okhttp/3.10.0"
+      }
+    },
+    {
+      "key": "New6v",
+      "name": "[點播]New6V(4K)",
+      "type": 3,
+      "api": "csp_New6v",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "https://www.xb6v.com"
+    },
+    {
+      "key": "瀟-一起影视",
+      "name": "[點播]一起(YZ=1080P)",
+      "type": 3,
+      "api": "csp_AppYQK",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "瀟-布布",
+      "name": "[點播]布布(1080P)",
+      "type": 3,
+      "api": "csp_YunDuo",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "host": "https://323433ssdfd.top",
+        "finger": "WF-2c064bc5b3400788f31b848849bc3a60f835423ba2dfe69d7ea93974c216e4f2",
+        "aid": "com.web.player",
+        "sk": "WEB-50a8e9c84a1dc05669a692ded99a2dac46527229e607a7be15db88dbc59059d1",
+        "client": "8f3d2a1c7b6e5d4c9a0b1f2e3d4c5b6a",
+        "sign": "ddtvf65f3a83d6d9ad6f"
+      }
+    },
+    {
+      "key": "瀟-剧圈99",
+      "name": "[點播]劇圈(1080P)",
+      "type": 3,
+      "api": "csp_App99",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "host": "http://124.221.3.182:19987/app/bn",
+        "versionName": "1.2.0",
+        "name": "剧圈圈",
+        "package": "com.qingtangxiaozhuan.xyz",
+        "buildNumber": "2002",
+        "buildSignature": "054FA8DDA4319C6B6A9B954CA5777541C993F00B1B0BD4394F7EDE48184C4594"
+      }
+    },
+    {
+      "key": "瀟-半日99",
+      "name": "[點播]半日(1080P)",
+      "type": 3,
+      "api": "csp_App99",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "host": "http://103.217.190.91:19987/app/bn",
+        "versionName": "3.5.8",
+        "name": "半日闲",
+        "package": "com.yf.lelian",
+        "buildNumber": "2001",
+        "buildSignature": "A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC"
+      }
+    },
+    {
+      "key": "瀟-天堂",
+      "name": "[點播]天堂(1080P)",
+      "type": 3,
+      "api": "csp_AppDrama",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "appName": "电影天堂",
+        "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCduNEnfxGaLuQRk5ABzXHhPV43zi00sCHjLo8BYc+Wi6xXm2b4v0i28Sq4WlNCKhseft9fz8kO/qLr6/022o1RcuOU7e4GFL3U9WnNODwRBYSYWd+K8nqpI/tAUDmZEBGRWqjrc7x6aMl3A+xpnWkLbPCLsuhbuuUE3tv09oeOpwIDAQAB",
+        "dataKey": "D2KREWRIBVNAUJJYEDL4VFHOY2Q0PQ==",
+        "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+        "pkg": "com.dytiantang.one",
+        "host": "",
+        "site": "https://dyttandroid04-1372779881.cos.ap-shanghai.myqcloud.com/app_dyttandroid.txt",
+        "version": "3.0.0.7",
+        "decrypt": "0"
+      }
+    },
+    {
+      "key": "瀟-苹果",
+      "name": "[點播]蘋果(1080P)",
+      "type": 3,
+      "api": "csp_AppDrama",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "appName": "小苹果",
+        "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCduNEnfxGaLuQRk5ABzXHhPV43zi00sCHjLo8BYc+Wi6xXm2b4v0i28Sq4WlNCKhseft9fz8kO/qLr6/022o1RcuOU7e4GFL3U9WnNODwRBYSYWd+K8nqpI/tAUDmZEBGRWqjrc7x6aMl3A+xpnWkLbPCLsuhbuuUE3tv09oeOpwIDAQAB",
+        "dataKey": "S0VNDTJHOFHHCNMRAW5IV2TOS2PBPQ==",
+        "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+        "pkg": "com.juechufsh.android.xpg1",
+        "host": "",
+        "site": "https://xpgandroid03-1372779881.cos.ap-beijing.myqcloud.com/app_xpg_android.txt",
+        "version": "1.0.0.3",
+        "decrypt": "0"
+      }
+    },
+    {
+      "key": "瀟-茉莉",
+      "name": "[點播]茉莉(1080P)",
+      "type": 3,
+      "api": "csp_AppGet",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "site"   : "https://allinadmin.oss-cn-hangzhou.aliyuncs.com/bk/9.txt",
+        "dataKey": "88689667dce61725",
+        "dataIv" : "88689667dce61725"
+      }
+    },
+    {
+      "key": "瀟-飞娱影视",
+      "name": "[點播]飛娛(1080P)",
+      "type": 3,
+      "api": "csp_Feiyu",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5"
+    },
+    {
+      "key": "金牌影视",
+      "name": "[點播]金牌(1080P)",
+      "type": 3,
+      "api": "csp_Jpys",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": "https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.sizhengxt.com,https://m.jiabaide.cn"
+    },
+    {
+      "key": "嗷-AiGua",
+      "name": "[點播]愛瓜(1080P)",
+      "type": 3,
+      "api": "csp_AiGuaAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "魚-wencai",
+      "name": "[點播]文才(1080P)",
+      "type": 3,
+      "api": "csp_WenCai",
+      "searchable": 1,
+      "ext": "https://www.tjrongze.com,https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.jiabaide.cn"
+    },
+    {
+      "key": "飯-文采",
+      "name": "[點播]文采(1080P)",
+      "type": 3,
+      "api": "csp_JpysGuard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 10,
+      "playerType": 2,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "wencai",
+      "name": "[點播]文才(1080P)",
+      "type": 3,
+      "api": "csp_WenCai",
+      "searchable": 1,
+      "ext": "https://www.tjrongze.com,https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.jiabaide.cn"
+    },    
+    {
+      "key"       : "魚-SaoHuo",
+      "name"      : "[點播]騷火(1080P)",
+      "type"      : 3,
+      "api"       : "csp_SaoHuo",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 1,
+      "ext"       : "https://shdy5.us"
+    },
+    {
+      "key": "Qile优视频2",
+      "name": "[點播]Uvod(1080P)",
+      "type": 3,
+      "searchable": 1,
+      "changeable": 1,
+      "api": "csp_Uvod",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/custom_spider.jar;md5;5e53c8f9ddd4ede5359c16bee091db93",
+      "playerType": 2,
+      "filterable": 1
+    },
+    {
+      "key"       : "py_Uvod",
+      "name"      : "[點播]Uvod(1080P)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/Uvod.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_UVOD_2",
+      "name"      : "[點播]UVOD_2(1080P)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/UVOD_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key": "飯-比特",
+      "name": "[點播]比特(1080P)",
+      "type": 3,
+      "api": "csp_BttwooGuard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 10,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "嗷-Ysp",
+      "name": "[點播]優視(1080P)",
+      "type": 3,
+      "api": "csp_YspAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "奶酪",
+      "name": "[點播]奶酪(1080P)",
+      "type": 3,
+      "api": "csp_T4Guard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "ext": "rfOIzPkSUkANv6AT2prC8en3+TzKx9TnlT8vaY37HhtYfAQe6C5xqrVuJPhQwYV6r3eRdMBGm3Qm6Th+BushR86B6KqJGXDsHazHw7alBG/7zUxkN1tK/NypRxnpBNoeUtpw4jcCGhytI75yO4g4zG6SOPA0RSwhksM0IF2friAkrHCWoW3v+0mdw6sjz4t4XB1Df7yL/R5cfaA/5LQYq3I8OkvMrJMU9Q1P7JXwx7NSF2zTyH/ANVmZ4u5m567DW1KVG7OuQjXPjZiOXTYk0+wjpfBRTf19yIq6q/C76k2Fs80joAMPw0ueDR+QHxtuDcTom2rmHkI1Fonkzi6BotbpUcbSi4PiIgmfdbvVwhG6Z+i4nvt+IYa48l5aLA7PLgDiERpuOs31aHaXlgFswT87XyTb8QaF4CuzKWJuXptwNTjvXAS9KHdxH49Ay+hfBAB2bCvUf4CMoldF2wZUv0mI2qY966erFpOFg+FOc7t88EUH8j8ACXQtHJiKC9RQ+SaLIF0="
+    },
+    {
+      "key": "飯-视界",
+      "name": "[點播]茉莉(1080P)",
+      "type": 3,
+      "api": "csp_App99Guard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 10,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "rfOX1voDIQhH8epBwtCFsuby/mmdmIu8kGlnJc+7VkMRLQ1K+jMy+KN1MKQe0MZ6tmGSO5oFzD8/vWwiSqEpFczDqLrdGT3iH6fZmryrFzKijwYkJUMctdztE0O4CsgYZdBu8XhZSwuhSqqllQz4AZMa1l0sT+1NrbhNIxHkrY0upiYSTLNqEaledgZikMCviOXWr3cPBP4COOeoGUyJSJrrybmUppnWGeDAOHhHOVUSXjwSb+QQvcJIT2lmrf1Bk68myGs7qOqc19tD/rnzf2WOb2MzJZqtURBmUFgaW6ea2dL8OPSpSeVAvaGCAnqwuUNGE9hHpK8jfOs0bLJRdkFLnijAn5Q+ofVM5hgGb8c="
+    },
+    {
+      "key": "奥特",
+      "name": "[點播]奥特(1080P)",
+      "type": 3,
+      "api": "csp_AueteGuard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 10,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "飯-光影",
+      "name": "[點播]光影(1080P)",
+      "type": 3,
+      "api": "csp_T4Guard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-0720.jar;md5;4f014e5152a3481b34b34b52292b94b1",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "ext": "rfOIzPkSUkANv6AT2prC8en3+Trbx4j10CIoZMv3Ag4bdEYQqTMqu/Z3YPtC2NJv6n6YeZdgyWlo4WJjBL5gUt6B7LvCEDT4CLrWka31GRq7jwVkfQRB/Jy9HkG7E8xUBIJi5DdVFk3qAuGnwUWqQNRblRxzHW+tdSm6zoFcG/QkZ97bzWOXn0fzbgwjBDkBHgcPIYjlULlctCNKgJ9DzGNSl+zMZDZgmxczsZeeahRS38Cst3qvaHn1T2lmLBGVGXPaRovi77LPRRDOJSNRrdpvCHdRikYwgar0MU56hXMGeGBiKp/OmGTIYR8dFRGvZ/m8xGOqs8U13h6wvADOGlYoP9VaQBqTcDnz9Q0Urhw3oFXWyvIlUrDhX9la5L2NYzagbyk3afqhxeSXXp07nAFsNy2CojHRTbmz4eohLoIJTSi2DzPpheVx1DAapfgRdTc7Ax5ddYpN338GiDAa0GnEgLe04a1pZ5jF+/Q7HJswqlSO+DXCQ3FjRbb/ZPQcozcCWwzhUHE1QUAt799V9DPMuiHGyudIcZarGQmezB+Lb45RdHIRy0PXD+NRVPJlfDFD5FMGSqsiVklibvuwlVHT8J5vHgh/1nEZoI1RlYYLrkjTts2EeQmrpB/sgLyo1vnjFw=="
+    },
+    {
+      "key": "Hxq",
+      "name": "[點播]韓劇(1080P)",
+      "type": 3,
+      "api": "csp_HxqAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0
+    },
+    {
+      "key": "py_jieyingshi",
+      "name": "[點播]異界(1080P)",
+      "type": 3,
+      "api": "csp_Jys",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "ext": "https://www.ndhfiohk.com/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "世界影视",
+      "name": "[點播]世界",
+      "type": 3,
+      "api": "csp_HkybSpider",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "爱看机器人",
+      "name": "[點播]爱看(1080P+廣告多)",
+      "type": 3,
+      "api": "csp_Ikanbot",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key"       : "魚-Duboku",
+      "name"      : "[點播]獨播庫(720P)",
+      "type"      : 3,
+      "api"       : "csp_Duboku",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 1
+    },
+    {
+      "key": "嗷-Dubk",
+      "name": "[點播]獨播庫(720P)",
+      "type": 3,
+      "api": "csp_DubkAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "Dubk"
+    },
+    {
+      "key": "瀟-独播影视",
+      "name": "[點播]獨播庫(720P)",
+      "type": 3,
+      "api": "csp_Duboku",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5"
+    },
+    {
+      "key"       : "py_独播库",
+      "name"      : "[點播]独播库(720P)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/独播库.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+  {
+    "key": "py_绿色影视",
+    "name": "[點播]綠色影視(720P)",
+    "type": 3,
+    "api": "https://newrecha.neocities.org/py/绿色影视.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },    
+    {
+      "key"        : "php_无水印资源",
+      "name"       : "[點播]無水印資源",
+      "type"       : 4,
+      "api"        : "https://php.doube.eu.org/php/",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "changeable" : 1,
+      "ext"        : {
+        "module_name": "CmsSuggest",
+        "url"        : "https://api.wsyzy.net/api.php/provide/vod"
+      }
+    },
+    {
+      "key": "JinPai",
+      "name": "[點播]金牌",
+      "type": 3,
+      "api": "csp_JinPaiAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0
+    },
+    {
+      "key": "YIys",
+      "name": "[點播]雅思",
+      "type": 3,
+      "api": "csp_YIysAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "天堂",
+      "name": "[點播]天堂",
+      "type": 3,
+      "api": "csp_AppDrama",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "appName": "电影天堂",
+        "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCduNEnfxGaLuQRk5ABzXHhPV43zi00sCHjLo8BYc+Wi6xXm2b4v0i28Sq4WlNCKhseft9fz8kO/qLr6/022o1RcuOU7e4GFL3U9WnNODwRBYSYWd+K8nqpI/tAUDmZEBGRWqjrc7x6aMl3A+xpnWkLbPCLsuhbuuUE3tv09oeOpwIDAQAB",
+        "dataKey": "D2KREWRIBVNAUJJYEDL4VFHOY2Q0PQ==",
+        "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+        "pkg": "com.dytiantang.one",
+        "host": "",
+        "site": "https://dyttandroid04-1372779881.cos.ap-shanghai.myqcloud.com/app_dyttandroid.txt",
+        "version": "3.0.0.7",
+        "decrypt": "0"
+      }
+    },
+    {
+      "key": "灵虎",
+      "name": "[點播]靈虎",
+      "type": 3,
+      "api": "csp_AppGet",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "site"   : "https://bind.315999.xyz/89.txt",
+        "dataKey": "#getapp@TMD@2025",
+        "dataIv" : "#getapp@TMD@2025"
+      }
+    },
+    {
+      "name": "[點播]哔嘀2K",
+      "key": "Bidys",
+      "type": 3,
+      "api": "csp_BidysAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "ext": "https://v.xl01.eu.cc,https://xl02.com.de,https://v.xl02.eu.cc,https://v.xl01.cc.ua,https://www.xlys02.com,https://xl02.com.de"
+    },
+    {
+      "name": "[點播](720P)",
+      "key": "AppV7Zjdr",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "AppV7Zjdr"
+    },
+    {
+      "name": "[點播]始未曲(1080P)",
+      "key": "AppV7Xyz",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "AppV7Xyz"
+    },
+    {
+      "name": "[點播]歐恩恩",
+      "key": "AppV7Xnm",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "AppV7Xnm"
+    },
+    {
+      "name": "[點播]阿邱(1080P)",
+      "key": "AppV7Llq",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "AppV7Llq"
+    },
+    {
+      "name": "[點播]小黑",
+      "key": "AppV7Xsz",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "AppV7Xsz"
+    },
+    {
+      "name": "[點播]西西(720P)",
+      "key": "AppV7Xhr",
+      "type": 3,
+      "api": "csp_AppV7Amns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "AppV7Xhr"
+    },
+    {
+      "key": "飯-糯米",
+      "name": "[點播]糯米(720P)",
+      "type": 3,
+      "api": "csp_NmyswvGuard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 15,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "嗷-JPian",
+      "name": "[點播]荐片(1080P)",
+      "type": 3,
+      "api": "csp_JPianAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "JPian"
+    },
+    {
+      "key": "飯-荐片",
+      "name": "[點播]荐片(720P)",
+      "type": 3,
+      "api": "csp_JPJGuard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 10,
+      "playerType": 2,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0
+    },
+    {
+      "key"       : "py_4k",
+      "name"      : "[點播]4k",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/4k.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_4KVM",
+      "name"      : "[點播]4KVM(720P)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/4KVM.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_4Kyingshi",
+      "name"      : "[點播]4Kyingshi",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/4Kyingshi.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_4k影视",
+      "name"      : "[點播]4k影视(1080P)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/4k影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_4K影视_2",
+      "name"      : "[點播]4K影视_2",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/4K影视_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_6v影视_2",
+      "name"      : "[點播]6v影视_2",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/6v影视_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_55电影",
+      "name"      : "[點播]55电影(1080P+浮水印)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/55电影.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key"       : "py_123TV",
+      "name"      : "[點播]123TV",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/123TV.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_456听书网",
+      "name"      : "[點播]456听书网",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/456听书网.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_808影院",
+      "name"      : "[點播]808影院(720P)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/808影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_aidianying",
+      "name"      : "[點播]aidianying",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/aidianying.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_CjJson_SingleFile_Ultimate",
+      "name"      : "[點播]CjJson_SingleFile_Ultimate",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/CjJson_SingleFile_Ultimate.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_CNFLIX",
+      "name"      : "[點播]CNFLIX",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/CNFLIX.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_dm84",
+      "name"      : "[點播]dm84",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/dm84.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_duanjudaquan",
+      "name"      : "[點播]duanjudaquan",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/duanjudaquan.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_dusheduanju",
+      "name"      : "[點播]dusheduanju",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/dusheduanju.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_6080电影",
+      "name"      : "[廣告]6080电影(1080+全屏廣告)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/6080电影.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key"       : "py_EcoHub 線路多廣告多",
+      "name"      : "[廣告]EcoHub 線路多廣告多",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/EcoHub 線路多廣告多.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_fandaziyingshi",
+      "name"      : "[點播]fandaziyingshi",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/fandaziyingshi.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_fenglinwang",
+      "name"      : "[點播]楓林網(720P)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/fenglinwang.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_FoFoyingyuan",
+      "name"      : "[點播]FoFoyingyuan",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/FoFoyingyuan.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_guoguoduanju",
+      "name"      : "[點播]guoguoduanju",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/guoguoduanju.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_IkanBot",
+      "name"      : "[點播]IkanBot",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/IkanBot.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_kanjuAI",
+      "name"      : "[點播]kanjuAI",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/kanjuAI.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_miniyingshi",
+      "name"      : "[點播]miniyingshi",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/miniyingshi.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_PPnix",
+      "name"      : "[點播]PPnix",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/PPnix.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_py_feifanziyuan",
+      "name"      : "[點播]py_feifanziyuan",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/py_feifanziyuan.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_py_jinpai",
+      "name"      : "[點播]py_jinpai",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/py_jinpai.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_py_nivod_cc",
+      "name"      : "[點播]py_nivod_cc",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/py_nivod_cc.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_py_电影猎手",
+      "name"      : "[點播]py_电影猎手",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/py_电影猎手.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_shiliuduanju",
+      "name"      : "[點播]shiliuduanju",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/shiliuduanju.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_VS影院",
+      "name"      : "[點播]VS影院",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/VS影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_一堆採集",
+      "name"      : "[點播]一堆採集",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/一堆採集.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_一起看影院",
+      "name"      : "[點播]一起看影院",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/一起看影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_七味",
+      "name"      : "[點播]七味",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/七味.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_七味-最终稳定版(含大屏分组排序+防串位修复)",
+      "name"      : "[點播]七味-最终稳定版(含大屏分组排序+防串位修复)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/七味-最终稳定版(含大屏分组排序+防串位修复).py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_七猫影视",
+      "name"      : "[點播]七猫影视(720P+浮水印)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/七猫影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key"       : "py_仙腾影院",
+      "name"      : "[點播]仙腾影院",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/仙腾影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_低端影视",
+      "name"      : "[點播]低端影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/低端影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_兄弟影视.min",
+      "name"      : "[點播]兄弟影视.min",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/兄弟影视.min.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_农民影视",
+      "name"      : "[點播]农民影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/农民影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_初8影视",
+      "name"      : "[點播]初8影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/初8影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_剧OK",
+      "name"      : "[點播]剧OK",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/剧OK.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_剧下饭4K影视",
+      "name"      : "[點播]剧下饭4K影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/剧下饭4K影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_北斗影院",
+      "name"      : "[點播]北斗影院",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/北斗影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_千千音乐",
+      "name"      : "[點播]千千音乐",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/千千音乐.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_厂长资源",
+      "name"      : "[點播]厂长资源",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/厂长资源.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_唐人街影院",
+      "name"      : "[點播]唐人街影院",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/唐人街影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_嘀嗒影视",
+      "name"      : "[點播]嘀嗒影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/嘀嗒影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_夏日影院",
+      "name"      : "[點播]夏日影院",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/夏日影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_多多影视",
+      "name"      : "[點播]多多影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/多多影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_多瑙影院",
+      "name"      : "[點播]多瑙影院",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/多瑙影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_大师兄影视",
+      "name"      : "[點播]大师兄影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/大师兄影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_太乙电影",
+      "name"      : "[點播]太乙电影",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/太乙电影.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_好好看",
+      "name"      : "[點播]好好看",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/好好看.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_威视TV",
+      "name"      : "[點播]威视TV",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/威视TV.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_威视TV_2",
+      "name"      : "[點播]威视TV_2",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/威视TV_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_宝园影视",
+      "name"      : "[點播]宝园影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/宝园影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_小鸭子看看",
+      "name"      : "[點播]小鸭子看看",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/小鸭子看看.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_影子音乐",
+      "name"      : "[點播]影子音乐",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/影子音乐.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_影视+专属全网聚合_3",
+      "name"      : "[點播]影视+专属全网聚合_3",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/影视+专属全网聚合_3.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key"       : "py_悦听吧",
+      "name"      : "[點播]悦听吧",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/悦听吧.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_星辰影院",
+      "name"      : "[點播]星辰影院",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/星辰影院.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_橘汁视频",
+      "name"      : "[點播]橘汁视频",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/橘汁视频.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_爱听音乐",
+      "name"      : "[點播]爱听音乐",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/爱听音乐.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_爱看机器人",
+      "name"      : "[點播]爱看机器人",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/爱看机器人.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_电影侠",
+      "name"      : "[點播]电影俠(1080P)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/电影侠.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_看戏影视",
+      "name"      : "[點播]看戏影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/看戏影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_真狼影视",
+      "name"      : "[點播]真狼影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/真狼影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_网易云音乐1",
+      "name"      : "[點播]网易云音乐1",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/网易云音乐1.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_耐看点播",
+      "name"      : "[點播]耐看点播",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/耐看点播.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_花都影视",
+      "name"      : "[點播]花都影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/花都影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_袋鼠影视",
+      "name"      : "[點播]袋鼠影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/袋鼠影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_袋鼠影视_2",
+      "name"      : "[點播]袋鼠影视_2",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/袋鼠影视_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_西瓜卡通",
+      "name"      : "[點播]西瓜卡通",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/西瓜卡通.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_遊戲直播",
+      "name"      : "[點播]遊戲直播",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/遊戲直播.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_青空次元_2",
+      "name"      : "[點播]青空次元_2",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/青空次元_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_韩剧巴士",
+      "name"      : "[點播]韩剧巴士",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/韩剧巴士.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_音乐聚合",
+      "name"      : "[點播]音乐聚合",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/音乐聚合.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_飞快",
+      "name"      : "[點播]飞快",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/飞快.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_飞快_2",
+      "name"      : "[點播]飞快_2",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/飞快_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_麒麟影视",
+      "name"      : "[點播]麒麟影视",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/麒麟影视.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"        : "py_愛電影.py",
+      "name"       : "[點播]金牌系列-愛電影",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/py/又是一個金牌.py",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "ext"        : {"site": "https://www.gs4x7nq4.com"}
+    },
+    {
+      "key"        : "py_文才",
+      "name"       : "[點播]金牌系列-界界",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/py/又是一個金牌.py",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "ext"        : {
+        "site": "https://www.hkybqufgh.com,https://www.sizhengxt.com,https://0996zp.com,https://9zhoukj.com/"
+      }
+    },
+    {
+      "key"        : "py_zjuys.py",
+      "name"       : "[點播]金牌系列-zjuys",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/py/又是一個金牌.py",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "ext"        : {"site": "https://zjuys.com/"}
+    },
+    {
+      "key"        : "py_jiabaide",
+      "name"       : "[點播]金牌系列-jiabaide",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/py/又是一個金牌.py",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "ext"        : {"site": "https://www.jiabaide.cn"}
+    },
+    {
+      "key"        : "py_cqzuoer",
+      "name"       : "[點播]金牌系列-cqzuoer",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/py/又是一個金牌.py",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "ext"        : {"site": "https://cqzuoer.com"}
+    },    
+    {
+      "key": "bili",
+      "name": "[官源]bilbil合集",
+      "type": 3,
+      "api": "csp_Bili",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "style": {"type": "rect", "ratio": 1.433},
+      "ext": {
+        "cookie": "http://127.0.0.1:9978/file/tvbox/bili_cookie.txt",
+        "json"  : "https://newrecha.neocities.org/json/哔哩合集.json"
+      },
+      "timeout": 20
+    },
+    {
+      "key"        : "BiliHeji",
+      "name"       : "[官源]bilbil合集",
+      "type"       : 3,
+      "api"        : "csp_Bili",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "changeable" : 0,
+      "ext"        : {
+        "json": "https://nos.netease.com/ysf/0075389dca9afadd4614e9713765ff17.txt"
+      },
+      "style"      : {"type": "rect", "ratio": 1.433}
+    },
+    {
+      "key": "bilitingshu",
+      "name": "[官源]bili聽書趣",
+      "type": 3,
+      "api": "csp_Bili",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 1,
+      "ext": {
+        "json": "https://newrecha.neocities.org/json/bili听书.json",
+        "cookie": "SESSDATA=819d93e8%2C1764426658%2C4ec10%2A61CjA74Z7n0isRlTABldomYIMAwyRBPDvLaJl9ERae-vTzTalKiYoDX6Qu9J0E5fof-h0SVlJfUUE0T1RLaExUQWloSUNBNG9ROEZQazBJX3FDX0VkWUFZQ0t2LXFtbnJmdUI1eEkwUnVJVl96Nk1sZTBDeFYtTkxVUjc5MjZsVjFWSENjR0hnZUVBIIEC;bili_jct=b655010f87e4dcb20ea46a191d23a443;DedeUserID=3546382984022310;DedeUserID__ckMd5=9728526c8c2ad2a5;sid=51az4mji"
+      },
+      "style": {"type": "rect", "ratio": 1.333}
+    },
+    {
+      "key": "bilimanhua",
+      "name": "[官源]bili漫畫屋",
+      "type": 3,
+      "api": "csp_Bili",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 1,
+      "ext": {
+        "json": "https://newrecha.neocities.org/json/bili漫画.json",
+        "cookie": "SESSDATA=819d93e8%2C1764426658%2C4ec10%2A61CjA74Z7n0isRlTABldomYIMAwyRBPDvLaJl9ERae-vTzTalKiYoDX6Qu9J0E5fof-h0SVlJfUUE0T1RLaExUQWloSUNBNG9ROEZQazBJX3FDX0VkWUFZQ0t2LXFtbnJmdUI1eEkwUnVJVl96Nk1sZTBDeFYtTkxVUjc5MjZsVjFWSENjR0hnZUVBIIEC;bili_jct=b655010f87e4dcb20ea46a191d23a443;DedeUserID=3546382984022310;DedeUserID__ckMd5=9728526c8c2ad2a5;sid=51az4mji"
+      },
+      "style": {"type": "rect", "ratio": 1.333}
+    },
+    {
+      "key": "biligequ",
+      "name": "[官源]bili歌曲",
+      "type": 3,
+      "api": "csp_Bili",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 1,
+      "ext": {
+        "json": "https://newrecha.neocities.org/json/bili歌曲.json",
+        "cookie": "SESSDATA=819d93e8%2C1764426658%2C4ec10%2A61CjA74Z7n0isRlTABldomYIMAwyRBPDvLaJl9ERae-vTzTalKiYoDX6Qu9J0E5fof-h0SVlJfUUE0T1RLaExUQWloSUNBNG9ROEZQazBJX3FDX0VkWUFZQ0t2LXFtbnJmdUI1eEkwUnVJVl96Nk1sZTBDeFYtTkxVUjc5MjZsVjFWSENjR0hnZUVBIIEC;bili_jct=b655010f87e4dcb20ea46a191d23a443;DedeUserID=3546382984022310;DedeUserID__ckMd5=9728526c8c2ad2a5;sid=51az4mji"
+      },
+      "style": {"type": "rect", "ratio": 1.333}
+    },
+    {
+      "key"        : "BiliGequ",
+      "name"       : "[官源]bilbil歌曲",
+      "type"       : 3,
+      "api"        : "csp_Bili",
+      "searchable" : 0,
+      "quickSearch": 0,
+      "changeable" : 0,
+      "ext"        : {
+        "json": "https://nos.netease.com/ysf/6496356286589c68f52c2f99c0c674c7.txt"
+      },
+      "style"      : {"type": "rect", "ratio": 1.433}
+    },
+    {
+      "key": "瀟-哔哩合集",
+      "name": "[官源]bilbil合集",
+      "type": 3,
+      "api": "csp_Bili",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 0,
+      "changeable": 0,
+      "style": {"type": "rect", "ratio": 1.433},
+      "ext": {
+        "n"     : "哔哩合集",
+        "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
+      }
+    },
+    {
+      "key": "瀟-哔哩视频",
+      "name": "[官源]bilbil视频",
+      "type": 3,
+      "api": "csp_BiliYS",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 0,
+      "changeable": 0,
+      "style": {"type": "rect", "ratio": 1.433},
+      "ext": {"cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"}
+    },    
+    {
+      "key"       : "魚-Wwys",
+      "name"      : "[點播]農民(720P)",
+      "type"      : 3,
+      "api"       : "csp_Wwys",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 1,
+      "ext"       : "https://vip.wwgz.cn:5200"
+    },
+    {
+      "key": "csp_If101",
+      "name": "️[點播]歐視",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xyqxbpq.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "简介": "content_desc context clearfix\">&&</span>",
+        "分类url": "https://www.olehdtv.com/index.php/vod/show/area/{area}/by/{by}/id/{cateId}/page/{catePg}/year/{year}.html",
+        "分类": "電影$1#電視劇$2#綜藝$3#動漫$4",
+        "地区": "大陆&香港&台湾&美国&法国&英国&日本&韩国&德国&泰国&印度&意大利&西班牙&加拿大&其他"
+      }
+    },
+    {
+      "key": "csp_YLSP",
+      "name": "[點播]永樂",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xyqxbpq.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "线路数组": "data-dropdown-value=&&</div>",
+        "线路标题": "<span>&&</span>[不包含:全球1线]",
+        "简介": "video-info-item video-info-content vod_content\">&&</span>",
+        "分类url": "https://ylsp.tv/vodshow/{cateId}-{area}-{by}------{cateIPg}---{year}/",
+        "分类": "電影$1#電視劇$2#綜藝$3#動漫$4",
+        "地区": "大陆&香港&台湾&美国&法国&英国&日本&韩国&德国&泰国&印度&意大利&西班牙&加拿大&其他大陆&香港&台湾&美国&法国&英国&日本&韩国&德国&泰国&印度&意大利&西班牙&加拿大&其他内地&港台&日韩&欧美国产&日本&欧美&其他"
+      }
+    },
+    {
+      "key": "永乐影视",
+      "name": "[點播]永樂",
+      "type": 3,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "api": "csp_XBPQ",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xyqxbpq.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "ext": {
+        "请求头": "User-Agent$MOBILE_UA",
+        "编码": "UTF-8",
+        "分类url": "https://www.ylys.tv/vodshow/{cateId}-{area}-{by}-{class}-{lang}-{letter}---{catePg}---{year}.html",
+        "分类": "电影$1#电视劇$2#综艺$3#$4",
+        "类型": "动作片$6#喜劇片$7#爱情片$8#科幻片$9#奇幻片$10#恐怖片$11#劇情片$12#战争片$20#动画片$26#悬疑片$22#冒险片$23#犯罪片$24#惊悚片$45#歌舞片$46#灾难片$47#网络片$48国产劇$13#港台劇$14#日劇$15#韩劇$33#欧美劇$16#泰劇$34#新马劇$35#其他劇$25内地综艺$27#港台综艺$28#日本综艺$29#韩国综艺$36#欧美综艺$30#新马泰综艺$37#其他综艺$38国产$31#日本$32#韩国$39#港台$40#新马泰$41#欧美$42#其他$43"
+      }
+    },
+    {
+      "key"        : "CZ",
+      "name"       : "[點播]廠長(1080P)",
+      "type"       : 3,
+      "api"        : "csp_CZ",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 0,
+      "ext"        : {
+        "cookie"  : "",
+        "username": "",
+        "password": "",
+        "site"    : [
+          "https://www.4kcz.com",
+          "https://www.cz4k.com",
+          "https://cz01.tv",
+          "https://cz01.vip",
+          "https://www.czzy.site",
+          "https://czzy.top"
+        ]
+      }
+    },
+    {
+      "key": "厂长影视",
+      "name": "[點播]廠長(720P)",
+      "type": 3,
+      "api": "csp_Czsapp",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "https://cz01.vip"
+    },    
+    {
+      "key"       : "魚-TvDy",
+      "name"      : "[點播]天堂(720P)",
+      "type"      : 3,
+      "api"       : "csp_TvDy",
+      "searchable": 1,
+      "filterable": 1
+    },
+    {
+      "key"       : "SaoHuo",
+      "name"      : "[點播]骚火",
+      "type"      : 3,
+      "api"       : "csp_SaoHuo",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 1,
+      "ext"       : "https://shdy5.us"
+    },
+    {
+      "key": "飯-剧圈",
+      "name": "[點播]劇圈(720+浮水印)",
+      "type": 3,
+      "api": "csp_AppSxGuard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 10,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "rfOX1voDIQhH8epBwpmIsuSluiuZl4+/lm1iJsy3HwNWMxpf9CY77fshI+kByoxy7DyPatUZ1jk0ty1p"
+    },
+    {
+      "key": "嗷-Olyy",
+      "name": "[點播]歐樂(1080P+會卡)",
+      "type": 3,
+      "api": "csp_OlyyAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "Aiyf",
+      "name": "[APP]愛壹帆(720P)",
+      "type": 3,
+      "api": "csp_AiyfAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "奴娜",
+      "name": "[APP]奴娜(1080P)",
+      "type": 3,
+      "api": "csp_AppYsV2",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "https://www.nntv.in/api.php/v1.vod"
+    },
+    {
+      "key": "gulu",
+      "name": "[APP]咕噜(1080P)",
+      "type": 3,
+      "api": "csp_AppQi",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "changeable": 1,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "site": "https://mobile-1251126973.cos.ap-guangzhou.myqcloud.com/maccos_config.txt",
+        "dataKey": "8R33VQSxzmCaHpEX",
+        "dataIv": "8R33VQSxzmCaHpEX",
+        "init": "initV122",
+        "ua": "Lavf/58.12.100"
+      }
+    },
+    {
+      "key": "王子",
+      "name": "[APP]王子(1080P)",
+      "type": 3,
+      "api": "csp_AppGet",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "url"    : "https://app.95112475.xyz",
+        "dataKey": "5a9w6x58dsq6z3a6",
+        "dataIv" : "5a9w6x58dsq6z3a6"
+      }
+    },
+    {
+      "key": "魚-三秋影视",
+      "name": "[APP]三秋",
+      "type": 3,
+      "api": "csp_App3Q",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "ext": "AWbn5kTXI16R4Cr+RX4aHt0T+030j7BuQXZ0VHk8l3hKv+5UxjC4Ssjj/nyFAW+NCs8Pu72w7WrsQ1hQduHbfNE="
+    },
+    {
+      "key": "魚-马猴影视",
+      "name": "[APP]馬猴(1080P)",
+      "type": 3,
+      "api": "csp_App3Q",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "ext": "Aalts9S0kZVe1LnLnDkMQZgi4p/BQkgyXW3CiozzZwpXllkvgFr5ojgmcjYPyW+qWPP9aDwMqWoI7WYz/y7OXcc="
+    },
+    {
+      "key": "魚-星澜",
+      "name": "[APP]星澜(1080P)",
+      "type": 3,
+      "api": "csp_NiuLai",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "ext": "AfOEx4Xw7b+FHm/68xw9/lZWy8xM/OLcY5h9FHwA2IgFua44tuuISikGbVerA833yP5nIZh+Jj6ZR+3PnpErsJm4+VBlVVEvIPDhjrx+HB/Lfjty5u+JKHoniwcTCyQBZQ=="
+    },
+    {
+      "key": "魚-茶寮",
+      "name": "[APP]茶寮(1080P)",
+      "type": 3,
+      "api": "csp_NiuLai",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "ext": "AbT1mRO9mdV/fKxQSIp2Z0VDEqtFYo24Gg6BFT05FFPMoQC7rwZK2J4Ib2y+3MPCAKAYagodZdIJ7J7lxhTnINQS1SS+MgfVttlMlNoJWzdkYbhjK9vfVH1A6DXtvayirg=="
+    },
+    {
+      "key": "魚-玉阶",
+      "name": "[APP]玉階(1080P)",
+      "type": 3,
+      "api": "csp_NiuLai",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "ext": "AR1skS0Mq97cRrUjisQHhwxFfgXFonkw2eX4zfToon+DcScGRXGViBnNIsG5DYOtYkAp0CTia3vGvMluKl75/eMH49CGi2ZWYJa1wyldHjNH"
+    },
+    {
+      "key": "魚-纸鸢",
+      "name": "[APP]纸鸢",
+      "type": 3,
+      "api": "csp_NiuLai",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "ext": "Af1RcEZ9vfQpZ5Ib5RWesjmyo2oaK9tP/4YYaPatEOn5T8+ue0nhZc2CbgOPi64vzvV7qLn5w47/MlcswCIdm7D0ye2x1TJuqbkTT0pvHvfwMtHcr/PkQ9l3cetXU2TU2g=="
+    },
+    {
+      "key": "魚-墨砚",
+      "name": "[APP]墨硯(1080P)",
+      "type": 3,
+      "api": "csp_NiuLai",
+      "searchable": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "ext": "AXBOapYonY2jiqXCu6S1ZcErGInklM7Lw7KRmM5SJ8g1ek0+BclBD74mE/Zku+mOKfgHWgWsxcPebrt0JiFv0Ps6tDbvx5t80MHLszRh0FUp"
+    },
+    {
+      "key": "魚-枕霜",
+      "name": "[廣告]枕霜(1080+全屏廣告)",
+      "api": "csp_AppUn",
+      "type": 3,
+      "ext": "Ae6vu7b7i5h70Oy94HyVp82ZDRF6HrMNdCYNTQ442xkG4kY88mkG1x34awtkrrUdk56x2qehUzy3YCLubZhewqD5a5lQeSsfcnYh8z8+qVVL"
+    },
+    {
+      "key": "魚-观澜",
+      "name": "[APP]觀瀾(1080P)",
+      "api": "csp_AppUn",
+      "type": 3,
+      "ext": "AVV1qWzQBjKvN7CKup9rpdodlSeTxhlrSJPwshkidi4LdlbDt81YkaxBlOnImlhpaCXFZ3rlaVHkoA57wMFZIEUb0eGUhm8upw9Vw/Qq5sdr"
+    },
+    {
+      "key": "魚-孟葭",
+      "name": "[APP]孟葭",
+      "api": "csp_AppUn",
+      "type": 3,
+      "ext": "AUGjHXVq+vxRJ+qgE4Hsi3sV94g5u8cFfUgjY4diiOxY3cUhBhbqUlPOKbfo6yzjh2BrmyNZGnV3r5j/VfAvnDP1bmLlrwPQ1H2o6cF9VjrH"
+    },
+    {
+      "key": "魚-南枝",
+      "name": "[APP]南枝",
+      "api": "csp_AppUn",
+      "type": 3,
+      "ext": "AUj9LzI2v0nALIaWIMvrw0mqpqAfYqjLEaEdBg2Kpjpynjba5tcMRsocodhKWXuxaxWXNQhmHVm/5ch0t87+Ck3kUcf8gS3HStDFKx/zWH77"
+    },
+    {
+      "key": "魚-沐辞",
+      "name": "[APP]沐辞",
+      "api": "csp_AppUn",
+      "type": 3,
+      "ext": "AYdXH70UMM8plqsXPmZuN9zEJQV/2vpn2nM5OAeVwvV966SO86n0qc/65IvyNOY7I8FscuN2i4tnXSoa2eVVhCbvIzsK+OAWQcMwpKHy1zZg"
+    },
+    {
+      "key": "剧圈99",
+      "name": "[APP]劇圈",
+      "type": 3,
+      "api": "csp_App99",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "host": "http://124.221.3.182:19987/app/bn",
+        "appkey": "d1f0c269eab74d93821fffc9befdbbba",
+        "versionName": "1.2.0",
+        "name": "剧圈圈",
+        "package": "com.qingtangxiaozhuan.xyz",
+        "buildNumber": "2002",
+        "buildSignature": "054FA8DDA4319C6B6A9B954CA5777541C993F00B1B0BD4394F7EDE48184C4594"
+      }
+    },
+    {
+      "key": "半日99",
+      "name": "[APP]半日",
+      "type": 3,
+      "api": "csp_App99",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-0831.jar;md5;16f95e95a047cf1d6226864450c3d392",
+      "ext": {
+        "host": "http://103.217.190.91:19987/app/bn",
+        "versionName": "3.5.8",
+        "name": "半日闲",
+        "package": "com.yf.lelian",
+        "buildNumber": "2001",
+        "buildSignature": "A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC"
+      }
+    },
+    {
+      "key": "橘汁",
+      "name": "[APP]橘汁 ",
+      "type": 3,
+      "api": "csp_AppDrama",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-0831.jar;md5;16f95e95a047cf1d6226864450c3d392",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "appName": "橘汁",
+        "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCr8SzZhjYy+rsya1K09t8d2K50pWFoBkgUqMpKOiW+3IEVKd4eTdvg9RSOjQ82kypL6R9BnsmrS1V8s4PVDwjQbUtYhTPPC9Hz16qY7rpD6m0d2vr09/UpWQ5uOy9PR0QTrsioveZ+DIe9jc3C+zBCu/kZSY/R8stwJoiitki3gwIDAQAB",
+        "dataKey": "OW1WBLFZCLJ0WTNJCDMYEGXWYVP3PT0=",
+        "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+        "pkg": "com.mxj.wylcjbxyx",
+        "host": "",
+        "site": "https://123-1349250429.cos.ap-shanghai.myqcloud.com/app.txt",
+        "version": "3.0.2.3",
+        "decrypt": "1"
+      }
+    },
+    {
+      "key": "苹果",
+      "name": "[APP]苹果(1080P)",
+      "type": 3,
+      "api": "csp_AppDrama",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/river-fman.jar;md5;ca48f92eac069c85a17e4ccf381d5f0a",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "appName": "小苹果",
+        "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCduNEnfxGaLuQRk5ABzXHhPV43zi00sCHjLo8BYc+Wi6xXm2b4v0i28Sq4WlNCKhseft9fz8kO/qLr6/022o1RcuOU7e4GFL3U9WnNODwRBYSYWd+K8nqpI/tAUDmZEBGRWqjrc7x6aMl3A+xpnWkLbPCLsuhbuuUE3tv09oeOpwIDAQAB",
+        "dataKey": "S0VNDTJHOFHHCNMRAW5IV2TOS2PBPQ==",
+        "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+        "pkg": "com.juechufsh.android.xpg1",
+        "host": "",
+        "site": "https://xpgandroid03-1372779881.cos.ap-beijing.myqcloud.com/app_xpg_android.txt",
+        "version": "1.0.0.3",
+        "decrypt": "0"
+      }
+    },
+{
+  "key": "南瓜视频APP",
+  "name": "[APP]南瓜视频ᵃᵖᵖ(1080P)",
+  "type": 3,
+  "api": "./js/llsp.min.js",
+  "ext": {
+    "appId": "10003",
+    "verCode": 58,
+    "verName": "1.0.0",
+    "pkg": "com.dongyu.movies",
+    "appKey": "00823f50736454de37cfef8b260c9e35",
+    "appSecret": "aca767d257733a3d97fe125bb9150feb",
+    "soMd5": "28922fee11cea66d7e9f2b5c02151b44",
+    "apkMd5": "415705b07be237654f9a760306f01c9f",
+    "pkgMd5": "725e9c0fda0e0925e234d8256dc08b07",
+    "signMd5": "d97197f84e41b05941688809857e0685",
+    "host": ["https://newrecha.neocities.org/json/nannan07124.json"],
+    "newHost": "http://134.175.188.60:4491",
+    "bizHost": "http://134.175.188.60:2025",
+    "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsfgFYt5LTHeDslGbyQb836pa/f9FaJa20ZvU3rq2TaT4QxbhzMz0QlXhxyJA78VEooiFzNsOKJDFZAvAYGHid1BvTkqEmwaUD38WN/gOXWPevX20X13kbKlKctbTzqB6CsKLdxYyjB4awtF6o66cVFwLAjPmeePSxiSIoMKaO8jZakhHlPMhIgztAgd09eX+bSM6pve35k9CV5X2GSey7Dtth4DQz/NZVc8HGb79uhyrwH1h6IV3BKgOoqcpsHUcggoV1bJ3IIT0+WUMM8S9Yo2dh9T2EXc+gmIH0UAIxwKxmO1jTNzTDR7BvOCMnJQs5DIUx409BPdLdg4zg0SbmQIDAQAB",
+    "privateKey": "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCN9LrnN2+FFW9oTw5ySIQxClbNZyPQyXyueQmsJw9PELWamIvyrVDhsi2862Da83nXRwjzcBsuT3fSq4BETKfRpsOrI3xprN6HyB+aALoYJbdMt5p3liUeyaw9WNxGZ2VhJ+st6ThGNikKRinFgPkOKaocZgefK7MuKI/EJKrj/FFB1WUE1I1/TT5bkIFMmjc8dszKyqxNdDaRgNTNP1Xou0s/tRCgKpmc503wf2h46F94YK6tpbHvYKouCCKps5ieUu+eWsXZmLRfiM0iZQcD0K5wcbrMvWcS/KmElkWPsCOwErpd/EDgeIbVKtsoHPewG8fOta75iCcb8/J56VbZAgMBAAECggEBAI2+8WIvWIvq+3OMfUBgaJ8PU92GP50blAQjmCTuW7r3VF8qM5P+u+ShpkoePnhi5iawJ5/tMTbs4xjZZxrL8EbH3lnk9TYQB6RNkECWuTujbYSNURBYPHihp/sZ39ntJK3+zjbpyedR7Wj05oDwZ8BcmiABQVsOp7xPhD623m0G3wSYtv1bIeCc+vP8pc1kauCPXl5ZyNCUN6XZKH1mvRkGd+VP9hCYr5LOsPVvn3JM8yF5HUJbxltzZVU/m9WcN9D3lcJ9pqpKBd99G1l5zsN+U23+4VvwX8Qhj4ZkNlMCaNndj+6PvhPGMp4+cCpt94I3xh/OqjdrUAd6jnZpioECgYEA709jQ+yFCobRPKzT/PT6KsqVIJJn0FTMXVc1VP5Sn3t5NTQ+iLzOxQRcO1aTNFVgNKhIgsVnVlGh+1Oa2Zor3vXr1eQBjHCZ2zOH+2QdZbRk4GXoOsZ0d203H189SBCTVj20Zd8mL5csBvihIsMjKZ6R62k/mEyOLD+IVuh+axMCgYEAl9sxrVbU1bvGYgHkGWV7BkqYsezOXR65F3eRq8jbNV0YdYN7rnFCStllIJsMCzJBSs2rBD3lcY6/Tk2ThlFIVHVEhgjjRAUIrLHQBJrFKCSusDMGX39Ekk5DZa+5JNak5J7Ikon6klYtDa1G8PFQTJDKTDfQLm/NgryVFS4Np+MCgYEAljLAfcg8NEAroSZkIvbq8OKXOItLRxGB9u+eVIsO9nP7vi3dNdsy96rl7IRI/ea77DDW2eTmF+JChUiS/xJpiJXXADcL1cZyeobcSScr4EKZsdGkMQeP38kXeMRA5TMqFk3CJNIq2GHMS0/Pas8JCb0xnow/UupxrUnu24UumysCgYBKjYuLDVk6gZC45zLEISVQBmmG2LrLztySH9q9msO8JDNw5hdfoi0osChM5LH6ATc68VQnpfeyU6GqYL2vsNIw3M3CfDSPXWVP25BD4nQu7CtzR+m2ErZomdHO54GfC14y+51/DAyfsX02/L4aZm7E2ETpPHGRisQ7jjgnCNAdfwKBgQDSVzfLvsDi2UqbTjyEIeVYPfgm3Owo0fh79rKvinAainQHabVkAezx+RwiJdWeor/08WiyDjFZC86hJOH8gSMLZ2yJw6EVgHqLTvJ+nkYbk0LzvS2gS2h9lDnqOkkKGZBc5l8k/ScCytcDz3WUFEC2TV2CXDj89H14699s1SjpSw=="
+  }
+},    
+    {
+      "key": "奇奇",
+      "name": "[APP]奇奇",
+      "type": 3,
+      "api": "csp_AppQi",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-0831.jar;md5;16f95e95a047cf1d6226864450c3d392",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "site": "https://yun-1316442804.cos.ap-guangzhou.myqcloud.com/603.txt",
+        "dataKey": "FTgP4Gq8zPiqbt7M",
+        "dataIv": "FTgP4Gq8zPiqbt7M",
+        "init": "initV122",
+        "ua": "okhttp/3.10.0",
+        "search": "searchList8"
+      }
+    },
+    {
+      "key": "世界",
+      "name": "[APP]世界",
+      "type": 3,
+      "api": "csp_AppGet",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-0831.jar;md5;16f95e95a047cf1d6226864450c3d392",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "url"    : "https://appcms.4ksj.app",
+        "dataKey": "O3K6rYx75Q4xtiIE",
+        "dataIv" : "O3K6rYx75Q4xtiIE"
+      }
+    },
+    {
+      "key": "爱影",
+      "name": "[APP]愛影",
+      "type": 3,
+      "api": "csp_AppQi",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "site"   : "https://aysappto.oss-cn-chengdu.aliyuncs.com/q26.txt",
+        "dataKey": "0UKM8jkasM8tdzgW",
+        "dataIv" : "0UKM8jkasM8tdzgW",
+        "init"   : "initV122",
+        "ua"     : "okhttp/3.10.0"
+      }
+    },
+    {
+      "key": "怀桑",
+      "name": "[APP]懷桑",
+      "type": 3,
+      "api": "csp_AppQi",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "site": "https://daen-1256234123.cos.ap-shanghai.myqcloud.com/MuQi/mqxhqj.txt",
+        "dataKey": "kj37zs29q22jk96t",
+        "dataIv": "kj37zs29q22jk96t",
+        "init": "initV122",
+        "ua": "okhttp/3.10.0"
+      }
+    },
+    {
+      "key": "云朵影视",
+      "name": "[APP]雲朵",
+      "type": 3,
+      "api": "csp_App3Q",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "host": "https://ds3xy2yunsa.xyz",
+        "finger": "SF-F5F11CB15897115AE6BCFE063C288F730CA865588F572C780A3E8477D0DD3776",
+        "updateId": "175070c3-075c-468b-950a-bf575769f4f1",
+        "deviceBrand": "vivo",
+        "deviceModel": "V2309A",
+        "pkg": "com.tvcloud.io",
+        "sk": "SK-sk_13oXDZ7u9j2Tk1c0cawWVFfO",
+        "ver": "1"
+      }
+    },
+    {
+      "key": "瀟-华谊",
+      "name": "[APP]華誼(720P)",
+      "type": 3,
+      "api": "csp_AppDrama",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "appName": "华谊",
+        "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCp9Ek4wIlQAtwFnuBRlsFiow2tr+4UOciGeNKbY7nL74etUqUb6fvpOSOHhFEfaWlfwUpOB17x3JEL3No19nfjCeVYrYPjlJcgoqUWH/tfIfFAQWvtxBIBlKazkhw8d3ChysWmeWRikKqkBsVRY4oqNPuj4sjm6Zult0U4I4prRQIDAQAB",
+        "dataKey": "NDBYSZR1DMRRZ05NSUCWEJNIYWLBPT0=",
+        "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+        "pkg": "com.muyue.tool",
+        "host": "",
+        "site": "https://vip.123pan.cn/1851089669/oss/az5.txt",
+        "version": "1.0.0.4",
+        "decrypt": "1"
+      }
+    },
+    {
+      "key": "瀟-河马短剧",
+      "name": "[短劇]河馬✅",
+      "type": 3,
+      "api": "csp_ShortHema",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "genre": "shortdrama"
+    },
+    {
+      "key"       : "py_河马短剧",
+      "name"      : "[短劇]河馬✅",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/河马短剧.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_河马短剧_2",
+      "name"      : "[短劇]河馬_2✅",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/河马短剧_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key"        : "魚-DJHub",
+      "name"       : "[短劇]短剧聚合✅",
+      "type"       : 3,
+      "api"        : "csp_DJHub",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "genre"      : "shortdrama",
+      "filterable" : 1,
+      "changeable" : 1
+    },
+  {
+    "key": "py_红果修复",
+    "name": "[點播]紅果(修復)",
+    "type": 3,
+    "api": "https://newrecha.neocities.org/py/红果修复.py",
+    "searchable": 1,
+    "filterable": 0,
+    "changeable": 1
+  },    
+    {
+      "key"       : "py_红果短剧",
+      "name"      : "[短劇]红果(依我本心版)",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/红果短剧-依我版.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },       
+    {
+      "key"        : "魚-HonHon",
+      "name"       : "[短劇]紅果❌",
+      "type"       : 3,
+      "api"        : "csp_HonHon",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "genre"      : "shortdrama",
+      "filterable" : 1,
+      "ext"        : {
+        "host"   : "https://short.fishcloud.top",
+        "quality": "1080p",
+        "danmu"  : false
+      }
+    },
+    {
+      "key": "瀟-红果短剧",
+      "name": "[短劇]紅果❌",
+      "type": 3,
+      "api": "https://newrecha.neocities.org/py/红果短剧.py",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "genre": "shortdrama"
+    },
+    {
+      "key": "瀟-果果短剧",
+      "name": "[短劇]果果✅",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "请求头"  : "User-Agent$MOBILE_UA",
+        "编码"   : "UTF-8",
+        "分类"   : "重生$1#穿越$2#爽剧$3#言情$4#都市$5#古装$6#悬疑$7#剧情$8",
+        "分类url": "https://www.mochadj.com/i/{cateId}-{catePg}.html"
+      },
+      "genre": "shortdrama"
+    },
+    {
+      "key"        : "星芽短剧",
+      "name"       : "[短劇]星芽✅",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/py/星芽短剧.py",
+      "searchable" : 1,
+      "changeable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1
+    },
+    {
+      "key": "瀟-星芽短剧",
+      "name": "[短劇]星芽✅",
+      "type": 3,
+      "api": "csp_ShortXingya",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "genre": "shortdrama"
+    },
+    {
+      "key": "瀟-好看短剧",
+      "name": "[短劇]好看",
+      "type": 3,
+      "api": "csp_ShortHaokan",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "genre": "shortdrama"
+    },
+    {
+      "key": "嗷-HHkk",
+      "name": "[短劇]好看",
+      "type": 3,
+      "api": "csp_HHkkAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "genre": "shortdrama"
+    },
+    {
+      "key": "嗷-Bddj",
+      "name": "[短劇]拜拜",
+      "type": 3,
+      "api": "csp_BddjAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "genre": "shortdrama"
+    },
+    {
+      "key": "瀟-七猫短剧",
+      "name": "[短劇]七猫",
+      "type": 3,
+      "api": "csp_ShortQimao",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "genre": "shortdrama"
+    },
+    {
+      "key": "嗷-Qmdj",
+      "name": "[短劇]七猫",
+      "type": 3,
+      "api": "csp_QmdjAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "genre": "shortdrama"
+    },
+    {
+      "key"       : "py_七猫短剧",
+      "name"      : "[短劇]七猫",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/七猫短剧.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key": "嗷-Xydj",
+      "name": "[短劇]星星短剧",
+      "type": 3,
+      "api": "csp_XydjAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "genre": "shortdrama"
+    },
+    {
+      "key"       : "py_喜福短剧",
+      "name"      : "[短劇]喜福",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/喜福短剧.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_短剧网",
+      "name"      : "[短劇]短网",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/短剧网.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_短剧聚合",
+      "name"      : "[短劇]聚合",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/短剧聚合.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_第九短剧网",
+      "name"      : "[短劇]第九",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/第九短剧网.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    }, 
+    {
+      "key"       : "py_99短剧网",
+      "name"      : "[短劇]久久",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/99短剧网.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_悟圣短剧",
+      "name"      : "[短劇]悟圣",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/悟圣短剧.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },    
+    {
+      "key"       : "py_樱之空动漫",
+      "name"      : "[動漫]樱之空动漫",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/樱之空动漫.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_樱花动漫_2",
+      "name"      : "[動漫]樱花动漫_2",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/樱花动漫_2.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_共和国动漫",
+      "name"      : "[動漫]共和国动漫",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/共和国动漫.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key"       : "py_动漫巴士",
+      "name"      : "[動漫]動漫巴士",
+      "type"      : 3,
+      "api"       : "https://newrecha.neocities.org/py/动漫巴士.py",
+      "searchable": 1,
+      "filterable": 0,
+      "changeable": 1
+    },
+    {
+      "key": "瀟-巴士动漫",
+      "name": "[動漫]動漫巴士",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "请求头": "User-Agent$MOBILE_UA#Accept$text/html#accept-language$zh-CN,zh;q=0.8",
+        "分类url": "https://dmbus.cc/show-{cateId}--{by}-{class}--{year}-{catePg}.html",
+        "分类": "国漫$1#日漫$2#欧美动漫$3#电影$4",
+        "数组": "class=\"item\">&&</li>",
+        "简介": "剧情：&&</p>",
+        "标题": "title=\"&&在线观看\"",
+        "副标题": "desc\">&&</span>",
+        "图片": "data-bg=\"&&\"",
+        "搜索url": "https://dmbus.cc/s----------.html?wd={wd}",
+        "倒序": "1"
+      }
+    },
+    {
+      "key": "瀟-咕咕动漫",
+      "name": "[動漫]咕咕",
+      "type": 3,
+      "searchable": 1,
+      "api": "csp_AppGet",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "url"    : "https://www.gugu3.com",
+        "dataKey": "nKfZ8KX6JTNWRzTD",
+        "dataIv" : "nKfZ8KX6JTNWRzTD"
+      }
+    },
+    {
+      "key": "飯-咕咕",
+      "name": "[動漫]咕咕",
+      "type": 3,
+      "api": "csp_AppSxGuard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 10,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "ext": "rfOX1voDIQhH8epBwpmIsuS/sSCZxc/l0mxkeoroQVYOelMAvX1kuYptSLB36YxEjVawS9p37Cgo"
+    },
+    {
+      "name": "[動漫]牛來",
+      "key": "DMox",
+      "type": 3,
+      "api": "csp_DMoxAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0
+    },
+    {
+      "name": "[動漫]青雲",
+      "key": "DMqingk",
+      "type": 3,
+      "api": "csp_DMqingkAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0
+    },
+    {
+      "key": "漫国",
+      "name": "[動漫]漫国",
+      "type": 3,
+      "searchable": 1,
+      "api": "csp_AppSy",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "url"      : "http://114.66.27.208:806",
+        "siteKey"  : "rectangleadsadxa",
+        "listKey"  : "aassddwwxxllsx1x",
+        "parsesKey": "aassddwwxxllsx1x"
+      }
+    },
+    {
+      "key": "方舟",
+      "name": "[動漫]方舟",
+      "type": 3,
+      "searchable": 1,
+      "api": "csp_AppGet",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "ext": {
+        "url"    : "https://www.cyfz.top",
+        "dataKey": "e72cdfd629e8895d",
+        "dataIv" : "e72cdfd629e8895d"
+      }
+    },
+    {
+      "key": "DMfans",
+      "name": "[動漫]番薯",
+      "type": 3,
+      "api": "csp_DMfansAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0
+    },
+    {
+      "key": "喵呜",
+      "name": "[動漫]喵呜",
+      "type": 3,
+      "searchable": 1,
+      "api": "csp_MiaoWu",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5"
+    },
+    {
+      "key": "AowuDmMw",
+      "name": "[動漫]喵嗚",
+      "type": 3,
+      "api": "csp_AowuDmAmns",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/auwo-1151012.jar;md5;4c4f8a2ce645a5539405defe99d17fa3",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 0,
+      "ext": "db8b57143fce50cabe524135fd3fb26e4af09034942cb186addd2322edf17ab6c9b7862764598039301c43cf706efcd55499494d72c680001c30550747b3dc5994760e3d6e17208e5ed771b2b4162f65e72b3e530fdd9622474e1c5f8aecda41dcd17901c7ddc61193a63fd8aaa1a96dc8673f93a8116755fd04bb1baaa93215334aaa1327972f2dd7292eb3d593e60cad0b9a3dde2a1158640cfc93dac5af45ddd8f971e3be0ccb5c776752b9b92a7f67dc89375d7ad442bddb0c661554a03c420029010a932d2dd8e65d6dc5"
+    },
+    {
+      "key": "飯-Dm84",
+      "name": "[動漫]巴士",
+      "type": 3,
+      "api": "csp_Dm84Guard",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fan-1151012.jar;md5;c9024ccf34209d26eb556c728c3f07fa",
+      "timeout": 10,
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1
+    },
+    {
+      "key": "csp_動漫巴士",
+      "name": "[動漫]動漫巴士",
+      "type": 3,
+      "api": "csp_XYQHiker",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xyqxbpq.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "https://newrecha.neocities.org/json/動漫巴士.json"
+    },
+    {
+      "key": "巴士",
+      "name": "[動漫]巴士",
+      "type": 3,
+      "api": "csp_XYQHiker",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xyqxbpq.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "ext": "https://newrecha.neocities.org/json/巴士.json"
+    },
+    {
+      "key": "csp_天天動漫",
+      "name": "[動漫]天天",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xyqxbpq.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "请求头": "User-Agent$MOBILE_UA",
+        "编码": "UTF-8",
+        "线路二次截取": "class=\"module-tab-items-box&&lass=\"swiper[替换:</div>>></a>]",
+        "线路数组": "class=\"module-tab-item tab-item&&</a>",
+        "线路标题": "<span>&&</span>",
+        "跳转播放链接": "var player_*\"url\":\"&&\"",
+        "主页url": "https://www.ttdm.me/vod-type/1/",
+        "分类url": "https://www.ttdm.me/vod-show/{cateId}--{by}-{class}-----{catePg}---/",
+        "分类": " 中国$1#日本$2#欧美$3#其他$4#动画电影$5",
+        "劇情": "玄幻&科幻&武侠&冒险&战斗&搞笑&恋爱&魔幻&竞技&热血&治愈&励志&机战&奇幻&悬疑&日常&校园&真人&推理&历史&经典&美食&偶像"
+      }
+    },
+    {
+      "key": "魔都",
+      "name": "[動漫]魔都",
+      "type": 3,
+      "searchable": 1,
+      "api": "csp_MoDu",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5"
+    },
+    {
+      "key"       : "魔都",
+      "name"      : "[動漫]鬼都",
+      "type"      : 0,
+      "api"       : "https://caiji.moduapi.cc/api.php/provide/vod/at/xml/",
+      "searchable": 1,
+      "changeable": 1,
+      "categories": ["国产", "日韩", "欧美", "港台", "电影", "里番"]
+    },
+    {
+      "key": "csp_AG動漫",
+      "name": "[動漫]AG動漫",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xyqxbpq.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "分类url": "https://agdm.tv/show/{cateId}/area/{area}/by/{by}/page/{catePg}/year/{year}.html",
+        "分类": "日本$6#国产$7#欧美$8#海外$21#劇场版$9",
+        "地区": "日本&大陆&美国"
+      }
+    },
+    {
+      "key"        : "drpy_js_去看吧",
+      "name"       : "[動漫]去看",
+      "type"       : 3,
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "api"        : "https://newrecha.neocities.org/drpy_libs/drpy2.min.js",
+      "ext"        : "https://newrecha.neocities.org/drpy_js/去看吧.js"
+    },
+    {
+      "key"        : "drpy_js_爱弹幕",
+      "name"       : "[動漫]爱動漫",
+      "type"       : 3,
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "api"        : "https://newrecha.neocities.org/drpy_libs/drpy2.min.js",
+      "ext"        : "https://newrecha.neocities.org/drpy_js/爱弹幕.js"
+    },
+    {
+      "key"        : "hipy_js_七色番[漫]",
+      "name"       : "[動漫]七色番",
+      "type"       : 3,
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "api"        : "https://newrecha.neocities.org/drpy_libs/drpy2.min.js",
+      "ext"        : "https://newrecha.neocities.org/drpy_js/七色番[漫].js"
+    },
+    {
+      "key"        : "hipy_js_爱弹幕[漫]",
+      "name"       : "[動漫]爱動漫",
+      "type"       : 3,
+      "api"        : "https://newrecha.neocities.org/drpy_libs/drpy2.min.js",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "ext"        : "https://newrecha.neocities.org/drpy_js/爱弹幕[漫].js"
+    },
+    {
+      "key": "魚-XingHui",
+      "name": "[動漫]星绘",
+      "type": 3,
+      "api": "csp_XingHui",
+      "searchable": 1,
+      "quickSearch": 1,
+      "changeable": 1,
+      "filterable": 1,
+      "ext": "Add8krwC68v61DP+FKD6Jfku9NAYotb5APLK7YesWQ1matF4zi2Prh/3AY6D3ZeBGuxJg4SEuXY9n/vMa+B4fC0="
+    },
+    {
+      "key": "魚-FanShu",
+      "name": "[動漫]番薯",
+      "type": 3,
+      "api": "csp_FanShu",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 1,
+      "ext": "AfcrWiL6kOmzXnbqzxhVVO34r1aA/e0g4grwfsFA8V5EPAVy9WtRO4yVFf3aC5LmzKENIEFO9aA2BMklc+wOUy4="
+    },
+    {
+      "key": "魚-双星",
+      "name": "[動漫]双星",
+      "type": 3,
+      "api": "csp_App88",
+      "ext": "ASknzit/3RrKEEXbbz2uOW7k75U9vVpwIABB/21in43V9EurdnfBnTItL6PlxmtMtD6kcaVBntdV/G/gFIItRXiANEcEPDY7/qVV0hfIygxO"
+    },
+    {
+      "key"        : "魚-XgAnime",
+      "name"       : "[動漫]西瓜",
+      "type"       : 3,
+      "api"        : "csp_XgAnime",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1
+    },
+    {
+      "key": "魚-Manbo",
+      "name": "[動漫]曼波",
+      "type": 3,
+      "api": "csp_AppGet",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "AUzH3yIWvgQkyhQw17uONTsfuN8PupZ/LJdr5C31Y/CWlzSNmarYI5kaJYN5c0p6+Oq0tXuTutQo9MHHytxulL5kmapDuAK5+2NTlpsUgBnr0tOamm69Fwb+jFDQ7VW46qf5EFY+Ea3PHzkpfeObKPM="
+    },
+    {
+      "key": "魚-Gugu",
+      "name": "[動漫]咕咕",
+      "type": 3,
+      "api": "csp_AppGet",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "ARKK6LQnl4dB2QciLugEzZ8QD2WdbeK23tPAre1QOEbbL5BfB8cV39JNfSd2+Xhcqr/z+V5To0krLYHUX7NtRtwYBC44/9ayncZMomdbv4ZCBNOUsBEedUQx7SWf1J0pE0BsLG9QlR8tURwRwx/sqT0="
+    },
+    {
+      "key": "堇夏听书",
+      "name": "[聽書]堇夏",
+      "type": 3,
+      "api": "csp_TingJinxia",
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/xiaosa-1151021.jar;md5;1df6299e12a248143796f9d7937801f5",
+      "searchable": 1,
+      "quickSearch": 0,
+      "changeable": 0,
+      "ext": "https://m.ting15.com",
+      "style": {"type": "list"}
+    },  
+    {
+      "key"       : "tufun采集",
+      "name"      : "[採集]菠菜",
+      "type"      : 1,
+      "api"       : "https://tyyszyapi.com/api.php/provide/vod/?ac=list",
+      "playerType": 2,
+      "searchable": 1,
+      "changeable": 1
+    },
+    {
+      "key"        : "vod_蜜雪",
+      "name"       : "[採集]夢想網頁版嚴禁外流",
+      "type"       : 0,
+      "api"        : "http://www.mixuetv.top/api.php/provide/vod/at/xml",
+      "categories" : [
+        "国产剧",   "台灣剧",   "日本剧",   "美国剧",   "短剧",    "大陆综艺",  "日韩综艺",  "港台综艺",
+        "欧美综艺",  "国产",  "日韓",  "欧美",  "奈飞电视剧", "奈飞电影",  "動作片",   "韓國劇",
+        "海外劇",   "港劇",    "恐怖片",   "科幻片",   "劇情片",   "戰爭片",   "愛情片"
+      ],
+      "searchable" : 1,
+      "quickSearch": 1
+    },
+    {
+      "key"       : "采集集合",
+      "name"      : "[採集]采集集合",
+      "type"      : 4,
+      "api"       : "http://zhangqun1818.serv00.net/cj/cjjh.php",
+      "jar"       : "./jar/pro.jar",
+      "searchable": 1,
+      "style"     : {"type": "rect", "ratio": 1.33},
+      "ext"       : "0",
+      "changeable": 1
+    },
+    {
+      "key"       : "vod_360",
+      "name"      : "[採集]360",
+      "type"      : 1,
+      "api"       : "https://360zy.com/api.php/provide/vod",
+      "categories": [
+        "国产劇",  "短片",   "动画片",  "香港劇",  "韩国劇",  "欧美劇",  "动作片",  "喜劇片",  "爱情片",
+        "科幻片",  "恐怖片",  "劇情片",  "战争片",  "NBA",  "惊悚片",  "家庭篇",  "古装片",  "历史片",
+        "悬疑片",  "犯罪片",  "纪录片",  "台湾劇",  "大陆综艺", "国产", "日韩", "西部片"
+      ]
+    },
+    {
+      "key"        : "vod_优质",
+      "name"       : "[採集]優質",
+      "type"       : 1,
+      "api"        : "https://api.1080zyku.com/inc/api_mac10.php",
+      "searchable" : 1,
+      "quickSearch": 1
+    },
+    {
+      "key"        : "vod_天涯",
+      "name"       : "[採集]天涯順播",
+      "type"       : 1,
+      "api"        : "https://tyyszyapi.com/api.php/provide/vod/?ac=list",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "changeable" : 1,
+      "categories" : [
+        "动作片",  "喜剧片",  "爱情片",  "科幻片",  "恐怖片",  "剧情片",  "战争片",  "国产剧",  "欧美剧",
+        "韩国剧",  "日本剧",  "港台剧",  "台湾剧",  "泰国剧",  "纪录片",  "海外剧",  "大陆综艺", "日韩综艺",
+        "港台综艺", "欧美综艺", "国产", "日韩", "欧美", "动画片",  "港台", "女频恋爱", "反转爽剧",
+        "古装仙侠", "年代穿越", "脑洞悬疑", "现代都市"
+      ]
+    },
+    {
+      "key"        : "vod_豆瓣",
+      "name"       : "[採集]豆瓣順播(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://caiji.dbzy5.com/api.php/provide/vod/at/josn/",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "changeable" : 1
+    },
+    {
+      "key"        : "vod_极速",
+      "name"       : "[採集]極速(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://jszyapi.com/api.php/provide/vod/at/json",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "categories" : [
+        "内地劇",  "欧美劇",  "日劇",   "韩劇",   "台湾劇",  "香港劇",  "马泰劇",  "悬疑片",  "喜劇片",
+        "动作片",  "爱情片",  "科幻片",  "恐怖片",  "劇情片",  "战争片",  "犯罪片",  "记录片",  "动画片",
+        "日本", "欧美", "中国", "大陆综艺", "日韩综艺", "港台综艺", "欧美综艺", "体育赛事"
+      ]
+    },
+    {
+      "key"        : "vod_豪华",
+      "name"       : "[採集]豪華(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://hhzyapi.com/api.php/provide/vod/?ac=list",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "categories" : [
+        "动作片",  "喜劇片",  "爱情片",  "科幻片",  "恐怖片",  "劇情片",  "战争片",  "悬疑片",  "犯罪片",
+        "奇幻片",  "记录片",  "动画片",  "内地劇",  "香港劇",  "台湾劇",  "日劇",   "韩劇",   "欧美劇",
+        "马泰劇",  "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "中国", "日本", "欧美"
+      ]
+    },
+    {
+      "key"        : "vod_飘零",
+      "name"       : "[採集]飘零(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://p2100.net/api.php/provide/vod/",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "categories" : [
+        "电影",   "连续劇",  "综艺",   "",   "动作片",  "电影",   "喜劇片",  "爱情片",  "科幻片",
+        "恐怖片",  "劇情片",  "战争片",  "国产劇",  "香港劇",  "台湾劇",  "日本劇",  "韩国劇",  "欧美劇",
+        "海外劇",  "纪录片",  "电影", "邵氏大片"
+      ]
+    },
+    {
+      "key"       : "vod_虎牙",
+      "name"      : "[採集]虎牙(浮水印廣告)",
+      "type"      : 1,
+      "api"       : "https://www.huyaapi.com/api.php/provide/vod/at/",
+      "searchable": 1,
+      "changeable": 1
+    },
+    {
+      "key"        : "vod_魔都",
+      "name"       : "[採集]魔都(浮水印廣告+成人動畫)",
+      "type"       : 1,
+      "api"        : "https://www.moduzy.com/api.php/provide/vod/?ac=list",
+      "searchable" : 1,
+      "changeable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1
+    },
+    {
+      "key"       : "非凡采集资源",
+      "name"      : "[採集]非凡速播(賭城廣告+成人)",
+      "type"      : 1,
+      "api"       : "http://api.ffzyapi.com/api.php/provide/vod/",
+      "playerType": 1,
+      "searchable": 1,
+      "changeable": 1
+    },
+    {
+      "key"       : "量子采集资源",
+      "name"      : "[採集]量子(賭城廣告+成人)",
+      "type"      : 1,
+      "api"       : "https://cj.lziapi.com/api.php/provide/vod/at/json/",
+      "playerType": 1,
+      "searchable": 1,
+      "changeable": 1
+    },
+    {
+      "key"       : "无忧采集资源",
+      "name"      : "[採集]无忧(賭城廣告+成人)",
+      "type"      : 1,
+      "api"       : "https://www.wyvod.com/api.php/provide/vod/",
+      "playerType": 1,
+      "searchable": 1,
+      "changeable": 1,
+      "categories": [
+        "动作片",  "喜劇片",  "爱情片",  "科幻片",  "恐怖片",  "犯罪片",  "战争片",  "劇情片",  "动画电影",
+        "国产劇",  "港台劇",  "日韩劇",  "欧美劇",  "海外劇",  "网红主播", "日韩综艺", "港台综艺", "欧美综艺",
+        "大陆综艺", "国产", "日韩", "欧美", "海外", "海外抖音", "影视解说", "直播"
+      ]
+    },
+    {
+      "key"       : "如意采集资源",
+      "name"      : "[採集]如意(賭城廣告+成人)",
+      "type"      : 1,
+      "api"       : "https://cj.rycjapi.com/api.php/provide/vod/at/json/",
+      "playerType": 1,
+      "searchable": 1,
+      "changeable": 1
+    },
+    {
+      "key"        : "vod_艾旦",
+      "name"       : "[採集]艾旦(浮水印廣告+圖壞)",
+      "type"       : 1,
+      "api"        : "https://lovedan.net/api.php/provide/vod/",
+      "jar"        : "./jar/xyqxbpq.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "categories" : [
+        "动作片",  "喜劇片",  "爱情片",  "科幻片",  "恐怖片",  "犯罪片",  "战争片",  "劇情片",  "动画电影",
+        "国产劇",  "港台劇",  "日韩劇",  "欧美劇",  "海外劇",  "网红主播", "日韩综艺", "港台综艺", "欧美综艺",
+        "大陆综艺", "国产", "日韩", "欧美", "海外", "海外抖音", "影视解说", "直播"
+      ]
+    },
+    {
+      "key"        : "vod_索尼",
+      "name"       : "[採集]索尼(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://suoniapi.com/api.php/provide/vod/?ac=list",
+      "searchable" : 1,
+      "changeable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "categories" : [
+        "动作片",  "喜劇片",  "爱情片",  "科幻片",  "恐怖片",  "劇情片",  "战争片",  "悬疑片",  "犯罪片",
+        "冒险片",  "动画片",  "惊悚片",  "奇幻片",  "国产劇",  "欧美劇",  "韩劇",   "日劇",   "港劇",
+        "台劇",   "泰劇",   "大陆综艺", "日韩综艺", "港台综艺", "欧美综艺", "国产", "日韩", "欧美",
+        "动画片",  "港台", "海外"
+      ]
+    },
+    {
+      "key"        : "vod_無盡",
+      "name"       : "[採集]無盡(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://api.wujinapi.me/api.php/provide/vod/?ac=list",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "categories" : [
+        "动作片",  "动画片",  "喜劇片",  "爱情片",  "科幻片",  "恐怖片",  "劇情片",  "战争片",  "悬疑片",
+        "犯罪片",  "奇幻片",  "邵氏电影", "纪录片",  "短劇",   "国产劇",  "香港劇",  "台湾劇",  "日本劇",
+        "韩国劇",  "美国劇",  "泰劇",   "海外劇",  "大陆综艺", "港台综艺", "日韩综艺", "欧美综艺", "国产",
+        "日韩", "欧美", "影视解说"
+      ]
+    },
+    {
+      "key"        : "vod_优酷",
+      "name"       : "[採集]優酷(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://api.ukuapi.com/api.php/provide/vod/",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1,
+      "categories" : [
+        "综艺",   "",   "动作片",  "喜剧片",  "爱情片",  "科幻片",  "恐怖片",  "剧情片",  "战争片",
+        "国产剧",  "港澳剧",  "日剧",   "欧美剧",  "电影", "台湾剧",  "韩剧",   "泰剧",   ",记录片",
+        "短剧",   "奇幻片",  "犯罪片"
+      ]
+    },
+    {
+      "key"        : "vod_順播",
+      "name"       : "[採集]順播(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://subocaiji.com/api.php/provide/vod/",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1
+    },
+    {
+      "key"        : "vod_红牛",
+      "name"       : "[採集]红牛(浮水印廣告)",
+      "type"       : 1,
+      "api"        : "https://www.hongniuzy2.com/api.php/provide/vod/",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "filterable" : 1
+    },
+    {
+      "key"        : "drpyS_枫林影视",
+      "name"       : "[採集]楓林(浮水印廣告)",
+      "type"       : 4,
+      "api"        : "http://192.129.140.23:5757/api/枫林影视?pwd=dzyyds",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "changeable" : 1
+    },
+    {
+      "key": "vod_光速",
+      "name": "[採集]光速慢播(浮水印廣告)",
+      "type": 1,
+      "api": "https://api.guangsuapi.com/api.php/provide/vod/from/gsm3u8/?ac=list",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "categories": [
+        "动作片",  "爱情片",  "科幻片",  "战争片",  "劇情片",  "恐怖片",  "喜劇片",  "大陆劇",  "港澳劇",
+        "台湾劇",  "欧美劇",  "电影", "韩劇",   "日劇",   "泰劇"
+      ]
+    },
+    {
+      "key"        : "如意",
+      "name"       : "[採集]如意(各種廣告)",
+      "type"       : 1,
+      "api"        : "https://cj.rycjapi.com/api.php/provide/vod",
+      "searchable" : 1,
+      "quickSearch": 1,
+      "changeable" : 1,
+      "filterable" : 1,
+      "timeout"    : 10,
+      "categories" : [
+        "国产剧",  "香港剧",  "韩国剧",  "欧美剧",  "记录片",  "台湾剧",  "日本剧",  "海外剧",  "泰国剧",
+        "动作片",  "喜剧片",  "爱情片",  "科幻片",  "恐怖片",  "剧情片",  "战争片",  "大陆综艺", "港台综艺",
+        "日韩综艺", "欧美综艺", "国产", "日韩", "欧美", "港台", "海外", "体育",   "足球",
+        "篮球",   "网球",   "斯诺克",  "预告片",  "短剧",   "动画电影"
+      ]
+    },        
+        {
+            "key": "Jianpian",
+            "name": "[採集]荐片",
+            "type": 3,
+            "api": "csp_Jianpian",
+            "searchable": 1,
+            "filterable": 1
+        },
+        {
+            "key": "Xb6v",
+            "name": "[採集]6V",
+            "type": 3,
+            "api": "csp_Xb6v",
+            "searchable": 1,
+            "filterable": 1
+        },       
+    {
+      "key"       : "push_agent",
+      "name"      : "[系統]推送",
+      "type"      : 3,
+      "api"       : "csp_Push",
+      "searchable": 0,
+      "changeable": 0,
+      "indexs"    : 0,
+      "timeout"   : 60
+    },
+    {
+      "key": "Fishdrive",
+      "name": "[系統]媒體庫",
+      "type": 3,
+      "api": "csp_FishDrive",
+      "indexs": 0,
+      "searchable": 1,
+      "filterable": 1,
+      "ext": "https://tc-new.z.wiki/autoupload/iYHTWVx6T8RrCmqdGD6MOdiO_OyvX7mIgxFBfDMDErs/20260715/bf45/fishdrive.json"
+    },
+    {
+      "name": "弹幕",
+      "key": "弹幕豆瓣",
+      "type": 3,
+      "api": "csp_SecureDanmu",
+      "searchable": 1,
+      "jar": "https://ghfast.top/https://raw.githubusercontent.com/goodcommunication/mydm/main/danmu-spider-native.jar",
+      "ext": {
+        "apiUrls": [
+          "https://danmu.iyo.us.ci/theft-dastardly-prognosis-hula-agenda2-dropkick|公益源",
+          "https://logo.saodu.work:8888/87654321|公益源1",
+          "https://dm.ljiaovm.com/luosen|公益源2"
+        ],
+        "titleMappingsUrl": "https://ghfast.top/https://raw.githubusercontent.com/goodcommunication/mydm/main/yins.json",
+        "filter": "./json/douban.json"
+      }
+    }
+  ],
+  "lives": [
+    {
+      "name": "Free Man TV",
+      "url": "https://funnylife.neocities.org/iptv@recha.txt",
+      "type": 0,
+      "timeout": 10,
+      "playerType": 2,
+      "ua": "okhttp/3.8.1 okhttp/3.15 okhttp/4.12.0 Herissmon/2016 judy/5.2.1 RobYang/5.2.1 Lavf/58.12.100 catvod.com Goiptv/8.8.8 Goiptv/0.0.1 xieanqishiwoerzi/0.0.1 okHttp/Mod-1.0.0",
+      "logo": "https://epg.112114.xyz/logo/{name}.png",
+      "epg": "http://epg.112114.xyz/?ch={name}&date={date}"
+    },
+    {
+      "name": "Free TV(備用)",
+      "url": "https://freeman.neocities.org/520free-CC@tv.txt",
+      "type": 0,
+      "timeout": 10,
+      "playerType": 2,
+      "logo": "https://gitee.com/mytv-android/myTVlogo/raw/main/img/{name}.png"
+    },
+        {
+      "name": "9/7新增 - ACGF公益站",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "https://iptv.852851.xyz/sub/bwQfdMcUYrjq/playlist.m3u"
+    },
+        {
+      "name": "9/7新增 - 香蕉公益站",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "https://iptv.yang-1989.xyz/playlist.m3u"
+    },    
+ 
+    {
+      "name": "日本斯玛特",
+      "url": "http://dbm.de5.net/smt.php",
+      "playerType": 2,
+      "epg": "http://epg.52sw.top:668/?ch={name}&date={date}",
+      "logo": "https://gcore.jsdelivr.net/gh/taksssss/tv/icon/{name}.png",
+      "ua": "dream"
+    },
+    {
+      "name": "美国斯玛特",
+      "url": "http://dbmlasvgas.sylu.cc:2086/trams.m3u?token=NqAERVyoLmQn0tNu9lona-PV7_EltgWnrAr6Rkaf8Ro=",
+      "playerType": 2,
+      "epg": "http://epg.52sw.top:668/?ch={name}&date={date}",
+      "logo": "https://gcore.jsdelivr.net/gh/taksssss/tv/icon/{name}.png"
+    },
+    {
+      "name": "tv123",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "http://tv123.vvvv.ee/tv.m3u"
+    },
+    {
+      "name": "🐬各大源合集",
+      "type": 0,
+      "ua": "okhttp/5.3.2",
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/807080747/zv/refs/heads/main/sese.txt"
+    },
+    {
+      "name": "🐬综合直播",
+      "type": 0,
+      "playerType": 2,
+      "ua": "okhttp",
+      "url": "https://raw.githubusercontent.com/fleung49/star/refs/heads/main/mit"
+    },
+    {
+      "name": "🐬电视家",
+      "type": 0,
+      "playerType": 2,
+      "ua": "okhttp",
+      "url": "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dsjcs.txt"
+    },
+    {
+      "name": "🐬薄荷直播",
+      "type": 0,
+      "ua": "okhttp/5.3.2",
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/wujiangliu/live-sources/refs/heads/main/bhmb.m3u"
+    },
+    {
+      "name": "🐬咪咕直播",
+      "type": 0,
+      "ua": "okhttp/5.3.2",
+      "url": "http://www.52top.com.cn:678/downloads/migu.txt"
+    },
+    {
+      "name": "🐬iptv直播",
+      "type": 0,
+      "ua": "okhttp/5.3.2",
+      "url": "https://raw.githubusercontent.com/vinkerq/iptv-api/refs/heads/master/iptv.txt"
+    },
+    {
+      "name": "🐬易发源 有🔞",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/fafa002/yf2025/refs/heads/main/yiyifafa.txt"
+    },
+    {
+      "name": "🐬港奥台国际",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "http://tv123.vvvv.ee/tv.m3u"
+    },
+    {
+      "name": "🐬中港台直播源",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "https://t.freetv.fun/m3u/playlist_all.txt"
+    },
+    {
+      "name": "🐬4GTV(梯子任何节点)1080p",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "https://ha.msbot.dpdns.org/4gtv_api.php"
+    },
+    {
+      "name": "FreeTV.fun",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "https://t.freetv.fun/m3u/playlist.txt"
+    },
+    {
+      "name": "風雲源",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "http://iptv.4666888.xyz/FYTV.txt"
+    },
+    {
+      "name": "RobYang http://RobYang.dpdns.org",
+      "type": 0,
+      "url": "http://www1.RobYang.dpdns.org/VodLive/lb8ffa",
+      "ua": "okhttp/4.12.0",
+      "timeout": 5,
+      "epg": "https://epg.112114.xyz/?ch={name}&date={date}&serverTimeZone=Asia/Hong_Kong",
+      "logo": "https://epg.112114.xyz/logo/{name}.png",
+      "pass": true
+    },
+    {
+      "name": "RobYang備份 http://RobYang.rr.nu",
+      "type": 0,
+      "url": "http://RobYang.runasp.net/VodLive/lb8ffa",
+      "ua": "okhttp/4.12.0",
+      "timeout": 5,
+      "epg": "https://epg.112114.xyz/?ch={name}&date={date}&serverTimeZone=Asia/Hong_Kong",
+      "logo": "https://epg.112114.xyz/logo/{name}.png",
+      "pass": true
+    },
+    {
+      "name": "🔞秘密基地",
+      "type": 0,
+      "ua": "okhttp",
+      "url": "https://newrecha.neocities.org/live/xxx视频资源.txt"
+    },
+    {
+      "name": "🔞午夜剧场",
+      "type": 0,
+      "playerType": 2,
+      "epg": "https://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png",
+      "url": "https://newrecha.neocities.org/live/午夜剧场.txt",
+      "header": {
+        "X-Api-key": "8692bd33270440d4d2941b814b81a25a1eb84a7205532971714c4299c57449e0..0..1738210005..5cf2c4ad-043b-4234-83a2-e84ae917"
+      }
+    },
+    {
+      "name": "台灣景點直播(freeman)",
+      "playerType": 2,
+      "jar": "https://gitlab.com/tenrecha/recha/-/raw/main/jar/fm.jar",
+      "url": "https://funnylife.neocities.org/TW-LiveCAM.txt",
+      "ua": "okhttp/4.12",
+      "epg": "http://epg.112114.xyz/?ch={name}&date={date}&serverTimeZone=Asia/Taipei"
+    }
+  ],  
+  "parses": [
+    {"name": "聚合1", "type": 3, "url": "Demo"},
+    {"name": "聚合0", "type": 3, "url": "Web"},
+    {"name": "ikun", "type": 0, "url": "https://jx.hls.one/?url="},
+    {"name": "77", "type": 0, "url": "https://jx.77flv.cc/?url="},
+    {
+      "name": "A6",
+      "type": 0,
+      "url" : "https://pl.a6club.com/player/analysis.php?v="
+    },
+    {"name": "8090", "type": 0, "url": "https://www.8090g.cn/?url="},
+    {"name": "M3u8TV", "type": 0, "url": "https://jx.m3u8.tv/jiexi/?url="},
+    {"name": "CK", "type": 0, "url": "https://www.ckplayer.vip/jiexi/?url="},
+    {"name": "冰豆", "type": 0, "url": "https://bd.jx.cn/?url="},
+    {"name": "XY", "type": 0, "url": "https://jx.xymp4.cc/?url="},
+    {
+      "name": "推荐",
+      "type": 1,
+      "url" : "https://zy.qiaoji8.com/gouzi.php?url=94b07e0b2c0e8244&url="
+    },
+    {
+      "name": "臻享",
+      "type": 1,
+      "url" : "https://150.138.78.37:4399/api?key=94b07e0b2c0e8244&url="
+    },
+    {
+      "name": "优选",
+      "type": 1,
+      "url" : "http://1.94.221.189:88/algorithm.php?url="
+    }
+  ],
+  "doh": [
+    {
+      "name": "阿里",
+      "url" : "https://dns.alidns.com/dns-query",
+      "ips" : ["223.5.5.5", "223.6.6.6", "2400:3200::1"]
+    },
+    {
+      "name": "腾讯",
+      "url" : "https://doh.pub/dns-query",
+      "ips" : ["119.29.29.29", "119.28.28.28", "2402:4e00::"]
+    },
+    {
+      "name": "360",
+      "url" : "https://doh.360.cn/dns-query",
+      "ips" : ["101.226.4.6", "218.30.118.6"]
+    },
+    {
+      "name": "OneDNS",
+      "url" : "https://doh-pure.onedns.net/dns-query",
+      "ips" : ["117.50.10.10", "52.80.52.52"]
+    },
+    {
+      "name": "Cloudflare",
+      "url" : "https://cloudflare-dns.com/dns-query",
+      "ips" : [
+        "1.1.1.1",              "1.0.0.1",              "2606:4700:4700::1111",
+        "2606:4700:4700::1001"
+      ]
+    },
+    {
+      "name": "Google",
+      "url" : "https://dns.google/dns-query",
+      "ips" : ["8.8.8.8", "8.8.4.4"]
+    },
+    {
+      "name": "Quad9",
+      "url" : "https://dns.quad9.net/dns-query",
+      "ips" : ["9.9.9.9", "149.112.112.112"]
+    },
+    {
+      "name": "AdGuard",
+      "url" : "https://dns.adguard-dns.com/dns-query",
+      "ips" : ["94.140.14.14", "94.140.15.15"]
+    },
+    {
+      "name": "DNSWatch",
+      "url" : "https://resolver2.dns.watch/dns-query",
+      "ips" : ["84.200.69.80", "84.200.70.40"]
+    },
+    {
+      "name": "NextDNS",
+      "url" : "https://dns.nextdns.io/your_profile_id",
+      "ips" : ["45.90.28.0", "45.90.30.0"]
+    },
+    {
+      "name": "ControlD",
+      "url" : "https://freedns.controld.com/p0",
+      "ips" : ["76.76.2.0", "76.76.10.0"]
+    }
+  ],
+  "flags": [],
+  "ijk": [
+    {
+      "group"  : "软解码",
+      "options": [
+        {"category": 4, "name": "opensles", "value": "0"},
+        {"category": 4, "name": "overlay-format", "value": "842225234"},
+        {"category": 4, "name": "framedrop", "value": "1"},
+        {"category": 4, "name": "soundtouch", "value": "1"},
+        {"category": 4, "name": "start-on-prepared", "value": "1"},
+        {"category": 1, "name": "http-detect-range-support", "value": "0"},
+        {"category": 1, "name": "fflags", "value": "fastseek"},
+        {"category": 2, "name": "skip_loop_filter", "value": "48"},
+        {"category": 4, "name": "reconnect", "value": "1"},
+        {"category": 4, "name": "enable-accurate-seek", "value": "0"},
+        {"category": 4, "name": "mediacodec", "value": "0"},
+        {"category": 4, "name": "mediacodec-auto-rotate", "value": "0"},
+        {
+          "category": 4,
+          "name"    : "mediacodec-handle-resolution-change",
+          "value"   : "0"
+        },
+        {"category": 4, "name": "mediacodec-hevc", "value": "0"},
+        {"category": 1, "name": "dns_cache_timeout", "value": "600000000"}
+      ]
+    },
+    {
+      "group"  : "硬解码",
+      "options": [
+        {"category": 4, "name": "opensles", "value": "0"},
+        {"category": 4, "name": "overlay-format", "value": "842225234"},
+        {"category": 4, "name": "framedrop", "value": "1"},
+        {"category": 4, "name": "soundtouch", "value": "1"},
+        {"category": 4, "name": "start-on-prepared", "value": "1"},
+        {"category": 1, "name": "http-detect-range-support", "value": "0"},
+        {"category": 1, "name": "fflags", "value": "fastseek"},
+        {"category": 2, "name": "skip_loop_filter", "value": "48"},
+        {"category": 4, "name": "reconnect", "value": "1"},
+        {"category": 4, "name": "enable-accurate-seek", "value": "0"},
+        {"category": 4, "name": "mediacodec", "value": "1"},
+        {"category": 4, "name": "mediacodec-auto-rotate", "value": "1"},
+        {
+          "category": 4,
+          "name"    : "mediacodec-handle-resolution-change",
+          "value"   : "1"
+        },
+        {"category": 4, "name": "mediacodec-hevc", "value": "1"},
+        {"category": 1, "name": "dns_cache_timeout", "value": "600000000"}
+      ]
+    }
+  ]
+}

@@ -796,16 +796,6 @@
             "timeout": 60
         },
         {
-            "key": "人人",
-            "name": "🧑人人4K",
-            "type": 3,
-            "api": "csp_RenRen",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "timeout": 60
-        },
-        {
             "key": "迅雷云盘",
             "name": "🍊迅雷云盘",
             "type": 3,
@@ -1475,10 +1465,10 @@
             "api": "./py/枫叶影院.py"
         },
         {
-            "key": "泡泡影院1",
-            "name": "🐳泡泡影院1",
+            "key": "水牛影院1",
+            "name": "🐂水牛影院1",
             "type": 3,
-            "api": "./py/泡泡影院🍀TG @hshsjk9.py"
+            "api": "./py/水牛影院1.py"
         },
         {
             "key": "看剧AI",
