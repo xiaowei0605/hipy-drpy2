@@ -9,6 +9,8 @@
   - 播放缓存 600s
   - init/extend 配置化 + 预热 + 统一 fetch 封装
   - 模块级单例双入口（drpy site / 旧内核）
+  - 筛选支持：类型 / 地区 / 年份 / 语言 / 排序
+  - 播放失败走 parse:1 兜底嗅探
 """
 
 from __future__ import annotations
@@ -71,6 +73,9 @@ _FILTER_GENRES = ["动作", "喜剧", "爱情", "科幻", "恐怖", "剧情", "�
                   "悬疑", "动画", "冒险", "奇幻", "惊悚", "家庭"]
 _FILTER_AREAS = ["大陆", "香港", "台湾", "美国", "日本", "韩国", "英国", "法国",
                  "泰国", "印度"]
+# [补丁1] 新增年份 / 语言筛选项
+_FILTER_YEARS = [str(y) for y in range(2026, 2012, -1)]
+_FILTER_LANGS = ["国语", "粤语", "英语", "韩语", "日语", "泰语", "闽南语"]
 _FILTER_SORTS = [("月热门", "vod_hits_month"), ("周热门", "vod_hits_week"),
                  ("日热门", "vod_hits_day"), ("最新", "vod_time"),
                  ("评分", "vod_score")]
@@ -85,6 +90,10 @@ for _tid, _nm in _CLASSES:
          "value": [{"n": "全部", "v": ""}] + [{"n": g, "v": g} for g in _FILTER_GENRES]},
         {"key": "地区", "name": "地区",
          "value": [{"n": "全部", "v": ""}] + [{"n": a, "v": a} for a in _FILTER_AREAS]},
+        {"key": "年份", "name": "年份",
+         "value": [{"n": "全部", "v": ""}] + [{"n": y, "v": y} for y in _FILTER_YEARS]},
+        {"key": "语言", "name": "语言",
+         "value": [{"n": "全部", "v": ""}] + [{"n": l, "v": l} for l in _FILTER_LANGS]},
         {"key": "排序", "name": "排序",
          "value": [{"n": n, "v": v} for n, v in _FILTER_SORTS]},
     ]
@@ -697,8 +706,9 @@ class _GuluProtocol:
         self.players = players
         self.parsers = parsers
 
+    # [补丁2] search 补回 year / lang 参数，按实测字段 F12=年份、F7=语言 下发
     def search(self, keyword, page=1, limit=21, category_id="", genre="", area="",
-               sort="vod_hits_month"):
+               sort="vod_hits_month", year="", lang=""):
         sort = str(sort or "vod_hits_month")
         filters = _field_bytes(18, sort.encode("utf-8")) + _field_varint(19, 1)
         category_id = str(category_id or "").strip()
@@ -710,6 +720,12 @@ class _GuluProtocol:
         area = str(area or "").strip()
         if area:
             filters += _field_bytes(6, area)
+        year = str(year or "").strip()
+        if year:
+            filters += _field_bytes(12, year.encode("utf-8"))
+        lang = str(lang or "").strip()
+        if lang:
+            filters += _field_bytes(7, lang.encode("utf-8"))
         payload = (_field_bytes(1, keyword) + _field_varint(2, int(page))
                    + _field_varint(3, int(limit)) + _field_bytes(5, filters))
         response = self.request(61, payload)
@@ -767,7 +783,10 @@ class _GuluProtocol:
                                 "name": config.get("name", code),
                                 "parser_id": (config.get("parser_ids") or [0])[0],
                                 "episodes": episodes})
+        # [补丁3] 回补 actor(17) / director(18)
         return {"id": str(_field_value(data, 1, vod_id, wire=0)),
+                "actor": ",".join(t for t in (_text(v) for v in _field_values(data, 17, wire=2)) if t),
+                "director": _text(_field_value(data, 18, b"", wire=2)),
                 "name": name, "pic": _text(_field_value(data, 13, b"", wire=2)),
                 "remarks": _text(_field_value(data, 22, b"", wire=2)),
                 "content": _text(_field_value(data, 21, b"", wire=2)),
@@ -936,19 +955,22 @@ class Spider:
             self.last_error = "%s:%s" % (type(e).__name__, e)
             self.log("boot fail: %s" % self.last_error)
 
+    # [补丁2] _search 透传 year / lang
     def _search(self, keyword, page=1, limit=21, category_id="", genre="", area="",
-                sort="vod_hits_month"):
+                sort="vod_hits_month", year="", lang=""):
         self._ensure_boot()
         try:
             return self.protocol.search(keyword, page, limit, category_id,
-                                        genre=genre, area=area, sort=sort)
+                                        genre=genre, area=area, sort=sort,
+                                        year=year, lang=lang)
         except Exception as e1:
             self.log("search#1 fail: %s, 重试..." % e1)
             try:
                 self.protocol.reset_session()
                 self._ensure_boot()
                 return self.protocol.search(keyword, page, limit, category_id,
-                                            genre=genre, area=area, sort=sort)
+                                            genre=genre, area=area, sort=sort,
+                                            year=year, lang=lang)
             except Exception as e2:
                 self.last_error = "%s" % e2
                 self.log("search#2 fail: %s" % e2)
@@ -976,14 +998,18 @@ class Spider:
     def homeVideoContent(self):
         return self.homeContent()
 
+    # [补丁2] categoryContent 透传 year / lang
     def categoryContent(self, tid, pg="1", filter=True, extend=""):
         pg = max(1, int(pg or 1))
         tid = str(tid or "").strip()
         genre = self._extend_value(extend, "类型")
         area = self._extend_value(extend, "地区")
+        year = self._extend_value(extend, "年份")
+        lang = self._extend_value(extend, "语言")
         sort = self._extend_value(extend, "排序") or "vod_hits_month"
         self._warm_up()
-        result = self._search("", pg, 21, tid, genre=genre, area=area, sort=sort)
+        result = self._search("", pg, 21, tid, genre=genre, area=area,
+                              sort=sort, year=year, lang=lang)
         return {"class": [{"type_id": t, "type_name": nm}
                           for t, nm in self._categories],
                 "filters": {t: self._filters_for(t) for t, nm in self._categories},
@@ -1031,12 +1057,15 @@ class Spider:
         if self.intro_prefix:
             content = self.intro_prefix + ("\n" + content if content else "")
 
+        # [补丁3] 回补 vod_actor / vod_director
         vod = {
             "vod_id": detail["id"],
             "vod_name": detail["name"],
             "vod_pic": detail["pic"] or self.default_pic,
             "vod_year": detail["year"],
             "vod_area": detail["area"],
+            "vod_actor": detail.get("actor", ""),
+            "vod_director": detail.get("director", ""),
             "vod_content": content,
             "vod_remarks": detail["remarks"],
             "vod_play_from": "$$$".join(p[0] for p in paired),
@@ -1097,7 +1126,14 @@ class Spider:
                     except Exception as e2:
                         self.log("play#2 fail: %s" % e2)
                         url = ""
-        res = {"parse": 0, "url": url or "", "header": json.dumps(header)}
+
+        # [补丁4] 失败兜底：交给 TVBox 嗅探原播放页，避免白屏
+        if not url:
+            res = {"parse": 1, "playUrl": "", "url": id,
+                   "header": json.dumps(header)}
+            self._play_cache[cache_key] = (now, res)
+            return res
+        res = {"parse": 0, "url": url, "header": json.dumps(header)}
         self._play_cache[cache_key] = (now, res)
         return res
 

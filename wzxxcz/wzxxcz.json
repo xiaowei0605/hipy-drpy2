@@ -1474,19 +1474,13 @@
             "key": "看剧AI",
             "name": "🍊看剧影视",
             "type": 3,
-            "api": "./py/看剧AI🍀TG @hshsjk9.py"
-        },
-        {
-            "key": "高清点播1",
-            "name": "🍊高清点播1",
-            "type": 3,
-            "api": "./py/高清点播🍀TG @hshsjk9.py"
+            "api": "./py/看剧AIxcz.py"
         },
         {
             "key": "vidhub视频库",
             "name": "🍊vidhub视频库",
             "type": 3,
-            "api": "./py/vidhub🍀TG @hshsjk9.py"
+            "api": "./py/vidhub.py"
         },
         {
             "key": "网飞影视",

@@ -2,23 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 央视频直播 - 双源统一版 (Script 1 native + Script 2 YSPTP)
-- 文件日志已禁用 (不写 /storage/emulated/0/Download/ysp-live.log)
+- 文件日志已禁用
 - 双源: 央视频源1 (JCE/bk) + 央视频源2 (YSPTP)
-
+- 优化: 融合纯 Python AES-GCM，剔除外部库依赖，全环境通用
 ================================================================
- 版本标识: STABLE-v1
- 生成日期: 2026-10-05
- 基线: 原始双源统一版
- 改动: 仅 3 个数字, 逻辑一行未动
- 识别: 搜索 "STABLE-v1" 可定位所有改动处
+ 版本标识: STABLE-v2 (融合优化版)
+ 生成日期: 2026-10-22
+ 改动: 替换 AES-GCM 为纯 Python 实现，彻底告别 cryptography/pycryptodome 依赖
 ================================================================
-
-稳定版说明:
-  本版只在原版基础上调整 3 个数字, 逻辑一行未动:
-    IDLE_TIMEOUT    = 600   (原 300)   暂停/切走 10 分钟内回来不用重新缓冲
-    MAX_SEGS        = 800   (原 400)   长时播放内存里保留更多段
-    PLAYLIST_WINDOW = 15    (原 8)     播放器缓冲从 ~48 秒升到 ~90 秒
-  除此之外, 请求方式/响应格式/m3u8 结构/缓存策略/所有接口完全与原版一致。
 """
 
 import base64, gzip, hashlib, json, os, random, re, struct, threading, time
@@ -34,35 +25,25 @@ except ImportError:
         def setCache(self, key, value): return "fail"
         def delCache(self, key): return "fail"
 
-
-# ================================================================ 日志 (已禁用文件写入)
-# 只 print 到 stdout, 不写文件. TVBox 一般看不到 stdout, 等于静默.
-
 def _log(msg):
-    try:
-        print('[ysp] ' + msg, flush=True)
-    except Exception:
-        pass
-
+    try: print('[ysp] ' + msg, flush=True)
+    except Exception: pass
 
 def format_remarks(brand="央视频", meta=""):
     clean_meta = str(meta or "").strip()
     clean_meta = re.sub(r"[\r\n\t]+", " ", clean_meta).strip()
     return ("%s | %s" % (brand, clean_meta)) if clean_meta else brand
 
-
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36'
 WINDOW = 300
 REFRESH_INTERVAL = 2
-IDLE_TIMEOUT = 600      # ★ STABLE-v1 改动1: 原 300
-MAX_SEGS = 800          # ★ STABLE-v1 改动2: 原 400
-PLAYLIST_WINDOW = 15    # ★ STABLE-v1 改动3: 原 8
+IDLE_TIMEOUT = 600      # 暂停/切走 10 分钟内回来不用重新缓冲
+MAX_SEGS = 800          # 长时播放内存里保留更多段
+PLAYLIST_WINDOW = 15    # 播放器缓冲从 ~48 秒升到 ~90 秒
 LOCAL_PORT_PREFERRED = 19876
 LOCAL_PORT_RANGE = 50
 
-
 # ================================================================ JCE 协议
-
 class W:
     def __init__(self): self.b = bytearray()
     def head(self, typ, tag):
@@ -98,7 +79,6 @@ class W:
     def struct(self, fn, tag): self.head(10, tag); fn(self); self.head(11, 0)
     def list(self, items, tag, wf=None): self.head(9, tag); self.int(len(items), 0)
     def out(self): return bytes(self.b)
-
 
 class R:
     def __init__(self, data): self.d = memoryview(data); self.p = 0
@@ -137,12 +117,10 @@ class R:
             m[tag] = self.value(t)
         return m
 
-
 VER_NAME, VER_CODE = '3.2.7.26212', '302070'
 APP_ID, QMF_APP_ID, QMF_PLATFORM, BIZ_ID = '1200013', 10012, 1, 0
 CHAN_ID = '10070'
 GUID = ''.join(random.choice('0123456789abcdef') for _ in range(32))
-
 
 def _qua(w):
     w.string(VER_NAME, 0); w.string(VER_CODE, 1)
@@ -157,7 +135,6 @@ def _qua(w):
     for i in range(23, 27): w.int(0, i)
     w.string('', 27); w.string('', 28); w.string(GUID, 29)
 
-
 def _head(w, cmd, reqid):
     w.int(reqid, 0); w.int(cmd, 1)
     w.struct(lambda ww: _qua(ww), 2)
@@ -165,7 +142,6 @@ def _head(w, cmd, reqid):
     w.list([], 5); w.struct(lambda ww: None, 6)
     w.list([], 7)
     w.int(0, 8); w.int(0, 9); w.int(0, 10)
-
 
 def _wrap(cmd, body, reqid):
     w = W()
@@ -184,7 +160,6 @@ def _wrap(cmd, body, reqid):
     struct.pack_into('>i', out, 1, len(out))
     return bytes(out)
 
-
 def _unwrap(data):
     if data[:1] != b'\x13' or len(data) < 90: return None
     flags = struct.unpack('>i', data[21:25])[0]
@@ -194,10 +169,7 @@ def _unwrap(data):
     rc = R(payload[16:-1]).struct()
     return rc.get(1) or b''
 
-
-class DeadHostError(RuntimeError):
-    pass
-
+class DeadHostError(RuntimeError): pass
 
 def jce_timeshift_url(pid, sid, start, end, stream='fhd'):
     w = W()
@@ -221,9 +193,7 @@ def jce_timeshift_url(pid, sid, start, end, stream='fhd'):
         raise DeadHostError('dead cdn host')
     return url
 
-
 # ================================================================ cKey + bkliveinfo
-
 _CK_PLATFORM = 4330403
 _CK_APPVER = 'V8.22.1035.3031'
 _CK_TEA = bytes.fromhex('59b2f7cf725ef43c34fdd7c123411ed3')
@@ -231,9 +201,7 @@ _CK_GTEA = bytes.fromhex('110DBEC10C23E7D2E56A1CAD6914EF1B')
 _CK_XOR = bytes([0x84, 0x2e, 0xed, 0x08, 0xf0, 0x66, 0xe6, 0xea, 0x48, 0xb4, 0xca, 0xa9, 0x91, 0xed, 0x6f, 0xf3])
 _CK_GXOR = bytes([0xb3, 0xc9, 0x53, 0xa0, 0x69, 0x13, 0xad, 0x4d])
 
-
 def _u32(v): return v & 0xFFFFFFFF
-
 
 def _tea_blk(blk, key):
     y, z = struct.unpack('>2I', blk)
@@ -245,12 +213,10 @@ def _tea_blk(blk, key):
         z = _u32(z + _u32(_u32(_u32(y << 4) + k[2]) ^ _u32(y + s) ^ _u32((y >> 5) + k[3])))
     return struct.pack('>2I', y, z)
 
-
 def _cksum(buf):
     v = 0
     for b in buf: v = (0x83 * v + b) & 0x7fffffff
     return v
-
 
 def _tea_pkt(data, key):
     pad = (8 - ((len(data) + 10) % 8)) % 8
@@ -264,11 +230,9 @@ def _tea_pkt(data, key):
         pp, pc = mixed, cipher
     return out
 
-
 def _lp(s):
     d = s.encode() if isinstance(s, str) else s
     return struct.pack('>H', len(d)) + d
-
 
 def _ck_guard(ts, guid):
     def tail(v):
@@ -278,7 +242,6 @@ def _ck_guard(ts, guid):
     enc = _tea_pkt(plain, _CK_GTEA) + struct.pack('>I', _cksum(plain))
     enc = bytes(a ^ _CK_GXOR[i & 7] for i, a in enumerate(enc))
     return enc.hex().upper()
-
 
 def _ckey(channel_id):
     ts = int(time.time())
@@ -301,9 +264,7 @@ def _ckey(channel_id):
     return {'cKey': '--01' + b64, 'guid': guid, 'ts': ts,
             'flowId': '%s_%d' % (uuid.uuid4().hex.upper(), _CK_PLATFORM)}
 
-
 _BK_H264 = base64.b64encode(b'H(30:1080,60:1080|30:1080,60:1080)').decode()
-
 
 def bk_playurls(channel_id, live_pid, defn='fhd'):
     t = _ckey(channel_id)
@@ -338,9 +299,7 @@ def bk_playurls(channel_id, live_pid, defn='fhd'):
     urls.sort(key=lambda u: (0 if 'bklive-' in u else 1, u))
     return urls
 
-
 # ================================================================ YSPTP 协议
-
 AK = '9f5c54c4ed0e50109b800f7e28fec205'
 YSPTP_APP_START = 'https://ytpaddr.cctv.cn/gsnw/api/app/start/v1/01'
 YSPTP_DICTIONARY = 'https://ytpaddr.cctv.cn/gsnw/player/dictionary/obtain/v1'
@@ -356,10 +315,8 @@ _YSPTP_STATE_FILE = '/tmp/ysptp-state.json'
 _YSPTP_CACHE_TTL = 600
 _YSPTP_REFRESH_MARGIN = 45
 
-
 def _ysptp_now_ms(): return int(time.time() * 1000)
 def _ysptp_now_s(): return time.time()
-
 
 def _java_hashcode(s):
     h = 0
@@ -368,25 +325,17 @@ def _java_hashcode(s):
         if h >= 0x80000000: h -= 0x100000000
     return h
 
-
 def _java_uuid_hash(msb, lsb):
     def to_u64(v): return v + (1 << 64) if v < 0 else v
     return '%016x%016x' % (to_u64(msb), to_u64(lsb))
-
 
 def _sha1_upper(s): return hashlib.sha1(s.encode()).hexdigest().upper()
 def _sha256_hex(s): return hashlib.sha256(s.encode()).hexdigest()
 def _md5_hex(s): return hashlib.md5(s.encode()).hexdigest()
 
-
-# ================================================================
-# Opsi A: device identity 持久化 — 每次返回同一个设备
-# ================================================================
-
 _DEVICE_ANDROID_ID = 'a1b2c3d4e5f6a7b8'
 _DEVICE_MAC = 'aa:bb:cc:dd:ee:01'
 _DEVICE_XUID = None
-
 
 def _ysptp_profile():
     return {
@@ -412,7 +361,6 @@ def _ysptp_profile():
         'cast_model': 'XR-85Z9K',
     }
 
-
 def _ysptp_xuid(p):
     build = ('1698' + p['hardware'] + p['board'] + p['brand'] + p['device']
              + p['manufacturer'] + p['model'] + p['product'] + p['tags']
@@ -420,11 +368,9 @@ def _ysptp_xuid(p):
     uuid_hex = _java_uuid_hash(_java_hashcode(build), _java_hashcode(p['model']))
     return _sha1_upper(p['android_id'] + '|' + uuid_hex)
 
-
 def _ysptp_fingerprint(xuid, ms):
     day0 = 86400000 * ((ms // 1000 + 28800) // 86400) - 28800000
     return _sha256_hex(_sha256_hex(AK + xuid + str(ms) + str(day0)))
-
 
 def _ysptp_load_state():
     global _DEVICE_XUID
@@ -433,7 +379,6 @@ def _ysptp_load_state():
         _DEVICE_XUID = _ysptp_xuid(p)
     return {'schema_version': 1, 'profile': p, 'screen_param': p['screen_param'],
             'cast_model': p['cast_model'], 'x_uid': _DEVICE_XUID, 'created_at': _ysptp_now_s()}
-
 
 def _ysptp_headers(ident, ctype='application/json; charset=utf-8', accept='application/json', ts=None):
     return {
@@ -452,12 +397,10 @@ def _ysptp_headers(ident, ctype='application/json; charset=utf-8', accept='appli
         'Cache-Control': 'no-cache',
     }
 
-
 def _ysptp_build_identity(p):
     xu = _ysptp_xuid(p)
     xf = _ysptp_fingerprint(xu, _ysptp_now_ms())
     return {'android_id': p['android_id'], 'x_uid': xu, 'x_fingerprint': xf}
-
 
 def _ysptp_http(url, headers, body=None, method='POST', timeout=15):
     data = body.encode('utf-8') if isinstance(body, str) else body
@@ -470,63 +413,157 @@ def _ysptp_http(url, headers, body=None, method='POST', timeout=15):
     except urllib.error.HTTPError as e:
         return e.code, e.read(), e.headers.get('Content-Type', '') if e.headers else ''
 
+# ==================== 融合部分：纯 Python AES-256-GCM ====================
+# 剔除外部库依赖，提取自 ysp-live v9.0 并精简
+_SBOX = (99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22)
+_INV_SBOX = [0] * 256
+for _i, _v in enumerate(_SBOX): _INV_SBOX[_v] = _i
+_INV_SBOX = tuple(_INV_SBOX)
+_RCON = (1, 2, 4, 8, 16, 32, 64, 128, 27, 54)
 
-_AES_BACKEND = None
+def _xtime(a): return (a << 1 ^ 283) & 255 if a & 128 else a << 1 & 255
 
+def _aes256_key_schedule(key):
+    assert len(key) == 32
+    w = [int.from_bytes(key[i:i + 4], 'big') for i in range(0, 32, 4)]
+    for i in range(8, 60):
+        temp = w[i - 1]
+        if i % 8 == 0:
+            temp = _SBOX[temp >> 16 & 255] << 24 | _SBOX[temp >> 8 & 255] << 16 | _SBOX[temp & 255] << 8 | _SBOX[temp >> 24 & 255]
+            temp ^= _RCON[i // 8 - 1] << 24
+        elif i % 8 == 4:
+            temp = _SBOX[temp >> 24 & 255] << 24 | _SBOX[temp >> 16 & 255] << 16 | _SBOX[temp >> 8 & 255] << 8 | _SBOX[temp & 255]
+        w.append(w[i - 8] ^ temp)
+    return [b''.join((word.to_bytes(4, 'big') for word in w[i:i + 4])) for i in range(0, 60, 4)]
 
-def _detect_aes_backend():
-    global _AES_BACKEND
-    if _AES_BACKEND is not None:
-        return _AES_BACKEND
-    try:
-        from cryptography.hazmat.primitives.ciphers.aead import AESGCM  # noqa
-        _AES_BACKEND = 'cryptography'
-        return _AES_BACKEND
-    except Exception:
-        pass
-    try:
-        from Crypto.Cipher import AES  # noqa
-        _AES_BACKEND = 'pycryptodome'
-        return _AES_BACKEND
-    except Exception:
-        pass
-    _AES_BACKEND = 'none'
-    return _AES_BACKEND
+def _add_round_key(state, rk):
+    for i in range(16): state[i] ^= rk[i]
+def _sub_bytes(state):
+    for i in range(16): state[i] = _SBOX[state[i]]
+def _inv_sub_bytes(state):
+    for i in range(16): state[i] = _INV_SBOX[state[i]]
+def _shift_rows(s):
+    s[1], s[5], s[9], s[13] = (s[5], s[9], s[13], s[1])
+    s[2], s[6], s[10], s[14] = (s[10], s[14], s[2], s[6])
+    s[3], s[7], s[11], s[15] = (s[15], s[3], s[7], s[11])
+def _inv_shift_rows(s):
+    s[1], s[5], s[9], s[13] = (s[13], s[1], s[5], s[9])
+    s[2], s[6], s[10], s[14] = (s[10], s[14], s[2], s[6])
+    s[3], s[7], s[11], s[15] = (s[7], s[11], s[15], s[3])
+def _mix_columns(s):
+    for c in range(4):
+        a0, a1, a2, a3 = (s[4 * c], s[4 * c + 1], s[4 * c + 2], s[4 * c + 3])
+        s[4 * c] = _xtime(a0) ^ (_xtime(a1) ^ a1) ^ a2 ^ a3
+        s[4 * c + 1] = a0 ^ _xtime(a1) ^ (_xtime(a2) ^ a2) ^ a3
+        s[4 * c + 2] = a0 ^ a1 ^ _xtime(a2) ^ (_xtime(a3) ^ a3)
+        s[4 * c + 3] = _xtime(a0) ^ a0 ^ a1 ^ a2 ^ _xtime(a3)
+def _mul(a, b):
+    p = 0
+    for _ in range(8):
+        if b & 1: p ^= a
+        hi = a & 128
+        a = a << 1 & 255
+        if hi: a ^= 27
+        b >>= 1
+    return p
+def _inv_mix_columns(s):
+    for c in range(4):
+        a0, a1, a2, a3 = (s[4 * c], s[4 * c + 1], s[4 * c + 2], s[4 * c + 3])
+        s[4 * c] = _mul(a0, 14) ^ _mul(a1, 11) ^ _mul(a2, 13) ^ _mul(a3, 9)
+        s[4 * c + 1] = _mul(a0, 9) ^ _mul(a1, 14) ^ _mul(a2, 11) ^ _mul(a3, 13)
+        s[4 * c + 2] = _mul(a0, 13) ^ _mul(a1, 9) ^ _mul(a2, 14) ^ _mul(a3, 11)
+        s[4 * c + 3] = _mul(a0, 11) ^ _mul(a1, 13) ^ _mul(a2, 9) ^ _mul(a3, 14)
 
+def aes256_encrypt_block(key, block):
+    rk = _aes256_key_schedule(key)
+    s = bytearray(block)
+    _add_round_key(s, rk[0])
+    for rnd in range(1, 14):
+        _sub_bytes(s); _shift_rows(s); _mix_columns(s); _add_round_key(s, rk[rnd])
+    _sub_bytes(s); _shift_rows(s); _add_round_key(s, rk[14])
+    return bytes(s)
+
+def aes256_decrypt_block(key, block):
+    rk = _aes256_key_schedule(key)
+    s = bytearray(block)
+    _add_round_key(s, rk[14])
+    for rnd in range(13, 0, -1):
+        _inv_shift_rows(s); _inv_sub_bytes(s); _add_round_key(s, rk[rnd]); _inv_mix_columns(s)
+    _inv_shift_rows(s); _inv_sub_bytes(s); _add_round_key(s, rk[0])
+    return bytes(s)
+
+def _gf_mult(x, y):
+    r = 299076299051606071403356588563077529600
+    z = 0; v = y
+    for _ in range(128):
+        if x & 170141183460469231731687303715884105728: z ^= v
+        if v & 1: v = v >> 1 ^ r
+        else: v >>= 1
+        x = x << 1 & 340282366920938463463374607431768211455
+    return z
+
+def _ghash(h, aad, ct):
+    x = 0
+    def _blocks(data):
+        for i in range(0, len(data), 16):
+            blk = data[i:i + 16]
+            if len(blk) < 16: blk = blk + b'\x00' * (16 - len(blk))
+            yield int.from_bytes(blk, 'big')
+    for b in _blocks(aad): x = _gf_mult(x ^ b, h)
+    for b in _blocks(ct): x = _gf_mult(x ^ b, h)
+    lens = len(aad) * 8 << 64 | len(ct) * 8
+    x = _gf_mult(x ^ lens, h)
+    return x
+
+def _inc32(block):
+    ctr = int.from_bytes(block[12:], 'big')
+    return block[:12] + (ctr + 1 & 4294967295).to_bytes(4, 'big')
+
+def _gctr(key, icb, data):
+    out = bytearray(); cb = icb
+    for i in range(0, len(data), 16):
+        ks = aes256_encrypt_block(key, cb)
+        chunk = data[i:i + 16]
+        out += bytes((a ^ b for a, b in zip(chunk, ks)))
+        cb = _inc32(cb)
+    return bytes(out)
+
+def aes_gcm_encrypt(key, nonce, plaintext, aad=b''):
+    assert len(key) == 32 and len(nonce) == 12
+    h = int.from_bytes(aes256_encrypt_block(key, b'\x00' * 16), 'big')
+    j0 = nonce + b'\x00\x00\x00\x01'
+    ct = _gctr(key, _inc32(j0), plaintext)
+    s = _ghash(h, aad, ct).to_bytes(16, 'big')
+    tag = bytes((a ^ b for a, b in zip(aes256_encrypt_block(key, j0), s)))
+    return ct + tag
+
+def aes_gcm_decrypt(key, nonce, ct_and_tag, aad=b''):
+    if len(ct_and_tag) < 16: raise ValueError('AES-GCM payload too short')
+    ct, tag = (ct_and_tag[:-16], ct_and_tag[-16:])
+    h = int.from_bytes(aes256_encrypt_block(key, b'\x00' * 16), 'big')
+    j0 = nonce + b'\x00\x00\x00\x01'
+    s = _ghash(h, aad, ct).to_bytes(16, 'big')
+    expect = bytes((a ^ b for a, b in zip(aes256_encrypt_block(key, j0), s)))
+    if not hmac_compare_digest(tag, expect): raise ValueError('AES-GCM decrypt failed')
+    return _gctr(key, _inc32(j0), ct)
+
+def hmac_compare_digest(a, b):
+    if len(a) != len(b): return False
+    res = 0
+    for x, y in zip(a, b): res |= x ^ y
+    return res == 0
 
 def _ysptp_aes_gcm_decrypt_b64(value, key):
     raw = base64.b64decode(value)
-    if len(raw) <= 12:
-        raise RuntimeError('AES-GCM payload too short')
+    if len(raw) <= 12: raise RuntimeError('AES-GCM payload too short')
     k = key.encode('utf-8')[:32].ljust(32, b'\x00')
-    nonce, ct = raw[:12], raw[12:]
-    backend = _detect_aes_backend()
-    if backend == 'cryptography':
-        from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-        return AESGCM(k).decrypt(nonce, ct, None).decode('utf-8')
-    if backend == 'pycryptodome':
-        from Crypto.Cipher import AES
-        tag, real_ct = ct[-16:], ct[:-16]
-        cipher = AES.new(k, AES.MODE_GCM, nonce=nonce)
-        return cipher.decrypt_and_verify(real_ct, tag).decode('utf-8')
-    raise RuntimeError('AES-GCM unavailable: install "cryptography" or "pycryptodome"')
-
+    return aes_gcm_decrypt(k, raw[:12], raw[12:]).decode('utf-8')
 
 def _ysptp_aes_gcm_encrypt_b64(value, key):
     k = key.encode('utf-8')[:32].ljust(32, b'\x00')
     nonce = os.urandom(12)
-    backend = _detect_aes_backend()
-    if backend == 'cryptography':
-        from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-        ct = AESGCM(k).encrypt(nonce, value.encode('utf-8'), None)
-        return base64.b64encode(nonce + ct).decode()
-    if backend == 'pycryptodome':
-        from Crypto.Cipher import AES
-        cipher = AES.new(k, AES.MODE_GCM, nonce=nonce)
-        ct, tag = cipher.encrypt_and_digest(value.encode('utf-8'))
-        return base64.b64encode(nonce + ct + tag).decode()
-    raise RuntimeError('AES-GCM unavailable: install "cryptography" or "pycryptodome"')
-
+    return base64.b64encode(nonce + aes_gcm_encrypt(k, nonce, value.encode('utf-8'))).decode()
+# ======================================================================
 
 def _ysptp_collect_report(p, xuid):
     value = {
@@ -553,7 +590,6 @@ def _ysptp_collect_report(p, xuid):
     if st < 200 or st >= 300:
         raise RuntimeError('collect HTTP %d: %s' % (st, txt[:200]))
 
-
 def _ysptp_dictionary():
     headers = {
         'X-Uid': 'ROOT', 'X-Fingerprint': 'ROOT', 'X-Nonce': str(uuid.uuid4()),
@@ -562,9 +598,7 @@ def _ysptp_dictionary():
         'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip',
     }
     st, _, _ = _ysptp_http(YSPTP_DICTIONARY, headers)
-    if st < 200 or st >= 300:
-        raise RuntimeError('dictionary HTTP %d' % st)
-
+    if st < 200 or st >= 300: raise RuntimeError('dictionary HTTP %d' % st)
 
 def _ysptp_app_start(ident, p):
     ts = _ysptp_now_ms()
@@ -586,8 +620,7 @@ def _ysptp_app_start(ident, p):
     headers['UID'] = ''
     st, txt, _ = _ysptp_http(YSPTP_APP_START, headers,
                              json.dumps(body, ensure_ascii=False, separators=(',', ':')))
-    if st < 200 or st >= 300:
-        raise RuntimeError('app/start HTTP %d: %s' % (st, txt[:200]))
+    if st < 200 or st >= 300: raise RuntimeError('app/start HTTP %d: %s' % (st, txt[:200]))
     j = json.loads(txt.decode('utf-8', 'replace'))
     d = j.get('data')
     if isinstance(d, dict): enc = d.get('key', '')
@@ -596,15 +629,12 @@ def _ysptp_app_start(ident, p):
     if not enc: raise RuntimeError('app/start missing key')
     return _ysptp_aes_gcm_decrypt_b64(enc, ident['x_fingerprint'][:32])
 
-
 def _ysptp_report_single(ident, body, uid_override=None):
     headers = _ysptp_headers(ident)
     if uid_override is not None: headers['UID'] = uid_override
     st, _, _ = _ysptp_http('https://ytpdata.cctv.cn/das/app/data/message/single', headers,
                             json.dumps(body, ensure_ascii=False, separators=(',', ':')))
-    if st < 200 or st >= 300:
-        raise RuntimeError('report HTTP %d' % st)
-
+    if st < 200 or st >= 300: raise RuntimeError('report HTTP %d' % st)
 
 def _ysptp_app_event(ident, p):
     t = _ysptp_now_ms()
@@ -626,7 +656,6 @@ def _ysptp_app_event(ident, p):
     }
     _ysptp_report_single(ident, {'key': 'event', 'value': v}, uid_override='')
 
-
 def _ysptp_page_event(ident, p):
     end = _ysptp_now_ms(); start = end - 1000
     v = {
@@ -647,7 +676,6 @@ def _ysptp_page_event(ident, p):
     }
     _ysptp_report_single(ident, {'key': 'page_d1', 'value': v})
 
-
 def _ysptp_heartbeat(ident, p):
     t = _ysptp_now_ms()
     v = {
@@ -666,12 +694,10 @@ def _ysptp_heartbeat(ident, p):
     }
     _ysptp_report_single(ident, {'key': 'app_heartbeat', 'value': v})
 
-
 def _ysptp_index_flow(ident):
     st, _, _ = _ysptp_http('https://ytpaddr.cctv.cn/gsnw/api/index/v1/01', _ysptp_headers(ident),
                             json.dumps({'channel': YSPTP_APP_CHANNEL, 'source': 'application'}, ensure_ascii=False))
     if st < 200 or st >= 300: raise RuntimeError('index HTTP %d' % st)
-
 
 def _ysptp_warmup(ident):
     appcommon = json.dumps({'adid': '', 'av': YSPTP_VERSION, 'an': YSPTP_VDN_APP, 'ap': 'cctv_app_tv'},
@@ -683,7 +709,6 @@ def _ysptp_warmup(ident):
     url = 'https://ytpaddr.cctv.cn/gsnw/version/config/obtain/v1?' + urllib.parse.urlencode({'appcommon': appcommon})
     st, _, _ = _ysptp_http(url, _ysptp_headers(ident, '', None), method='GET')
     if st < 200 or st >= 300: raise RuntimeError('version HTTP %d' % st)
-
 
 def _ysptp_live01(ident, state, session_key, live_id):
     body = {
@@ -709,7 +734,6 @@ def _ysptp_live01(ident, state, session_key, live_id):
         url = _ysptp_aes_gcm_decrypt_b64(url, session_key)
     return {'url': url, 'rate': v.get('rate', ''), 'rateName': v.get('rateName', '')}
 
-
 def _ysptp_live02(ident, session_key):
     enc = _ysptp_aes_gcm_encrypt_b64('', session_key)
     st, txt, _ = _ysptp_http(YSPTP_LIVE_02, _ysptp_headers(ident), json.dumps({'guid': enc}))
@@ -719,7 +743,6 @@ def _ysptp_live02(ident, session_key):
     enc = d.get('appSecret') or d.get('app_secret') or (d if isinstance(d, str) else '')
     if not enc: raise RuntimeError('live/02 no appSecret')
     return _ysptp_aes_gcm_decrypt_b64(enc, session_key)
-
 
 def _ysptp_vdn(ident, live_url, secret):
     r = '%08x-0000-%04x-0000-00000000%04x' % (
@@ -737,10 +760,8 @@ def _ysptp_vdn(ident, live_url, secret):
         raise RuntimeError('VDN no url')
     return {'url': j['url'], 'sign': sign, 'random': r}
 
-
 _YSPTP_ENTRY_CACHE = {}
 _YSPTP_ENTRY_LOCK = threading.Lock()
-
 
 def ysptp_resolve(live_id, slug=''):
     with _YSPTP_ENTRY_LOCK:
@@ -775,9 +796,7 @@ def ysptp_resolve(live_id, slug=''):
         if slug: _YSPTP_ENTRY_CACHE[slug] = entry
         return entry
 
-
 # ================================================================ 频道表
-
 CHANNELS = [
     ('cctv1',    'CCTV-1 综合',      '2024078201', '600001859', 'fhd', 'Live1717729995180256'),
     ('cctv2',    'CCTV-2 财经',      '2024075401', '600001800', 'fhd', 'Live1718261577870260'),
@@ -847,43 +866,26 @@ CHANNELS = [
 ]
 
 CHANNEL_MAP = {c[0]: {'slug': c[0], 'name': c[1], 'sid': c[2], 'pid': c[3], 'defn': c[4], 'ysptp': c[5]} for c in CHANNELS}
-
-FORCE_BK = {'cctv11', 'cctv12', 'cctv14', 'cctv15', 'cctv16', 'cctv164k',
-            'cctv17', 'cctv4k', 'cctvfyjc', 'cctvdyjc', 'cctvhjjc'}
-
+FORCE_BK = {'cctv11', 'cctv12', 'cctv14', 'cctv15', 'cctv16', 'cctv164k', 'cctv17', 'cctv4k', 'cctvfyjc', 'cctvdyjc', 'cctvhjjc'}
 BACKEND_CHANNELS = {
-    'cctv1', 'cctv2', 'cctv3', 'cctv4', 'cctv5', 'cctv5p',
-    'cctv7', 'cctv8', 'cctv9', 'cctv10', 'cctv11', 'cctv12',
-    'cctv13', 'cctv14', 'cctv15', 'cctv16', 'cctv17',
-    'cctv4k', 'cctv8k', 'cctv164k',
+    'cctv1', 'cctv2', 'cctv3', 'cctv4', 'cctv5', 'cctv5p', 'cctv7', 'cctv8', 'cctv9', 'cctv10', 'cctv11', 'cctv12',
+    'cctv13', 'cctv14', 'cctv15', 'cctv16', 'cctv17', 'cctv4k', 'cctv8k', 'cctv164k',
     'cgtn', 'cgtnfr', 'cgtnru', 'cgtnar', 'cgtnes', 'cgtndoc',
 }
-
 TRUE_4K_CHANNELS = {'cctv4k', 'cctv8k', 'cctv164k'}
-
+YSPTP_SLUG_SUFFIX = '_ys'
 
 def _base_slug(slug):
-    """剥离 _ys 后缀，返回基础 slug"""
     s = str(slug or '')
-    if s.endswith(YSPTP_SLUG_SUFFIX):
-        return s[:-len(YSPTP_SLUG_SUFFIX)]
+    if s.endswith(YSPTP_SLUG_SUFFIX): return s[:-len(YSPTP_SLUG_SUFFIX)]
     return s
-
-
 def _has_native(slug):
     info = CHANNEL_MAP.get(_base_slug(slug), {})
     return bool(info.get('sid')) and bool(info.get('pid'))
-
-
 def _has_ysptp(slug):
     return bool(CHANNEL_MAP.get(_base_slug(slug), {}).get('ysptp'))
 
-
-YSPTP_SLUG_SUFFIX = '_ys'
-
-
 # ================================================================ 台标
-
 LOGO_MIRRORS = [
     'https://cdn.jsdmirror.com/gh/fanmingming/live@main/tv/',
     'https://jsd.onmicrosoft.cn/gh/fanmingming/live@main/tv/',
@@ -895,18 +897,13 @@ LOGO_MIRRORS = [
 LOGO_PROBE_FILE = 'CCTV1.png'
 LOGO_TIMEOUT = 8
 LOGO_MODE = 'auto'
-
 _LOGO_BASE = LOGO_MIRRORS[0]
 _LOGO_DONE = threading.Event()
 _LOGO_START_LOCK = threading.Lock()
 _LOGO_STARTED = False
 _LOGO_CACHE = {}
 _LOGO_CACHE_LOCK = threading.Lock()
-
-_LOGO_PLACEHOLDER = base64.b64decode(
-    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
-)
-
+_LOGO_PLACEHOLDER = base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=')
 _LOGO_OVERRIDE = {
     'cctv5p': 'CCTV5+.png', 'cctv4k': 'CCTV4K.png', 'cctv8k': 'CCTV8K.png',
     'cctv164k': 'CCTV16.png', 'cctv4kb': 'CCTV4K.png',
@@ -916,23 +913,18 @@ _LOGO_OVERRIDE = {
     'cctvfyjc': '风云剧场.png', 'cctvdyjc': '第一剧场.png', 'cctvhjjc': '怀旧剧场.png',
     'cetv1': 'CETV1.png', 'guoxue': '国学.png',
 }
-
-
 def _logo_file(slug, name=''):
     if slug in _LOGO_OVERRIDE: return _LOGO_OVERRIDE[slug]
     m = re.match(r'^cctv(\d+)$', slug)
     if m: return 'CCTV%s.png' % m.group(1)
     if name and slug.endswith('ws'): return name + '.png'
     return ''
-
-
 def _probe_logo_source():
     global _LOGO_BASE
     try:
         for base in LOGO_MIRRORS:
             try:
-                req = urllib.request.Request(base + LOGO_PROBE_FILE,
-                                             headers={'User-Agent': UA, 'Referer': 'https://live.cctv.cn/'})
+                req = urllib.request.Request(base + LOGO_PROBE_FILE, headers={'User-Agent': UA, 'Referer': 'https://live.cctv.cn/'})
                 with urllib.request.urlopen(req, timeout=LOGO_TIMEOUT) as r:
                     head = r.read(16)
                 if head[:4] == b'\x89PNG':
@@ -940,8 +932,6 @@ def _probe_logo_source():
             except Exception: continue
         _LOGO_BASE = ''
     finally: _LOGO_DONE.set()
-
-
 def _ensure_logo_source(wait=3.0):
     global _LOGO_STARTED
     with _LOGO_START_LOCK:
@@ -950,24 +940,17 @@ def _ensure_logo_source(wait=3.0):
             threading.Thread(target=_probe_logo_source, daemon=True).start()
     _LOGO_DONE.wait(wait)
     return _LOGO_BASE
-
-
 def _local_logo_url(slug):
     return 'http://127.0.0.1:%d/logo/%s.png' % (_LOCAL_PORT, slug) if _LOCAL_PORT else ''
-
-
 def _logo_url(slug, name=''):
     _ensure_logo_source(wait=0)
-    if not _LOGO_DONE.is_set():
-        return _local_logo_url(slug)
+    if not _LOGO_DONE.is_set(): return _local_logo_url(slug)
     fname = _logo_file(_base_slug(slug), name)
     base = _LOGO_BASE
     direct = (base + urllib.parse.quote(fname)) if (base and fname) else ''
     if LOGO_MODE == 'direct': return direct or _local_logo_url(slug)
     if LOGO_MODE == 'local': return _local_logo_url(slug) or direct
     return direct or _local_logo_url(slug)
-
-
 def _fetch_logo_bytes(slug, name):
     fname = _logo_file(_base_slug(slug), name)
     if fname:
@@ -975,17 +958,13 @@ def _fetch_logo_bytes(slug, name):
         q = urllib.parse.quote(fname)
         for base in bases:
             try:
-                req = urllib.request.Request(base + q,
-                                             headers={'User-Agent': UA, 'Referer': 'https://live.cctv.cn/'})
-                with urllib.request.urlopen(req, timeout=LOGO_TIMEOUT) as r:
-                    data = r.read()
+                req = urllib.request.Request(base + q, headers={'User-Agent': UA, 'Referer': 'https://live.cctv.cn/'})
+                with urllib.request.urlopen(req, timeout=LOGO_TIMEOUT) as r: data = r.read()
                 if data[:4] == b'\x89PNG': return data
             except Exception: continue
     return _LOGO_PLACEHOLDER
 
-
 # ================================================================ 活流状态
-
 class _ChannelState:
     def __init__(self, slug, name, sid, pid, defn, ysptp_live, mode):
         self.slug = slug; self.name = name
@@ -994,13 +973,9 @@ class _ChannelState:
         self.lock = threading.Lock()
         self.segments = {}; self.order = deque(); self.seq = 0
         self.last_access = 0.0; self.thread = None
-        self.last_error = ''
-        self.mode = mode
-        self._starting = False
-
+        self.last_error = ''; self.mode = mode; self._starting = False
 
 CHANNEL_STATE = {}
-
 for c in CHANNELS:
     slug, name, sid, pid, defn, ys = c[0], c[1], c[2], c[3], c[4], c[5]
     if sid and pid:
@@ -1010,12 +985,10 @@ for c in CHANNELS:
         ys_slug = slug + YSPTP_SLUG_SUFFIX
         CHANNEL_STATE[ys_slug] = _ChannelState(ys_slug, name + ' (YSPTP)', '', '', '', ys, 'ysptp')
 
-
 def _seg_key(url, pdt):
     if pdt: return 'pdt:' + pdt
     p = urllib.parse.urlsplit(url)
     return p.scheme + '://' + p.netloc + p.path
-
 
 def _append_segments(ch, segs):
     with ch.lock:
@@ -1031,7 +1004,6 @@ def _append_segments(ch, segs):
             ch.segments.pop(ch.order.popleft(), None)
         ch.last_error = ''
 
-
 def _parse_m3u8(text, base_url):
     segs, dur, pdt = [], 6.0, ''
     for line in text.splitlines():
@@ -1046,7 +1018,6 @@ def _parse_m3u8(text, base_url):
             pdt = ''
     return segs
 
-
 def _jce_refresh(ch):
     now = int(time.time())
     m3u8_url = jce_timeshift_url(ch.pid, ch.sid, now - WINDOW, now, ch.defn)
@@ -1058,15 +1029,12 @@ def _jce_refresh(ch):
     _append_segments(ch, segs)
     return True
 
-
 def _bk_refresh(ch):
     urls = bk_playurls(ch.sid, ch.pid, ch.defn)
     last_err = ''
     for u in urls:
         try:
-            req = urllib.request.Request(u, headers={
-                'User-Agent': UA, 'Referer': 'https://live.cctv.cn/',
-                'Accept': 'application/vnd.apple.mpegurl,application/json,*/*'})
+            req = urllib.request.Request(u, headers={'User-Agent': UA, 'Referer': 'https://live.cctv.cn/', 'Accept': 'application/vnd.apple.mpegurl,application/json,*/*'})
             with urllib.request.urlopen(req, timeout=20) as r:
                 text = r.read().decode('utf-8', 'replace'); final = r.geturl()
             lines = text.splitlines()
@@ -1088,7 +1056,6 @@ def _bk_refresh(ch):
         except Exception as e:
             last_err = '%s: %s' % (type(e).__name__, e); continue
     raise RuntimeError(last_err or 'bk playlist failed')
-
 
 def _ysptp_refresh(ch):
     e = ysptp_resolve(ch.ysptp_live, ch.slug)
@@ -1112,7 +1079,6 @@ def _ysptp_refresh(ch):
     _append_segments(ch, segs)
     return True
 
-
 def _refresh_native(ch):
     if ch.mode == 'bk':
         try: return _bk_refresh(ch)
@@ -1120,29 +1086,22 @@ def _refresh_native(ch):
             _log('%s bk failed (%s), fallback jce' % (ch.slug, e))
             ch.mode = 'jce'
             return _jce_refresh(ch)
-    try:
-        return _jce_refresh(ch)
+    try: return _jce_refresh(ch)
     except DeadHostError:
         ch.mode = 'bk'
         return _bk_refresh(ch)
 
-
 def _refresh_once(ch):
     t0 = time.time()
     try:
-        if ch.mode == 'ysptp':
-            ok = _ysptp_refresh(ch)
-        else:
-            ok = _refresh_native(ch)
-        _log('refresh %s: ok=%s %.2fs segs=%d'
-             % (ch.slug, ok, time.time() - t0, len(ch.order)))
+        if ch.mode == 'ysptp': ok = _ysptp_refresh(ch)
+        else: ok = _refresh_native(ch)
+        _log('refresh %s: ok=%s %.2fs segs=%d' % (ch.slug, ok, time.time() - t0, len(ch.order)))
         return ok
     except Exception as e:
         ch.last_error = ('%s: %s' % (type(e).__name__, e))[:120]
-        _log('refresh %s: FAIL %.2fs %s'
-             % (ch.slug, time.time() - t0, ch.last_error))
+        _log('refresh %s: FAIL %.2fs %s' % (ch.slug, time.time() - t0, ch.last_error))
         return False
-
 
 def _refresh_loop(ch):
     fails = 0
@@ -1150,7 +1109,6 @@ def _refresh_loop(ch):
         ok = _refresh_once(ch)
         fails = 0 if ok else fails + 1
         time.sleep(REFRESH_INTERVAL if fails < 3 else 15)
-
 
 def _ensure_channel(ch):
     ch.last_access = time.time()
@@ -1168,19 +1126,14 @@ def _ensure_channel(ch):
     finally:
         with ch.lock: ch._starting = False
 
-
 # ================================================================ 本地 HTTP 服务
-
 _LOCAL_PORT = None
 _LOCAL_LOCK = threading.Lock()
-
 
 class _LocalHandler(BaseHTTPRequestHandler):
     protocol_version = 'HTTP/1.1'
     server_version = 'ysp-live-spider'
-
     def log_message(self, fmt, *args): pass
-
     def _send(self, code, body, ctype='text/plain; charset=utf-8', extra=None, cache=False):
         data = body.encode('utf-8') if isinstance(body, str) else body
         try:
@@ -1198,38 +1151,28 @@ class _LocalHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
         path = urllib.parse.urlparse(self.path).path
         if re.match(r'^/[^/]+\.m3u8$', path):
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/vnd.apple.mpegurl')
-            self.end_headers(); return
+            self.send_response(200); self.send_header('Content-Type', 'application/vnd.apple.mpegurl'); self.end_headers(); return
         if re.match(r'^/logo/[^/]+\.png$', path):
-            self.send_response(200)
-            self.send_header('Content-Type', 'image/png')
-            self.end_headers(); return
-        self.send_response(404)
-        self.end_headers()
+            self.send_response(200); self.send_header('Content-Type', 'image/png'); self.end_headers(); return
+        self.send_response(404); self.end_headers()
 
     def do_GET(self):
         path = urllib.parse.urlparse(self.path).path
-        if path == '/health':
-            self._send(200, 'ok\n'); return
+        if path == '/health': self._send(200, 'ok\n'); return
         if path == '/diag':
             lines = []
             for slug, ch in CHANNEL_STATE.items():
                 with ch.lock: n = len(ch.order)
                 lines.append('%s mode=%s segs=%d err=%s' % (slug, ch.mode, n, ch.last_error))
             lines.append('logo_source=%s' % (_LOGO_BASE or '(none)'))
-            lines.append('aes_backend=%s' % (_AES_BACKEND or 'unknown'))
             self._send(200, '\n'.join(lines) + '\n'); return
 
         m = re.match(r'^/logo/([^/]+)\.png$', path)
-        if m:
-            self._serve_logo(urllib.parse.unquote(m.group(1))); return
+        if m: self._serve_logo(urllib.parse.unquote(m.group(1))); return
         m = re.match(r'^/([^/]+)\.m3u8$', path)
-        if m:
-            self._serve_m3u8(urllib.parse.unquote(m.group(1))); return
+        if m: self._serve_m3u8(urllib.parse.unquote(m.group(1))); return
         m = re.match(r'^/chunk/([^/]+)/(\d+)\.ts$', path)
-        if m:
-            self._serve_chunk(urllib.parse.unquote(m.group(1)), int(m.group(2))); return
+        if m: self._serve_chunk(urllib.parse.unquote(m.group(1)), int(m.group(2))); return
         self._send(404, 'not found\n')
 
     def _serve_logo(self, slug):
@@ -1244,8 +1187,7 @@ class _LocalHandler(BaseHTTPRequestHandler):
 
     def _serve_m3u8(self, slug):
         ch = CHANNEL_STATE.get(slug)
-        if not ch:
-            self._send(404, 'unknown\n'); return
+        if not ch: self._send(404, 'unknown\n'); return
         _ensure_channel(ch)
         for _ in range(60):
             with ch.lock:
@@ -1275,8 +1217,7 @@ class _LocalHandler(BaseHTTPRequestHandler):
 
     def _serve_chunk(self, slug, seq):
         ch = CHANNEL_STATE.get(slug)
-        if not ch:
-            self._send(404, 'unknown\n'); return
+        if not ch: self._send(404, 'unknown\n'); return
         ch.last_access = time.time()
         with ch.lock:
             url = None
@@ -1284,12 +1225,10 @@ class _LocalHandler(BaseHTTPRequestHandler):
                 s = ch.segments.get(k)
                 if s and s[0] == seq:
                     url = s[3]; break
-        if not url:
-            self._send(404, 'chunk expired\n'); return
+        if not url: self._send(404, 'chunk expired\n'); return
 
         try:
-            req = urllib.request.Request(url, headers={
-                'User-Agent': UA, 'Referer': 'https://live.cctv.cn/'})
+            req = urllib.request.Request(url, headers={'User-Agent': UA, 'Referer': 'https://live.cctv.cn/'})
             with urllib.request.urlopen(req, timeout=20) as r:
                 self.send_response(200)
                 self.send_header('Content-Type', 'video/mp2t')
@@ -1311,7 +1250,6 @@ class _LocalHandler(BaseHTTPRequestHandler):
             try: self._send(502, 'chunk error: %s\n' % e)
             except Exception: pass
 
-
 def _ensure_local_server():
     global _LOCAL_PORT
     with _LOCAL_LOCK:
@@ -1324,22 +1262,16 @@ def _ensure_local_server():
                 srv.daemon_threads = True
                 _LOCAL_PORT = srv.server_address[1]
                 threading.Thread(target=srv.serve_forever, daemon=True).start()
-                try: _detect_aes_backend()
-                except Exception: pass
                 return _LOCAL_PORT
             except OSError as e:
                 last_err = e; continue
         raise RuntimeError('无法绑定端口: %s' % last_err)
 
-
 # ================================================================ Spider
-
 class Spider(SpiderBase):
     def __init__(self):
-        try:
-            super(Spider, self).__init__()
-        except Exception:
-            pass
+        try: super(Spider, self).__init__()
+        except Exception: pass
         self.brandActor = "📺 央视频直播"
         self.brandDirector = "ysp-live-multi"
 
@@ -1371,24 +1303,17 @@ class Spider(SpiderBase):
         cats = []
         if (re.match(r'^cctv\d+$', base_slug) or base_slug == 'cctv5p') and base_slug not in TRUE_4K_CHANNELS:
             cats.append('cctv')
-        if base_slug in TRUE_4K_CHANNELS or base_slug == 'cctv4kb':
-            cats.append('4k')
-        if base_slug in ('cctvfyjc', 'cctvdyjc', 'cctvhjjc'):
-            cats.append('premium')
-        if base_slug.endswith('ws') or base_slug == 'cetv1':
-            cats.append('satellite')
-        if base_slug.startswith('cgtn'):
-            cats.append('cgtn')
-        if base_slug == 'guoxue':
-            cats.append('other')
+        if base_slug in TRUE_4K_CHANNELS or base_slug == 'cctv4kb': cats.append('4k')
+        if base_slug in ('cctvfyjc', 'cctvdyjc', 'cctvhjjc'): cats.append('premium')
+        if base_slug.endswith('ws') or base_slug == 'cetv1': cats.append('satellite')
+        if base_slug.startswith('cgtn'): cats.append('cgtn')
+        if base_slug == 'guoxue': cats.append('other')
         return cats
 
     def _make_card(self, slug, name):
         tag = ''
-        if slug in TRUE_4K_CHANNELS or slug == 'cctv4kb':
-            tag = '真4K'
-        elif slug in BACKEND_CHANNELS:
-            tag = '高码率'
+        if slug in TRUE_4K_CHANNELS or slug == 'cctv4kb': tag = '真4K'
+        elif slug in BACKEND_CHANNELS: tag = '高码率'
         return {"vod_id": slug, "vod_name": name, "vod_pic": _logo_url(slug, name),
                 "vod_remarks": format_remarks("央视频", tag),
                 "style": {"type": "rect", "ratio": 1.78}}
@@ -1401,8 +1326,7 @@ class Spider(SpiderBase):
         slug = ids[0] if isinstance(ids, (list, tuple)) else str(ids)
         base_slug = _base_slug(slug)
         info = CHANNEL_MAP.get(base_slug)
-        if not info:
-            return {"list": []}
+        if not info: return {"list": []}
         try:
             _ensure_local_server()
             if _has_native(base_slug):
@@ -1417,19 +1341,14 @@ class Spider(SpiderBase):
             if _has_ysptp(base_slug):
                 ch_ys = CHANNEL_STATE.get(base_slug + YSPTP_SLUG_SUFFIX)
                 if ch_ys:
-                    threading.Thread(
-                        target=lambda c: _ensure_channel(c),
-                        args=(ch_ys,), daemon=True).start()
+                    threading.Thread(target=lambda c: _ensure_channel(c), args=(ch_ys,), daemon=True).start()
         except Exception: pass
 
         lines_1 = []
         lines_2 = []
-        if _has_native(base_slug):
-            lines_1.append("超清$%s" % base_slug)
-        if _has_ysptp(base_slug):
-            lines_2.append("超清(YSPTP)$%s%s" % (base_slug, YSPTP_SLUG_SUFFIX))
-        if not lines_1 and not lines_2:
-            lines_1.append("超清$%s" % base_slug)
+        if _has_native(base_slug): lines_1.append("超清$%s" % base_slug)
+        if _has_ysptp(base_slug): lines_2.append("超清(YSPTP)$%s%s" % (base_slug, YSPTP_SLUG_SUFFIX))
+        if not lines_1 and not lines_2: lines_1.append("超清$%s" % base_slug)
 
         play_from_parts = []
         play_url_parts = []
@@ -1462,10 +1381,8 @@ class Spider(SpiderBase):
                     "header": {"User-Agent": UA, "Referer": "https://live.cctv.cn/"}}
         if slug not in CHANNEL_STATE:
             return {"parse": 0, "playUrl": "", "url": "", "header": {}}
-        try:
-            port = _ensure_local_server()
-        except Exception:
-            return {"parse": 0, "playUrl": "", "url": "", "header": {}}
+        try: port = _ensure_local_server()
+        except Exception: return {"parse": 0, "playUrl": "", "url": "", "header": {}}
         ch = CHANNEL_STATE[slug]
         _ensure_channel(ch)
         for _ in range(40):
@@ -1492,7 +1409,6 @@ class Spider(SpiderBase):
     def liveContent(self): return ""
 
     def localProxy(self, params):
-        """透传本地代理请求：支持 dict / "url=xxx" 两种入参形式"""
         try:
             if isinstance(params, dict):
                 url = params.get('url') or params.get('key') or ''
@@ -1502,17 +1418,14 @@ class Spider(SpiderBase):
                 for part in s.split('&'):
                     if part.startswith('url='):
                         url = urllib.parse.unquote(part[4:]); break
-            if not url:
-                return [404, "text/plain; charset=utf-8", "no url"]
-            req = urllib.request.Request(url, headers={
-                'User-Agent': UA, 'Referer': 'https://live.cctv.cn/'})
+            if not url: return [404, "text/plain; charset=utf-8", "no url"]
+            req = urllib.request.Request(url, headers={'User-Agent': UA, 'Referer': 'https://live.cctv.cn/'})
             with urllib.request.urlopen(req, timeout=20) as r:
                 data = r.read()
                 ct = r.headers.get('Content-Type', 'application/octet-stream')
             return [200, ct, data]
         except Exception as e:
             return [502, "text/plain; charset=utf-8", str(e)]
-
 
 if __name__ == '__main__':
     import argparse, sys
@@ -1521,7 +1434,6 @@ if __name__ == '__main__':
     ap.add_argument('--once', action='store_true')
     ap.add_argument('--test-slug', default='cctv1')
     args = ap.parse_args()
-    # 用 globals() 修改模块级变量，让 _ensure_local_server 生效
     globals()['LOCAL_PORT_PREFERRED'] = args.port
 
     sp = Spider(); sp.init()
