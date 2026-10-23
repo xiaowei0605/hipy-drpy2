@@ -7,6 +7,16 @@
    "api": "./py/yangshipin.py"
   },
   {
+   "key": "py_shortfilm",
+   "name": "聚合短剧",
+   "type": 3,
+   "api": "./py/shortfilm.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "changeable": 1
+  },
+  {
    "key": "py_lychee",
    "name": "广东荔枝",
    "type": 3,

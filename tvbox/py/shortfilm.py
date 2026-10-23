@@ -1,3 +1,15 @@
+# -*- coding: utf-8 -*-
+"""
+@header({
+  searchable: 1,
+  filterable: 1,
+  quickSearch: 1,
+  title: '聚合短剧',
+  '类型': '短剧',
+  lang: 'ds'
+})
+"""
+
 import sys
 import os
 import re
@@ -18343,11 +18355,14 @@ class Spider(_BaseSpider):
             items = []
         return [self._vod(key, item) for item in items]
 
+    FILTER_BUDGET = 8
+
     def homeContent(self, filter):
         result = {'class': self.router.platforms()}
         if filter:
             entries = {}
             lock = threading.Lock()
+            deadline = time.time() + self.FILTER_BUDGET
 
             def _build(tid):
                 try:
@@ -18364,8 +18379,15 @@ class Spider(_BaseSpider):
                 t = threading.Thread(target=_build, args=(tid,), daemon=True)
                 t.start()
                 threads.append(t)
+            # 首屏给总预算而非逐条 15s 累加：超时平台退回分类筛选，
+            # 由 cats_of 的 600s 缓存在下一次刷新补齐。
             for t in threads:
-                t.join(timeout=15)
+                remain = deadline - time.time()
+                if remain <= 0:
+                    break
+                t.join(timeout=remain)
+            for item in result['class']:
+                entries.setdefault(item['type_id'], [])
             result['filters'] = entries
         try:
             result['list'] = self.homeVideoContent().get('list', [])
@@ -18394,10 +18416,14 @@ class Spider(_BaseSpider):
         if tid in self.router.sites:
             _write_last_platform(tid)
         vods = self._listing(tid, page, extend)
-        pagecount = page if len(vods) < SiteRouter.PAGE_SIZE else page + 1
-        return {'list': vods, 'page': page, 'pagecount': pagecount,
-                'limit': SiteRouter.PAGE_SIZE,
-                'total': pagecount * SiteRouter.PAGE_SIZE}
+        # pagecount/total 一律不推算：满页只代表可能还有下一页。
+        # total 未知时省略，避免宿主把估算值当成真实总数。
+        result = {'list': vods, 'page': page, 'limit': SiteRouter.PAGE_SIZE}
+        if len(vods) >= SiteRouter.PAGE_SIZE:
+            result['pagecount'] = page + 1
+        else:
+            result['pagecount'] = page
+        return result
 
     def detailContent(self, ids):
         try:
@@ -18436,33 +18462,77 @@ class Spider(_BaseSpider):
         }
         return {'list': [vod]}
 
+    SEARCH_WORKERS = 12
+    SEARCH_BUDGET = 10
+
+    def _search_one(self, site_key, word, page):
+        site = self.router.sites.get(site_key)
+        if site is None:
+            return []
+        pname = str(getattr(site, 'name', site_key) or site_key)
+        try:
+            items = site.search(word, page) or []
+        except Exception as exc:
+            print('[聚合短剧] %s 搜索失败: %s' % (pname, exc))
+            return []
+        out = []
+        for item in items:
+            vod = self._vod(site_key, item)
+            if not vod.get('vod_name') or not vod.get('vod_id'):
+                continue
+            remark = vod.get('vod_remarks')
+            vod['vod_remarks'] = ('%s 路 %s' % (pname, remark)) if remark else pname
+            vod['type_name'] = pname
+            vod['vod_tag'] = pname
+            out.append(vod)
+        return out
+
     def _searchContent_raw(self, key, quick, pg=1):
         page = self._page(pg)
         word = str(key or '').strip()
         if not word:
             return {'list': [], 'page': page}
-        target = _read_last_platform()
-        if target not in self.router.sites:
-            target = 'hongguo'
-        site = self.router.sites[target]
-        try:
-            items = site.search(word, page) or []
-        except Exception as exc:
-            print('[聚合短剧] %s 搜索失败: %s'
-                  % (getattr(site, 'name', target), exc))
-            items = []
-        pname = str(getattr(site, 'name', target) or target)
+        # 跨平台聚合搜索：先搜上次访问的平台（命中率最高），其余并发补齐，
+        # 按 vod_id 去重后保持平台顺序稳定。
+        head = _read_last_platform()
+        order = [head] if head in self.router.sites else []
+        order += [k for k in self.router.order if k not in order]
+        buckets = {}
+        lock = threading.Lock()
+
+        def worker(site_key):
+            got = self._search_one(site_key, word, page)
+            if got:
+                with lock:
+                    buckets[site_key] = got
+
+        rest = list(order)
+        if rest:
+            # 用总预算而非逐平台超时：慢平台（如黄瓜单站 30s）不能拖死整体。
+            pool = ThreadPoolExecutor(max_workers=self.SEARCH_WORKERS)
+            futures = [pool.submit(worker, k) for k in rest]
+            deadline = time.time() + self.SEARCH_BUDGET
+            for fut in futures:
+                remain = deadline - time.time()
+                if remain <= 0:
+                    break
+                try:
+                    fut.result(timeout=remain)
+                except Exception:
+                    pass
+            pool.shutdown(wait=False)
         collected = []
-        for item in items:
-            vod = self._vod(target, item)
-            if vod.get('vod_remarks'):
-                vod['vod_remarks'] = '%s · %s' % (pname, vod['vod_remarks'])
-            else:
-                vod['vod_remarks'] = pname
-            vod['type_name'] = pname
-            vod['vod_tag'] = pname
-            collected.append(vod)
-        return {'list': collected, 'page': page}
+        seen = set()
+        for site_key in order:
+            for vod in buckets.get(site_key, []):
+                name = vod.get('vod_name') or ''
+                if name and name in seen:
+                    continue
+                if name:
+                    seen.add(name)
+                collected.append(vod)
+        return {'list': collected, 'page': page,
+                'pagecount': page + 1 if collected else page}
 
     def searchContentPage(self, key, quick, pg=1):
         return self.searchContent(key, quick, pg)
@@ -18503,7 +18573,8 @@ class Spider(_BaseSpider):
         if not data.get("page"):
             data["page"] = page
         if not data.get("limit"):
-            data["limit"] = len(data["list"])
+            # limit 是单页容量而非本次结果条数，聚合搜索会超过单页上限。
+            data["limit"] = SiteRouter.PAGE_SIZE
         if not data.get("pagecount"):
             data["pagecount"] = page + 1 if data["list"] else page
         return data

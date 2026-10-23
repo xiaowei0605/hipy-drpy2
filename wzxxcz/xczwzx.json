@@ -454,6 +454,27 @@
             "api": "./py/悦听吧.py"
         },
         {
+            "key": "听友听书",
+            "name": "🎵听友听书",
+            "type": 3,
+            "api": "csp_TingTingyou",
+            "searchable": 1,
+            "quickSearch": 0,
+            "changeable": 0,
+            "style": {
+                "type": "list"
+            }
+        },
+        {
+            "key": "世界听书",
+            "name": "🎵世界听书",
+            "type": 3,
+            "api": "./py/世界听书.py",
+            "style": {
+                "type": "list"
+            }
+        },
+        {
             "key": "堇夏听书",
             "name": "🎵堇夏听书",
             "type": 3,
@@ -35866,6 +35887,18 @@
             "name": "⚽咖啡体育",
             "type": 3,
             "api": "csp_SportsKafei",
+            "searchable": 0,
+            "quickSearch": 0,
+            "changeable": 0,
+            "style": {
+                "type": "list"
+            }
+        },
+        {
+            "key": "球通体育",
+            "name": "⚽球通体育",
+            "type": 3,
+            "api": "csp_SportQiutong",
             "searchable": 0,
             "quickSearch": 0,
             "changeable": 0,

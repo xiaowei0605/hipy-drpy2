@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """Wangfei TVBox source with dynamic playback-line discovery .
 
-网站结构:
+完善内容:
   1. 筛选(filters): 分类/地区/年份/排序, 支持 MacCMS 查询参数与路径两种风格
   2. 播放线路: 详情页直取 + 线路页聚合, 多线路合并、去重, 单线兜底嗅探
   3. 详情信息: 导演/编剧/主演/首播/进度/集数时长等完整解析
-  4. 简介统一添加 INTRO_PREFIX 前缀
 """
 
 import ast
@@ -114,11 +113,18 @@ class Spider(BaseSpider):
     MEDIA_EXTENSIONS = (
         ".m3u8", ".mp4", ".mkv", ".flv", ".ts", ".webm", ".avi", ".mov"
     )
+    # 兼容更多播放页路径风格 (含短剧): /vodplay/xx-1-1.html, /play/xx-1-1.html,
+    # /vod-play-xx-1-1.html, /vplay/..., /duanjuplay/... 以及 MacCMS 数字段式
     PLAY_PATH_RE = re.compile(
-        r"/(?:vodplay|play)/[^\"'?#<>\s]+|/vod-play-[^\"'?#<>\s]+",
+        r"/(?:vodplay|play|vplay|duanjuplay|juqing|video)/[^\"'?#<>\s]+"
+        r"|/vod-play-[^\"'?#<>\s]+"
+        r"|/(?:[\w\u4e00-\u9fff]-)?\d+-\d+-\d+\.html"
+        r"|(?:vodplay|play|vplay)-\d+-\d+-\d+\.html",
         re.I,
     )
-    DETAIL_PATH_RE = re.compile(r"/voddetail/[^\"'?#<>\s]+\.html", re.I)
+    # 短剧详情页也可能走 /voddetail 与 /duanju 两种
+    DETAIL_PATH_RE = re.compile(
+        r"/(?:voddetail|duanju|vod-detail)/[^\"'?#<>\s]+\.html", re.I)
     CF_SIGNS = (
         "just a moment", "checking your browser",
         "attention required! | cloudflare",
@@ -372,7 +378,7 @@ class Spider(BaseSpider):
         soup = BeautifulSoup(source, "html.parser")
         records = {}
         order = []
-        for anchor in soup.select('a[href*="/voddetail/"]'):
+        for anchor in soup.find_all("a", href=True):
             href = anchor.get("href", "")
             if not self.DETAIL_PATH_RE.search(href):
                 continue
@@ -433,7 +439,7 @@ class Spider(BaseSpider):
         records = []
         seen = set()
         pattern = re.compile(
-            r"<a\b([^>]*href=[\"']([^\"']*/voddetail/[^\"']+\.html)[\"'][^>]*)>",
+            r"<a\b([^>]*href=[\"']([^\"']*/(?:voddetail|duanju|vod-detail)/[^\"']+\.html)[\"'][^>]*)>",
             re.I,
         )
         for match in pattern.finditer(source):
@@ -1084,7 +1090,7 @@ class Spider(BaseSpider):
             return {"parse": 1, "jx": 0, "url": play_url, "header": headers}
 
         config_urls = []
-        for variable in ("player_aaaa", "player_data", "MacPlayer"):
+        for variable in ("player_aaaa", "player_data", "player_1", "MacPlayer"):
             config = self._extract_js_object(source, variable)
             if not config:
                 continue
@@ -1100,15 +1106,77 @@ class Spider(BaseSpider):
             return self._direct_result(direct, self._play_headers(play_url))
 
         iframe = self._extract_iframe(source, play_url)
-        if iframe:
-            if self._is_media_url(iframe):
-                return self._direct_result(iframe, self._play_headers(play_url))
-            return {"parse": 1, "jx": 0, "url": iframe, "header": headers}
+        if iframe and self._is_media_url(iframe):
+            return self._direct_result(iframe, self._play_headers(play_url))
+
+        # 短剧常见: player_aaaa.url 不是媒体直链, 而是 /api/... 或 ?url=...
+        # 的二次解析页 —— 抓取该页再提取真实 m3u8
+        for candidate in config_urls:
+            real = self._resolve_play_candidate(candidate, play_url)
+            if real:
+                return self._direct_result(real, self._play_headers(play_url))
+
+        # 同样处理 iframe 二次解析页
+        if iframe and iframe.startswith(("http://", "https://")):
+            real = self._resolve_play_candidate(iframe, play_url)
+            if real:
+                return self._direct_result(real, self._play_headers(play_url))
 
         for candidate in config_urls:
             if candidate.startswith(("http://", "https://")):
                 return {"parse": 1, "jx": 0, "url": candidate, "header": headers}
+        if iframe:
+            return {"parse": 1, "jx": 0, "url": iframe, "header": headers}
         return {"parse": 1, "jx": 0, "url": play_url, "header": headers}
+
+    def _resolve_play_candidate(self, url, referer):
+        """抓取二次解析页, 提取真实媒体直链 (短剧播放关键兜底)."""
+        if not url or not url.startswith(("http://", "https://")):
+            return ""
+        # 解析页自身携带的 ?url= 参数 (可能是明文/编码的真实直链)
+        try:
+            parsed = urlparse(url)
+            for key in ("url", "v", "play", "id"):
+                for value in parse_qs(parsed.query).get(key, []):
+                    value = unquote(value)
+                    if self._is_media_url(value):
+                        return value
+                    decoded = self._decode_base64(value)
+                    if self._is_media_url(decoded):
+                        return decoded
+        except Exception:
+            pass
+        try:
+            sub = self._get_text(url, referer=self._origin_root(referer))
+        except Exception:
+            sub = ""
+        if not sub:
+            # 可能是直接返回 m3u8 内容而非页面
+            try:
+                rsp = self.session.get(
+                    url, timeout=self.timeout, allow_redirects=True,
+                    headers=self._request_headers(self._origin_root(referer), "*/*"),
+                )
+                head = (rsp.text or "")[:2000]
+                if "#EXTM3U" in head:
+                    return str(rsp.url)
+            except Exception:
+                pass
+            return ""
+        # 二级页面里的 player 变量
+        for variable in ("player_aaaa", "player_data", "player_1"):
+            config = self._extract_js_object(sub, variable)
+            if not config:
+                continue
+            raw = self._find_url_in_config(config)
+            decoded = self._decode_player_url(raw, config.get("encrypt"), url)
+            if self._is_media_url(decoded):
+                return decoded
+            if decoded and decoded.startswith(("http://", "https://")):
+                deep = self._resolve_play_candidate(decoded, url)
+                if deep:
+                    return deep
+        return self._extract_direct_media(sub, url)
 
     def _play_headers(self, referer):
         headers = {"User-Agent": self.ua, "Referer": referer}
@@ -1178,7 +1246,7 @@ class Spider(BaseSpider):
         return {}
 
     def _find_url_in_config(self, config):
-        for key in ("url", "play_url", "playUrl", "src", "m3u8"):
+        for key in ("url", "play_url", "playUrl", "src", "m3u8", "url_next", "link"):
             value = config.get(key)
             if value:
                 return str(value)
@@ -1238,7 +1306,8 @@ class Spider(BaseSpider):
         patterns = (
             r"https?://[^\"'<>\s]+?\.m3u8(?:\?[^\"'<>\s]*)?",
             r"https?://[^\"'<>\s]+?\.(?:mp4|flv|mkv|webm)(?:\?[^\"'<>\s]*)?",
-            r"(?:src|url)\s*[:=]\s*[\"']([^\"']+?\.(?:m3u8|mp4|flv|mkv|webm)(?:\?[\"']*)?)[\"']",
+            r"[\"'](?:src|url|now|video)[\"']\s*[:=]\s*[\"']"
+            r"([^\"']+?\.(?:m3u8|mp4|flv|mkv|webm)(?:\?[^\"']*)?)[\"']",
         )
         for pattern in patterns:
             match = re.search(pattern, text, re.I)
