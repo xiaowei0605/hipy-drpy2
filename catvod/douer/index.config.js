@@ -29,7 +29,6 @@ var index_config_default = {
     urls: [],
     strict: false,
     allowOverride: false,
-    cacheTtlMs: 5e3,
     factoryTimeoutMs: 1e4,
     urlTimeoutMs: 1e4
   },
