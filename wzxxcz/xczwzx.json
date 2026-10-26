@@ -1081,22 +1081,16 @@
             "api": "./py/厂长资源.py"
         },
         {
-            "key": "多多影视1",
-            "name": "💵多多影视1",
-            "type": 3,
-            "api": "./py/多多影视.py"
-        },
-        {
             "key": "VS影院2",
             "name": "🍊VS影院2",
             "type": 3,
-            "api": "./py/VS影院🍀TG @hshsjk9.py"
+            "api": "./py/VS影院.py"
         },
         {
-            "key": "JP",
-            "name": "🏅金牌",
+            "key": "金牌蓝兔子",
+            "name": "🐇金牌蓝兔子",
             "type": 3,
-            "api": "./py/金牌APP.py"
+            "api": "./py/金牌蓝兔子.py"
         },
         {
             "key": "金牌影视",
@@ -1552,6 +1546,12 @@
             "name": "🍊两个BT影视",
             "type": 3,
             "api": "./py/两个BT影视.py"
+        },
+        {
+            "key": "看看剧",
+            "name": "🍊看看剧",
+            "type": 3,
+            "api": "./py/看看剧.py"
         },
         {
             "key": "爬虫影视",
