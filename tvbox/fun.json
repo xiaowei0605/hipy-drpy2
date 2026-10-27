@@ -1,5 +1,5 @@
 {
- "sites": [
+ "sites":[
   {
    "key": "精品资源站",
    "name": "精品 | 采集",
@@ -123,11 +123,13 @@
    "ext": ""
   },
   {
-   "key": "py_51吃瓜",
+   "key": "py_xigua",
    "name": "51吃瓜[py]",
    "type": 3,
    "api": "./js/ss/xigua51.py",
-   "ext": ""
+   "ext": {
+    "h265": true
+   }
   },
   {
    "key": "py_51短剧",
@@ -172,7 +174,7 @@
     "debug": false,
     "webViewSettings": {
      "blockNetworkImage": true,
-     "blockList": [
+     "blockList":[
       "*.ico*",
       "*.png*",
       "*.css*",
@@ -225,7 +227,7 @@
     "debug": false,
     "webViewSettings": {
      "blockNetworkImage": true,
-     "blockList": [
+     "blockList":[
       "*.png",
       "*.css",
       "*.woff2",
@@ -234,7 +236,7 @@
       "https://*.xlvirdr.com/*"
      ]
     },
-    "playUrlMatch": [
+    "playUrlMatch":[
      "https://*/*/master.m3u8*",
      "https://*/*/v.mp4",
      "https://*/*/playlist.m3u8*"
@@ -278,7 +280,7 @@
     "debug": false,
     "webViewSettings": {
      "blockNetworkImage": true,
-     "blockList": [
+     "blockList":[
       "*.ico",
       "*.png",
       "*.jpg",
@@ -291,7 +293,7 @@
       "https://njav.tv/recomm/items/*"
      ]
     },
-    "playUrlMatch": [
+    "playUrlMatch":[
      "https://*/v.m3u8"
     ],
     "spider": {
@@ -333,7 +335,7 @@
     "debug": false,
     "webViewSettings": {
      "blockNetworkImage": true,
-     "blockList": [
+     "blockList":[
       "*.ico",
       "*.png",
       "*.css",
@@ -389,7 +391,7 @@
     "debug": false,
     "webViewSettings": {
      "blockNetworkImage": true,
-     "blockList": [
+     "blockList":[
       "https://*.adforcast.com/*",
       "https://*.adxadserv.com/*",
       "https://*.bbrdbr.com/*",
@@ -410,7 +412,7 @@
       "https://streamhg.com/*"
      ]
     },
-    "playUrlMatch": [
+    "playUrlMatch":[
      "https://*.cdn-centaurus.com/*/master.m3u8*",
      "https://*.cloudatacdn.com/*",
      "https://*.cloudflarestorage.com/*",
@@ -460,7 +462,7 @@
     "debug": false,
     "webViewSettings": {
      "blockNetworkImage": true,
-     "blockList": [
+     "blockList":[
       "*.css*",
       "*.ico*",
       "*.png*",
@@ -1114,7 +1116,7 @@
    "ext": "proxy"
   }
  ],
- "lives": [
+ "lives":[
   {
    "name": "大洋马直播",
    "type": 0,
@@ -1409,21 +1411,21 @@
   },
   {
    "group": "redirect",
-   "channels": [
+   "channels":[
     {
      "name": "redirect",
-     "urls": [
+     "urls":[
       "proxy://do=live&type=live&proxy=&url="
      ]
     }
    ]
   }
  ],
- "doh": [
+ "doh":[
   {
    "name": "Google",
    "url": "https://dns.google/dns-query",
-   "ips": [
+   "ips":[
     "8.8.4.4",
     "8.8.8.8"
    ]
@@ -1431,7 +1433,7 @@
   {
    "name": "Cloudflare",
    "url": "https://cloudflare-dns.com/dns-query",
-   "ips": [
+   "ips":[
     "1.1.1.1",
     "1.0.0.1",
     "2606:4700:4700::1111",
@@ -1441,7 +1443,7 @@
   {
    "name": "AdGuard",
    "url": "https://dns.adguard.com/dns-query",
-   "ips": [
+   "ips":[
     "94.140.14.140",
     "94.140.14.141"
    ]
@@ -1449,7 +1451,7 @@
   {
    "name": "DNSWatch",
    "url": "https://resolver2.dns.watch/dns-query",
-   "ips": [
+   "ips":[
     "84.200.69.80",
     "84.200.70.40"
    ]
@@ -1457,13 +1459,13 @@
   {
    "name": "Quad9",
    "url": "https://dns.quad9.net/dns-quer",
-   "ips": [
+   "ips":[
     "9.9.9.9",
     "149.112.112.112"
    ]
   }
  ],
- "proxy": [
+ "proxy":[
   "raw.githubusercontent.com",
   "googlevideo.com",
   "cdn.v82u1l.com",
@@ -1479,17 +1481,17 @@
   ".*nivod.*",
   ".*ulivetv.*"
  ],
- "hosts": [
+ "hosts":[
   "cache.ott.ystenlive.itv.cmvideo.cn=base-v4-free-mghy.e.cdn.chinamobile.com",
   "cache.ott.bestlive.itv.cmvideo.cn=base-v4-free-mghy.e.cdn.chinamobile.com",
   "cache.ott.wasulive.itv.cmvideo.cn=base-v4-free-mghy.e.cdn.chinamobile.com",
   "cache.ott.fifalive.itv.cmvideo.cn=base-v4-free-mghy.e.cdn.chinamobile.com",
   "cache.ott.hnbblive.itv.cmvideo.cn=base-v4-free-mghy.e.cdn.chinamobile.com"
  ],
- "rules": [
+ "rules":[
   {
    "name": "proxy",
-   "hosts": [
+   "hosts":[
     "raw.githubusercontent.com",
     "googlevideo.com",
     "cdn.v82u1l.com",
@@ -1512,102 +1514,102 @@
   },
   {
    "host": "*",
-   "rule": [
+   "rule":[
     "iesdouyin.com/aweme",
     "video_id="
    ]
   },
   {
    "host": "*",
-   "rule": [
+   "rule":[
     "huoshan.com",
     "/item/video/"
    ]
   },
   {
    "host": "*",
-   "rule": [
+   "rule":[
     "http((?!http).){12,}?\\.(m3u8|mp4|flv|avi|mkv|rm|wmv|mpg|m4a)\\?.*"
    ]
   },
   {
    "host": "*",
-   "rule": [
+   "rule":[
     "http((?!http).){12,}\\.(m3u8|mp4|flv|avi|mkv|rm|wmv|mpg|m4a)"
    ]
   },
   {
    "host": "www.djuu.com",
-   "rule": [
+   "rule":[
     "mp4.djuu.com",
     "m4a"
    ]
   },
   {
    "host": "www.sharenice.net",
-   "rule": [
+   "rule":[
     "huoshan.com",
     "/item/video/"
    ],
-   "filter": []
+   "filter":[]
   },
   {
    "host": "www.sharenice.net",
-   "rule": [
+   "rule":[
     "sovv.qianpailive.com",
     "vid="
    ],
-   "filter": []
+   "filter":[]
   },
   {
    "host": "www.sharenice.net",
-   "rule": [
+   "rule":[
     "douyin.com",
     "/play/"
    ]
   },
   {
    "host": "m.ysxs8.vip",
-   "rule": [
+   "rule":[
     "ysting.ysxs8.vip:81",
     "xmcdn.com"
    ],
-   "filter": []
+   "filter":[]
   },
   {
    "host": "hdmoli.com",
-   "rule": [
+   "rule":[
     ".m3u8"
    ]
   },
   {
    "host": "https://api.live.bilibili.com",
-   "rule": [
+   "rule":[
     "bilivideo.com",
     "/index.m3u8"
    ],
-   "filter": [
+   "filter":[
     "data.bilibili.com/log/web",
     "i0.hdslb.com/bfs/live/"
    ]
   },
   {
    "host": "www.agemys.cc",
-   "rule": [
+   "rule":[
     "cdn-tos",
     "obj/tos-cn"
    ]
   },
   {
    "host": "www.fun4k.com",
-   "rule": [
+   "rule":[
     "https://hd.ijycnd.com/play",
     "index.m3u8"
    ]
   },
   {
    "host": "zjmiao.com",
-   "rule": [
+   "rule":[
     "play.videomiao.vip/API.php",
     "time=",
     "key=",
@@ -1616,55 +1618,55 @@
   },
   {
    "name": "火山嗅探",
-   "hosts": [
+   "hosts":[
     "huoshan.com"
    ],
-   "regex": [
+   "regex":[
     "item_id="
    ]
   },
   {
    "name": "抖音嗅探",
-   "hosts": [
+   "hosts":[
     "douyin.com"
    ],
-   "regex": [
+   "regex":[
     "is_play_url="
    ]
   },
   {
    "name": "農民嗅探",
-   "hosts": [
+   "hosts":[
     "toutiaovod.com"
    ],
-   "regex": [
+   "regex":[
     "video/tos/cn"
    ]
   },
   {
    "name": "夜市",
-   "hosts": [
+   "hosts":[
     "yeslivetv.com"
    ],
-   "script": [
+   "script":[
     "document.getElementsByClassName('vjs-big-play-button')[0].click()"
    ]
   },
   {
    "name": "毛驢",
-   "hosts": [
+   "hosts":[
     "www.maolvys.com"
    ],
-   "script": [
+   "script":[
     "document.getElementsByClassName('swal-button swal-button--confirm')[0].click()"
    ]
   },
   {
    "name": "磁力广告",
-   "hosts": [
+   "hosts":[
     "magnet"
    ],
-   "regex": [
+   "regex":[
     "更多",
     "社 區",
     "x u u",
@@ -1684,14 +1686,14 @@
    ]
   }
  ],
- "parses": [
+ "parses":[
   {
    "name": "souav",
    "type": 1,
    "url": "https://jiexi.souavzyw.top/m3u8/?url="
   }
  ],
- "flags": [
+ "flags":[
   "youku",
   "qq",
   "iqiyi",
