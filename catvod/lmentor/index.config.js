@@ -48,6 +48,9 @@ var index_config_default = {
     username: "",
     password: ""
   },
+  yidong: {
+    authorization: ""
+  },
   pikpak: {
     username: "",
     password: "",
