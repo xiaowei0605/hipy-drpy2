@@ -94,12 +94,18 @@ _GENRE_MAP = {
     "movie": ["喜剧", "爱情", "动作", "犯罪", "科幻", "奇幻", "冒险", "灾难",
               "恐怖", "惊悚", "剧情", "战争", "歌舞", "经典", "悬疑", "动画",
               "同性", "网络电影"],
+    # 短剧分类与官网一致 (另含"横屏/竖屏", 官网标注片库接口暂不支持, 故不列)
     "short_drama": ["真人剧", "comic", "偶像", "爱情", "言情", "古装", "历史",
                     "玄幻", "谍战", "都市", "历险", "科幻", "军旅", "喜剧",
                     "武侠", "江湖", "罪案", "青春", "家庭", "战争", "悬疑",
                     "穿越", "宫廷", "神话", "商战", "警匪", "动作", "惊悚",
                     "剧情", "同性", "奇幻", "女性", "系统", "逆袭", "无敌",
-                    "乡村", "古风", "赘婿", "萌宝", "种田"],
+                    "乡村", "古风", "赘婿", "萌宝", "种田", "犯罪", "年代",
+                    "志怪", "战神", "婚姻", "现言", "宫斗", "友情", "职场",
+                    "民国", "法律", "抗战", "时空", "反转", "仙侠", "末世",
+                    "体育", "刑侦", "成长", "游戏", "脑洞", "冒险", "恐怖",
+                    "古代", "医疗", "推理", "灾难", "搞笑", "玄学", "轻喜剧",
+                    "家族", "超凡", "日常", "伦理", "重生", "经营", "温情"],
     "anime": ["热血", "格斗", "机战", "少女", "竞技", "科幻", "魔幻", "爆笑",
               "推理", "冒险", "恋爱", "校园", "治愈", "泡面", "穿越", "灵异",
               "耽美", "剧场版", "其它"],
@@ -107,31 +113,77 @@ _GENRE_MAP = {
                 "访谈", "演唱会", "晚会", "其它"],
 }
 
+# 子分类: 官网片库数据里真实存在的剧种/题材标签 (genre 参数实测均有效)
+# 电视剧下即用户看到的 国产剧 / 美剧 / 日剧 / 韩剧 ... 这一层
+_SUBGENRE_MAP = {
+    "series": ["国产剧", "美剧", "日剧", "韩剧", "港剧", "台剧", "泰剧",
+               "欧美剧", "海外剧", "网络剧", "短剧", "电视剧"],
+    "movie": ["院线", "4K电影", "邵氏电影", "动漫电影", "网络电影", "枪战",
+              "警匪", "纯爱", "灾难", "西部"],
+    "anime": ["国产动漫", "日韩动漫", "日本动漫", "欧美动漫", "国创(B站)",
+              "番(B站)", "番剧(B站)", "漫画改", "小说改", "游戏改", "原创",
+              "热血", "战斗", "治愈", "日常", "机战", "特摄", "少儿",
+              "恋爱", "校园"],
+    "variety": ["真人秀", "大陆综艺", "日韩综艺", "港台综艺", "欧美综艺",
+                "国产综艺", "脱口秀", "选秀", "访谈", "晚会", "春晚",
+                "美食", "旅游", "游戏", "相声", "戏曲", "益智", "舞蹈",
+                "音乐", "竞技"],
+    "short_drama": ["脑洞悬疑", "现代都市", "爽文短剧", "古装仙侠", "现代言情",
+                    "年代穿越", "言情总裁", "反转爽剧", "女频恋爱", "重生民国",
+                    "AI漫剧", "漫剧", "闪婚离婚"],
+    "documentary": ["纪录片"],
+    "sports": ["体育赛事", "赛事", "奥运会", "足球", "世界杯"],
+}
+
+# 官网"其它"项 enabled=false (片库接口不支持), 故不列出, 以"全部"收尾
 _AREAS = [
     {"n": "全部", "v": ""},
-    {"n": "大陆", "v": "大陆"}, {"n": "香港", "v": "香港"},
-    {"n": "台湾", "v": "台湾"}, {"n": "日本", "v": "日本"},
+    {"n": "大陆", "v": "中国大陆"}, {"n": "香港", "v": "中国香港"},
+    {"n": "台湾", "v": "中国台湾"}, {"n": "日本", "v": "日本"},
     {"n": "韩国", "v": "韩国"}, {"n": "欧美", "v": "欧美"},
     {"n": "英国", "v": "英国"}, {"n": "泰国", "v": "泰国"},
-    {"n": "其它", "v": "其它"},
 ]
 
-_YEARS = [{"n": "全部", "v": ""}] + \
-         [{"n": str(y), "v": str(y)} for y in range(2026, 1999, -1)]
+# 语言: 与官网 language 行一致
+_LANGS = [
+    {"n": "全部", "v": ""},
+    {"n": "国语", "v": "国语"}, {"n": "粤语", "v": "粤语"},
+    {"n": "英语", "v": "英语"}, {"n": "韩语", "v": "韩语"},
+    {"n": "日语", "v": "日语"}, {"n": "西班牙语", "v": "西班牙语"},
+    {"n": "法语", "v": "法语"}, {"n": "德语", "v": "德语"},
+    {"n": "意大利语", "v": "意大利语"}, {"n": "泰国语", "v": "泰国语"},
+]
 
+# 年份: 官网提交的是区间参数, 统一用 "g:起始:结束" 编码 (空=不限)
+# 今年/去年由 init() 按当前年份动态计算
+_YEARS = [
+    {"n": "全部", "v": ""},
+    {"n": "今年", "v": "g::CY"},
+    {"n": "去年", "v": "g::PY"},
+    {"n": "更早", "v": "g::2024"},
+    {"n": "90年代", "v": "g:1990:1999"},
+    {"n": "80年代", "v": "g:1980:1989"},
+    {"n": "1980年以前", "v": "g::1979"},
+]
+
+# 排序: 与官网 sort 行一致 (最新 / 最热)
 _SORTS = [
-    {"n": "最近更新", "v": "updated_desc"},
-    {"n": "热度最高", "v": "heat_desc"},
+    {"n": "最新", "v": "updated_desc"},
+    {"n": "最热", "v": "heat_desc"},
 ]
 
 FILTERS = {}
 for c in CLASSES:
     tid = c["type_id"]
     fl = []
+    if tid in _SUBGENRE_MAP:
+        fl.append({"key": "subgenre", "name": "子分类",
+                   "value": [{"n": x, "v": x} for x in _SUBGENRE_MAP[tid]]})
     if tid in _GENRE_MAP:
         fl.append({"key": "genre", "name": "分类",
                    "value": [{"n": x, "v": x} for x in _GENRE_MAP[tid]]})
     fl.append({"key": "area", "name": "地区", "value": _AREAS})
+    fl.append({"key": "language", "name": "语言", "value": _LANGS})
     fl.append({"key": "year", "name": "年份", "value": _YEARS})
     fl.append({"key": "sort", "name": "排序", "value": _SORTS})
     FILTERS[tid] = fl
@@ -163,6 +215,7 @@ class Spider(Spider):
         self._detail_cache = {}
         self._play_cache = {}
         self._lines_cache = {}
+        self._url_probe_cache = {}
         self.log("init: site=%s" % self.site_url)
 
     # ===================== 签名与请求 =====================
@@ -258,9 +311,37 @@ class Spider(Spider):
         self._lines_cache[ep_token] = lines
         return lines
 
+    def _check_url(self, url):
+        """探测直链是否可用 (部分资源站返回的直链本身是 404 死链)。
+        结果缓存 10 分钟。"""
+        now = int(time.time())
+        if url in self._url_probe_cache:
+            ts, ok = self._url_probe_cache[url]
+            if now - ts < 600:
+                return ok
+        ok = False
+        try:
+            h = {"User-Agent": UA, "Referer": self.site_url + "/"}
+            rsp = self.fetch(url, headers=h, timeout=6)
+            text = ""
+            if hasattr(rsp, "text"):
+                text = (rsp.text or "")[:300]
+            elif hasattr(rsp, "content"):
+                text = rsp.content.decode("utf-8", "ignore")[:300]
+            code = getattr(rsp, "status_code", None) or getattr(
+                rsp, "status", 0)
+            ok = (200 <= int(code or 0) < 400) and \
+                ("#EXTM3U" in text or ".m3u8" in url.lower())
+        except Exception:
+            ok = False
+        self._url_probe_cache[url] = (now, ok)
+        return ok
+
     def _pick_line(self, ep_token, flag_idx):
-        """按线路序号取线路, 返回 (label, url)。官方 ticket 线路解析失败时
-        自动兜底到第一条直链。"""
+        """按线路序号取线路, 返回 (label, url)。
+        - 直链先探测可用性, 死链(404等)自动跳到下一条线路
+        - 用户指定线路不可用时兜底到任意可用直链
+        - 官方 ticket 线路需登录权益, 失败自动降级"""
         lines = self._resolve_lines(ep_token)
         if not lines:
             return "", ""
@@ -280,28 +361,29 @@ class Spider(Spider):
                 return ""
             return u if u.startswith("http") else ""
 
-        chosen = None
+        # 候选顺序: 用户指定线路优先, 之后按权重顺序扫全部
+        order = []
         if isinstance(flag_idx, int) and 0 <= flag_idx < len(lines):
-            chosen = lines[flag_idx]
-        else:
-            for ln in lines:
-                u = (ln.get("url") or "").strip()
-                if ln.get("resolved") and ln.get("url_kind") == "m3u8" \
-                        and u.startswith("http"):
-                    chosen = ln
-                    break
-            chosen = chosen or lines[0]
+            order.append(flag_idx)
+        order += [i for i in range(len(lines)) if i != flag_idx]
 
-        if chosen is not None:
-            u = get_url(chosen)
-            if u:
-                return chosen.get("label") or chosen.get("provider_id") or "", u
+        fallback_url = ""   # 未探测过的直链, 万一全部探测失败时兜底
+        for i in order:
+            ln = lines[i]
+            u = get_url(ln)
+            if not u:
+                continue
+            if not fallback_url:
+                fallback_url = u
+            if self._check_url(u):
+                return ln.get("label") or ln.get("provider_id") \
+                    or "线路%d" % (i + 1), u
+            self.log("  线路死链跳过: %s" % (ln.get("label") or i))
 
-        # 兜底: 任意一条直链
-        for ln in lines:
-            u = (ln.get("url") or "").strip()
-            if u.startswith("http"):
-                return ln.get("label") or "", u
+        # 全部探测失败 (网络差等): 返回第一条直链让播放器自行尝试
+        if fallback_url:
+            ln = lines[order[0]] if order else lines[0]
+            return ln.get("label") or "", fallback_url
         return "", ""
 
     # ===================== TVBox 标准接口 =====================
@@ -337,13 +419,34 @@ class Spider(Spider):
                 del extend[k]
 
         params = {"kind": tid, "page": page, "limit": PAGE_LIMIT}
+        if extend.get("subgenre"):
+            params["genre"] = extend["subgenre"]
         if extend.get("genre"):
             params["genre"] = extend["genre"]
         if extend.get("area"):
             params["area"] = extend["area"]
-        if extend.get("year"):
-            params["year"] = extend["year"]
-        params["sort"] = extend.get("sort") or "updated_desc"
+        if extend.get("language"):
+            params["language"] = extend["language"]
+
+        # 年份: 官网用 year / year_gte / year_lte 三个参数组合
+        year_v = extend.get("year") or ""
+        if year_v.startswith("g:"):
+            parts = year_v.split(":")
+            gte = parts[1] if len(parts) > 1 else ""
+            lte = parts[2] if len(parts) > 2 else ""
+            cur = time.localtime().tm_year
+            if gte:
+                params["year_gte"] = gte
+            if lte == "CY":
+                params["year"] = str(cur)
+            elif lte == "PY":
+                params["year"] = str(cur - 1)
+            elif lte:
+                params["year_lte"] = lte
+        elif year_v:
+            params["year"] = year_v
+
+        params["sort"] = extend.get("sort") or "heat_desc"
 
         data = self._browse(params)
         videos = self._cards_to_videos(data)
