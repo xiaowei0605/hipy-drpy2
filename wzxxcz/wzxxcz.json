@@ -22,10 +22,22 @@
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/adminouyang/231006/refs/heads/main/py/%E4%BC%98%E8%B4%A8%E6%BA%90/output/ipv4/result.txt"
         },
         {
+            "name": "咪咕TV直播",
+            "type": 0,
+            "ua": "okhttp/5.3.2",
+            "url": "https://eastscreen.tv/iptvlist.php?token=N1pcBwAGHwkCAx8OTFhABgEFAA"
+        },
+        {
             "name": "裤佬IPTV直播",
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "https://gh-proxy.org/https://raw.githubusercontent.com/pyapk/1/refs/heads/main/zby"
+        },
+        {
+            "name": "裤佬IPTV体育直播",
+            "type": 0,
+            "ua": "okhttp/5.3.2",
+            "url": "https://iptv.445569.xyz/live.m3u"
         },
         {
             "name": "裤佬体育直播",
@@ -190,12 +202,6 @@
             "type": 0,
             "ua": "okhttp/5.3.2",
             "url": "http://www.52top.com.cn:678/downloads/migu.txt"
-        },
-        {
-            "name": "易发",
-            "type": 0,
-            "ua": "okhttp/5.3.2",
-            "url": "https://gh-proxy.org/https://raw.githubusercontent.com/fafa002/yf2025/refs/heads/main/yiyifafa.txt"
         },
         {
             "name": "Box",
@@ -1676,10 +1682,10 @@
             "api": "./py/手机影院.py"
         },
         {
-            "key": "白洋影院",
-            "name": "🐏白洋影院",
+            "key": "森林影院",
+            "name": "🌲森林影院",
             "type": 3,
-            "api": "./py/白洋影院.py"
+            "api": "./py/森林影院.py"
         },
         {
             "key": "第七影院1",
